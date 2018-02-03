@@ -17,44 +17,31 @@ Map {
 @abandoned_dasharray: 5,5;
 @razed_dasharray: 3,7;
 
-/******************************/
-/* railway lines with service but without usage */
-/***********************************************/
 #railway_line {
-  ["railway"="rail"]["service"=null] {
-    ["usage"="main"] {
+  ["railway"="rail"] {
+    ["usage"="main"]["service"=null] {
       line-color: @main_color;
-      [zoom>=2] {
-        line-width: 1.5;
-      }
-      /* thicker lines in higher zoom levels */
+      line-width: 1.5;
+
       [zoom>=6][zoom<=8] {
         line-width: 2.5;
       }
+
       [zoom>=9] {
         line-width: 3.5;
       }
     }
 
-    [zoom>=8]["usage"="branch"] {
+    [zoom>=8]["usage"="branch"]["service"=null] {
       line-color: @branch_color;
-      [zoom=8] {
-        line-width: 2.5;
-      }
+      line-width: 2.5;
+
       [zoom>=9] {
         line-width: 3.5;
       }
     }
   }
-}
 
-/*************/
-/* disused, abanoned and razed railway lines */
-/************/
-/* TODO filter out trams, light rails, subways etc. */
-/* TODO filter out industrial, military and test */
-/* TODO use other colors, not just brigher opacities */
-#railway_line {
   ["railway"="disused"]["service"=null] {
     [zoom>=9]["disused_railway"="rail"],
     [zoom>=10]["disused_railway"="subway"],

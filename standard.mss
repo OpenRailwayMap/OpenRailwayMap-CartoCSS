@@ -126,7 +126,7 @@ Map {
     }
 
     [zoom>=10]["construction_railway"="subway"] {
-      [zoom<13]["service"=null],
+      ["service"=null],
       [zoom>=13] {
         line-color: @subway_color;
         line-width: 2;
@@ -135,7 +135,7 @@ Map {
     }
 
     [zoom>=10]["construction_railway"="light_rail"] {
-      [zoom<13]["service"=null],
+      ["service"=null],
       [zoom>=13] {
         line-color: @light_rail_color;
         line-width: 2;
@@ -144,7 +144,7 @@ Map {
     }
 
     [zoom>=11]["construction_railway"="tram"] {
-      [zoom<13]["service"=null],
+      ["service"=null],
       [zoom>=13] {
         line-color: @tram_color;
         line-width: 2;

@@ -64,9 +64,9 @@ Layer:
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
-                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL AND highspeed = 'yes' THEN 2000
                  WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
-                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL AND highspeed = 'yes'THEN 2000
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
                  WHEN railway IN ('preserved', 'construction') THEN 400
@@ -95,7 +95,7 @@ Layer:
               FROM planet_osm_line
               WHERE railway IS NOT NULL
             ) AS r
-          ORDER by z_order, rank
+          ORDER by z_order, rank NULLS LAST
         ) AS railway_line
     properties:
       minzoom: 7

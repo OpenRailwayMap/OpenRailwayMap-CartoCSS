@@ -6,6 +6,7 @@ Map {
 /**** COLORS ****/
 
 @main_color: #ff8100;
+@highspeed_color: #ff0c00;
 @branch_color: #daca00;
 @disused_color: #70584d;
 @abandoned_color: #7f6a62;
@@ -34,6 +35,10 @@ Map {
 
       [zoom>=9] {
         line-width: 3.5;
+      }
+
+      ["highspeed"="yes"] {
+        line-color: @highspeed_color;
       }
     }
 
@@ -104,7 +109,16 @@ Map {
   }
 
   ["railway"="construction"] {
-    [zoom>=9]["construction_railway"="rail"]["usage"="main"]["service"=null],
+    [zoom>=9]["construction_railway"="rail"]["usage"="main"]["service"=null] {
+      line-color: @main_color;
+      line-width: 2;
+      line-dasharray: @construction_dasharray;
+
+      ["highspeed"="yes"] {
+        line-color: @highspeed_color;
+      }
+    }
+
     [zoom>=9]["construction_railway"="rail"]["usage"="branch"]["service"=null] {
       line-color: @main_color;
       line-width: 2;

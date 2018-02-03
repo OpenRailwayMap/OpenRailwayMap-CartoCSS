@@ -8,6 +8,7 @@ Map {
 @main_color: #ff8100;
 @highspeed_color: #ff0c00;
 @branch_color: #daca00;
+@no_usage_color: #000000;
 @disused_color: #70584d;
 @abandoned_color: #7f6a62;
 @razed_color: #94847e;
@@ -60,7 +61,13 @@ Map {
       }
     }
 
-    [zoom>=11]["usage"=null]["service"="siding"] {
+    [zoom>=13]["usage"=null]["service"=null] {
+      line-color: @no_usage_color;
+      line-width: 2;
+    }
+
+    [zoom>=11]["usage"=null]["service"="siding"],
+    [zoom>=11]["usage"=null]["service"="crossover"] {
       line-color: @siding_color;
       line-width: 2;
     }

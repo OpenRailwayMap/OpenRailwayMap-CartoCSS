@@ -76,35 +76,50 @@ Map {
     }
   }
 
-  ["railway"="disused"]["service"=null] {
-    [zoom>=9]["disused_railway"="rail"],
-    [zoom>=10]["disused_railway"="subway"],
-    [zoom>=10]["disused_railway"="light_rail"],
-    [zoom>=11] {
+  ["railway"="disused"] {
+    [zoom>=9]["disused_railway"="rail"]["service"=null],
+    [zoom>=11]["disused_railway"="subway"]["service"=null],
+    [zoom>=11]["disused_railway"="light_rail"]["service"=null],
+    [zoom>=12]["disused_railway"="tram"]["service"=null],
+    [zoom>=13] {
       line-color: @disused_color;
       line-width: 3;
+
+      ["service"!=null] {
+        line-width: 1.5;
+      }
     }
   }
 
-  ["railway"="abandoned"]["service"=null] {
-    [zoom>=9]["abandoned_railway"="rail"],
-    [zoom>=10]["abandoned_railway"="subway"],
-    [zoom>=10]["abandoned_railway"="light_rail"],
-    [zoom>=11] {
+  ["railway"="abandoned"] {
+    [zoom>=9]["abandoned_railway"="rail"]["service"=null],
+    [zoom>=11]["abandoned_railway"="subway"]["service"=null],
+    [zoom>=11]["abandoned_railway"="light_rail"]["service"=null],
+    [zoom>=12]["abandoned_railway"="tram"]["service"=null],
+    [zoom>=13] {
       line-color: @abandoned_color;
       line-width: 3;
       line-dasharray: @abandoned_dasharray;
+
+      ["service"!=null] {
+        line-width: 1.5;
+      }
     }
   }
 
-  ["railway"="razed"]["service"=null] {
-    [zoom>=10]["abandoned_railway"="rail"],
-    [zoom>=10]["abandoned_railway"="subway"],
-    [zoom>=10]["abandoned_railway"="light_rail"],
-    [zoom>=11] {
+  ["railway"="razed"] {
+    [zoom>=10]["abandoned_railway"="rail"]["service"=null],
+    [zoom>=11]["abandoned_railway"="subway"]["service"=null],
+    [zoom>=11]["abandoned_railway"="light_rail"]["service"=null],
+    [zoom>=12]["abandoned_railway"="tram"]["service"=null],
+    [zoom>=14] {
       line-color: @razed_color;
       line-width: 3;
       line-dasharray: @razed_dasharray;
+
+      ["service"!=null] {
+        line-width: 1.5;
+      }
     }
   }
 

@@ -13,6 +13,10 @@ Map {
 @tram_color: #d877b8;
 @subway_color: #0300c3;
 @light_rail_color: #00bd14;
+@siding_color: #000000;
+@yard_color: #000000;
+@spur_color: #87491d;
+@industrial_color: #87491d;
 
 @abandoned_dasharray: 5,5;
 @razed_dasharray: 3,7;
@@ -39,6 +43,30 @@ Map {
       [zoom>=9] {
         line-width: 3.5;
       }
+    }
+
+    [zoom=10]["usage"="industrial"]["service"=null],
+    [zoom>=11]["usage"="industrial"] {
+      line-color: @industrial_color;
+      line-width: 2;
+      ["service"!=null] {
+        line-width: 1.5;
+      }
+    }
+
+    [zoom>=11]["usage"=null]["service"="siding"] {
+      line-color: @siding_color;
+      line-width: 2;
+    }
+
+    [zoom>=12]["usage"=null]["service"="yard"] {
+      line-color: @yard_color;
+      line-width: 1.5;
+    }
+
+    [zoom>=11]["usage"=null]["service"="spur"] {
+      line-color: @spur_color;
+      line-width: 1.5;
     }
   }
 

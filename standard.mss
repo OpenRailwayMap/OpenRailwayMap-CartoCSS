@@ -55,21 +55,36 @@ Map {
 /* TODO filter out industrial, military and test */
 /* TODO use other colors, not just brigher opacities */
 #railway_line {
-  [zoom>=9]["railway"="disused"]["service"=null] {
-    line-color: @disused_color;
-    line-width: 3;
+  ["railway"="disused"]["service"=null] {
+    [zoom>=9]["disused_railway"="rail"],
+    [zoom>=10]["disused_railway"="subway"],
+    [zoom>=10]["disused_railway"="light_rail"],
+    [zoom>=11] {
+      line-color: @disused_color;
+      line-width: 3;
+    }
   }
 
-  [zoom>=9]["railway"="abandoned"]["service"=null] {
-    line-color: @abandoned_color;
-    line-width: 3;
-    line-dasharray: @abandoned_dasharray;
+  ["railway"="abandoned"]["service"=null] {
+    [zoom>=9]["abandoned_railway"="rail"],
+    [zoom>=10]["abandoned_railway"="subway"],
+    [zoom>=10]["abandoned_railway"="light_rail"],
+    [zoom>=11] {
+      line-color: @abandoned_color;
+      line-width: 3;
+      line-dasharray: @abandoned_dasharray;
+    }
   }
 
-  [zoom>=10]["railway"="razed"]["service"=null] {
-    line-color: @razed_color;
-    line-width: 3;
-    line-dasharray: @razed_dasharray;
+  ["railway"="razed"]["service"=null] {
+    [zoom>=10]["abandoned_railway"="rail"],
+    [zoom>=10]["abandoned_railway"="subway"],
+    [zoom>=10]["abandoned_railway"="light_rail"],
+    [zoom>=11] {
+      line-color: @razed_color;
+      line-width: 3;
+      line-dasharray: @razed_dasharray;
+    }
   }
 
   [zoom>=10]["railway"="subway"]["service"=null] {

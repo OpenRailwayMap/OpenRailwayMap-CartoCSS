@@ -20,6 +20,7 @@ Map {
 
 @abandoned_dasharray: 5,5;
 @razed_dasharray: 3,7;
+@construction_dasharray: 9,9;
 
 #railway_line {
   ["railway"="rail"] {
@@ -99,6 +100,42 @@ Map {
       line-color: @razed_color;
       line-width: 3;
       line-dasharray: @razed_dasharray;
+    }
+  }
+
+  ["railway"="construction"] {
+    [zoom>=9]["construction_railway"="rail"]["usage"="main"]["service"=null],
+    [zoom>=9]["construction_railway"="rail"]["usage"="branch"]["service"=null] {
+      line-color: @main_color;
+      line-width: 2;
+      line-dasharray: @construction_dasharray;
+    }
+
+    [zoom>=10]["construction_railway"="subway"] {
+      [zoom<13]["service"=null],
+      [zoom>=13] {
+        line-color: @subway_color;
+        line-width: 2;
+        line-dasharray: @construction_dasharray;
+      }
+    }
+
+    [zoom>=10]["construction_railway"="light_rail"] {
+      [zoom<13]["service"=null],
+      [zoom>=13] {
+        line-color: @light_rail_color;
+        line-width: 2;
+        line-dasharray: @construction_dasharray;
+      }
+    }
+
+    [zoom>=11]["construction_railway"="tram"] {
+      [zoom<13]["service"=null],
+      [zoom>=13] {
+        line-color: @tram_color;
+        line-width: 2;
+        line-dasharray: @construction_dasharray;
+      }
     }
   }
 

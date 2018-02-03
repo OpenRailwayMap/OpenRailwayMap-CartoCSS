@@ -153,19 +153,34 @@ Map {
     }
   }
 
-  [zoom>=10]["railway"="subway"]["service"=null] {
+  [zoom>=10]["railway"="subway"]["service"=null],
+  [zoom>=13]["railway"="subway"] {
     line-color: @subway_color;
     line-width: 3;
+
+    [service!=null] {
+      line-width: 1.5;
+    }
   }
 
-  [zoom>=10]["railway"="light_rail"]["service"=null] {
+  [zoom>=10]["railway"="light_rail"]["service"=null],
+  [zoom>=13]["railway"="light_rail"] {
     line-color: @light_rail_color;
     line-width: 3;
+
+    [service!=null] {
+      line-width: 1.5;
+    }
   }
 
-  [zoom>=11]["railway"="tram"]["service"=null] {
+  [zoom>=11]["railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="tram"] {
     line-color: @tram_color;
     line-width: 3;
+
+    [service!=null] {
+      line-width: 1.5;
+    }
   }
     
 }

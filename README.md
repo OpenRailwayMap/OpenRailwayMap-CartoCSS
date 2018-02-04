@@ -1,4 +1,4 @@
-#OpenRailwayMap CartoCSS port
+# OpenRailwayMap CartoCSS port
 
 This is a experimental port of the OpenRailwayMap Infrastructure map style from
 MapCSS to CartoCSS to be able to use Mapnik to render maps.

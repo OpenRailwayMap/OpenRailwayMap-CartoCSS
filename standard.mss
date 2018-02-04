@@ -20,13 +20,118 @@
 @bridge_casing_color: #000000;
 
 @railway_casing_add: 2;
+@bridge_casing_add: 4;
 
 @abandoned_dasharray: 5,5;
 @razed_dasharray: 3,7;
 @construction_dasharray: 9,9;
 @proposed_dasharray: 2,8;
 
-#railway_line_casing {
+#railway_bridge::railing {
+  ["railway"="rail"] {
+    ["usage"="main"]["service"=null] {
+      line-color: @bridge_casing_color;
+      line-width: 1.5 + @bridge_casing_add;
+
+      [zoom>=6][zoom<=8] {
+        line-width: 2.5 + @bridge_casing_add;
+      }
+
+      [zoom>=9] {
+        line-width: 3.5 + @bridge_casing_add;
+      }
+    }
+
+    [zoom>=8]["usage"="branch"]["service"=null] {
+      line-color: @bridge_casing_color;
+      line-width: 2.5 + @bridge_casing_add;
+
+      [zoom>=9] {
+        line-width: 3.5 + @bridge_casing_add;
+      }
+    }
+
+    [zoom=10]["usage"="industrial"]["service"=null],
+    [zoom>=11]["usage"="industrial"] {
+      line-color: @bridge_casing_color;
+      line-width: 2 + @bridge_casing_add;
+      ["service"!=null] {
+        line-width: 1.5 + @bridge_casing_add;
+      }
+    }
+
+    [zoom>=13]["usage"=null]["service"=null] {
+      line-color: @bridge_casing_color;
+      line-width: 2 + @bridge_casing_add;
+    }
+
+    [zoom>=11]["usage"=null]["service"="siding"],
+    [zoom>=11]["usage"=null]["service"="crossover"] {
+      line-color: @bridge_casing_color;
+      line-width: 2 + @bridge_casing_add;
+    }
+
+    [zoom>=12]["usage"=null]["service"="yard"] {
+      line-color: @bridge_casing_color;
+      line-width: 1.5 + @bridge_casing_add;
+    }
+
+    [zoom>=11]["usage"=null]["service"="spur"] {
+      line-color: @bridge_casing_color;
+      line-width: 1.5 + @bridge_casing_add;
+    }
+  }
+
+  ["railway"="narrow_gauge"] {
+    [zoom>=10]["service"=null],
+    [zoom>=11]["service"="spur"],
+    [zoom>=11]["service"="siding"],
+    [zoom>=11]["service"="crossover"],
+    [zoom>=12]["service"="yard"] {
+      line-width: 3 + @bridge_casing_add;
+      line-color: @bridge_casing_color;
+
+      ["usage"="industrial"],
+      ["service"!=null] {
+        line-width: 2 + @bridge_casing_add;
+      }
+    }
+  }
+
+  [zoom>=10]["railway"="subway"]["service"=null],
+  [zoom>=13]["railway"="subway"] {
+    line-color: @bridge_casing_color;
+    line-width: 3 + @bridge_casing_add;
+
+    [service!=null] {
+      line-width: 1.5 + @bridge_casing_add;
+    }
+  }
+
+  [zoom>=10]["railway"="light_rail"]["service"=null],
+  [zoom>=13]["railway"="light_rail"] {
+    line-color: @bridge_casing_color;
+    line-width: 3 + @bridge_casing_add;
+
+    [service!=null] {
+      line-width: 1.5 + @bridge_casing_add;
+    }
+  }
+
+  [zoom>=11]["railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="tram"] {
+    line-color: @bridge_casing_color;
+    line-width: 3 + @bridge_casing_add;
+
+    [service!=null] {
+      line-width: 1.5 + @bridge_casing_add;
+    }
+  }
+}
+
+
+#railway_line_casing::casing,
+#railway_bridge::casing {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @railway_casing_color;
@@ -128,7 +233,8 @@
   }
 }
 
-#railway_line {
+#railway_line_fill::fill,
+#railway_bridge::fill {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @main_color;

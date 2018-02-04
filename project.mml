@@ -39,6 +39,51 @@ Stylesheet:
   - standard.mss
 
 Layer:
+  - id: railway_line_casing
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage, service, highspeed,
+            disused, abandoned, razed, construction, proposed,
+            disused_railway, abandoned_railway,
+            razed_railway, construction_railway,
+            proposed_railway,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL AND highspeed = 'yes' THEN 2000
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'proposed' THEN 350
+                 WHEN railway = 'disused' THEN 300
+                 WHEN railway = 'abandoned' THEN 250
+                 WHEN railway = 'razed' THEN 200
+                 ELSE 50
+            END AS rank
+          FROM
+            (SELECT
+                way, railway, usage, service, tags->'highspeed' AS highspeed,
+                disused, abandoned, razed, construction, proposed,
+                tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
+                tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
+                tags->'proposed:railway' AS proposed_railway,
+                z_order
+              FROM planet_osm_line
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge')
+            ) AS r
+          ORDER by z_order, rank NULLS LAST
+        ) AS railway_bridge_casing
+    properties:
+      minzoom: 7
   - id: railway_line
     geometry: line
     <<: *extents

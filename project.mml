@@ -93,7 +93,7 @@ Layer:
                 tags->'preserved:usage' AS preserved_usage,
                 z_order
               FROM planet_osm_line
-              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'disused', 'abandoned', 'razed', 'construction', 'proposed')
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed')
             ) AS r
           ORDER by z_order, rank NULLS LAST
         ) AS railway_line

@@ -7,7 +7,8 @@ Map {
 
 @main_color: #ff8100;
 @highspeed_color: #ff0c00;
-@branch_color: #daca00;
+@branch_color: #c4b600;
+@narrow_gauge_color: #c0da00;
 @no_usage_color: #000000;
 @disused_color: #70584d;
 @abandoned_color: #7f6a62;
@@ -81,6 +82,26 @@ Map {
     [zoom>=11]["usage"=null]["service"="spur"] {
       line-color: @spur_color;
       line-width: 1.5;
+    }
+  }
+
+  ["railway"="narrow_gauge"] {
+    [zoom>=10]["service"=null],
+    [zoom>=11]["service"="spur"],
+    [zoom>=11]["service"="siding"],
+    [zoom>=11]["service"="crossover"],
+    [zoom>=12]["service"="yard"] {
+      line-width: 3;
+      line-color: @narrow_gauge_color;
+
+      ["usage"="industrial"],
+      ["service"="spur"] {
+        line-width: 2;
+        line-color: @industrial_color;
+      }
+      ["service"!=null] {
+        line-width: 2;
+      }
     }
   }
 
@@ -222,5 +243,3 @@ Map {
   }
     
 }
-
-

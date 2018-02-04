@@ -18,8 +18,10 @@
 
 @railway_casing_color: #ffffff;
 @bridge_casing_color: #000000;
+@tunnel_color: #979797;
 
 @railway_casing_add: 2;
+@railway_tunnel_casing_add: 2;
 @bridge_casing_add: 4;
 
 @abandoned_dasharray: 5,5;
@@ -131,6 +133,7 @@
 
 
 #railway_line_casing::casing,
+#railway_tunnel::casing,
 #railway_bridge::casing {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
@@ -234,31 +237,58 @@
 }
 
 #railway_line_fill::fill,
+#railway_tunnel::fill,
+#railway_tunnel::bright,
 #railway_bridge::fill {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @main_color;
       line-width: 1.5;
+      #railway_tunnel::bright {
+        line-width: 1.5 + @railway_tunnel_casing_add;
+      }
 
       [zoom>=6][zoom<=8] {
         line-width: 2.5;
+        #railway_tunnel::bright {
+          line-width: 2.5 + @railway_tunnel_casing_add;
+        }
       }
 
       [zoom>=9] {
         line-width: 3.5;
+        #railway_tunnel::bright {
+          line-width: 3.5 + @railway_tunnel_casing_add;
+        }
       }
 
       ["highspeed"="yes"] {
         line-color: @highspeed_color;
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
       }
     }
 
     [zoom>=8]["usage"="branch"]["service"=null] {
       line-color: @branch_color;
       line-width: 2.5;
+      #railway_tunnel::bright {
+        line-width: 2.5 + @railway_tunnel_casing_add;
+      }
 
       [zoom>=9] {
         line-width: 3.5;
+        #railway_tunnel::bright {
+          line-width: 3.5 + @railway_tunnel_casing_add;
+        }
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
       }
     }
 
@@ -266,30 +296,79 @@
     [zoom>=11]["usage"="industrial"] {
       line-color: @industrial_color;
       line-width: 2;
+
+      #railway_tunnel::bright {
+        line-width: 2 + @railway_tunnel_casing_add;
+      }
+
       ["service"!=null] {
         line-width: 1.5;
+        #railway_tunnel::bright {
+          line-width: 1.5 + @railway_tunnel_casing_add;
+        }
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
       }
     }
 
     [zoom>=13]["usage"=null]["service"=null] {
       line-color: @no_usage_color;
       line-width: 2;
+
+      #railway_tunnel::bright {
+        line-width: 2 + @railway_tunnel_casing_add;
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
+      }
     }
 
     [zoom>=11]["usage"=null]["service"="siding"],
     [zoom>=11]["usage"=null]["service"="crossover"] {
       line-color: @siding_color;
       line-width: 2;
+
+      #railway_tunnel::bright {
+        line-width: 2 + @railway_tunnel_casing_add;
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
+      }
     }
 
     [zoom>=12]["usage"=null]["service"="yard"] {
       line-color: @yard_color;
       line-width: 1.5;
+
+      #railway_tunnel::bright {
+        line-width: 1.5 + @railway_tunnel_casing_add;
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
+      }
     }
 
     [zoom>=11]["usage"=null]["service"="spur"] {
       line-color: @spur_color;
       line-width: 1.5;
+
+      #railway_tunnel::bright {
+        line-width: 1.5 + @railway_tunnel_casing_add;
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
+      }
     }
   }
 
@@ -304,12 +383,23 @@
 
       ["usage"="industrial"],
       ["service"="spur"] {
-        line-width: 2;
         line-color: @industrial_color;
       }
+
+      ["usage"="industrial"],
+      ["service"="spur"],
       ["service"!=null] {
         line-width: 2;
+
+        #railway_tunnel::bright {
+          line-width: 2 + @railway_tunnel_casing_add;
+        }
       }
+    }
+
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 
@@ -324,7 +414,16 @@
 
       ["service"!=null] {
         line-width: 1.5;
+
+        #railway_tunnel::bright {
+          line-width: 1.5 + @railway_tunnel_casing_add;
+        }
       }
+    }
+
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 
@@ -340,7 +439,16 @@
 
       ["service"!=null] {
         line-width: 1.5;
+
+        #railway_tunnel::bright {
+          line-width: 1.5 + @railway_tunnel_casing_add;
+        }
       }
+    }
+
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 
@@ -356,7 +464,16 @@
 
       ["service"!=null] {
         line-width: 1.5;
+
+        #railway_tunnel::bright {
+          line-width: 1.5 + @railway_tunnel_casing_add;
+        }
       }
+    }
+
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 
@@ -373,11 +490,19 @@
     [zoom>=11]["construction_railway"="tram"]["service"=null],
     [zoom>=11]["proposed_railway"="tram"]["service"=null],
     [zoom>=13] {
-      line-width: 2;
       line-color: @no_usage_color;
+      line-width: 2;
+
+      #railway_tunnel::bright {
+        line-width: 2 + @railway_tunnel_casing_add;
+      }
 
       ["service"!=null] {
         line-width: 1.5;
+
+        #railway_tunnel::bright {
+          line-width: 1.5 + @railway_tunnel_casing_add;
+        }
       }
 
       ["railway"="construction"] {
@@ -416,6 +541,11 @@
       ["proposed_railway"="tram"] {
         line-color: @tram_color;
       }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
+      }
     }
   }
 
@@ -425,8 +555,21 @@
     line-color: @subway_color;
     line-width: 3;
 
+    #railway_tunnel::bright {
+      line-width: 3 + @railway_tunnel_casing_add;
+    }
+
     [service!=null] {
       line-width: 1.5;
+
+      #railway_tunnel::bright {
+        line-width: 1.5 + @railway_tunnel_casing_add;
+      }
+    }
+
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 
@@ -435,8 +578,21 @@
     line-color: @light_rail_color;
     line-width: 3;
 
+    #railway_tunnel::bright {
+      line-width: 3 + @railway_tunnel_casing_add;
+    }
+
     [service!=null] {
       line-width: 1.5;
+
+      #railway_tunnel::bright {
+        line-width: 1.5 + @railway_tunnel_casing_add;
+      }
+    }
+
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 
@@ -445,9 +601,21 @@
     line-color: @tram_color;
     line-width: 3;
 
+    #railway_tunnel::bright {
+      line-width: 3 + @railway_tunnel_casing_add;
+    }
+
     [service!=null] {
       line-width: 1.5;
+
+      #railway_tunnel::bright {
+        line-width: 1.5 + @railway_tunnel_casing_add;
+      }
+    }
+
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
-    
 }

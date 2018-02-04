@@ -133,6 +133,8 @@
 
 
 #railway_line_casing::casing,
+#railway_line_low::casing,
+#railway_line_med::casing,
 #railway_tunnel::casing,
 #railway_bridge::casing {
   ["railway"="rail"] {
@@ -237,6 +239,8 @@
 }
 
 #railway_line_fill::fill,
+#railway_line_low::fill,
+#railway_line_med::fill,
 #railway_tunnel::fill,
 #railway_tunnel::bright,
 #railway_bridge::fill {

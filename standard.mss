@@ -216,6 +216,125 @@
     }
   }
 
+  ["railway"="disused"] {
+    [zoom>=9]["disused_railway"="rail"]["service"=null],
+    [zoom>=11]["disused_railway"="subway"]["service"=null],
+    [zoom>=11]["disused_railway"="light_rail"]["service"=null],
+    [zoom>=12]["disused_railway"="tram"]["service"=null],
+    [zoom>=13] {
+      line-color: @railway_casing_color;
+      line-width: 3 + @railway_casing_add;
+
+      ["service"!=null] {
+        line-width: 1.5 + @railway_casing_add;
+      }
+    }
+  }
+
+  ["railway"="abandoned"] {
+    [zoom>=9]["abandoned_railway"="rail"]["service"=null],
+    [zoom>=11]["abandoned_railway"="subway"]["service"=null],
+    [zoom>=11]["abandoned_railway"="light_rail"]["service"=null],
+    [zoom>=12]["abandoned_railway"="tram"]["service"=null],
+    [zoom>=13] {
+      line-color: @railway_casing_color;
+      line-width: 3 + @railway_casing_add;
+      line-dasharray: @abandoned_dasharray;
+
+      ["service"!=null] {
+        line-width: 1.5 + @railway_casing_add;
+      }
+    }
+  }
+
+  ["railway"="razed"] {
+    [zoom>=10]["abandoned_railway"="rail"]["service"=null],
+    [zoom>=11]["abandoned_railway"="subway"]["service"=null],
+    [zoom>=11]["abandoned_railway"="light_rail"]["service"=null],
+    [zoom>=12]["abandoned_railway"="tram"]["service"=null],
+    [zoom>=14] {
+      line-color: @railway_casing_color;
+      line-width: 3 + @railway_casing_add;
+      line-dasharray: @razed_dasharray;
+
+      ["service"!=null] {
+        line-width: 1.5 + @railway_casing_add;
+      }
+    }
+  }
+
+  ["railway"="construction"],
+  ["railway"="proposed"] {
+    [zoom>=9]["construction_railway"="rail"]["usage"="main"]["service"=null],
+    [zoom>=9]["proposed_railway"="rail"]["usage"="main"]["service"=null],
+    [zoom>=9]["construction_railway"="rail"]["usage"="branch"]["service"=null],
+    [zoom>=9]["proposed_railway"="rail"]["usage"="branch"]["service"=null],
+    [zoom>=10]["construction_railway"="subway"]["service"=null],
+    [zoom>=10]["proposed_railway"="subway"]["service"=null],
+    [zoom>=10]["construction_railway"="light_rail"]["service"=null],
+    [zoom>=10]["proposed_railway"="light_rail"]["service"=null],
+    [zoom>=11]["construction_railway"="tram"]["service"=null],
+    [zoom>=11]["proposed_railway"="tram"]["service"=null],
+    [zoom>=13] {
+      line-color: @no_usage_color;
+      line-width: 2;
+
+      #railway_tunnel::bright {
+        line-width: 2 + @railway_tunnel_casing_add;
+      }
+
+      ["service"!=null] {
+        line-width: 1.5;
+
+        #railway_tunnel::bright {
+          line-width: 1.5 + @railway_tunnel_casing_add;
+        }
+      }
+
+      ["railway"="construction"] {
+        line-dasharray: @construction_dasharray;
+      }
+
+      ["railway"="proposed"] {
+        line-dasharray: @proposed_dasharray;
+      }
+
+      ["construction_railway"="rail"]["usage"="main"],
+      ["proposed_railway"="rail"]["usage"="main"] {
+        line-color: @main_color;
+
+        ["highspeed"="yes"] {
+          line-color: @highspeed_color;
+        }
+      }
+
+      ["construction_railway"="rail"]["usage"="branch"],
+      ["proposed_railway"="rail"]["usage"="branch"] {
+        line-color: @branch_color;
+      }
+
+      ["construction_railway"="subway"],
+      ["proposed_railway"="subway"] {
+        line-color: @subway_color;
+      }
+
+      ["construction_railway"="light_rail"],
+      ["proposed_railway"="light_rail"] {
+        line-color: @light_rail_color;
+      }
+
+      ["construction_railway"="tram"],
+      ["proposed_railway"="tram"] {
+        line-color: @tram_color;
+      }
+
+      #railway_tunnel::bright {
+        line-color: @tunnel_color;
+        comp-op: screen;
+      }
+    }
+  }
+
   [zoom>=10]["railway"="subway"]["service"=null],
   [zoom>=13]["railway"="subway"] {
     line-color: @railway_casing_color;
@@ -397,6 +516,10 @@
       line-width: 3;
       line-color: @narrow_gauge_color;
 
+      #railway_tunnel::bright {
+        line-width: 3 + @railway_tunnel_casing_add;
+      }
+
       ["usage"="industrial"],
       ["service"="spur"] {
         line-color: @industrial_color;
@@ -428,6 +551,10 @@
       line-color: @disused_color;
       line-width: 3;
 
+      #railway_tunnel::bright {
+        line-width: 3 + @railway_tunnel_casing_add;
+      }
+
       ["service"!=null] {
         line-width: 1.5;
 
@@ -453,6 +580,10 @@
       line-width: 3;
       line-dasharray: @abandoned_dasharray;
 
+      #railway_tunnel::bright {
+        line-width: 3 + @railway_tunnel_casing_add;
+      }
+
       ["service"!=null] {
         line-width: 1.5;
 
@@ -477,6 +608,10 @@
       line-color: @razed_color;
       line-width: 3;
       line-dasharray: @razed_dasharray;
+
+      #railway_tunnel::bright {
+        line-width: 3 + @railway_tunnel_casing_add;
+      }
 
       ["service"!=null] {
         line-width: 1.5;

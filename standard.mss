@@ -141,6 +141,7 @@
     ["usage"="main"]["service"=null] {
       line-color: @railway_casing_color;
       line-width: 1.5 + @railway_casing_add;
+      line-join: round;
 
       [zoom>=6][zoom<=8] {
         line-width: 2.5 + @railway_casing_add;
@@ -154,6 +155,7 @@
     [zoom>=8]["usage"="branch"]["service"=null] {
       line-color: @railway_casing_color;
       line-width: 2.5 + @railway_casing_add;
+      line-join: round;
 
       [zoom>=9] {
         line-width: 3.5 + @railway_casing_add;
@@ -164,6 +166,8 @@
     [zoom>=11]["usage"="industrial"] {
       line-color: @railway_casing_color;
       line-width: 2 + @railway_casing_add;
+      line-join: round;
+
       ["service"!=null] {
         line-width: 1.5 + @railway_casing_add;
       }
@@ -172,22 +176,26 @@
     [zoom>=13]["usage"=null]["service"=null] {
       line-color: @railway_casing_color;
       line-width: 2 + @railway_casing_add;
+      line-join: round;
     }
 
     [zoom>=11]["usage"=null]["service"="siding"],
     [zoom>=11]["usage"=null]["service"="crossover"] {
       line-color: @railway_casing_color;
       line-width: 2 + @railway_casing_add;
+      line-join: round;
     }
 
     [zoom>=12]["usage"=null]["service"="yard"] {
       line-color: @railway_casing_color;
       line-width: 1.5 + @railway_casing_add;
+      line-join: round;
     }
 
     [zoom>=11]["usage"=null]["service"="spur"] {
       line-color: @railway_casing_color;
       line-width: 1.5 + @railway_casing_add;
+      line-join: round;
     }
   }
 
@@ -199,6 +207,7 @@
     [zoom>=12]["service"="yard"] {
       line-width: 3 + @railway_casing_add;
       line-color: @railway_casing_color;
+      line-join: round;
 
       ["usage"="industrial"],
       ["service"!=null] {
@@ -211,6 +220,7 @@
   [zoom>=13]["railway"="subway"] {
     line-color: @railway_casing_color;
     line-width: 3 + @railway_casing_add;
+    line-join: round;
 
     [service!=null] {
       line-width: 1.5 + @railway_casing_add;
@@ -221,6 +231,7 @@
   [zoom>=13]["railway"="light_rail"] {
     line-color: @railway_casing_color;
     line-width: 3 + @railway_casing_add;
+    line-join: round;
 
     [service!=null] {
       line-width: 1.5 + @railway_casing_add;
@@ -231,6 +242,7 @@
   [zoom>=13]["railway"="tram"] {
     line-color: @railway_casing_color;
     line-width: 3 + @railway_casing_add;
+    line-join: round;
 
     [service!=null] {
       line-width: 1.5 + @railway_casing_add;

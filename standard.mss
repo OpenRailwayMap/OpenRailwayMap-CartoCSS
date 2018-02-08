@@ -291,10 +291,12 @@
         }
       }
 
+      #railway_tunnel::bright["railway"="construction"],
       ["railway"="construction"] {
         line-dasharray: @construction_dasharray;
       }
 
+      #railway_tunnel::bright["railway"="proposed"],
       ["railway"="proposed"] {
         line-dasharray: @proposed_dasharray;
       }
@@ -582,6 +584,9 @@
 
       #railway_tunnel::bright {
         line-width: 3 + @railway_tunnel_casing_add;
+        line-color: @tunnel_color;
+        line-dasharray: @abandoned_dasharray;
+        comp-op: screen;
       }
 
       ["service"!=null] {
@@ -591,11 +596,6 @@
           line-width: 1.5 + @railway_tunnel_casing_add;
         }
       }
-    }
-
-    #railway_tunnel::bright {
-      line-color: @tunnel_color;
-      comp-op: screen;
     }
   }
 
@@ -611,6 +611,9 @@
 
       #railway_tunnel::bright {
         line-width: 3 + @railway_tunnel_casing_add;
+        line-color: @tunnel_color;
+        line-dasharray: @razed_dasharray;
+        comp-op: screen;
       }
 
       ["service"!=null] {
@@ -620,11 +623,6 @@
           line-width: 1.5 + @railway_tunnel_casing_add;
         }
       }
-    }
-
-    #railway_tunnel::bright {
-      line-color: @tunnel_color;
-      comp-op: screen;
     }
   }
 
@@ -656,6 +654,7 @@
         }
       }
 
+      #railway_tunnel::bright["railway"="construction"],
       ["railway"="construction"] {
         line-dasharray: @construction_dasharray;
       }

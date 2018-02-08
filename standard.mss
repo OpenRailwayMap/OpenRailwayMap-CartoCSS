@@ -21,6 +21,8 @@
 @tunnel_color: #979797;
 
 @railway_casing_add: 2;
+
+/* additional width of the casing of dashed lines */
 @railway_tunnel_casing_add: 2;
 @bridge_casing_add: 4;
 
@@ -640,10 +642,10 @@
     [zoom>=11]["proposed_railway"="tram"]["service"=null],
     [zoom>=13] {
       line-color: @no_usage_color;
-      line-width: 2;
+      line-width: 3;
 
       #railway_tunnel::bright {
-        line-width: 2 + @railway_tunnel_casing_add;
+        line-width: 3 + @railway_tunnel_casing_add;
       }
 
       ["service"!=null] {

@@ -645,7 +645,7 @@
       line-width: 3;
 
       #railway_tunnel::bright {
-        line-width: 3 + @railway_tunnel_casing_add;
+        line-width: 2 + @railway_tunnel_casing_add;
       }
 
       ["service"!=null] {

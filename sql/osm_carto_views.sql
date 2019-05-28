@@ -13,3 +13,12 @@ CREATE VIEW openrailwaymap_osm_line AS
     z_order,
     tags
   FROM planet_osm_line;
+
+DROP VIEW IF EXISTS openrailwaymap_osm_point;
+CREATE VIEW openrailwaymap_osm_point AS
+  SELECT
+    way,
+    railway,
+    name,
+    tags AS tags
+  FROM planet_osm_point;

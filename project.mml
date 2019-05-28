@@ -313,6 +313,76 @@ Layer:
     properties:
       minzoom: 9
       group-by: z_order
+  - id: railway_text_stations_med
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, station,
+            CASE WHEN railway = 'station' AND station = 'light_rail' THEN 450
+                 WHEN railway = 'station' AND station = 'subway' THEN 400
+                 WHEN railway = 'station' THEN 800
+                 WHEN railway = 'halt' AND station = 'light_rail' THEN 500
+                 WHEN railway = 'halt' THEN 550
+                 WHEN railway = 'service_station' THEN 600
+                 WHEN railway = 'yard' THEN 700
+                 WHEN railway = 'junction' THEN 650
+                 WHEN railway = 'spur_junction' THEN 420
+                 WHEN railway = 'site' THEN 600
+                 WHEN railway = 'crossover' THEN 700
+                 ELSE 50
+            END AS rank,
+            railway_ref AS label
+          FROM
+            (SELECT
+                way, railway, tags->'station' AS station, tags->'railway:ref' AS railway_ref
+              FROM openrailwaymap_osm_point
+              WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site')
+            ) AS r
+          ORDER by rank DESC NULLS LAST
+        ) AS railway_text_stations_med
+    properties:
+      minzoom: 8
+      maxzoom: 10
+  - id: railway_text_stations_high
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, station,
+            CASE WHEN railway = 'station' AND station = 'light_rail' THEN 450
+                 WHEN railway = 'station' AND station = 'subway' THEN 400
+                 WHEN railway = 'station' THEN 800
+                 WHEN railway = 'halt' AND station = 'light_rail' THEN 500
+                 WHEN railway = 'halt' THEN 550
+                 WHEN railway = 'tram_stop' THEN 300
+                 WHEN railway = 'service_station' THEN 600
+                 WHEN railway = 'yard' THEN 700
+                 WHEN railway = 'junction' THEN 650
+                 WHEN railway = 'spur_junction' THEN 420
+                 WHEN railway = 'site' THEN 600
+                 WHEN railway = 'crossover' THEN 700
+                 ELSE 50
+            END AS rank,
+            label
+          FROM
+            (SELECT
+                way,
+                railway,
+                tags->'station' AS station,
+                COALESCE(tags->'short_name', name) AS label
+              FROM openrailwaymap_osm_point
+              WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop')
+                AND (name IS NOT NULL OR tags ? 'short_name')
+            ) AS r
+          ORDER by rank DESC NULLS LAST, char_length(label) ASC
+        ) AS railway_text_stations_med
+    properties:
+      minzoom: 11
   - id: railway_text_med
     geometry: line
     <<: *extents

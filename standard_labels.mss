@@ -47,8 +47,11 @@
     }
 
     text-halo-radius: @text-station-halo-size;
-    text-min-distance: 30;
     text-min-padding: 10;
+    text-min-distance: 30;
+    [zoom < 8] {
+      text-min-distance: 60;
+    }
   }
 }
 

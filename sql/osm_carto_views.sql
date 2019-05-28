@@ -1,8 +1,9 @@
-DROP VIEW IF EXISTS openrailwaymap_osm_line;
-CREATE VIEW openrailwaymap_osm_line AS
+CREATE OR REPLACE VIEW openrailwaymap_osm_line AS
   SELECT
+    osm_id,
     way,
     railway,
+    tags->'public_transport' AS public_transport,
     tags->'usage' AS usage,
     service,
     construction,
@@ -14,11 +15,22 @@ CREATE VIEW openrailwaymap_osm_line AS
     tags
   FROM planet_osm_line;
 
-DROP VIEW IF EXISTS openrailwaymap_osm_point;
-CREATE VIEW openrailwaymap_osm_point AS
+CREATE OR REPLACE VIEW openrailwaymap_osm_polygon AS
   SELECT
+    osm_id,
     way,
     railway,
+    tags->'public_transport' AS public_transport,
+    name,
+    tags AS tags
+  FROM planet_osm_polygon;
+
+CREATE OR REPLACE VIEW openrailwaymap_osm_point AS
+  SELECT
+    osm_id,
+    way,
+    railway,
+    tags->'public_transport' AS public_transport,
     name,
     tags AS tags
   FROM planet_osm_point;

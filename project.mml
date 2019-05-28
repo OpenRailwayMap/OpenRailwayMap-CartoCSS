@@ -326,6 +326,7 @@ Layer:
                  WHEN railway = 'station' THEN 800
                  WHEN railway = 'halt' AND station = 'light_rail' THEN 500
                  WHEN railway = 'halt' THEN 550
+                 WHEN railway = 'tram_stop' THEN 300
                  WHEN railway = 'service_station' THEN 600
                  WHEN railway = 'yard' THEN 700
                  WHEN railway = 'junction' THEN 650
@@ -334,17 +335,22 @@ Layer:
                  WHEN railway = 'crossover' THEN 700
                  ELSE 50
             END AS rank,
-            railway_ref AS label
+            label
           FROM
             (SELECT
-                way, railway, tags->'station' AS station, tags->'railway:ref' AS railway_ref
-              FROM openrailwaymap_osm_point
-              WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site')
+                way,
+                railway,
+                route_count,
+                tags->'station' AS station,
+                tags->'railway:ref' AS label
+              FROM stations_with_route_counts
+              WHERE railway IN ('station', 'halt', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site')
+                AND (name IS NOT NULL OR tags ? 'short_name')
             ) AS r
-          ORDER by rank DESC NULLS LAST
+          ORDER by rank DESC NULLS LAST, route_count DESC NULLS LAST
         ) AS railway_text_stations_med
     properties:
-      minzoom: 8
+      minzoom: 6
       maxzoom: 10
   - id: railway_text_stations_high
     geometry: point
@@ -373,13 +379,14 @@ Layer:
             (SELECT
                 way,
                 railway,
+                route_count,
                 tags->'station' AS station,
                 COALESCE(tags->'short_name', name) AS label
-              FROM openrailwaymap_osm_point
-              WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop')
+              FROM stations_with_route_counts
+              WHERE railway IN ('station', 'halt', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop')
                 AND (name IS NOT NULL OR tags ? 'short_name')
             ) AS r
-          ORDER by rank DESC NULLS LAST, char_length(label) ASC
+          ORDER by rank DESC NULLS LAST, route_count DESC NULLS LAST
         ) AS railway_text_stations_med
     properties:
       minzoom: 11

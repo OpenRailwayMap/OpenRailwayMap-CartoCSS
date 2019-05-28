@@ -22,6 +22,11 @@
 } 
 
 #railway_text_med,
+#railway_text_high {
+  text-spacing: 200;
+}
+
+#railway_text_med,
 #railway_text_high,
 #railway_text_detail::line_numbers["label"!=""] {
   text-name: '[label]';

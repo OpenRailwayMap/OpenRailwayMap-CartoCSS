@@ -75,12 +75,12 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
-                disused, abandoned, razed, construction, proposed,
+                tags->'disused' AS disused, tags->'abandoned' AS abandoned, tags->'razed' AS razed, construction, tags->'proposed' AS proposed,
                 tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND tunnel IS NOT NULL AND tunnel != 'no'
             ) AS r
           ORDER by z_order, rank NULLS LAST
@@ -121,12 +121,12 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
-                disused, abandoned, razed, construction, proposed,
+                tags->'disused' AS disused, tags->'abandoned' AS abandoned, tags->'razed' AS razed, construction, tags->'proposed' AS proposed,
                 tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND (tunnel IS NULL OR tunnel = 'no')
             ) AS r
           ORDER by z_order, rank NULLS LAST
@@ -162,11 +162,11 @@ Layer:
             (SELECT
                 way, railway, usage, tags->'highspeed' AS highspeed,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
           ORDER by z_order, rank NULLS LAST
-        ) AS railway_line_low
+        ) AS openrailwaymap_line_low
     properties:
       maxzoom: 7
   - id: railway_line_med
@@ -198,7 +198,7 @@ Layer:
             (SELECT
                 way, railway, usage, tags->'highspeed' AS highspeed,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
             ) AS r
           ORDER by z_order, rank NULLS LAST
@@ -247,7 +247,7 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
-                disused, abandoned, razed, construction, proposed,
+                tags->'disused' AS disused, tags->'abandoned' AS abandoned, tags->'razed' AS razed, construction, tags->'proposed' AS proposed,
                 tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
@@ -259,7 +259,7 @@ Layer:
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND (tunnel IS NULL OR tunnel = 'no')
             ) AS r
           ORDER by z_order, rank NULLS LAST
@@ -300,12 +300,12 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
-                disused, abandoned, razed, construction, proposed,
+                tags->'disused' AS disused, tags->'abandoned' AS abandoned, tags->'razed' AS razed, construction, tags->'proposed' AS proposed,
                 tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND bridge IS NOT NULL AND bridge != 'no'
             ) AS r
           ORDER by z_order, rank NULLS LAST
@@ -344,16 +344,16 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
-                tags->'ref' AS ref,
+                ref,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND (tunnel IS NULL OR tunnel = 'no')
             ) AS r
           ORDER by z_order, rank NULLS LAST
         ) AS railway_text_med
     properties:
       minzoom: 8
-      maxzoom: 12
+      maxzoom: 14
   - id: railway_text_high
     geometry: line
     <<: *extents
@@ -385,15 +385,15 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
-                tags->'name' AS name, tags->'ref' AS ref,
+                name, ref,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed')
             ) AS r
           ORDER by z_order, rank NULLS LAST
         ) AS railway_text_high
     properties:
-      minzoom: 13
+      minzoom: 15
       maxzoom: 16
   - id: railway_text_detail
     geometry: line
@@ -427,10 +427,10 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
-                tags->'name' AS name, tags->'ref' AS ref,
+                name, ref,
                 tags->'railway:track_ref' AS track_ref,
                 z_order
-              FROM planet_osm_line
+              FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed')
             ) AS r
           ORDER by z_order, rank NULLS LAST

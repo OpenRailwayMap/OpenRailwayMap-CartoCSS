@@ -19,6 +19,8 @@
 --    FROM planet_osm_polygon
 --    WHERE railway IN ('station', 'halt', 'platform') OR public_transport IN ('stop_position', 'platform');
 
+CREATE INDEX planet_osm_point_railway_geom_idx ON planet_osm_point USING GIST(way) WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop');
+
 -- Node members in relations
 -- TODO optionally check array_length(parts, 1) against way_off or rel_off
 -- TODO Use materialised view and explode arrays to rows.
@@ -123,12 +125,19 @@ CREATE OR REPLACE VIEW station_nodes_platforms_rel_count AS
 -- Final table with station nodes and the number of route relations
 -- needs about 3 to 4 minutes for whole Germany
 CREATE MATERIALIZED VIEW stations_with_route_counts AS
-  SELECT osm_id, name, tags, railway, ARRAY_LENGTH(ARRAY_AGG(DISTINCT route_id), 1) AS route_count, way
+  SELECT DISTINCT ON (osm_id, name, tags, railway) osm_id, name, tags, railway, route_count, way
     FROM (
-      SELECT osm_id, name, tags, railway, UNNEST(route_ids) AS route_id, way
-        FROM station_nodes_stop_positions_rel_count
+      SELECT  osm_id, name, tags, railway, ARRAY_LENGTH(ARRAY_AGG(DISTINCT route_id), 1) AS route_count, way
+        FROM (
+          SELECT osm_id, name, tags, railway, UNNEST(route_ids) AS route_id, way
+            FROM station_nodes_stop_positions_rel_count
+          UNION ALL
+          SELECT osm_id, name, tags, railway, UNNEST(route_ids) AS route_id, way
+            FROM station_nodes_platforms_rel_count
+        ) AS a
+        GROUP BY osm_id, name, tags, railway, way
       UNION ALL
-      SELECT osm_id, name, tags, railway, UNNEST(route_ids) AS route_id, way
-        FROM station_nodes_platforms_rel_count
-    ) AS a
-    GROUP BY osm_id, name, tags, railway, way;
+      SELECT osm_id, name, tags, railway, 0 AS route_count, way
+        FROM planet_osm_point
+	WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop')
+    ) AS facilities;

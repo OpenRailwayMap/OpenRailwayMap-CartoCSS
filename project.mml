@@ -379,7 +379,12 @@ Layer:
             (SELECT
                 way,
                 railway,
-                route_count,
+                CASE
+                  WHEN railway = 'tram_stop' OR (tags?'station' AND tags->'station' IN ('subway', 'light_rail', 'miniature')) THEN route_count / 2
+                  WHEN railway IN ('station', 'service_station', 'yard') AND route_count < 4 THEN 4::int
+                  WHEN railway IN ('halt', 'junction') AND route_count < 2 THEN 2::int
+                  ELSE route_count::int
+                END AS route_count,
                 tags->'station' AS station,
                 COALESCE(tags->'short_name', name) AS label
               FROM stations_with_route_counts

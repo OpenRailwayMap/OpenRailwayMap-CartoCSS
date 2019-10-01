@@ -41,6 +41,7 @@
     [railway = 'tram_stop'] {
       text-fill: @text-tram-stop-color;
       text-halo-fill: @text-tram-stop-halo-color;
+      text-dy: 9;
     }
     [railway = 'yard'] {
       text-fill: @text-yard-color;

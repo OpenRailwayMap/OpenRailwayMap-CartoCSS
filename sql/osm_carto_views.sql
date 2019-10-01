@@ -30,6 +30,7 @@ CREATE OR REPLACE VIEW openrailwaymap_osm_point AS
     osm_id,
     way,
     railway,
+    man_made,
     tags->'public_transport' AS public_transport,
     name,
     tags AS tags

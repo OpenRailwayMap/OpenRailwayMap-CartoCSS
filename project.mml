@@ -39,6 +39,7 @@ Stylesheet:
   - fonts.mss
   - standard.mss
   - standard_labels.mss
+  - standard_symbols.mss
 
 Layer:
   - id: railway_tunnel
@@ -393,6 +394,28 @@ Layer:
             ) AS r
           ORDER by rank DESC NULLS LAST, route_count DESC NULLS LAST
         ) AS railway_text_stations_med
+    properties:
+      minzoom: 11
+  - id: railway_symbols
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            railway,
+            tags->'railway:switch:local_operated' AS local_operated,
+            man_made,
+            CASE
+              WHEN railway = 'crossing' THEN -1::int
+              WHEN railway = 'tram_stop' THEN 1::int
+              ELSE 0
+            END AS prio
+          FROM openrailwaymap_osm_point
+          WHERE railway IN ('crossing', 'level_crossing', 'phone', 'tram_stop', 'border', 'owner_change', 'radio')
+          ORDER BY prio DESC
+        ) AS railway_text_high
     properties:
       minzoom: 11
   - id: railway_text_med

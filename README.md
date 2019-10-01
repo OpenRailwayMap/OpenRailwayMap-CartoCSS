@@ -1,17 +1,31 @@
 # OpenRailwayMap CartoCSS port
 
-This is a experimental port of the OpenRailwayMap Infrastructure map style from
+This is a port of the OpenRailwayMap Infrastructure map style from
 MapCSS to CartoCSS to be able to use Mapnik to render maps.
 
-## Warning
+## Differences to the MapCSS Style
 
-This project is experimental!
+There are a couple of smaller and larger differences to the MapCSS style:
+
+* The rendering of station labels is more sophisticated because Osm2pgsql.
+  Stations are ranked by their importance. The importance is defined by the
+  number of route relations a station and its platforms and stop position nodes
+  belong to. Matching from stops and platforms to stations is based on names
+  and spatial proximity. Stop area relations (`type=public_transport`
+  + `public_transport=stop_area` are not used). The matching is sensitive to
+  differences in spelling.
+* Icons (radio towers, level crossings) have a higher priority than most labels.
+* The map style uses the Noto Sans font.
+* Railway lines have a white halo to improve visibility on colourful background maps.
 
 ## Setup Notes
 
 This style requires a PostGIS database imported with osm2pgsql. Use either the
 style file orm-simple.style from this repository or create view which provide
 the database scheme required by this style.
+
+In order to make the ranking of station labels work, this style requires the so-called
+Osm2pgsql "slim tables" (to be precise, it needs `planet_osm_rels` only).
 
 ## License
 

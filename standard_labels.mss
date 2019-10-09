@@ -3,6 +3,8 @@
 @text-halo-radius: 1;
 @text-size: 11;
 
+@text-km-color: #000000;
+
 @text-station-size: 12;
 @text-station-halo-size: 1.5;
 @text-station-color: blue;
@@ -18,6 +20,20 @@
 @track-ref-halo-color: blue;
 @track-ref-color: white;
 @track-ref-size: 10;
+
+#railway_text_km_med,
+#railway_text_km_high {
+  text-name: '[pos]';
+  text-face-name: @bold-fonts;
+  text-size: @text-size;
+  text-halo-radius: @text-halo-radius;
+  text-halo-fill: @text-halo-color;
+  text-fill: @text-km-color;
+  [zoom <= 15] {
+    text-min-distance: 30;
+  }
+}
+
 
 #railway_text_stations_med,
 #railway_text_stations_high {

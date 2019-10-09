@@ -500,6 +500,54 @@ Layer:
     properties:
       minzoom: 15
       maxzoom: 16
+  - id: railway_text_km_med
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            railway,
+            pos
+          FROM
+            (SELECT
+                way,
+                railway,
+                COALESCE(railway_position, railway_pos_round(railway_position_detail)::text) AS pos
+              FROM openrailwaymap_osm_point
+              WHERE railway IN ('milestone', 'level_crossing', 'crossing')
+                AND (railway_position IS NOT NULL OR railway_position_detail IS NOT NULL)
+            ) AS r
+          WHERE railway_pos_decimal(pos) = '0'
+        ) AS railway_text_km
+    properties:
+      minzoom: 11
+      maxzoom: 13
+  - id: railway_text_km_high
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            railway,
+            pos
+          FROM
+            (SELECT
+                way,
+                railway,
+                COALESCE(railway_position, railway_pos_round(railway_position_detail)::text) AS pos
+              FROM openrailwaymap_osm_point
+              WHERE railway IN ('milestone', 'level_crossing', 'crossing')
+                AND (railway_position IS NOT NULL OR railway_position_detail IS NOT NULL)
+            ) AS r
+          WHERE pos IS NOT NULL
+          ORDER by (railway_pos_decimal(pos) = '0')
+        ) AS railway_text_km
+    properties:
+      minzoom: 14
   - id: railway_text_detail
     geometry: line
     <<: *extents

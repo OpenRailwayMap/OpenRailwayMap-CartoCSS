@@ -1,3 +1,6 @@
+@text-halo-color: white;
+@text-halo-radius: 1;
+
 @maxspeed_fill_color_10: #0100CB;
 @maxspeed_fill_color_20: #001ECB;
 @maxspeed_fill_color_30: #003DCB;
@@ -142,4 +145,31 @@
   [construction!=null]  {
     comp-op: screen;
   }*/
+}
+
+#railway_line_text {
+  [railway="rail"],
+  [railway="construction"][construction_railway="rail"],
+  [railway="disused"][disused_railway="rail"],
+  [zoom>=11][railway="narrow_gauge"],
+  [zoom>=11][railway="construction"][construction_railway="narrow_gauge"],
+  [zoom>=11][railway="disused"][disused_railway="narrow_gauge"],
+  [zoom>=12][railway="light_rail"],
+  [zoom>=12][railway="construction"][construction_railway="light_rail"],
+  [zoom>=12][railway="disused"][disused_railway="light_rail"],
+  [zoom>=12][railway="subway"],
+  [zoom>=12][railway="construction"][construction_railway="subway"],
+  [zoom>=12][railway="disused"][disused_railway="subway"],
+  [zoom>=13][railway="tram"],
+  [zoom>=13][railway="construction"][construction_railway="tram"],
+  [zoom>=13][railway="disused"][disused_railway="tram"] {
+    text-name: [label];
+    text-face-name: @bold-fonts;
+    text-size: 11;
+    text-placement: line;
+    text-spacing: 100;
+    text-min-distance: 30;
+    text-halo-radius: @text-halo-radius;
+    text-halo-fill: @text-halo-color;
+  }
 }

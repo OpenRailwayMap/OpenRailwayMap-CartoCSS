@@ -88,7 +88,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
-            maxspeed,
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
             NULL AS disused_railway,
@@ -103,12 +103,19 @@ Layer:
             END AS rank
           FROM
             (SELECT
-                way, railway, usage, maxspeed,
+                way, railway, usage,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
                 z_order
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
         ) AS openrailwaymap_line_low
     properties:
       maxzoom: 7
@@ -120,7 +127,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
-            maxspeed,
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
             NULL AS disused_railway,
@@ -135,12 +142,19 @@ Layer:
             END AS rank
           FROM
             (SELECT
-                way, railway, usage, maxspeed,
+                way, railway, usage,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
                 z_order
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
         ) AS railway_line_med
     properties:
       minzoom: 8
@@ -153,7 +167,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            maxspeed,
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             disused, construction,
             disused_railway,
             construction_railway,
@@ -178,7 +192,11 @@ Layer:
             END AS rank
           FROM
             (SELECT
-                way, railway, usage, service, maxspeed,
+                way, railway, usage, service,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
                 tags->'disused' AS disused, construction,
                 tags->'disused:railway' AS disused_railway,
                 tags->'construction:railway' AS construction_railway,
@@ -190,7 +208,72 @@ Layer:
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
         ) AS railway_line_fill
+    properties:
+      minzoom: 9
+  - id: railway_line_text
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            railway, usage, service,
+            CASE WHEN speed_arr[3] = 4 THEN speed_arr[1]
+                 WHEN speed_arr[3] = 3 THEN speed_arr[1]
+                 WHEN speed_arr[3] = 2 THEN speed_arr[2]
+                 WHEN speed_arr[3] = 1 THEN speed_arr[1]
+            END AS maxspeed,
+            railway_speed_label(speed_arr) AS label,
+            disused, construction,
+            disused_railway,
+            construction_railway,
+            disused_usage, disused_service,
+            construction_usage, construction_service,
+            preserved_railway, preserved_service,
+            preserved_usage,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'disused' THEN 300
+
+                 ELSE 50
+            END AS rank
+          FROM
+            (SELECT
+                ST_Area(ST_Envelope(way)) / NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS bbox_pixels,
+                way, railway, usage, service,
+                railway_direction_speed_limit(tags->'railway:preferred_direction',tags->'maxspeed', tags->'maxspeed:forward', tags->'maxspeed:backward') AS speed_arr,
+                tags->'disused' AS disused, construction,
+                tags->'disused:railway' AS disused_railway,
+                tags->'construction:railway' AS construction_railway,
+                tags->'disused:usage' AS disused_usage, tags->'disused:service' AS disused_service,
+                tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
+                tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
+                tags->'preserved:usage' AS preserved_usage,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
+
+            ) AS r
+          WHERE bbox_pixels > 150
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed DESC NULLS LAST
+        ) AS railway_line_text
     properties:
       minzoom: 9

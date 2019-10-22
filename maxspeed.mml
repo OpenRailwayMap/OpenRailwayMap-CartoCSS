@@ -37,6 +37,7 @@ _parts:
 
 Stylesheet:
   - fonts.mss
+  - maxspeed_signals.mss
   - maxspeed.mss
   - common.mss
 
@@ -215,6 +216,31 @@ Layer:
         ) AS railway_line_fill
     properties:
       minzoom: 9
+  - id: railway_signals
+    geometry: piont
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            railway,
+            COALESCE(signal_speed_limit, signal_speed_limit_distant) AS feature,
+            "signal_speed_limit_form" AS "signal_speed_limit_form",
+            "signal_speed_limit_speed" AS "signal_speed_limit_speed",
+            "signal_speed_limit_distant_form" AS "signal_speed_limit_distant_form",
+            "signal_speed_limit_distant_speed" AS "signal_speed_limit_distant_speed"
+          FROM openrailwaymap_osm_point
+          WHERE
+            railway = 'signal'
+            AND "signal_direction" IS NOT NULL
+            AND (
+              "signal_speed_limit" IS NOT NULL
+              OR "signal_speed_limit_distant" IS NOT NULL
+            )
+        ) AS railway_line_text
+    properties:
+      minzoom: 14
   - id: railway_line_text
     geometry: line
     <<: *extents

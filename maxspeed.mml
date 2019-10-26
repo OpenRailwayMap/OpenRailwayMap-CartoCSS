@@ -223,8 +223,8 @@ Layer:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            way,
-            railway,
+            way AS way,
+            railway AS railway,
             COALESCE(signal_speed_limit, signal_speed_limit_distant) AS feature,
             "signal_speed_limit_form" AS "signal_speed_limit_form",
             "signal_speed_limit_speed" AS "signal_speed_limit_speed",
@@ -238,6 +238,10 @@ Layer:
               "signal_speed_limit" IS NOT NULL
               OR "signal_speed_limit_distant" IS NOT NULL
             )
+          ORDER BY
+            -- distant signals are less important, signals for slower speeds are more important
+            (CASE WHEN signal_speed_limit IS NOT NULL THEN 1 ELSE 2 END) DESC NULLS FIRST,
+            railway_speed_int(COALESCE(signal_speed_limit_speed, signal_speed_limit_distant_speed)) DESC NULLS FIRST
         ) AS railway_line_text
     properties:
       minzoom: 14

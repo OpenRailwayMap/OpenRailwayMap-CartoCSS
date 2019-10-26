@@ -89,6 +89,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
+            -- speeds are converted to kph in this layer because it is used for colouring
             railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
@@ -128,6 +129,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
+            -- speeds are converted to kph in this layer because it is used for colouring
             railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
@@ -168,6 +170,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
+            -- speeds are converted to kph in this layer because it is used for colouring
             railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             disused, construction,
             disused_railway,
@@ -230,9 +233,9 @@ Layer:
             -- We cast the lowest speed to text to make it possible to only select those speeds in
             -- CartoCSS we have an icon for. Otherwise we might render an icon for 40 kph if
             -- 42 is tagged (but invalid tagging).
-            railway_largest_speed(signal_speed_limit_speed)::text AS signal_speed_limit_speed,
+            railway_largest_speed_noconvert(signal_speed_limit_speed)::text AS signal_speed_limit_speed,
             signal_speed_limit_distant_form AS signal_speed_limit_distant_form,
-            railway_largest_speed(signal_speed_limit_distant_speed)::text AS signal_speed_limit_distant_speed
+            railway_largest_speed_noconvert(signal_speed_limit_distant_speed)::text AS signal_speed_limit_distant_speed
           FROM openrailwaymap_osm_point
           WHERE
             railway = 'signal'
@@ -289,6 +292,7 @@ Layer:
             (SELECT
                 ST_Area(ST_Envelope(way)) / NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS bbox_pixels,
                 way, railway, usage, service,
+                -- does no unit conversion
                 railway_direction_speed_limit(tags->'railway:preferred_direction',tags->'maxspeed', tags->'maxspeed:forward', tags->'maxspeed:backward') AS speed_arr,
                 tags->'disused' AS disused, construction,
                 tags->'disused:railway' AS disused_railway,

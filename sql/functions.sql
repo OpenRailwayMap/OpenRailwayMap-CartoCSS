@@ -51,8 +51,26 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Is this speed in imperial miles per hour?
+-- Returns 1 for true, 0 for false
+CREATE OR REPLACE FUNCTION railway_speed_imperial(value TEXT) RETURNS INTEGER AS $$
+BEGIN
+  IF value ~ '^[0-9]+(\.[0-9]+)? ?mph$' THEN
+    RETURN 1;
+  END IF;
+  RETURN 0;
+END;
+$$ LANGUAGE plpgsql;
 
--- Convert a speed number from text to integer
+
+CREATE OR REPLACE FUNCTION railway_imperial_flags(value1 TEXT, value2 TEXT) RETURNS INTEGER[] AS $$
+BEGIN
+  RETURN ARRAY[railway_speed_imperial(value1), railway_speed_imperial(value2)];
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Convert a speed number from text to integer and miles to kilometre
 CREATE OR REPLACE FUNCTION railway_speed_int(value TEXT) RETURNS INTEGER AS $$
 DECLARE
   mph_value TEXT;
@@ -61,15 +79,31 @@ BEGIN
     RETURN value::INTEGER;
   END IF;
   IF value ~ '^[0-9]+(\.[0-9]+)? ?mph$' THEN
-    mph_value := substring(value FROM '^[0-9]+(\.[0-9]+)?')::FLOAT;
-    RETURN (mph_value * 1.609344)::INTEGER;
+    mph_value := substring(value FROM '^([0-9]+(\.[0-9]+)?)')::FLOAT;
+    RETURN (mph_value::FLOAT * 1.609344)::INTEGER;
   END IF;
   RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
+-- Convert a speed number from text to integer but not convert units
+CREATE OR REPLACE FUNCTION railway_speed_int_noconvert(value TEXT) RETURNS INTEGER AS $$
+DECLARE
+  mph_value TEXT;
+BEGIN
+  IF value ~ '^[0-9]+(\.[0-9]+)?$' THEN
+    RETURN value::INTEGER;
+  END IF;
+  IF value ~ '^[0-9]+(\.[0-9]+)? ?mph$' THEN
+    RETURN substring(value FROM '^([0-9]+(\.[0-9]+)?)');
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+
 -- Get the largest speed from a list of speed values (common at light speed signals)
-CREATE OR REPLACE FUNCTION railway_largest_speed(value TEXT) RETURNS INTEGER AS $$
+CREATE OR REPLACE FUNCTION railway_largest_speed_noconvert(value TEXT) RETURNS INTEGER AS $$
 DECLARE
   parts TEXT[];
   elem TEXT;
@@ -85,7 +119,7 @@ BEGIN
     IF elem = '' THEN
       CONTINUE;
     END IF;
-    this_value := railway_speed_int(elem);
+    this_value := railway_speed_int_noconvert(elem);
     IF largest_value IS NULL OR largest_value < this_value THEN
       largest_value := this_value;
     END IF;
@@ -113,12 +147,23 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION null_to_dash(value INT) RETURNS TEXT AS $$
+CREATE OR REPLACE FUNCTION null_to_dash(value TEXT) RETURNS TEXT AS $$
 BEGIN
-  IF value IS NULL OR VALUE = 0 THEN
+  IF value IS NULL OR VALUE = '' THEN
     RETURN '–';
   END IF;
   RETURN value;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION railway_add_unit_to_label(speed INTEGER, is_imp_flag INTEGER) RETURNS TEXT AS $$
+BEGIN
+  -- note: NULL || TEXT returns NULL
+  IF is_imp_flag = 1 THEN
+    RETURN speed::TEXT || ' mph';
+  END IF;
+  RETURN speed::TEXT;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -129,48 +174,58 @@ BEGIN
     RETURN NULL;
   END IF;
   IF speed_arr[3] = 4 THEN
-    RETURN speed_arr[1]::TEXT;
+    RETURN railway_add_unit_to_label(speed_arr[1], speed_arr[4]);
   END IF;
   IF  speed_arr[3] = 3 THEN
-    RETURN null_to_dash(speed_arr[1]) || '/' || null_to_dash(speed_arr[2]);
+    RETURN null_to_dash(railway_add_unit_to_label(speed_arr[1], speed_arr[4])) || '/' || null_to_dash(railway_add_unit_to_label(speed_arr[2], speed_arr[5]));
   END IF;
   IF speed_arr[3] = 2 THEN
-    RETURN null_to_dash(speed_arr[2]) || ' (' || null_to_dash(speed_arr[1]) || ')';
+    RETURN null_to_dash(railway_add_unit_to_label(speed_arr[2], speed_arr[5])) || ' (' || null_to_dash(railway_add_unit_to_label(speed_arr[1], speed_arr[4])) || ')';
   END IF;
   IF speed_arr[3] = 1 THEN
-    RETURN null_to_dash(speed_arr[1]) || ' (' || null_to_dash(speed_arr[2]) || ')';
+    RETURN null_to_dash(railway_add_unit_to_label(speed_arr[1], speed_arr[4])) || ' (' || null_to_dash(railway_add_unit_to_label(speed_arr[2], speed_arr[5])) || ')';
   END IF;
   RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
 
--- Get the speed limit in the primary and secondary dirction
+-- Add flags indicating imperial units to an array of speeds
+CREATE OR REPLACE FUNCTION railway_speed_array_add_unit(arr INTEGER[]) RETURNS INTEGER[] AS $$
+BEGIN
+  RETURN arr || railway_speed_array_add_unit(arr[1]) || railway_speed_array_add_unit(2);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Get the speed limit in the primary and secondary dirction.
+-- No unit conversion is preformed.
 -- Returns an array with 3 integers:
 --   * forward speed
 --   * backward speed
 --   * has primary direction is line direction (1), is opposite direction of line (2), has no primary direction (3), all direction same speed (4), primary direction invalid (5), contradicting speed values (6), no speed information (7)
+--   * forward unit: kph (0), mph (1)
+--   * backward unit: kph (0), mph (1)
 CREATE OR REPLACE FUNCTION railway_direction_speed_limit(preferred_direction TEXT, speed TEXT, forward_speed TEXT, backward_speed TEXT) RETURNS INTEGER[] AS $$
 BEGIN
   IF speed IS NULL AND forward_speed IS NULL AND backward_speed IS NULL THEN
-    RETURN ARRAY[NULL, NULL, 7];
+    RETURN ARRAY[NULL, NULL, 7, 0, 0];
   END IF;
   IF speed IS NOT NULL AND forward_speed IS NULL AND backward_speed IS NULL THEN
-    RETURN ARRAY[railway_speed_int(speed), railway_speed_int(speed), 4];
+    RETURN ARRAY[railway_speed_int_noconvert(speed), railway_speed_int_noconvert(speed), 4] || railway_imperial_flags(speed, speed);
   END IF;
   IF speed IS NOT NULL THEN
-    RETURN ARRAY[railway_speed_int(speed), railway_speed_int(speed), 6];
+    RETURN ARRAY[railway_speed_int_noconvert(speed), railway_speed_int_noconvert(speed), 6] || railway_imperial_flags(speed, speed);
   END IF;
   IF preferred_direction = 'forward' THEN
-    RETURN ARRAY[railway_speed_int(forward_speed), railway_speed_int(backward_speed), 1];
+    RETURN ARRAY[railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 1] || railway_imperial_flags(forward_speed, backward_speed);
   END IF;
   IF preferred_direction = 'backward' THEN
-    RETURN ARRAY[railway_speed_int(backward_speed), railway_speed_int(forward_speed), 2];
+    RETURN ARRAY[railway_speed_int_noconvert(backward_speed), railway_speed_int_noconvert(forward_speed), 2] || railway_imperial_flags(backward_speed, forward_speed);
   END IF;
   IF preferred_direction = 'both' OR preferred_direction IS NULL THEN
-    RETURN ARRAY[railway_speed_int(forward_speed), railway_speed_int(backward_speed), 3];
+    RETURN ARRAY[railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 3] || railway_imperial_flags(forward_speed, backward_speed);
   END IF;
-  RETURN ARRAY[railway_speed_int(forward_speed), railway_speed_int(backward_speed), 4];
+  RETURN ARRAY[railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 4] || railway_imperial_flags(forward_speed, backward_speed);
 END;
 $$ LANGUAGE plpgsql;
 

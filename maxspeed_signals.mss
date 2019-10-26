@@ -69,9 +69,6 @@
       ["signal_speed_limit_distant_speed"="150"] {
         marker-file: url('symbols/de/zs3v-150-sign-down.svg');
       }
-      ["signal_speed_limit_distant_speed"="160"] {
-        marker-file: url('symbols/de/zs3v-160-sign-down.svg');
-      }
     }
 
     /* German speed signals (Zs 3v) as light signals */

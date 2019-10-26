@@ -62,7 +62,7 @@ BEGIN
   END IF;
   IF value ~ '^[0-9]+(\.[0-9]+)? ?mph$' THEN
     mph_value := substring(value FROM '^[0-9]+(\.[0-9]+)?')::FLOAT;
-    RETURN (mph_value * 1.6)::INTEGER;
+    RETURN (mph_value * 1.609344)::INTEGER;
   END IF;
   RETURN NULL;
 END;

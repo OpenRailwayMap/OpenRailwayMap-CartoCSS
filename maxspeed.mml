@@ -226,10 +226,13 @@ Layer:
             way AS way,
             railway AS railway,
             COALESCE(signal_speed_limit, signal_speed_limit_distant) AS feature,
-            "signal_speed_limit_form" AS "signal_speed_limit_form",
-            "signal_speed_limit_speed" AS "signal_speed_limit_speed",
-            "signal_speed_limit_distant_form" AS "signal_speed_limit_distant_form",
-            "signal_speed_limit_distant_speed" AS "signal_speed_limit_distant_speed"
+            signal_speed_limit_form AS signal_speed_limit_form,
+            -- We cast the lowest speed to text to make it possible to only select those speeds in
+            -- CartoCSS we have an icon for. Otherwise we might render an icon for 40 kph if
+            -- 42 is tagged (but invalid tagging).
+            railway_largest_speed(signal_speed_limit_speed)::text AS signal_speed_limit_speed,
+            signal_speed_limit_distant_form AS signal_speed_limit_distant_form,
+            railway_largest_speed(signal_speed_limit_distant_speed)::text AS signal_speed_limit_distant_speed
           FROM openrailwaymap_osm_point
           WHERE
             railway = 'signal'

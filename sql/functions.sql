@@ -68,6 +68,32 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Get the largest speed from a list of speed values (common at light speed signals)
+CREATE OR REPLACE FUNCTION railway_largest_speed(value TEXT) RETURNS INTEGER AS $$
+DECLARE
+  parts TEXT[];
+  elem TEXT;
+  largest_value INTEGER := NULL;
+  this_value INTEGER;
+BEGIN
+  IF value IS NULL OR value = '' THEN
+    RETURN NULL;
+  END IF;
+  parts := regexp_split_to_array(value, ';');
+  FOREACH elem IN ARRAY parts
+  LOOP
+    IF elem = '' THEN
+      CONTINUE;
+    END IF;
+    this_value := railway_speed_int(elem);
+    IF largest_value IS NULL OR largest_value < this_value THEN
+      largest_value := this_value;
+    END IF;
+  END LOOP;
+  RETURN largest_value;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Get dominant speed for coloring
 CREATE OR REPLACE FUNCTION railway_dominant_speed(preferred_direction TEXT, speed TEXT, forward_speed TEXT, backward_speed TEXT) RETURNS INTEGER AS $$
 BEGIN

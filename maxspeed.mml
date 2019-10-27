@@ -220,7 +220,7 @@ Layer:
     properties:
       minzoom: 9
   - id: railway_signals
-    geometry: piont
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql

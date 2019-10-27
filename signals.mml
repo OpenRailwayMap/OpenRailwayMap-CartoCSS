@@ -1,0 +1,370 @@
+scale: 1
+metatile: 2
+name: OpenRailwayMap Signals and Train Protection
+description: A map style for railway signals and train protection
+bounds: &world
+  - -180
+  - -85.05112877980659
+  - 180
+  - 85.05112877980659
+center:
+  - 0
+  - 0
+  - 4
+format: png
+interactivity: false
+minzoom: 0
+maxzoom: 22
+srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
+
+# Various parts to be included later on
+_parts:
+  extents: &extents
+    extent: *world
+    srs-name: "900913"
+    srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
+  extents84: &extents84
+    extent: *world
+    srs-name: "WGS84"
+    srs: "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+  osm2pgsql: &osm2pgsql
+    type: "postgis"
+    dbname: "gis"
+    key_field: ""
+    geometry_field: "way"
+    extent: "-20037508,-20037508,20037508,20037508"
+
+Stylesheet:
+  - fonts.mss
+  - signals.mss
+  - common.mss
+
+Layer:
+  - id: railway_line_casing
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage, service,
+            disused, construction,
+            disused_railway,
+            construction_railway,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'disused' THEN 300
+                 ELSE 50
+            END AS rank
+          FROM
+            (SELECT
+                way, railway, usage, service,
+                tags->'disused' AS disused, construction,
+                tags->'disused:railway' AS disused_railway,
+                tags->'construction:railway' AS construction_railway,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
+            ) AS r
+          ORDER by z_order, rank NULLS LAST
+        ) AS railway_line_casing
+    properties:
+      minzoom: 9
+  - id: railway_line_low
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage,
+            -- speeds are converted to kph in this layer because it is used for colouring
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
+            NULL AS service,
+            NULL AS disused, NULL AS construction,
+            NULL AS disused_railway,
+            NULL AS construction_railway,
+            NULL AS disused_usage, NULL AS disused_service,
+            NULL AS construction_usage, NULL AS construction_service,
+            NULL AS preserved_railway, NULL AS preserved_service,
+            NULL AS preserved_usage,
+            CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+                 ELSE 50
+            END AS rank
+          FROM
+            (SELECT
+                way, railway, usage,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
+            ) AS r
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
+        ) AS openrailwaymap_line_low
+    properties:
+      maxzoom: 7
+  - id: railway_line_med
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage,
+            -- speeds are converted to kph in this layer because it is used for colouring
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
+            NULL AS service,
+            NULL AS disused, NULL AS construction,
+            NULL AS disused_railway,
+            NULL AS construction_railway,
+            NULL AS disused_usage, NULL AS disused_service,
+            NULL AS construction_usage, NULL AS construction_service,
+            NULL AS preserved_railway, NULL AS preserved_service,
+            NULL AS preserved_usage,
+            CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+                 ELSE 50
+            END AS rank
+          FROM
+            (SELECT
+                way, railway, usage,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
+            ) AS r
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
+        ) AS railway_line_med
+    properties:
+      minzoom: 8
+      maxzoom: 8
+  - id: railway_line_fill
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage, service,
+            -- speeds are converted to kph in this layer because it is used for colouring
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
+            disused, construction,
+            disused_railway,
+            construction_railway,
+            disused_usage, disused_service,
+            construction_usage, construction_service,
+            preserved_railway, preserved_service,
+            preserved_usage,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'disused' THEN 300
+
+                 ELSE 50
+            END AS rank
+          FROM
+            (SELECT
+                way, railway, usage, service,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
+                tags->'disused' AS disused, construction,
+                tags->'disused:railway' AS disused_railway,
+                tags->'construction:railway' AS construction_railway,
+                tags->'disused:usage' AS disused_usage, tags->'disused:service' AS disused_service,
+                tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
+                tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
+                tags->'preserved:usage' AS preserved_usage,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
+            ) AS r
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
+        ) AS railway_line_fill
+    properties:
+      minzoom: 9
+  - id: railway_signals
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            railway,
+            ref,
+            tags->'railway:signal:stop:caption' AS stop_caption,
+            COALESCE(
+              tags->'railway:signal:combined',
+              tags->'railway:signal:main',
+              tags->'railway:signal:distant',
+              tags->'railway:signal:train_protection',
+              tags->'railway:signal:minor',
+              tags->'railway:signal:passing',
+              tags->'railway:signal:shunting',
+              tags->'railway:signal:stop',
+              tags->'railway:signal:stop_demand',
+              tags->'railway:signal:station_distant',
+              tags->'railway:signal:crossing_distant',
+              tags->'railway:signal:crossing',
+              tags->'railway:signal:ring',
+              tags->'railway:signal:whistle'
+            ) AS feature,
+            tags->'railway:signal:combined:form' AS combined_form,
+            tags->'railway:signal:main:form' AS main_form,
+            tags->'railway:signal:distant:form' AS distant_form,
+            tags->'railway:signal:train:protection:form' AS train_protection:form,
+            tags->'railway:signal:minor:form' AS minor_form,
+            tags->'railway:signal:passing:form' AS passing_form,
+            tags->'railway:signal:shunting:form' AS shunting_form,
+            tags->'railway:signal:stop:form' AS stop_form,
+            tags->'railway:signal:stop_demand:form' AS stop_demand_form,
+            tags->'railway:signal:station:distant:form' AS station_distant:form,
+            tags->'railway:signal:crossing:distant:form' AS crossing_distant:form,
+            tags->'railway:signal:crossing:form' AS crossing_form,
+            tags->'railway:signal:ring:form' AS ring_form,
+            tags->'railway:signal:whistle:form' AS whistle_form,
+            tags->'railway:signal:combined:height' AS combined_height,
+            tags->'railway:signal:main:height' AS main_height,
+            tags->'railway:signal:distant:height' AS distant_height,
+            tags->'railway:signal:train:protection:height' AS train_protection:height,
+            tags->'railway:signal:minor:height' AS minor_height,
+            tags->'railway:signal:passing:height' AS passing_height,
+            tags->'railway:signal:shunting:height' AS shunting_height,
+            tags->'railway:signal:stop:height' AS stop_height,
+            tags->'railway:signal:stop_demand:height' AS stop_demand_height,
+            tags->'railway:signal:station:distant:height' AS station_distant:height,
+            tags->'railway:signal:crossing:distant:height' AS crossing_distant:height,
+            tags->'railway:signal:crossing:height' AS crossing_height,
+            tags->'railway:signal:ring:height' AS ring_height,
+            tags->'railway:signal:whistle:height' AS whistle_height,
+            tags->'railway:signal:combined:states' AS combined_states,
+            tags->'railway:signal:main:states' AS main_states,
+            tags->'railway:signal:distant:states' AS distant_states,
+            tags->'railway:signal:train:protection:states' AS train_protection:states,
+            tags->'railway:signal:minor:states' AS minor_states,
+            tags->'railway:signal:passing:states' AS passing_states,
+            tags->'railway:signal:shunting:states' AS shunting_states,
+            tags->'railway:signal:stop:states' AS stop_states,
+            tags->'railway:signal:stop_demand:states' AS stop_demand_states,
+            tags->'railway:signal:station:distant:states' AS station_distant:states,
+            tags->'railway:signal:crossing:distant:states' AS crossing_distant:states,
+            tags->'railway:signal:crossing:states' AS crossing_states,
+            tags->'railway:signal:ring:states' AS ring_states,
+            tags->'railway:signal:whistle:states' AS whistle_states,
+            tags->'railway:signal:combined:repeated' AS combined_repeated,
+            tags->'railway:signal:main:repeated' AS main_repeated,
+            tags->'railway:signal:distant:repeated' AS distant_repeated,
+            tags->'railway:signal:train:protection:repeated' AS train_protection:repeated,
+            tags->'railway:signal:minor:repeated' AS minor_repeated,
+            tags->'railway:signal:passing:repeated' AS passing_repeated,
+            tags->'railway:signal:shunting:repeated' AS shunting_repeated,
+            tags->'railway:signal:stop:repeated' AS stop_repeated,
+            tags->'railway:signal:stop_demand:repeated' AS stop_demand_repeated,
+            tags->'railway:signal:station:distant:repeated' AS station_distant:repeated,
+            tags->'railway:signal:crossing:distant:repeated' AS crossing_distant:repeated,
+            tags->'railway:signal:crossing:repeated' AS crossing_repeated,
+            tags->'railway:signal:ring:repeated' AS ring_repeated,
+            tags->'railway:signal:whistle:repeated' AS whistle_repeated,
+            tags->'railway:signal:combined:shortened' AS combined_shortened,
+            tags->'railway:signal:main:shortened' AS main_shortened,
+            tags->'railway:signal:distant:shortened' AS distant_shortened,
+            tags->'railway:signal:train:protection:shortened' AS train_protection:shortened,
+            tags->'railway:signal:minor:shortened' AS minor_shortened,
+            tags->'railway:signal:passing:shortened' AS passing_shortened,
+            tags->'railway:signal:shunting:shortened' AS shunting_shortened,
+            tags->'railway:signal:stop:shortened' AS stop_shortened,
+            tags->'railway:signal:stop_demand:shortened' AS stop_demand_shortened,
+            tags->'railway:signal:station:distant:shortened' AS station_distant:shortened,
+            tags->'railway:signal:crossing:distant:shortened' AS crossing_distant:shortened,
+            tags->'railway:signal:crossing:shortened' AS crossing_shortened,
+            tags->'railway:signal:ring:shortened' AS ring_shortened,
+            tags->'railway:signal:whistle:shortened' AS whistle_shortened,
+            tags->'railway:signal:combined:only_transit' AS combined_only_transit,
+            tags->'railway:signal:main:only_transit' AS main_only_transit,
+            tags->'railway:signal:distant:only_transit' AS distant_only_transit,
+            tags->'railway:signal:train:protection:only_transit' AS train_protection:only_transit,
+            tags->'railway:signal:minor:only_transit' AS minor_only_transit,
+            tags->'railway:signal:passing:only_transit' AS passing_only_transit,
+            tags->'railway:signal:shunting:only_transit' AS shunting_only_transit,
+            tags->'railway:signal:stop:only_transit' AS stop_only_transit,
+            tags->'railway:signal:stop_demand:only_transit' AS stop_demand_only_transit,
+            tags->'railway:signal:station:distant:only_transit' AS station_distant:only_transit,
+            tags->'railway:signal:crossing:distant:only_transit' AS crossing_distant:only_transit,
+            tags->'railway:signal:crossing:only_transit' AS crossing_only_transit,
+            tags->'railway:signal:ring:only_transit' AS ring_only_transit,
+            tags->'railway:signal:whistle:only_transit' AS whistle_only_transit,
+            tags->'railway:signal:combined:type' AS combined_type,
+            tags->'railway:signal:main:type' AS main_type,
+            tags->'railway:signal:distant:type' AS distant_type,
+            tags->'railway:signal:train:protection:type' AS train_protection:type,
+            tags->'railway:signal:minor:type' AS minor_type,
+            tags->'railway:signal:passing:type' AS passing_type,
+            tags->'railway:signal:shunting:type' AS shunting_type,
+            tags->'railway:signal:stop:type' AS stop_type,
+            tags->'railway:signal:stop_demand:type' AS stop_demand_type,
+            tags->'railway:signal:station:distant:type' AS station_distant:type,
+            tags->'railway:signal:crossing:distant:type' AS crossing_distant:type,
+            tags->'railway:signal:crossing:type' AS crossing_type,
+            tags->'railway:signal:ring:type' AS ring_type,
+            tags->'railway:signal:whistle:type' AS whistle_type
+          FROM openrailwaymap_osm_point
+          WHERE
+            railway = 'signal'
+            AND "signal_direction" IS NOT NULL
+          ORDER BY
+            -- distant signals are less important, signals for slower speeds are more important
+            (CASE
+              WHEN railway_has_key(tags, 'railway:signal:main') THEN 10000
+              WHEN railway_has_key(tags, 'railway:signal:combined') THEN 10000
+              WHEN railway_has_key(tags, 'railway:signal:distant') THEN 9000
+              WHEN railway_has_key(tags, 'railway:signal:train_protection') THEN 8500
+              WHEN railway_has_key(tags, 'railway:signal:minor') THEN 4000
+              WHEN railway_has_key(tags, 'railway:signal:passing') THEN 3500
+              WHEN railway_has_key(tags, 'railway:signal:shunting') THEN 3000
+              WHEN railway_has_key(tags, 'railway:signal:stop') THEN 1000
+              WHEN railway_has_key(tags, 'railway:signal:stop_demand') THEN 900
+              WHEN railway_has_key(tags, 'railway:signal:station_distant') THEN 550
+              WHEN railway_has_key(tags, 'railway:signal:crossing') THEN 1000
+              WHEN railway_has_key(tags, 'railway:signal:crossing_distant') THEN 500
+              WHEN railway_has_key(tags, 'railway:signal:ring') THEN 500
+              WHEN railway_has_key(tags, 'railway:signal:whistle') THEN 500
+              ELSE 0
+            END) ASC NULLS FIRST
+        ) AS railway_signals 
+    properties:
+      minzoom: 14

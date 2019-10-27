@@ -239,3 +239,20 @@ BEGIN
   RETURN dist / scale;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Check whether a key is present in a hstore field and if its value is not 'no'
+CREATE OR REPLACE FUNCTION railway_has_key(tags HSTORE, key TEXT) RETURNS BOOLEAN AS $$
+DECLARE
+  value TEXT;
+BEGIN
+  value := tags->key;
+  IF value IS NULL THEN
+    RETURN FALSE;
+  END IF;
+  IF value = 'no' THEN
+    RETURN FALSE;
+  END IF;
+  RETURN TRUE;
+END;
+$$ LANGUAGE plpgsql;

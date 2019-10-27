@@ -398,17 +398,20 @@ Format details:
 /**************************************/
 [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"]["minor_height"="normal"],
 [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"][!"minor_height"] {
-  text-name: [ref];
-  text-dy: 11;
-  text-fill: @signal-text-fill;
-  text-halo-radius: @signal-text-halo-radius;
-  text-halo-fill: @signal-text-halo-fill;
-  text-face-name: @bold-fonts;
-  text-size: 10;
   marker-file: url('icons/de/sh1-semaphore-normal.svg');
   marker-width: 10;
   marker-height: 12;
   marker-allow-overlap: true;
+
+  ::text {
+    text-name: [ref];
+    text-dy: 11;
+    text-fill: @signal-text-fill;
+    text-halo-radius: @signal-text-halo-radius;
+    text-halo-fill: @signal-text-halo-fill;
+    text-face-name: @bold-fonts;
+    text-size: 10;
+  }
 }
 
 /************************************************/
@@ -425,69 +428,81 @@ Format details:
 /*******************************************/
 /* FI shunting light signals type Ro (new) */
 /*******************************************/
-[zoom>=17]["feature"="FI:Ro"]["shunting_states"~="FI:Ro0"]["shunting_form"="light"] {
-  text-name: [ref];
-  text-dy: 11;
-  text-fill: @signal-text-fill;
-  text-halo-radius: @signal-text-halo-radius;
-  text-halo-fill: @signal-text-halo-fill;
-  text-face-name: @bold-fonts;
-  text-size: 10;
+[zoom>=17]["feature"="FI:Ro"]["shunting_states"=~"FI:Ro0"]["shunting_form"="light"] {
   marker-file: url('icons/fi/ro0-new.svg');
   marker-width: 11;
   marker-height: 12;
   marker-allow-overlap: true;
+
+  ::text {
+    text-name: [ref];
+    text-dy: 11;
+    text-fill: @signal-text-fill;
+    text-halo-radius: @signal-text-halo-radius;
+    text-halo-fill: @signal-text-halo-fill;
+    text-face-name: @bold-fonts;
+    text-size: 10;
+  }
 }
 
 /******************************************************/
 /* FI minor light signals type Lo at moveable bridges */
 /******************************************************/
-[zoom>=17]["feature"="FI:Lo"]["minor_states"~="FI:Lo0"]["minor_form"="light"] {
-  text-name: [ref];
-  text-dy: 11;
-  text-fill: @signal-text-fill;
-  text-halo-radius: @signal-text-halo-radius;
-  text-halo-fill: @signal-text-halo-fill;
-  text-face-name: @bold-fonts;
+[zoom>=17]["feature"="FI:Lo"]["minor_states"=~"FI:Lo0"]["minor_form"="light"] {
   text-size: 10;
   marker-file: url('icons/fi/lo0.svg');
   marker-width: 7;
   marker-height: 12;
   marker-allow-overlap: true;
+
+  ::text {
+    text-name: [ref];
+    text-dy: 11;
+    text-fill: @signal-text-fill;
+    text-halo-radius: @signal-text-halo-radius;
+    text-halo-fill: @signal-text-halo-fill;
+    text-face-name: @bold-fonts;
+  }
 }
 
 /***********************************************/
 /* AT shunting light signals (Verschubverbot)  */
 /***********************************************/
 [zoom>=17]["feature"="AT-V2:verschubsignal"]["shunting_form"="light"] {
-  text-name: [ref];
-  text-dy: 11;
-  text-fill: @signal-text-fill;
-  text-halo-radius: @signal-text-halo-radius;
-  text-halo-fill: @signal-text-halo-fill;
-  text-face-name: @bold-fonts;
-  text-size: 10;
   marker-file: url('icons/at/verschubverbot-aufgehoben.svg');
   marker-width: 10;
   marker-height: 14;
   marker-allow-overlap: true;
+
+  ::text {
+    text-name: [ref];
+    text-dy: 11;
+    text-fill: @signal-text-fill;
+    text-halo-radius: @signal-text-halo-radius;
+    text-halo-fill: @signal-text-halo-fill;
+    text-face-name: @bold-fonts;
+    text-size: 10;
+  }
 }
 
 /*************************************************/
 /* AT minor light signals (Sperrsignale) as sign */
 /*************************************************/
 [zoom>=17]["feature"="AT-V2:weiterfahrt_verboten"]["minor_form"="sign"] {
-  text-name: [ref];
-  text-dy: 11;
-  text-fill: @signal-text-fill;
-  text-halo-radius: @signal-text-halo-radius;
-  text-halo-fill: @signal-text-halo-fill;
-  text-face-name: @bold-fonts;
-  text-size: 10;
   marker-file: url('icons/at/weiterfahrt-verboten.svg');
   marker-width: 12;
   marker-height: 12;
   marker-allow-overlap: true;
+
+  ::text {
+    text-name: [ref];
+    text-dy: 11;
+    text-fill: @signal-text-fill;
+    text-halo-radius: @signal-text-halo-radius;
+    text-halo-fill: @signal-text-halo-fill;
+    text-face-name: @bold-fonts;
+    text-size: 10;
+  }
 }
 
 /**************************************************************/

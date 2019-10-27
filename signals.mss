@@ -236,28 +236,6 @@ Format details:
     marker-allow-overlap: true;
   }
 
-  /********************************************/
-  /* DE minor semaphore dwarf signals type Sh */
-  /* DE Sh 0 at buffer stops                  */
-  /********************************************/
-  [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"]["minor_height"="dwarf"],
-  [zoom>=17]["feature"="DE-ESO:sh0"]["minor_form"="sign"] {
-    marker-file: url('icons/de/sh0-semaphore-dwarf.svg');
-    marker-width: 12;
-    marker-height: 11;
-    marker-allow-overlap: true;
-
-    ::text {
-      text-name: [ref];
-      text-dy: 11;
-      text-fill: @signal-text-fill;
-      text-halo-radius: @signal-text-halo-radius;
-      text-halo-fill: @signal-text-halo-fill;
-      text-face-name: @bold-fonts;
-      text-size: 10;
-    }
-  }
-
   /********************************/
   /* DE tram minor stop sign Sh 1 */
   /********************************/
@@ -355,22 +333,19 @@ Format details:
   /**********************************/
   [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="light"] {
     /* cannot show Sh 1 or is a dwarf signal */
-    ["minor_states"!~/^(.*;)?DE-ESO:sh1(;.*)?$/],
-    ["minor_height"="dwarf"] {
-      marker-file: url('icons/de/sh0-light-dwarf.svg');
-      marker-width: 12;
-      marker-height: 8;
-      marker-allow-overlap: true;
+    marker-file: url('icons/de/sh0-light-dwarf.svg');
+    marker-width: 12;
+    marker-height: 8;
+    marker-allow-overlap: true;
 
-      ::text {
-        text-name: [ref];
-        text-dy: 10;
-        text-fill: @signal-text-fill;
-        text-halo-radius: @signal-text-halo-radius;
-        text-halo-fill: @signal-text-halo-fill;
-        text-face-name: @bold-fonts;
-        text-size: 10;
-      }
+    ::text {
+      text-name: [ref];
+      text-dy: 11;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
     }
 
     /* normal height or no height tagged, can show sh1 or no states are tagged */
@@ -382,16 +357,6 @@ Format details:
       marker-width: 12;
       marker-height: 9;
       marker-allow-overlap: true;
-
-      ::text {
-        text-name: [ref];
-        text-dy: 11;
-        text-fill: @signal-text-fill;
-        text-halo-radius: @signal-text-halo-radius;
-        text-halo-fill: @signal-text-halo-fill;
-        text-face-name: @bold-fonts;
-        text-size: 10;
-      }
     }
   }
 
@@ -403,6 +368,28 @@ Format details:
     marker-file: url('icons/de/sh1-semaphore-normal.svg');
     marker-width: 10;
     marker-height: 12;
+    marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 11;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+  }
+
+  /********************************************/
+  /* DE minor semaphore dwarf signals type Sh */
+  /* DE Sh 0 at buffer stops                  */
+  /********************************************/
+  [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"]["minor_height"="dwarf"],
+  [zoom>=17]["feature"="DE-ESO:sh0"]["minor_form"="sign"] {
+    marker-file: url('icons/de/sh0-semaphore-dwarf.svg');
+    marker-width: 12;
+    marker-height: 11;
     marker-allow-overlap: true;
 
     ::text {
@@ -511,25 +498,28 @@ Format details:
   /* AT minor light signals (Sperrsignale) as semaphore signals */
   /**************************************************************/
   [zoom>=17]["feature"="AT-V2:sperrsignal"]["minor_form"="semaphore"] {
-    text-name: [ref];
-    text-dy: 11;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/at/weiterfahrt-erlaubt.svg');
     marker-width: 7;
     marker-height: 14;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 11;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
   /***************************/
   /* DE main entry sign Ne 1 */
   /* AT Trapeztafel          */
   /***************************/
-  [zoom>=14]["feature"="DE-ESO:ne1"]["main_form"="sign"]["main_function"="entry"],
-  [zoom>=14]["feature"="AT-V2:trapeztafel"]["main_form"="sign"]["main_function"="entry"] {
+  [zoom>=14]["feature"="DE-ESO:ne1"]["main_form"="sign"],
+  [zoom>=14]["feature"="AT-V2:trapeztafel"]["main_form"="sign"] {
     marker-file: url('icons/de/ne1.svg');
     marker-width: 16;
     marker-height: 10;
@@ -539,338 +529,208 @@ Format details:
   /*****************************/
   /* DE distant signal type Ks */
   /*****************************/
-  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"]["distant_shortened"="no"]["distant_repeated"="no"],
-  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"][!"distant_shortened"]["distant_repeated"="no"],
-  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"]["distant_shortened"="no"][!"distant_repeated"],
-  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"][!"distant_shortened"][!"distant_repeated"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"] {
     marker-file: url('icons/de/ks-distant.svg');
     marker-width: 10;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /**************************************/
-  /* DE repeated distant signal type Ks */
-  /**************************************/
-  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"]["distant_repeated"="yes"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/ks-distant-repeated.svg');
-    marker-width: 10;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /***************************************/
-  /* DE shortened distant signal type Ks */
-  /***************************************/
-  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"]["distant_shortened"="yes"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/ks-distant-shortened.svg');
-    marker-width: 10;
-    marker-height: 16;
-    marker-allow-overlap: true;
+    /* repeaters */
+    ["distant_repeated"="yes"] {
+      marker-file: url('icons/de/ks-distant-repeated.svg');
+      marker-width: 10;
+      marker-height: 16;
+      marker-allow-overlap: true;
+    }
+
+    /* shortened breaking distance */
+    ["distant_shortened"="yes"] {
+      marker-file: url('icons/de/ks-distant-shortened.svg');
+      marker-width: 10;
+      marker-height: 16;
+      marker-allow-overlap: true;
+    }
   }
 
   /********************************************************************************/
   /* DE distant light signals type Vr which                                       */
   /*  - are repeaters or shortened                                                */
-  /*  - do not share post with a main signal                                      */
   /*  - have no railway:signal:states=* tag                                       */
   /*  - OR have railway:signal:states=* tag that does neither include Vr1 nor Vr2 */
   /********************************************************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="yes"][!"main"]["railway_signal:distant:states"!~/^(.*;)?DE-ESO:vr(1|2)(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_shortened"="yes"][!"main"]["railway_signal:distant:states"!~/^(.*;)?DE-ESO:vr(1|2)(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr0-light-repeated.svg');
+  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"] {
+    marker-file: url('icons/de/vr0-light.svg');
     marker-width: 16;
     marker-height: 16;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+  /*  can display Vr 1 */
+  ["distant_states"=~"^(.*;)?DE-ESO:vr1(;.*)?$"] {
+    marker-file: url('icons/de/vr1-light.svg');
+  }
+
+  /*  can display Vr 2 */
+  ["distant_states"=~"^(.*;)?DE-ESO:vr2(;.*)?$"] {
+    marker-file: url('icons/de/vr2-light.svg');
+  }
+
+    ["distant_repeated"="yes"],
+    ["distant_shortened"="yes"] {
+      marker-file: url('icons/de/vr0-light-repeated.svg');
+
+      /* can display Vr 1 */
+      /* Signals which can Vr 2 as well will match the next rule as well which will overwrite this rule. */
+      ["railway_signal:distant:states"=~"DE-ESO:vr1"] {
+        marker-file: url('icons/de/vr1-light-repeated.svg');
+      }
+
+      /* can display Vr 2 */
+      ["distant_states"~="DE-ESO:vr2"] {
+        marker-file: url('icons/de/vr2-light-repeated.svg');
+      }
+    }
+  }
+
+
+  /********************************************************************************/
+  /* DE distant semaphore signals type Vr which                                   */
+  /*  - have no railway:signal:states=* tag                                       */
+  /*  - OR have railway:signal:states=* tag that does neither include Vr1 nor Vr2 */
+  /********************************************************************************/
+  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="semaphore"] {
+    marker-file: url('icons/de/vr0-semaphore.svg');
+    marker-width: 12;
+    marker-height: 26;
+    marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    /* can display Vr 1 */
+    /* This rule is overwritten if the signal can show Vr 2 as well. */
+    ["railway_signal:distant:states"=~"DE-ESO:vr1"] {
+      marker-file: url('icons/de/vr1-semaphore.svg');
+      marker-width: 12;
+      marker-height: 19;
+      marker-allow-overlap: true;
+    }
+
+    /* can display Vr 2 */
+    ["distant_states"=~"DE-ESO:vr2"] {
+      marker-file: url('icons/de/vr2-semaphore.svg');
+      marker-width: 12;
+      marker-height: 26;
+      marker-allow-overlap: true;
+    }
   }
 
   /****************************************/
   /* DE Hamburger Hochbahn distant signal */
   /****************************************/
   [zoom>=14]["feature"="DE-HHA:v"]["distant_form"="light"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/hha/v1.svg');
     marker-width: 5;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /*******************************************/
-  /* DE distant light signals type Vr which  */
-  /*  - are repeaters or shortened           */
-  /*  - do not share post with a main signal */
-  /*  - can display Vr 1                     */
-  /*  - cannot display Vr 2                  */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="yes"][!"main"]["railway_signal:distant:states"~="DE-ESO:vr1"]["distant_states"!~/^(.*;)?DE-ESO:vr2(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_shortened"="yes"][!"main"]["railway_signal:distant:states"~="DE-ESO:vr1"]["distant_states"!~/^(.*;)?DE-ESO:vr2(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr1-light-repeated.svg');
-    marker-width: 16;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
-  /*******************************************/
-  /* DE distant light signals type Vr which  */
-  /*  - are repeaters or shortened           */
-  /*  - do not share post with a main signal */
-  /*  - can display Vr 2                     */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="yes"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr2"],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_shortened"="yes"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr2"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr2-light-repeated.svg');
-    marker-width: 16;
-    marker-height: 16;
-    marker-allow-overlap: true;
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
   /************************************/
   /* DE distant light signals type Hl */
   /************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["distant_form"="light"]["distant_repeated"="no"][!"railway:signal:main"],
-  [zoom>=14]["feature"="DE-ESO:hl"]["distant_form"="light"][!"distant_repeated"][!"railway:signal:main"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+  [zoom>=14]["feature"="DE-ESO:hl"]["distant_form"="light"] {
     marker-file: url('icons/de/hl1-distant.svg');
     marker-width: 8;
     marker-height: 12;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
   /***************************************/
   /* DE block marker ("Blockkennzeichen) */
   /***************************************/
-  node|z14-15["feature"="DE-ESO:blockkennzeichen"] {
-    marker-file: url('icons/de/blockkennzeichen.svg');
-    marker-width: 14;
-    marker-height: 14;
-    marker-allow-overlap: true;
-  }
-  [zoom>=16]["feature"="DE-ESO:blockkennzeichen"] {
-    marker-file: url('icons/de/blockkennzeichen.svg');
-    marker-width: 20;
-    marker-height: 20;
-    marker-allow-overlap: true;
-  }
-  [zoom>=16]["feature"="DE-ESO:blockkennzeichen"]::blockkennzeichen
-  {
-    text-name: [ref];
-    text-dx: 0;
-    text-fill: @signal-text-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-  }
-  [zoom>=18]["feature"="DE-ESO:blockkennzeichen"]::blockkennzeichen
-  {
-  }
-  @supports (user-agent: josm) {
-    [zoom>=16]["feature"="DE-ESO:blockkennzeichen"]::blockkennzeichen
-    {
-      text-dx: -10;
+  ["feature"="DE-ESO:blockkennzeichen"] {
+    shield-file: url('icons/de/blockkennzeichen.svg');
+    shield-width: 14;
+    shield-height: 14;
+    shield-allow-overlap: true;
+
+    [zoom>=16]["feature"="DE-ESO:blockkennzeichen"] {
+      shield-file: url('icons/de/blockkennzeichen.svg');
+      shield-width: 20;
+      shield-height: 20;
+      shield-name: [ref];
+      shield-fill: black;
+      shield-face-name: @bold-fonts;
+      shield-size: 10;
     }
   }
 
-  /********************************************************************************************/
-  /* DE ETCS stop marker                                                                      */
-  /* This rule will be overwritten by a rule below if it is mounted at a main/combined signal */
-  /********************************************************************************************/
+  /***********************/
+  /* DE ETCS stop marker */
+  /***********************/
   [zoom>=14]["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"] {
     marker-file: url('icons/etcs-stop-marker-arrow-left.svg');
     marker-width: 16;
     marker-height: 16;
     marker-allow-overlap: true;
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
-  /********************************************************************************/
-  /* DE distant semaphore signals type Vr which                                   */
-  /*  - do not share post with a main signal                                      */
-  /*  - have no railway:signal:states=* tag                                       */
-  /*  - OR have railway:signal:states=* tag that does neither include Vr1 nor Vr2 */
-  /********************************************************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="semaphore"][!"main"]["railway_signal:distant:states"!~/^(.*;)?DE-ESO:vr(1|2)(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr0-semaphore.svg');
-    marker-width: 12;
-    marker-height: 26;
-    marker-allow-overlap: true;
-  }
-
-  /**********************************************/
-  /* DE distant semaphore signals type Vr which */
-  /*  - do not share post with a main signal    */
-  /*  - can display Vr 1                        */
-  /*  - cannot display Vr 2                     */
-  /**********************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="semaphore"][!"main"]["railway_signal:distant:states"~="DE-ESO:vr1"]["distant_states"!~/^(.*;)?DE-ESO:vr2(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr1-semaphore.svg');
-    marker-width: 12;
-    marker-height: 19;
-    marker-allow-overlap: true;
-  }
-
-  /**********************************************/
-  /* DE distant semaphore signals type Vr which */
-  /*  - do not share post with a main signal    */
-  /*  - can display Vr 2                        */
-  /**********************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="semaphore"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr2"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr2-semaphore.svg');
-    marker-width: 12;
-    marker-height: 26;
-    marker-allow-overlap: true;
-  }
-
-  /********************************************************************************/
-  /* DE distant light signals type Vr which                                       */
-  /*  - are no repeaters (or not tagged as such)                                  */
-  /*  - are not shortened (or not tagged as such)                                 */
-  /*  - do not share post with a main signal                                      */
-  /*  - have no railway:signal:states=* tag                                       */
-  /*  - OR have railway:signal:states=* tag that does neither include Vr1 nor Vr2 */
-  /********************************************************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="no"]["distant_shortened"="no"][!"main"]["railway_signal:distant:states"!~/^(.*;)?DE-ESO:vr(1|2)(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"][!"distant_repeated"]["distant_shortened"="no"][!"main"]["railway_signal:distant:states"!~/^(.*;)?DE-ESO:vr(1|2)(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="no"][!"distant_shortened"][!"main"]["railway_signal:distant:states"!~/^(.*;)?DE-ESO:vr(1|2)(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"][!"distant_repeated"][!"distant_shortened"][!"main"]["railway_signal:distant:states"!~/^(.*;)?DE-ESO:vr(1|2)(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr0-light.svg');
-    marker-width: 16;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
-  /************************************************/
-  /* DE distant light signals type Vr which       */
-  /*  - are no repeaters (or not tagged as such)  */
-  /*  - are not shortened (or not tagged as such) */
-  /*  - do not share post with a main signal      */
-  /*  - can display Vr 1                          */
-  /*  - cannot display Vr 2                       */
-  /************************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="no"]["distant_shortened"="no"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr1"]["distant_states"!~/^(.*;)?DE-ESO:vr2(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"][!"distant_repeated"]["distant_shortened"="no"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr1"]["distant_states"!~/^(.*;)?DE-ESO:vr2(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="no"][!"distant_shortened"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr1"]["distant_states"!~/^(.*;)?DE-ESO:vr2(;.*)?$/],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"][!"distant_repeated"][!"distant_shortened"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr1"]["distant_states"!~/^(.*;)?DE-ESO:vr2(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr1-light.svg');
-    marker-width: 16;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
-  /************************************************/
-  /* DE distant light signals type Vr which       */
-  /*  - are no repeaters (or not tagged as such)  */
-  /*  - are not shortened (or not tagged as such) */
-  /*  - do not share post with a main signal      */
-  /*  - can display Vr 2                          */
-  /************************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr2"],
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"]["distant_states"~="DE-ESO:vr2"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/vr2-light.svg');
-    marker-width: 16;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
 
   /************************************************************************/
   /* AT distant light signals which                                       */

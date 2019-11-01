@@ -984,101 +984,83 @@ Format details:
     }
   }
 
-  /*******************************************/
-  /* FI main and combined light signals      */
-  /* - general rules applying to all signals */
-  /*******************************************/
+  /*************************/
+  /* FI main light signals */
+  /*************************/
+  /* new type */
   [zoom>=14]["feature"="FI:Po"]["main_form"="light"] {
+    marker-file: url('icons/fi/po0-new.svg');
     marker-width: 9;
     marker-height: 15;
-    set .fi_main_combined_signals;
+    marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    /* can display Po1 */
+    ["main_states"=~"FI:Po1"] {
+      marker-file: url('icons/fi/po1-new.svg');
+    }
+
+    /* can display Po2 */
+    ["main_states"=~"FI:Po2"] {
+      marker-file: url('icons/fi/po2-new.svg');
+    }
   }
+
+  /* old type */
   [zoom>=14]["feature"="FI:Po-v"]["main_form"="light"] {
+    marker-file: url('icons/fi/po0-old.svg');
     marker-width: 7;
     marker-height: 16;
-    set .fi_main_combined_signals;
-  }
-  [zoom>=14]["feature"="FI:So"]["combined_form"="light"] {
-    marker-width: 12;
-    marker-height: 15;
-    set .fi_main_combined_signals;
-  }
+    marker-allow-overlap: true;
 
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /***********************************************/
-  /* FI main light signals which                 */
-  /*  - have no railway:signal:main:states=* tag */
-  /***********************************************/
-  /* new type */
-  node["feature"="FI:Po"].fi_main_combined_signals
-  {
-    marker-file: url('icons/fi/po0-new.svg');
-    set .fi_main_combined_signal_icon;
-  }
-  /* old type */
-  node["feature"="FI:Po-v"].fi_main_combined_signals
-  {
-    marker-file: url('icons/fi/po0-old.svg');
-    set .fi_main_combined_signal_icon;
-  }
+    /* can display Po1 */
+    ["main_states"=~"FI:Po1"] {
+      marker-file: url('icons/fi/po1-old.svg');
+    }
 
-  /********************************/
-  /* FI main light signals which  */
-  /*  - can display Po1 (proceed) */
-  /********************************/
-  /* new type */
-  node["feature"="FI:Po"]["main_states"=~"FI:Po1"].fi_main_combined_signals
-  {
-    marker-file: url('icons/fi/po1-new.svg');
-    set .fi_main_combined_signal_icon;
-  }
-  /* old type */
-  node["feature"="FI:Po-v"]["main_states"=~"FI:Po1"].fi_main_combined_signals
-  {
-    marker-file: url('icons/fi/po1-old.svg');
-    set .fi_main_combined_signal_icon;
-  }
-
-  /*********************************************/
-  /* FI main light signals which               */
-  /*  - can display Po2 (proceed at low speed) */
-  /*********************************************/
-  /* new type */
-  node["feature"="FI:Po"]["main_states"=~"FI:Po2"].fi_main_combined_signals
-  {
-    marker-file: url('icons/fi/po2-new.svg');
-    set .fi_main_combined_signal_icon;
-  }
-  /* old type */
-  node["feature"="FI:Po-v"]["main_states"=~"FI:Po2"].fi_main_combined_signals
-  {
-    marker-file: url('icons/fi/po2-old.svg');
-    set .fi_main_combined_signal_icon;
+    /* can display Po2 */
+    ["main_states"=~"FI:Po2"] {
+      marker-file: url('icons/fi/po2-old.svg');
+    }
   }
 
   /************************************/
   /* FI combined block signal type So */
   /************************************/
-  node["feature"="FI:So"]["combined_states"=~"FI:Po1"]["combined_states"=~"FI:Eo1"].fi_main_combined_signals
-  {
+  [zoom>=14]["feature"="FI:So"]["combined_form"="light"]["combined_states"=~"FI:Po1"]["combined_states"=~"FI:Eo1"] {
     marker-file: url('icons/fi/eo1-po1-combined-block.svg');
-    set .fi_main_combined_signal_icon;
-  }
-
-  /************************************************/
-  /* FI main and combined light signals           */
-  /* - more general rules applying to all signals */
-  /************************************************/
-  node.fi_main_combined_signal_icon
-  {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+    marker-width: 12;
+    marker-height: 15;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
   /*********************************/

@@ -873,17 +873,6 @@ Format details:
     }
   }
 
-  /********************************************************************/
-  /* DE distant signal replacement by sign Ne 2 with reduced distance */
-  /* variant used in East Germany                                     */
-  /********************************************************************/
-  [zoom>=14]["feature"="DE-ESO:dr:so3"]["distant_form"="sign"]["distant_shortened"="yes"] {
-    marker-file: url('icons/de/ne2-dv301-reduced-distance.svg');
-    marker-width: 10;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
   /*******************************************/
   /* DE main semaphore signals type Hp which */
   /*  - have no railway:signal:states=* tag  */

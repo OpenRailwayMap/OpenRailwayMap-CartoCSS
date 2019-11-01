@@ -364,7 +364,7 @@ Format details:
   /* DE minor semaphore signals type Sh */
   /**************************************/
   [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"]["minor_height"="normal"],
-  [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"][!"minor_height"] {
+  [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"]["minor_height"=null] {
     marker-file: url('icons/de/sh1-semaphore-normal.svg');
     marker-width: 10;
     marker-height: 12;
@@ -438,13 +438,13 @@ Format details:
   /* FI minor light signals type Lo at moveable bridges */
   /******************************************************/
   [zoom>=17]["feature"="FI:Lo"]["minor_states"=~"FI:Lo0"]["minor_form"="light"] {
-    text-size: 10;
     marker-file: url('icons/fi/lo0.svg');
     marker-width: 7;
     marker-height: 12;
     marker-allow-overlap: true;
 
     ::text {
+      text-size: 10;
       text-name: [ref];
       text-dy: 11;
       text-fill: @signal-text-fill;
@@ -695,15 +695,15 @@ Format details:
   /* DE block marker ("Blockkennzeichen) */
   /***************************************/
   ["feature"="DE-ESO:blockkennzeichen"] {
-    shield-file: url('icons/de/blockkennzeichen.svg');
-    shield-width: 14;
-    shield-height: 14;
-    shield-allow-overlap: true;
+    [zoom<16] {
+      marker-file: url('icons/de/blockkennzeichen.svg');
+      marker-allow-overlap: true;
+      marker-width: 14;
+      marker-height: 14;
+    }
 
     [zoom>=16] {
       shield-file: url('icons/de/blockkennzeichen.svg');
-      shield-width: 20;
-      shield-height: 20;
       shield-name: [ref];
       shield-fill: black;
       shield-face-name: @bold-fonts;

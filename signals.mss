@@ -605,7 +605,7 @@ Format details:
       }
 
       /* can display Vr 2 */
-      ["distant_states"~="DE-ESO:vr2"] {
+      ["distant_states"=~"DE-ESO:vr2"] {
         marker-file: url('icons/de/vr2-light-repeated.svg');
       }
     }
@@ -738,7 +738,7 @@ Format details:
   /*  - can show stop or does not have railway:signal:distant:states tag  */
   /*  - if the signal can also show other aspects, later rules will match */
   /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"~="AT-V2:vorsicht"] {
+  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:vorsicht"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -758,7 +758,7 @@ Format details:
   /*  - can show proceed with full speed                                  */
   /*  - if the signal can also show other aspects, later rules will match */
   /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"~="AT-V2:hauptsignal_frei"] {
+  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -778,8 +778,8 @@ Format details:
   /*  - can show proceed with 40 kph speed (on narrow gauge lines 20 kph) */
   /*  - if the signal can also show other aspects, later rules will match */
   /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"~="AT-V2:hauptsignal_frei_mit_40"],
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"~="AT-V2:hauptsignal_frei_mit_20"] {
+  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_40"],
+  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_20"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -799,7 +799,7 @@ Format details:
   /*  - can show proceed with 60 kph speed                                */
   /*  - if the signal can also show other aspects, later rules will match */
   /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"~="AT-V2:hauptsignal_frei_mit_60"] {
+  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_60"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -876,13 +876,13 @@ Format details:
   /*  - can display Eo 1 (expect proceed)        */
   /***********************************************/
   /* new type */
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"~="FI:Eo1"],
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"~="FI:Eo1"] {
+  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"],
+  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"] {
     marker-file: url('icons/fi/eo1-new.svg');
   }
   /* old type */
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"~="FI:Eo1"],
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"~="FI:Eo1"] {
+  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"],
+  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"] {
     marker-file: url('icons/fi/eo1-old.svg');
   }
 
@@ -892,8 +892,8 @@ Format details:
   /*  - do not share post with a main signal     */
   /*  - can display Eo 2 (expect proceed)        */
   /***********************************************/
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"~="FI:Eo2"],
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"~="FI:Eo2"] {
+  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"=~"FI:Eo2"],
+  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"=~"FI:Eo2"] {
     marker-file: url('icons/fi/eo2-new.svg');
   }
 
@@ -992,7 +992,7 @@ Format details:
   /* DE main semaphore signals type Hp which */
   /*  - cannot display Hp 2                  */
   /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_states"!~/^(.*;)?DE-ESO:hp2(;.*)?$/]["main_states"~="DE-ESO:hp1"] {
+  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_states"!~/^(.*;)?DE-ESO:hp2(;.*)?$/]["main_states"=~"DE-ESO:hp1"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1010,7 +1010,7 @@ Format details:
   /* DE main semaphore signals type Hp which */
   /*  - can display Hp 2                     */
   /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_states"~="DE-ESO:hp2"] {
+  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_states"=~"DE-ESO:hp2"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1046,7 +1046,7 @@ Format details:
   /* AT main semaphore signals type Hp which */
   /*  - can show "Frei"                      */
   /*******************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"~="AT-V2:frei"] {
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"=~"AT-V2:frei"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1064,8 +1064,8 @@ Format details:
   /* AT main semaphore signals type Hp which */
   /*  - can show "Frei mit 40"/"Frei mit 20" */
   /*******************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"~="AT-V2:frei_mit_40"],
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"~="AT-V2:frei_mit_20"] {
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"=~"AT-V2:frei_mit_40"],
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"=~"AT-V2:frei_mit_20"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1101,7 +1101,7 @@ Format details:
   /* DE main light signals type Hp which */
   /*  - cannot display Hp 2              */
   /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hp2(;.*)?$/]["main_states"~="DE-ESO:hp1"] {
+  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hp2(;.*)?$/]["main_states"=~"DE-ESO:hp1"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1119,7 +1119,7 @@ Format details:
   /* DE main light signals type Hp which */
   /*  - can display Hp 2                 */
   /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"]["main_states"~="DE-ESO:hp2"] {
+  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"]["main_states"=~"DE-ESO:hp2"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1138,7 +1138,7 @@ Format details:
   /*  - can show stop or does not have railway:signal:main:states tag     */
   /*  - if the signal can also show other aspects, later rules will match */
   /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"~="AT-V2:halt"],
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:halt"],
   [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"][!"main_states"] {
     text-name: [ref];
     text-dy: 12;
@@ -1158,7 +1158,7 @@ Format details:
   /*  - can show proceed with full speed                                                       */
   /* If the signal can show "proceed with 60 or 40 kph" the next rule also matches and is used */
   /*********************************************************************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"~="AT-V2:frei"] {
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1177,8 +1177,8 @@ Format details:
   /*  - can show proceed with 40 kph or 20 kph                                                    */
   /* If the signal can show "proceed with 60 kph" the next rule also matches and is used */
   /***************************************************************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"~="AT-V2:frei_mit_40"],
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"~="AT-V2:frei_mit_20"]
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei_mit_40"],
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei_mit_20"]
   /* On narrow gauge railway lines "frei mit 40" is called "frei mit 20" but has the same appearance. */
   {
     text-name: [ref];
@@ -1198,7 +1198,7 @@ Format details:
   /* AT main light signals              */
   /*  - can show proceed with 60 kph    */
   /**************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"~="AT-V2:frei_mit_60"] {
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei_mit_60"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1255,13 +1255,13 @@ Format details:
   /*  - can display Po1 (proceed) */
   /********************************/
   /* new type */
-  node["feature"="FI:Po"]["main_states"~="FI:Po1"].fi_main_combined_signals
+  node["feature"="FI:Po"]["main_states"=~"FI:Po1"].fi_main_combined_signals
   {
     marker-file: url('icons/fi/po1-new.svg');
     set .fi_main_combined_signal_icon;
   }
   /* old type */
-  node["feature"="FI:Po-v"]["main_states"~="FI:Po1"].fi_main_combined_signals
+  node["feature"="FI:Po-v"]["main_states"=~"FI:Po1"].fi_main_combined_signals
   {
     marker-file: url('icons/fi/po1-old.svg');
     set .fi_main_combined_signal_icon;
@@ -1272,13 +1272,13 @@ Format details:
   /*  - can display Po2 (proceed at low speed) */
   /*********************************************/
   /* new type */
-  node["feature"="FI:Po"]["main_states"~="FI:Po2"].fi_main_combined_signals
+  node["feature"="FI:Po"]["main_states"=~"FI:Po2"].fi_main_combined_signals
   {
     marker-file: url('icons/fi/po2-new.svg');
     set .fi_main_combined_signal_icon;
   }
   /* old type */
-  node["feature"="FI:Po-v"]["main_states"~="FI:Po2"].fi_main_combined_signals
+  node["feature"="FI:Po-v"]["main_states"=~"FI:Po2"].fi_main_combined_signals
   {
     marker-file: url('icons/fi/po2-old.svg');
     set .fi_main_combined_signal_icon;
@@ -1287,7 +1287,7 @@ Format details:
   /************************************/
   /* FI combined block signal type So */
   /************************************/
-  node["feature"="FI:So"]["combined_states"~="FI:Po1"]["combined_states"~="FI:Eo1"].fi_main_combined_signals
+  node["feature"="FI:So"]["combined_states"=~"FI:Po1"]["combined_states"=~"FI:Eo1"].fi_main_combined_signals
   {
     marker-file: url('icons/fi/eo1-po1-combined-block.svg');
     set .fi_main_combined_signal_icon;
@@ -1349,7 +1349,7 @@ Format details:
   /* DE main light signals type Hl which */
   /*  - cannot display Hl 3b and Hl 2    */
   /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hl(2|3b)(;.*)?$/]["main_states"~="DE-ESO:hl3a"] {
+  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hl(2|3b)(;.*)?$/]["main_states"=~"DE-ESO:hl3a"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1368,7 +1368,7 @@ Format details:
   /*  - can display Hl 3a, Hl 3b         */
   /*  - cannot display Hl 2              */
   /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hl2(;.*)?$/]["main_states"~="DE-ESO:hl3b"]["main_states"~="DE-ESO:hl3a"] {
+  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hl2(;.*)?$/]["main_states"=~"DE-ESO:hl3b"]["main_states"=~"DE-ESO:hl3a"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1387,7 +1387,7 @@ Format details:
   /*  - can display Hl 2, Hl 3a                */
   /*  - don't have to be able to display Hl 3b */
   /*********************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"~="DE-ESO:hl3a"]["main_states"~="DE-ESO:hl2"]["main_states"!~/^(.*;)?DE-ESO:hl3b(;.*)?$/] {
+  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"=~"DE-ESO:hl3a"]["main_states"=~"DE-ESO:hl2"]["main_states"!~/^(.*;)?DE-ESO:hl3b(;.*)?$/] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1441,7 +1441,7 @@ Format details:
   /* DE combined light signals type Hl which */
   /*  - cannot display Hl 12b and Hl 11      */
   /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"!~/^(.*;)?DE-ESO:hl1(1|2b)(;.*)?$/]["combined_states"~="DE-ESO:hl12a"] {
+  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"!~/^(.*;)?DE-ESO:hl1(1|2b)(;.*)?$/]["combined_states"=~"DE-ESO:hl12a"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1460,7 +1460,7 @@ Format details:
   /*  - can display Hl 12a, Hl 12b           */
   /*  - cannot display Hl 11                 */
   /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"!~/^(.*;)?DE-ESO:hl11(;.*)?$/]["combined_states"~="DE-ESO:hl12b"]["combined_states"~="DE-ESO:hl12a"] {
+  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"!~/^(.*;)?DE-ESO:hl11(;.*)?$/]["combined_states"=~"DE-ESO:hl12b"]["combined_states"=~"DE-ESO:hl12a"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1479,7 +1479,7 @@ Format details:
   /*  - can display Hl 11, Hl 12a               */
   /*  - don't have to be able to display Hl 12b */
   /**********************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"~="DE-ESO:hl12a"]["combined_states"~="DE-ESO:hl11"]["combined_states"!~/^(.*;)?DE-ESO:hl12b(;.*)?$/] {
+  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"=~"DE-ESO:hl12a"]["combined_states"=~"DE-ESO:hl11"]["combined_states"!~/^(.*;)?DE-ESO:hl12b(;.*)?$/] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1498,7 +1498,7 @@ Format details:
   /* - which cannot show Hp 0          */
   /* - which can show Sv 0             */
   /*************************************/
-  [zoom>=14]["feature"="DE-ESO:sv"]["combined_states"!~/^(.*;)?DE-ESO:hp0(;.*)?$/]["combined_states"~="DE-ESO:sv0"] {
+  [zoom>=14]["feature"="DE-ESO:sv"]["combined_states"!~/^(.*;)?DE-ESO:hp0(;.*)?$/]["combined_states"=~"DE-ESO:sv0"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;
@@ -1535,8 +1535,8 @@ Format details:
   /* DE tram main signal "Fahrsignal" */
   /* can show F 1 (proceed straight)  */
   /************************************/
-  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"~="DE-BOStrab:f1"],
-  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"~="DE-AVG:f1"] {
+  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f1"],
+  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f1"] {
     marker-file: url('icons/de/bostrab/f1.svg');
   }
 
@@ -1544,8 +1544,8 @@ Format details:
   /* DE tram main signal "Fahrsignal" */
   /* can show F 2 (proceed right)     */
   /************************************/
-  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"~="DE-BOStrab:f2"],
-  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"~="DE-AVG:f2"] {
+  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f2"],
+  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f2"] {
     marker-file: url('icons/de/bostrab/f2.svg');
   }
 
@@ -1553,8 +1553,8 @@ Format details:
   /* DE tram main signal "Fahrsignal" */
   /* can show F 3 (proceed left)      */
   /************************************/
-  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"~="DE-BOStrab:f3"],
-  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"~="DE-AVG:f3"] {
+  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f3"],
+  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f3"] {
     marker-file: url('icons/de/bostrab/f3.svg');
   }
 
@@ -1598,7 +1598,7 @@ Format details:
   /* DE combined light signals type Sv */
   /* - which can show Hp 0             */
   /*************************************/
-  [zoom>=14]["feature"="DE-ESO:sv"]["combined_states"~="DE-ESO:hp0"] {
+  [zoom>=14]["feature"="DE-ESO:sv"]["combined_states"=~"DE-ESO:hp0"] {
     text-name: [ref];
     text-dy: 12;
     text-fill: @signal-text-fill;

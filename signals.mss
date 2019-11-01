@@ -854,29 +854,12 @@ Format details:
     marker-width: 16;
     marker-height: 11;
     marker-allow-overlap: true;
-
-    ::text {
-      text-name: [ref];
-      text-dy: 11;
-      text-fill: @signal-text-fill;
-      text-halo-radius: @signal-text-halo-radius;
-      text-halo-fill: @signal-text-halo-fill;
-      text-face-name: @bold-fonts;
-      text-size: 10;
-    }
   }
 
   /**********************************************/
   /* DE distant signal replacement by sign Ne 2 */
   /**********************************************/
   [zoom>=14]["feature"="DE-ESO:db:ne2"]["distant_form"="sign"] {
-    text-name: [ref];
-    text-dy: 11;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/ne2.svg');
     marker-width: 10;
     marker-height: 16;
@@ -888,13 +871,6 @@ Format details:
   /* variant used in West Germany                                     */
   /********************************************************************/
   [zoom>=14]["feature"="DE-ESO:db:ne2"]["distant_form"="sign"]["distant_shortened"="yes"] {
-    text-name: [ref];
-    text-dy: 11;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/ne2-reduced-distance.svg');
     marker-width: 7;
     marker-height: 18;
@@ -906,13 +882,6 @@ Format details:
   /* variant used in East Germany                                     */
   /********************************************************************/
   [zoom>=14]["feature"="DE-ESO:dr:so3"]["distant_form"="sign"]["distant_shortened"="yes"] {
-    text-name: [ref];
-    text-dy: 11;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/ne2-dv301-reduced-distance.svg');
     marker-width: 10;
     marker-height: 16;

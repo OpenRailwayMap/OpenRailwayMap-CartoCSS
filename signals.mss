@@ -12,8 +12,8 @@ Format details:
 * https://wiki.openstreetmap.org/wiki/MapCSS/0.2
 */
 
-@signal-text-fill: @signal-text-fill;
-@signal-text-halo-fill: @signal-text-halo-fill;
+@signal-text-fill: black;
+@signal-text-halo-fill: white;
 @signal-text-halo-radius: 1;
 @signal-text-halo-radius-large: 3;
 

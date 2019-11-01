@@ -873,167 +873,78 @@ Format details:
     }
   }
 
-  /*******************************************/
-  /* DE main semaphore signals type Hp which */
-  /*  - have no railway:signal:states=* tag  */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_states"!~/^(.*;)?DE-ESO:hp(1|2)(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hp0-semaphore.svg');
-    marker-width: 16;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
-  /*******************************************/
-  /* DE main semaphore signals type Hp which */
-  /*  - cannot display Hp 2                  */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_states"!~/^(.*;)?DE-ESO:hp2(;.*)?$/]["main_states"=~"DE-ESO:hp1"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hp1-semaphore.svg');
-    marker-width: 12;
-    marker-height: 19;
-    marker-allow-overlap: true;
-  }
-
-  /*******************************************/
-  /* DE main semaphore signals type Hp which */
-  /*  - can display Hp 2                     */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_states"=~"DE-ESO:hp2"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hp2-semaphore.svg');
-    marker-width: 12;
-    marker-height: 20;
-    marker-allow-overlap: true;
-  }
-
-  /*******************************************/
-  /* AT main semaphore signals type Hp which */
-  /*  - have no railway:signal:states=* tag  */
-  /*******************************************/
+  /******************************************/
+  /* DE main semaphore signals type Hp      */
+  /* AT main semaphore signal "Hauptsignal" */
+  /******************************************/
+  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"],
   [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/hp0-semaphore.svg');
     marker-width: 16;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /*******************************************/
-  /* AT main semaphore signals type Hp which */
-  /*  - can show "Frei"                      */
-  /*******************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"=~"AT-V2:frei"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hp1-semaphore.svg');
-    marker-width: 12;
-    marker-height: 19;
-    marker-allow-overlap: true;
-  }
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /*******************************************/
-  /* AT main semaphore signals type Hp which */
-  /*  - can show "Frei mit 40"/"Frei mit 20" */
-  /*******************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"=~"AT-V2:frei_mit_40"],
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_states"=~"AT-V2:frei_mit_20"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hp2-semaphore.svg');
-    marker-width: 12;
-    marker-height: 20;
-    marker-allow-overlap: true;
+    /* DE: can display Hp 1                           */
+    /* AT: can display "Frei" (proceed at full speed) */
+    ["main_states"=~"DE-ESO:hp1"],
+    ["main_states"=~"AT-V2:frei"] {
+      marker-file: url('icons/de/hp1-semaphore.svg');
+      marker-width: 12;
+      marker-height: 19;
+    }
+
+    /* DE: can display Hp 2                                              */
+    /* AT: can display "Frei mit 40" (proceed at 40 kph)                 */
+    /* AT: can display "Frei mit 20" (proceed at 20 kph) -- narrow gauge */
+    ["main_states"=~"DE-ESO:hp2"],
+    ["main_states"=~"AT-V2:frei_mit_40"],
+    ["main_states"=~"AT-V2:frei_mit_20"] {
+      marker-file: url('icons/de/hp2-semaphore.svg');
+      marker-width: 12;
+      marker-height: 20;
+    }
   }
 
   /******************************************/
   /* DE main light signals type Hp which    */
-  /*  - have no railway:signal:states=* tag */
   /******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hp(1|2)(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"] {
     marker-file: url('icons/de/hp0-light.svg');
     marker-width: 9;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /***************************************/
-  /* DE main light signals type Hp which */
-  /*  - cannot display Hp 2              */
-  /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hp2(;.*)?$/]["main_states"=~"DE-ESO:hp1"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hp1-light.svg');
-    marker-width: 9;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /***************************************/
-  /* DE main light signals type Hp which */
-  /*  - can display Hp 2                 */
-  /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"]["main_states"=~"DE-ESO:hp2"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hp2-light.svg');
-    marker-width: 8;
-    marker-height: 16;
-    marker-allow-overlap: true;
+    /* cannot display Hp 2 */
+    ["main_states"=~"DE-ESO:hp1"] {
+      marker-file: url('icons/de/hp1-light.svg');
+    }
+
+    /*can display Hp 2 */
+    ["main_states"=~"DE-ESO:hp2"] {
+      marker-file: url('icons/de/hp2-light.svg');
+      marker-width: 8;
+      marker-height: 16;
+    }
   }
 
   /************************************************************************/

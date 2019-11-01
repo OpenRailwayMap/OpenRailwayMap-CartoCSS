@@ -1267,121 +1267,117 @@ Format details:
 
   /*************************************/
   /* DE combined light signals type Sv */
-  /* - which cannot show Hp 0          */
-  /* - which can show Sv 0             */
   /*************************************/
-  [zoom>=14]["feature"="DE-ESO:sv"]["combined_states"!~/^(.*;)?DE-ESO:hp0(;.*)?$/]["combined_states"=~"DE-ESO:sv0"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/sv-sv0.svg');
-    marker-width: 8;
-    marker-height: 16;
-    marker-allow-overlap: true;
+  [zoom>=14]["feature"="DE-ESO:sv"] {
+    /* can display Sv0 */
+    ["combined_states"=~"DE-ESO:sv0"] {
+      marker-file: url('icons/de/sv-sv0.svg');
+      marker-width: 8;
+      marker-height: 16;
+      marker-allow-overlap: true;
+
+      ::text {
+        text-name: [ref];
+        text-dy: 12;
+        text-fill: @signal-text-fill;
+        text-halo-radius: @signal-text-halo-radius;
+        text-halo-fill: @signal-text-halo-fill;
+        text-face-name: @bold-fonts;
+        text-size: 10;
+      }
+
+    /* can display Hp 0 */
+    ["combined_states"=~"DE-ESO:hp0"] {
+      marker-file: url('icons/de/sv-hp0.svg');
+      marker-width: 8;
+      marker-height: 16;
+      marker-allow-overlap: true;
+
+      ::text {
+        text-name: [ref];
+        text-dy: 12;
+        text-fill: @signal-text-fill;
+        text-halo-radius: @signal-text-halo-radius;
+        text-halo-fill: @signal-text-halo-fill;
+        text-face-name: @bold-fonts;
+        text-size: 10;
+      }
+    }
   }
 
   /************************************/
   /* DE tram main signal "Fahrsignal" */
-  /* general rules                    */
   /************************************/
-  [zoom>=15]["feature"="DE-BOStrab:f$/"]["main_form"="light"],
-  [zoom>=15]["feature"="DE-AVG:f$/"]["main_form"="light"] {
-    text-name: [ref];
-    text-dy: 16;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"],
+  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"] {
     marker-width: 10;
     marker-height: 20;
     marker-allow-overlap: true;
     marker-file: url('icons/de/bostrab/f0.svg');
-  }
 
-  /************************************/
-  /* DE tram main signal "Fahrsignal" */
-  /* can show F 1 (proceed straight)  */
-  /************************************/
-  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f1"],
-  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f1"] {
-    marker-file: url('icons/de/bostrab/f1.svg');
-  }
+    ::text {
+      text-name: [ref];
+      text-dy: 16;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /************************************/
-  /* DE tram main signal "Fahrsignal" */
-  /* can show F 2 (proceed right)     */
-  /************************************/
-  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f2"],
-  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f2"] {
-    marker-file: url('icons/de/bostrab/f2.svg');
-  }
+    /************************************/
+    /* DE tram main signal "Fahrsignal" */
+    /* can show F 1 (proceed straight)  */
+    /************************************/
+    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f1"],
+    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f1"] {
+      marker-file: url('icons/de/bostrab/f1.svg');
+    }
 
-  /************************************/
-  /* DE tram main signal "Fahrsignal" */
-  /* can show F 3 (proceed left)      */
-  /************************************/
-  [zoom>=15]["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f3"],
-  [zoom>=15]["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f3"] {
-    marker-file: url('icons/de/bostrab/f3.svg');
+    /************************************/
+    /* DE tram main signal "Fahrsignal" */
+    /* can show F 2 (proceed right)     */
+    /************************************/
+    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f2"],
+    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f2"] {
+      marker-file: url('icons/de/bostrab/f2.svg');
+    }
+
+    /************************************/
+    /* DE tram main signal "Fahrsignal" */
+    /* can show F 3 (proceed left)      */
+    /************************************/
+    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f3"],
+    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f3"] {
+      marker-file: url('icons/de/bostrab/f3.svg');
+    }
   }
 
   /****************************************/
   /* DE Hamburger Hochbahn main signal    */
-  /* without railway:signal:main:states=* */
   /****************************************/
-  [zoom>=14]["feature"="DE-HHA:h"]["main_form"="light"][!"main_states"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+  [zoom>=14]["feature"="DE-HHA:h"]["main_form"="light"] {
     marker-file: url('icons/de/hha/h0.svg');
     marker-width: 6;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /*************************************/
-  /* DE Hamburger Hochbahn main signal */
-  /* with railway:signal:main:states=* */
-  /*************************************/
-  [zoom>=14]["feature"="DE-HHA:h"]["main_form"="light"]["main_states"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hha/h1.svg');
-    marker-width: 6;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /*************************************/
-  /* DE combined light signals type Sv */
-  /* - which can show Hp 0             */
-  /*************************************/
-  [zoom>=14]["feature"="DE-ESO:sv"]["combined_states"=~"DE-ESO:hp0"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/sv-hp0.svg');
-    marker-width: 8;
-    marker-height: 16;
-    marker-allow-overlap: true;
+    /*************************************/
+    /* with railway:signal:main:states=* */
+    /*************************************/
+    [zoom>=14]["feature"="DE-HHA:h"]["main_form"="light"]["main_states"!=null] {
+      marker-file: url('icons/de/hha/h1.svg');
+    }
   }
 
   /****************************************/

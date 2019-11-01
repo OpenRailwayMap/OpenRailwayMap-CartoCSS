@@ -864,17 +864,13 @@ Format details:
     marker-width: 10;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /********************************************************************/
-  /* DE distant signal replacement by sign Ne 2 with reduced distance */
-  /* variant used in West Germany                                     */
-  /********************************************************************/
-  [zoom>=14]["feature"="DE-ESO:db:ne2"]["distant_form"="sign"]["distant_shortened"="yes"] {
-    marker-file: url('icons/de/ne2-reduced-distance.svg');
-    marker-width: 7;
-    marker-height: 18;
-    marker-allow-overlap: true;
+    /* reduced distance */
+    ["distant_shortened"="yes"] {
+      marker-file: url('icons/de/ne2-reduced-distance.svg');
+      marker-width: 7;
+      marker-height: 18;
+    }
   }
 
   /********************************************************************/

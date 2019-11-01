@@ -1285,6 +1285,7 @@ Format details:
         text-face-name: @bold-fonts;
         text-size: 10;
       }
+    }
 
     /* can display Hp 0 */
     ["combined_states"=~"DE-ESO:hp0"] {

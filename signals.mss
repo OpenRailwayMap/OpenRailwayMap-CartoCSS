@@ -600,7 +600,7 @@ Format details:
 
       /* can display Vr 1 */
       /* Signals which can Vr 2 as well will match the next rule as well which will overwrite this rule. */
-      ["railway_signal:distant:states"=~"DE-ESO:vr1"] {
+      ["distant_states"=~"DE-ESO:vr1"] {
         marker-file: url('symbols/de/vr1-light-repeated.svg');
       }
 
@@ -635,7 +635,7 @@ Format details:
 
     /* can display Vr 1 */
     /* This rule is overwritten if the signal can show Vr 2 as well. */
-    ["railway_signal:distant:states"=~"DE-ESO:vr1"] {
+    ["distant_states"=~"DE-ESO:vr1"] {
       marker-file: url('symbols/de/vr1-semaphore.svg');
       marker-width: 12;
       marker-height: 19;
@@ -753,7 +753,7 @@ Format details:
 
     /* can show proceed with full speed                                  */
     /* if the signal can also show other aspects, later rules will match */
-    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei"] {
+    ["distant_states"=~"AT-V2:hauptsignal_frei"] {
       marker-file: url('symbols/at/vorsignal-hauptsignal-frei.svg');
       marker-width: 11;
       marker-height: 11;
@@ -761,8 +761,8 @@ Format details:
     }
 
     /* can show proceed with 40 kph speed (on narrow gauge lines 20 kph) */
-    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_40"],
-    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_20"] {
+    ["distant_states"=~"AT-V2:hauptsignal_frei_mit_40"],
+    ["distant_states"=~"AT-V2:hauptsignal_frei_mit_20"] {
       marker-file: url('symbols/at/vorsignal-hauptsignal-frei-mit-40.svg');
       marker-width: 11;
       marker-height: 11;
@@ -770,7 +770,7 @@ Format details:
     }
 
     /* can show proceed with 60 kph speed                                */
-    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_60"] {
+    ["distant_states"=~"AT-V2:hauptsignal_frei_mit_60"] {
       marker-file: url('symbols/at/vorsignal-hauptsignal-frei-mit-60.svg');
       marker-width: 11;
       marker-height: 11;
@@ -829,16 +829,16 @@ Format details:
 
       /* can display Eo 1 (expect proceed) */
       /* new type */
-      ["railway_signal:distant:states"=~"FI:Eo1"] {
+      ["distant_states"=~"FI:Eo1"] {
         marker-file: url('symbols/fi/eo1-new.svg');
       }
       /* old type */
-      ["railway_signal:distant:states"=~"FI:Eo1"] {
+      ["distant_states"=~"FI:Eo1"] {
         marker-file: url('symbols/fi/eo1-old.svg');
       }
 
       /* can display Eo 2 (expect proceed) -- new type */
-      ["railway_signal:distant:states"=~"FI:Eo2"] {
+      ["distant_states"=~"FI:Eo2"] {
         marker-file: url('symbols/fi/eo2-new.svg');
       }
     }

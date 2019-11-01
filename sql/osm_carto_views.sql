@@ -34,6 +34,7 @@ CREATE OR REPLACE VIEW openrailwaymap_osm_point AS
     osm_id,
     way,
     railway,
+    ref,
     tags->'railway:position' AS "railway_position",
     tags->'railway:position:detail' AS "railway_position_detail",
     man_made,

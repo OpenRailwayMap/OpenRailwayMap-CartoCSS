@@ -349,9 +349,9 @@ Format details:
     }
 
     /* normal height or no height tagged, can show sh1 or no states are tagged */
-    ["minor_height"="normal"]["minor_states"="~/^(.*;)?DE-ESO:sh1(;.*)?$/"],
+    ["minor_height"="normal"]["minor_states"=~"^(.*;)?DE-ESO:sh1(;.*)?$"],
     ["minor_height"="normal"]["minor_states"=null],
-    ["minor_height"=null]["minor_states"="~/^(.*;)?DE-ESO:sh1(;.*)?$/"],
+    ["minor_height"=null]["minor_states"=~"^(.*;)?DE-ESO:sh1(;.*)?$"],
     ["minor_height"=null]["minor_states"=null] {
       marker-file: url('icons/de/sh1-light-normal.svg');
       marker-width: 12;
@@ -700,7 +700,7 @@ Format details:
     shield-height: 14;
     shield-allow-overlap: true;
 
-    [zoom>=16]["feature"="DE-ESO:blockkennzeichen"] {
+    [zoom>=16] {
       shield-file: url('icons/de/blockkennzeichen.svg');
       shield-width: 20;
       shield-height: 20;
@@ -732,169 +732,116 @@ Format details:
   }
 
 
-  /************************************************************************/
-  /* AT distant light signals which                                       */
-  /*  - do not share post with a main signal                              */
-  /*  - can show stop or does not have railway:signal:distant:states tag  */
-  /*  - if the signal can also show other aspects, later rules will match */
-  /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:vorsicht"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+  /****************************/
+  /* AT distant light signals */
+  /****************************/
+  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"] {
     marker-file: url('icons/at/vorsignal-vorsicht.svg');
     marker-width: 11;
     marker-height: 11;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    /* can show proceed with full speed                                  */
+    /* if the signal can also show other aspects, later rules will match */
+    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei"] {
+      marker-file: url('icons/at/vorsignal-hauptsignal-frei.svg');
+      marker-width: 11;
+      marker-height: 11;
+      marker-allow-overlap: true;
+    }
+
+    /* can show proceed with 40 kph speed (on narrow gauge lines 20 kph) */
+    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_40"],
+    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_20"] {
+      marker-file: url('icons/at/vorsignal-hauptsignal-frei-mit-40.svg');
+      marker-width: 11;
+      marker-height: 11;
+      marker-allow-overlap: true;
+    }
+
+    /* can show proceed with 60 kph speed                                */
+    ["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_60"] {
+      marker-file: url('icons/at/vorsignal-hauptsignal-frei-mit-60.svg');
+      marker-width: 11;
+      marker-height: 11;
+      marker-allow-overlap: true;
+    }
   }
 
-  /************************************************************************/
-  /* AT distant light signals which                                       */
-  /*  - do not share post with a main signal                              */
-  /*  - can show proceed with full speed                                  */
-  /*  - if the signal can also show other aspects, later rules will match */
-  /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/at/vorsignal-hauptsignal-frei.svg');
-    marker-width: 11;
-    marker-height: 11;
-    marker-allow-overlap: true;
-  }
-
-  /************************************************************************/
-  /* AT distant light signals which                                       */
-  /*  - do not share post with a main signal                              */
-  /*  - can show proceed with 40 kph speed (on narrow gauge lines 20 kph) */
-  /*  - if the signal can also show other aspects, later rules will match */
-  /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_40"],
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_20"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/at/vorsignal-hauptsignal-frei-mit-40.svg');
-    marker-width: 11;
-    marker-height: 11;
-    marker-allow-overlap: true;
-  }
-
-  /************************************************************************/
-  /* AT distant light signals which                                       */
-  /*  - do not share post with a main signal                              */
-  /*  - can show proceed with 60 kph speed                                */
-  /*  - if the signal can also show other aspects, later rules will match */
-  /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"][!"main"]["railway_signal:distant:states"=~"AT-V2:hauptsignal_frei_mit_60"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/at/vorsignal-hauptsignal-frei-mit-60.svg');
-    marker-width: 11;
-    marker-height: 11;
-    marker-allow-overlap: true;
-  }
-
-  /************************************************************************/
-  /* AT distant semaphore signals which                                   */
-  /*  - do not share post with a main signal                              */
-  /*  - can show stop or does not have railway:signal:distant:states tag  */
-  /*  - if the signal can also show other aspects, later rules will match */
-  /************************************************************************/
+  /********************************/
+  /* AT distant semaphore signals */
+  /********************************/
   [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="semaphore"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/at/vorsicht-semaphore.svg');
     marker-width: 12;
     marker-height: 19;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
-  /**********************************/
-  /* FI distant light signals which */
-  /* general rules                  */
-  /**********************************/
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"railway:signal:main"],
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"railway:signal:main"],
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"]["distant_repeated"="no"][!"railway:signal:main"],
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"][!"distant_repeated"][!"railway:signal:main"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-allow-overlap: true;
-  }
+  /****************************/
+  /* FI distant light signals */
+  /****************************/
+  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"],
+  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"] {
+    ["distant_repeated"="no"],
+    ["distant_repeated"=null] {
+      ::text {
+        text-name: [ref];
+        text-dy: 12;
+        text-fill: @signal-text-fill;
+        text-halo-radius: @signal-text-halo-radius;
+        text-halo-fill: @signal-text-halo-fill;
+        text-face-name: @bold-fonts;
+        text-size: 10;
+      }
 
-  /***********************************************/
-  /* FI distant light signals which              */
-  /*  - are no repeaters (or not tagged as such) */
-  /*  - do not share post with a main signal     */
-  /***********************************************/
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"railway:signal:main"],
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"railway:signal:main"] {
-    marker-width: 9;
-    marker-height: 15;
-    marker-file: url('icons/fi/eo0-new.svg');
-  }
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"]["distant_repeated"="no"][!"railway:signal:main"],
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"][!"distant_repeated"][!"railway:signal:main"] {
-    marker-width: 10;
-    marker-height: 10;
-    marker-file: url('icons/fi/eo0-old.svg');
-  }
+      ["feature"="FI:Eo"] {
+        marker-width: 9;
+        marker-height: 15;
+        marker-file: url('icons/fi/eo0-new.svg');
+      }
 
-  /***********************************************/
-  /* FI distant light signals which              */
-  /*  - are no repeaters (or not tagged as such) */
-  /*  - do not share post with a main signal     */
-  /*  - can display Eo 1 (expect proceed)        */
-  /***********************************************/
-  /* new type */
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"],
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"] {
-    marker-file: url('icons/fi/eo1-new.svg');
-  }
-  /* old type */
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"],
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"=~"FI:Eo1"] {
-    marker-file: url('icons/fi/eo1-old.svg');
-  }
+      ["feature"="FI:Eo-v"] {
+        marker-width: 10;
+        marker-height: 10;
+        marker-file: url('icons/fi/eo0-old.svg');
+      }
 
-  /***********************************************/
-  /* FI distant light signals (new type) which   */
-  /*  - are no repeaters (or not tagged as such) */
-  /*  - do not share post with a main signal     */
-  /*  - can display Eo 2 (expect proceed)        */
-  /***********************************************/
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"]["distant_repeated"="no"][!"main"]["railway_signal:distant:states"=~"FI:Eo2"],
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"][!"distant_repeated"][!"main"]["railway_signal:distant:states"=~"FI:Eo2"] {
-    marker-file: url('icons/fi/eo2-new.svg');
+      /* can display Eo 1 (expect proceed) */
+      /* new type */
+      ["railway_signal:distant:states"=~"FI:Eo1"] {
+        marker-file: url('icons/fi/eo1-new.svg');
+      }
+      /* old type */
+      ["railway_signal:distant:states"=~"FI:Eo1"] {
+        marker-file: url('icons/fi/eo1-old.svg');
+      }
+
+      /* can display Eo 2 (expect proceed) -- new type */
+      ["railway_signal:distant:states"=~"FI:Eo2"] {
+        marker-file: url('icons/fi/eo2-new.svg');
+      }
+    }
   }
 
   /************************************************/
@@ -903,24 +850,26 @@ Format details:
   /************************************************/
   [zoom>=14]["feature"="DE-ESO:so106"]["distant_form"="sign"],
   [zoom>=14]["feature"="AT-V2:kreuztafel"]["distant_form"="sign"] {
-    text-name: [ref];
-    text-dy: 11;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/so106.svg');
     marker-width: 16;
     marker-height: 11;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 11;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
   /**********************************************/
   /* DE distant signal replacement by sign Ne 2 */
   /**********************************************/
-  [zoom>=14]["feature"="DE-ESO:db:ne2"]["distant_form"="sign"]["distant_shortened"="no"],
-  [zoom>=14]["feature"="DE-ESO:db:ne2"]["distant_form"="sign"][!"distant_shortened"] {
+  [zoom>=14]["feature"="DE-ESO:db:ne2"]["distant_form"="sign"] {
     text-name: [ref];
     text-dy: 11;
     text-fill: @signal-text-fill;

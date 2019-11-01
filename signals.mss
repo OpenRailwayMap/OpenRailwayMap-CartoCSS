@@ -1081,188 +1081,92 @@ Format details:
     marker-allow-overlap: true;
   }
 
-  /**********************************************************************************/
-  /* DE main light signals type Hl which                                            */
-  /*  - have no railway:signal:main:states tag combination which has a special icon */
-  /**********************************************************************************/
+  /*********************************/
+  /* DE main light signals type Hl */
+  /*********************************/
   [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/hl0.svg');
     marker-width: 7;
     marker-height: 16;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    /* can display Hl 1 */
+    ["main_states"=~"DE-ESO:hl1"] {
+      marker-file: url('icons/de/hl1.svg');
+    }
+
+    /* can display Hl 3a */
+    ["main_states"=~"DE-ESO:hl3a"] {
+      marker-file: url('icons/de/hl3a.svg');
+    }
+
+    /* can display Hl 3b */
+    ["main_states"=~"DE-ESO:hl3b"] {
+      marker-file: url('icons/de/hl3b.svg');
+      marker-width: 8;
+      marker-height: 24;
+    }
+
+    /* can display Hl 2 */
+    ["main_states"=~"DE-ESO:hl2"] {
+      marker-file: url('icons/de/hl2.svg');
+      marker-width: 8;
+      marker-height: 24;
+    }
   }
 
-  /****************************************/
-  /* DE main light signals type Hl which  */
-  /*  - cannot display Hl 2, Hl 3a, Hl 3b */
-  /****************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"]["main_states"!~/^(.*;)?DE-ESO:hl(2|3(a|b))(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl1.svg');
-    marker-width: 7;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
-  /***************************************/
-  /* DE main light signals type Hl which */
-  /*  - cannot display Hl 3b and Hl 2    */
-  /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hl(2|3b)(;.*)?$/]["main_states"=~"DE-ESO:hl3a"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl3a.svg');
-    marker-width: 7;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
-  /***************************************/
-  /* DE main light signals type Hl which */
-  /*  - can display Hl 3a, Hl 3b         */
-  /*  - cannot display Hl 2              */
-  /***************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"!~/^(.*;)?DE-ESO:hl2(;.*)?$/]["main_states"=~"DE-ESO:hl3b"]["main_states"=~"DE-ESO:hl3a"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl3b.svg');
-    marker-width: 8;
-    marker-height: 24;
-    marker-allow-overlap: true;
-  }
-
-  /*********************************************/
-  /* DE main light signals type Hl which       */
-  /*  - can display Hl 2, Hl 3a                */
-  /*  - don't have to be able to display Hl 3b */
-  /*********************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"]["main_states"=~"DE-ESO:hl3a"]["main_states"=~"DE-ESO:hl2"]["main_states"!~/^(.*;)?DE-ESO:hl3b(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl2.svg');
-    marker-width: 8;
-    marker-height: 24;
-    marker-allow-overlap: true;
-  }
-
-  /**************************************************************************************/
-  /* DE combined light signals type Hl which                                            */
-  /*  - have no railway:signal:combined:states tag combination which has a special icon */
-  /**************************************************************************************/
+  /*******************************************/
+  /* DE combined light signals type Hl which */
+  /*******************************************/
   [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
     marker-file: url('icons/de/hl0.svg');
     marker-width: 7;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /*******************************************/
-  /* DE combined light signals type Hl which */
-  /*  - cannot display Hl 11, Hl 12a, Hl 12b */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"!~/^(.*;)?DE-ESO:hl1(1|2(a|b))(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl10.svg');
-    marker-width: 7;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /*******************************************/
-  /* DE combined light signals type Hl which */
-  /*  - cannot display Hl 12b and Hl 11      */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"!~/^(.*;)?DE-ESO:hl1(1|2b)(;.*)?$/]["combined_states"=~"DE-ESO:hl12a"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl12a.svg');
-    marker-width: 7;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
+    /* can display Hl 10 */
+    ["combined_states"=~"DE-ESO:hl10"] {
+      marker-file: url('icons/de/hl10.svg');
+    }
 
-  /*******************************************/
-  /* DE combined light signals type Hl which */
-  /*  - can display Hl 12a, Hl 12b           */
-  /*  - cannot display Hl 11                 */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"!~/^(.*;)?DE-ESO:hl11(;.*)?$/]["combined_states"=~"DE-ESO:hl12b"]["combined_states"=~"DE-ESO:hl12a"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl12b.svg');
-    marker-width: 8;
-    marker-height: 24;
-    marker-allow-overlap: true;
-  }
+    /* cannot display Hl 12a */
+    ["combined_states"=~"DE-ESO:hl12a"] {
+      marker-file: url('icons/de/hl12a.svg');
+    }
 
-  /**********************************************/
-  /* DE combined light signals type Hl which    */
-  /*  - can display Hl 11, Hl 12a               */
-  /*  - don't have to be able to display Hl 12b */
-  /**********************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"]["combined_states"]["combined_states"=~"DE-ESO:hl12a"]["combined_states"=~"DE-ESO:hl11"]["combined_states"!~/^(.*;)?DE-ESO:hl12b(;.*)?$/] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/hl11.svg');
-    marker-width: 8;
-    marker-height: 24;
-    marker-allow-overlap: true;
+    /* cannot display Hl 12b */
+    ["combined_states"=~"DE-ESO:hl12b"] {
+      marker-file: url('icons/de/hl12b.svg');
+      marker-width: 8;
+      marker-height: 24;
+    }
+
+    /* can display Hl 11 */
+    ["combined_states"=~"DE-ESO:hl11"] {
+      marker-file: url('icons/de/hl11.svg');
+      marker-width: 8;
+      marker-height: 24;
+    }
   }
 
   /*************************************/

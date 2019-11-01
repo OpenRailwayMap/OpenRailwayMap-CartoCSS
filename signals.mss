@@ -947,83 +947,41 @@ Format details:
     }
   }
 
-  /************************************************************************/
-  /* AT main light signals                                                */
-  /*  - can show stop or does not have railway:signal:main:states tag     */
-  /*  - if the signal can also show other aspects, later rules will match */
-  /************************************************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:halt"],
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"][!"main_states"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
+  /*************************/
+  /* AT main light signals */
+  /*************************/
+  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"] {
     marker-file: url('icons/at/hauptsignal-halt.svg');
     marker-width: 8;
     marker-height: 16;
     marker-allow-overlap: true;
-  }
 
-  /*********************************************************************************************/
-  /* AT main light signals                                                                     */
-  /*  - can show proceed with full speed                                                       */
-  /* If the signal can show "proceed with 60 or 40 kph" the next rule also matches and is used */
-  /*********************************************************************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/at/hauptsignal-frei.svg');
-    marker-width: 8;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
 
-  /***************************************************************************************/
-  /* AT main light signals                                                               */
-  /*  - can show proceed with 40 kph or 20 kph                                                    */
-  /* If the signal can show "proceed with 60 kph" the next rule also matches and is used */
-  /***************************************************************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei_mit_40"],
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei_mit_20"]
-  /* On narrow gauge railway lines "frei mit 40" is called "frei mit 20" but has the same appearance. */
-  {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/at/hauptsignal-frei-mit-40.svg');
-    marker-width: 8;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
+    /* can show proceed with full speed */
+    ["main_states"=~"AT-V2:frei"] {
+      marker-file: url('icons/at/hauptsignal-frei.svg');
+    }
 
-  /**************************************/
-  /* AT main light signals              */
-  /*  - can show proceed with 60 kph    */
-  /**************************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_states"=~"AT-V2:frei_mit_60"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/at/hauptsignal-frei-mit-60.svg');
-    marker-width: 8;
-    marker-height: 16;
-    marker-allow-overlap: true;
+    /* can show proceed with 40 kph or 20 kph */
+    /* On narrow gauge railway lines "frei mit 40" is called "frei mit 20" but has the same appearance. */
+    ["main_states"=~"AT-V2:frei_mit_40"],
+    ["main_states"=~"AT-V2:frei_mit_20"] {
+      marker-file: url('icons/at/hauptsignal-frei-mit-40.svg');
+    }
+
+    /* can show proceed with 60 kph    */
+    ["main_states"=~"AT-V2:frei_mit_60"] {
+      marker-file: url('icons/at/hauptsignal-frei-mit-60.svg');
+    }
   }
 
   /*******************************************/
@@ -1426,55 +1384,39 @@ Format details:
     marker-allow-overlap: true;
   }
 
-  /**************************/
-  /* DE main signal type Ks */
-  /**************************/
-  [zoom>=14]["feature"="DE-ESO:ks"]["main_form"="light"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/ks-main.svg');
-    marker-width: 10;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
-  /******************************/
-  /* DE combined signal type Ks */
-  /******************************/
-  [zoom>=14]["feature"="DE-ESO:ks"]["combined_form"="light"]["combined_shortened"="no"],
-  [zoom>=14]["feature"="DE-ESO:ks"]["combined_form"="light"][!"combined_shortened"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/ks-combined.svg');
-    marker-width: 10;
-    marker-height: 16;
-    marker-allow-overlap: true;
-  }
-
   /****************************************/
-  /* DE shortened combined signal type Ks */
+  /* DE main and combined signals type Ks */
   /****************************************/
-  [zoom>=14]["feature"="DE-ESO:ks"]["combined_form"="light"]["combined_shortened"="yes"] {
-    text-name: [ref];
-    text-dy: 12;
-    text-fill: @signal-text-fill;
-    text-halo-radius: @signal-text-halo-radius;
-    text-halo-fill: @signal-text-halo-fill;
-    text-face-name: @bold-fonts;
-    text-size: 10;
-    marker-file: url('icons/de/ks-combined-shortened.svg');
-    marker-width: 10;
-    marker-height: 16;
-    marker-allow-overlap: true;
+  [zoom>=14]["feature"="DE-ESO:ks"] {
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    /* main signals */
+    ["main_form"="light"] {
+      marker-file: url('icons/de/ks-main.svg');
+      marker-width: 10;
+      marker-height: 16;
+      marker-allow-overlap: true;
+    }
+
+    /* combined signals */
+    ["combined_form"="light"] {
+      marker-file: url('icons/de/ks-combined.svg');
+      marker-width: 10;
+      marker-height: 16;
+      marker-allow-overlap: true;
+
+      /* combined signals, reduced breaking distance */
+      ["combined_shortened"="yes"] {
+        marker-file: url('icons/de/ks-combined-shortened.svg');
+      }
+    }
   }
 }

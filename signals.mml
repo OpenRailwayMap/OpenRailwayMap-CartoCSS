@@ -227,6 +227,12 @@ Layer:
             way,
             railway,
             ref,
+            array_to_string(ref_multiline, E'\n') AS ref_multiline,
+            array_length(ref_multiline, 1) AS height,
+            (
+              SELECT MAX(char_length(ref_ml))
+                FROM unnest(ref_multiline) AS u(ref_ml)
+            ) AS width,
             COALESCE(
               tags->'railway:signal:combined',
               tags->'railway:signal:main',
@@ -343,7 +349,7 @@ Layer:
             tags->'railway:signal:crossing:type' AS crossing_type,
             tags->'railway:signal:ring:type' AS ring_type,
             tags->'railway:signal:whistle:type' AS whistle_type
-          FROM openrailwaymap_osm_point
+          FROM openrailwaymap_osm_signals
           WHERE
             railway = 'signal'
             AND "signal_direction" IS NOT NULL

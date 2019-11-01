@@ -695,19 +695,25 @@ Format details:
   /* DE block marker ("Blockkennzeichen) */
   /***************************************/
   ["feature"="DE-ESO:blockkennzeichen"] {
-    [zoom<16] {
+    [zoom<16],
+    [zoom>=16][zoom<17][height > 1],
+    [zoom>=16][zoom<17][width > 2],
+    [zoom>=17][height > 2],
+    [zoom>=17][width > 4] {
       marker-file: url('symbols/de/blockkennzeichen.svg');
       marker-allow-overlap: true;
       marker-width: 14;
       marker-height: 14;
     }
 
-    [zoom>=16] {
-      shield-file: url('symbols/de/blockkennzeichen.svg');
-      shield-name: [ref];
+    [zoom>=16][height <= 1][width <= 2],
+    [zoom>=17][height <= 2][width <= 4] {
+      shield-file: url('symbols/flex/de/blockkennzeichen-[width]x[height].svg');
+      shield-name: [ref_multiline];
       shield-fill: black;
-      shield-face-name: @bold-fonts;
+      shield-face-name: @book-fonts;
       shield-size: 10;
+      shield-allow-overlap: true;
     }
   }
 

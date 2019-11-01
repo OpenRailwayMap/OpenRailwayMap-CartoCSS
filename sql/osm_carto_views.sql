@@ -49,3 +49,14 @@ CREATE OR REPLACE VIEW openrailwaymap_osm_point AS
     tags->'railway:signal:speed_limit_distant:speed' AS "signal_speed_limit_distant_speed",
     tags AS tags
   FROM planet_osm_point;
+
+CREATE OR REPLACE VIEW openrailwaymap_osm_signals AS
+  SELECT
+    osm_id,
+    way,
+    railway,
+    ref,
+    string_to_array(ref, ' ') AS ref_multiline,
+    tags->'railway:signal:direction'   AS "signal_direction",
+    tags AS tags
+  FROM planet_osm_point;

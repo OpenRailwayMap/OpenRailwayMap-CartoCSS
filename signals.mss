@@ -837,8 +837,8 @@ Format details:
 
     /* DE: can display Hp 1                           */
     /* AT: can display "Frei" (proceed at full speed) */
-    ["main_states"=~"DE-ESO:hp1"],
-    ["main_states"=~"AT-V2:frei"] {
+    ["feature"="DE-ESO:hp"]["main_states"=~"DE-ESO:hp1"],
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"AT-V2:frei"] {
       marker-file: url('symbols/de/hp1-semaphore.svg');
       marker-width: 12;
       marker-height: 19;
@@ -847,9 +847,9 @@ Format details:
     /* DE: can display Hp 2                                              */
     /* AT: can display "Frei mit 40" (proceed at 40 kph)                 */
     /* AT: can display "Frei mit 20" (proceed at 20 kph) -- narrow gauge */
-    ["main_states"=~"DE-ESO:hp2"],
-    ["main_states"=~"AT-V2:frei_mit_40"],
-    ["main_states"=~"AT-V2:frei_mit_20"] {
+    ["feature"="DE-ESO:hp"]["main_states"=~"DE-ESO:hp2"],
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"AT-V2:frei_mit_40"],
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"AT-V2:frei_mit_20"] {
       marker-file: url('symbols/de/hp2-semaphore.svg');
       marker-width: 12;
       marker-height: 20;

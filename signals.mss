@@ -167,23 +167,27 @@ Format details:
   /***************************************************/
   /* DE tram signal "start of train protection" So 1 */
   /***************************************************/
-  [zoom>=15]["feature"="DE-BOStrab:so1"]["train_protection_form"="sign"],["train_protection_type"="start"],
-  [zoom>=15]["feature"="DE-AVG:so1"]["train_protection_form"="sign"]["train_protection_type"="start"] {
-    marker-file: url('symbols/de/bostrab/so1.svg');
-    marker-width: 12;
-    marker-height: 12;
-    marker-allow-overlap: true;
+  [zoom>=15]["feature"="DE-BOStrab:so1"],
+  [zoom>=15]["feature"="DE-AVG:so1"] {
+    ["train_protection_form"="sign"]["train_protection_type"="start"] {
+      marker-file: url('symbols/de/bostrab/so1.svg');
+      marker-width: 12;
+      marker-height: 12;
+      marker-allow-overlap: true;
+    }
   }
 
   /***************************************************/
   /* DE tram signal "end of train protection" So 2 */
   /***************************************************/
-  [zoom>=15]["feature"="DE-BOStrab:so2"]["train_protection_form"="sign"]["train_protection_type"="end"],
-  [zoom>=15]["feature"="DE-AVG:so2"]["train_protection_form"="sign"]["train_protection_type"="end"] {
-    marker-file: url('symbols/de/bostrab/so2.svg');
-    marker-width: 12;
-    marker-height: 12;
-    marker-allow-overlap: true;
+  [zoom>=15]["feature"="DE-BOStrab:so2"],
+  [zoom>=15]["feature"="DE-AVG:so2"] {
+    ["train_protection_form"="sign"]["train_protection_type"="end"] {
+      marker-file: url('symbols/de/bostrab/so2.svg');
+      marker-width: 12;
+      marker-height: 12;
+      marker-allow-overlap: true;
+    }
   }
 
   /********************************/

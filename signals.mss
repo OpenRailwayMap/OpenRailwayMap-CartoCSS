@@ -203,8 +203,8 @@ Format details:
   /****************************/
   /* DE stop demand post Ne 5 */
   /****************************/
-  [zoom>=17]["feature"="DE-ESO:ne5"]["stop_demand_form"="light"],
-  [zoom>=17]["feature"="DE-ESO:ne5"]["stop_form"="sign"] {
+  [zoom>=17]["feature"="DE-ESO:ne5"]["stop_demand_form"="light"]["stop_form"=null],
+  [zoom>=17]["feature"="DE-ESO:ne5"]["stop_form"="sign"]["stop_demand_form"=null] {
     marker-file: url('symbols/de/ne5-sign.svg');
     marker-width: 11;
     marker-height: 16;

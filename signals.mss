@@ -777,8 +777,7 @@ Format details:
   /****************************/
   [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"],
   [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"] {
-    ["distant_repeated"="no"],
-    ["distant_repeated"=null] {
+    ["distant_repeated"!="yes"] {
       ::text {
         text-name: [ref];
         text-dy: 12;

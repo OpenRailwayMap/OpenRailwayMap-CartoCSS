@@ -627,26 +627,6 @@ Format details:
     }
   }
 
-  /************************************/
-  /* DE distant light signals type Hl */
-  /************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["distant_form"="light"] {
-    marker-file: url('symbols/de/hl1-distant.svg');
-    marker-width: 8;
-    marker-height: 12;
-    marker-allow-overlap: true;
-
-    ::text {
-      text-name: [ref];
-      text-dy: 12;
-      text-fill: @signal-text-fill;
-      text-halo-radius: @signal-text-halo-radius;
-      text-halo-fill: @signal-text-halo-fill;
-      text-face-name: @bold-fonts;
-      text-size: 10;
-    }
-  }
-
   /***************************************/
   /* DE block marker ("Blockkennzeichen) */
   /***************************************/
@@ -1024,16 +1004,21 @@ Format details:
     }
   }
 
-  /*********************************/
-  /* DE main light signals type Hl */
-  /*********************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["main_form"="light"] {
-    marker-file: url('symbols/de/hl0.svg');
-    marker-width: 7;
-    marker-height: 16;
-    marker-allow-overlap: true;
+  /*******************************************************/
+  /* DE main, combined and distant light signals type Hl */
+  /*******************************************************/
+  [zoom>=14]["feature"="DE-ESO:hl"] {
+    /* =null filters are required to avoid unnecessary filter rules in the resulting XML file */
+    ["distant_form"="light"]["main_form"=null]["combined_form"=null] {
+      marker-file: url('symbols/de/hl1-distant.svg');
+      marker-width: 8;
+      marker-height: 12;
+      marker-allow-overlap: true;
+    }
 
-    ::text {
+    ["distant_form"="light"]::text,
+    ["combined_form"="light"]::text,
+    ["main_form"="light"]::text {
       text-name: [ref];
       text-dy: 12;
       text-fill: @signal-text-fill;
@@ -1043,72 +1028,66 @@ Format details:
       text-size: 10;
     }
 
-    /* can display Hl 1 */
-    ["main_states"=~"DE-ESO:hl1"] {
-      marker-file: url('symbols/de/hl1.svg');
+    ["main_form"="light"]["distant_form"=null]["combined_form"=null] {
+      marker-file: url('symbols/de/hl0.svg');
+      marker-width: 7;
+      marker-height: 16;
+      marker-allow-overlap: true;
+
+      /* can display Hl 1 */
+      ["main_states"=~"DE-ESO:hl1"] {
+        marker-file: url('symbols/de/hl1.svg');
+      }
+
+      /* can display Hl 3a */
+      ["main_states"=~"DE-ESO:hl3a"] {
+        marker-file: url('symbols/de/hl3a.svg');
+      }
+
+      /* can display Hl 3b */
+      ["main_states"=~"DE-ESO:hl3b"] {
+        marker-file: url('symbols/de/hl3b.svg');
+        marker-width: 8;
+        marker-height: 24;
+      }
+
+      /* can display Hl 2 */
+      ["main_states"=~"DE-ESO:hl2"] {
+        marker-file: url('symbols/de/hl2.svg');
+        marker-width: 8;
+        marker-height: 24;
+      }
     }
 
-    /* can display Hl 3a */
-    ["main_states"=~"DE-ESO:hl3a"] {
-      marker-file: url('symbols/de/hl3a.svg');
-    }
+    ["combined_form"="light"]["main_form"=null]["distant_form"=null] {
+      marker-file: url('symbols/de/hl0.svg');
+      marker-width: 7;
+      marker-height: 16;
+      marker-allow-overlap: true;
 
-    /* can display Hl 3b */
-    ["main_states"=~"DE-ESO:hl3b"] {
-      marker-file: url('symbols/de/hl3b.svg');
-      marker-width: 8;
-      marker-height: 24;
-    }
+      /* can display Hl 10 */
+      ["combined_states"=~"DE-ESO:hl10"] {
+        marker-file: url('symbols/de/hl10.svg');
+      }
 
-    /* can display Hl 2 */
-    ["main_states"=~"DE-ESO:hl2"] {
-      marker-file: url('symbols/de/hl2.svg');
-      marker-width: 8;
-      marker-height: 24;
-    }
-  }
+      /* cannot display Hl 12a */
+      ["combined_states"=~"DE-ESO:hl12a"] {
+        marker-file: url('symbols/de/hl12a.svg');
+      }
 
-  /*******************************************/
-  /* DE combined light signals type Hl which */
-  /*******************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"]["combined_form"="light"] {
-    marker-file: url('symbols/de/hl0.svg');
-    marker-width: 7;
-    marker-height: 16;
-    marker-allow-overlap: true;
+      /* cannot display Hl 12b */
+      ["combined_states"=~"DE-ESO:hl12b"] {
+        marker-file: url('symbols/de/hl12b.svg');
+        marker-width: 8;
+        marker-height: 24;
+      }
 
-    ::text {
-      text-name: [ref];
-      text-dy: 12;
-      text-fill: @signal-text-fill;
-      text-halo-radius: @signal-text-halo-radius;
-      text-halo-fill: @signal-text-halo-fill;
-      text-face-name: @bold-fonts;
-      text-size: 10;
-    }
-
-    /* can display Hl 10 */
-    ["combined_states"=~"DE-ESO:hl10"] {
-      marker-file: url('symbols/de/hl10.svg');
-    }
-
-    /* cannot display Hl 12a */
-    ["combined_states"=~"DE-ESO:hl12a"] {
-      marker-file: url('symbols/de/hl12a.svg');
-    }
-
-    /* cannot display Hl 12b */
-    ["combined_states"=~"DE-ESO:hl12b"] {
-      marker-file: url('symbols/de/hl12b.svg');
-      marker-width: 8;
-      marker-height: 24;
-    }
-
-    /* can display Hl 11 */
-    ["combined_states"=~"DE-ESO:hl11"] {
-      marker-file: url('symbols/de/hl11.svg');
-      marker-width: 8;
-      marker-height: 24;
+      /* can display Hl 11 */
+      ["combined_states"=~"DE-ESO:hl11"] {
+        marker-file: url('symbols/de/hl11.svg');
+        marker-width: 8;
+        marker-height: 24;
+      }
     }
   }
 

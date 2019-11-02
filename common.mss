@@ -3,9 +3,9 @@
 
 @railway_casing_add: 2;
 
-#railway_line_casing::casing,
-#railway_line_low::casing,
-#railway_line_med::casing {
+#railway_line_casing[zoom>=9]::casing,
+#railway_line_low[zoom<=7]::casing,
+#railway_line_med[zoom>7][zoom<9]::casing {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null],
     [zoom>=8]["usage"="branch"]["service"=null] {
@@ -104,9 +104,9 @@
 }
 
 
-#railway_line_fill::fill,
-#railway_line_low::fill,
-#railway_line_med::fill {
+#railway_line_fill[zoom>=9]::fill,
+#railway_line_low[zoom<=7]::fill,
+#railway_line_med[zoom>7][zoom<9]::fill {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @railway_fill_color;

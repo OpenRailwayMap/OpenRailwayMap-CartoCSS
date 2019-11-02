@@ -17,7 +17,7 @@ Format details:
 @signal-text-halo-radius: 1;
 @signal-text-halo-radius-large: 3;
 
-#railway_signals {
+#railway_signals[zoom>=14] {
 
   /*********************************/
   /* DE crossing distant sign Bü 2 */
@@ -37,7 +37,7 @@ Format details:
   /*********************************/
   /* DE whistle sign Bü 4 (DS 301) */
   /*********************************/
-  [zoom>=14]["feature"="DE-ESO:db:bü4"] {
+  ["feature"="DE-ESO:db:bü4"] {
     marker-file: url('symbols/de/bue4-ds.svg');
     marker-width: 11;
     marker-height: 16;
@@ -54,7 +54,7 @@ Format details:
   /*********************************/
   /* DE whistle sign Pf 1 (DV 301) */
   /*********************************/
-  [zoom>=14]["feature"="DE-ESO:dr:pf1"] {
+  ["feature"="DE-ESO:dr:pf1"] {
     marker-file: url('symbols/de/pf1-dv.svg');
     marker-width: 11;
     marker-height: 16;
@@ -193,7 +193,7 @@ Format details:
   /********************************/
   /* DE station distant sign Ne 6 */
   /********************************/
-  [zoom>=14]["feature"="DE-ESO:ne6"]["station_distant_form"="sign"] {
+  ["feature"="DE-ESO:ne6"]["station_distant_form"="sign"] {
     marker-file: url('symbols/de/ne6.svg');
     marker-width: 24;
     marker-height: 5;
@@ -510,8 +510,8 @@ Format details:
   /* DE main entry sign Ne 1 */
   /* AT Trapeztafel          */
   /***************************/
-  [zoom>=14]["feature"="DE-ESO:ne1"]["main_form"="sign"],
-  [zoom>=14]["feature"="AT-V2:trapeztafel"]["main_form"="sign"] {
+  ["feature"="DE-ESO:ne1"]["main_form"="sign"],
+  ["feature"="AT-V2:trapeztafel"]["main_form"="sign"] {
     marker-file: url('symbols/de/ne1.svg');
     marker-width: 16;
     marker-height: 10;
@@ -524,7 +524,7 @@ Format details:
   /*  - have no railway:signal:states=* tag                                       */
   /*  - OR have railway:signal:states=* tag that does neither include Vr1 nor Vr2 */
   /********************************************************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="light"] {
+  ["feature"="DE-ESO:vr"]["distant_form"="light"] {
     marker-file: url('symbols/de/vr0-light.svg');
     marker-width: 16;
     marker-height: 16;
@@ -573,7 +573,7 @@ Format details:
   /*  - have no railway:signal:states=* tag                                       */
   /*  - OR have railway:signal:states=* tag that does neither include Vr1 nor Vr2 */
   /********************************************************************************/
-  [zoom>=14]["feature"="DE-ESO:vr"]["distant_form"="semaphore"] {
+  ["feature"="DE-ESO:vr"]["distant_form"="semaphore"] {
     marker-file: url('symbols/de/vr0-semaphore.svg');
     marker-width: 12;
     marker-height: 26;
@@ -610,7 +610,7 @@ Format details:
   /****************************************/
   /* DE Hamburger Hochbahn distant signal */
   /****************************************/
-  [zoom>=14]["feature"="DE-HHA:v"]["distant_form"="light"] {
+  ["feature"="DE-HHA:v"]["distant_form"="light"] {
     marker-file: url('symbols/de/hha/v1.svg');
     marker-width: 5;
     marker-height: 16;
@@ -656,7 +656,7 @@ Format details:
   /***********************/
   /* DE ETCS stop marker */
   /***********************/
-  [zoom>=14]["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"] {
+  ["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"] {
     marker-file: url('symbols/etcs-stop-marker-arrow-left.svg');
     marker-width: 16;
     marker-height: 16;
@@ -677,7 +677,7 @@ Format details:
   /****************************/
   /* AT distant light signals */
   /****************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="light"] {
+  ["feature"="AT-V2:vorsignal"]["distant_form"="light"] {
     marker-file: url('symbols/at/vorsignal-vorsicht.svg');
     marker-width: 11;
     marker-height: 11;
@@ -723,7 +723,7 @@ Format details:
   /********************************/
   /* AT distant semaphore signals */
   /********************************/
-  [zoom>=14]["feature"="AT-V2:vorsignal"]["distant_form"="semaphore"] {
+  ["feature"="AT-V2:vorsignal"]["distant_form"="semaphore"] {
     marker-file: url('symbols/at/vorsicht-semaphore.svg');
     marker-width: 12;
     marker-height: 19;
@@ -743,8 +743,8 @@ Format details:
   /****************************/
   /* FI distant light signals */
   /****************************/
-  [zoom>=14]["feature"="FI:Eo"]["distant_form"="light"],
-  [zoom>=14]["feature"="FI:Eo-v"]["distant_form"="light"] {
+  ["feature"="FI:Eo"]["distant_form"="light"],
+  ["feature"="FI:Eo-v"]["distant_form"="light"] {
     ["distant_repeated"!="yes"] {
       ::text {
         text-name: [ref];
@@ -789,8 +789,8 @@ Format details:
   /* DE distant signal replacement by sign So 106 */
   /* AT Kreuztafel                                */
   /************************************************/
-  [zoom>=14]["feature"="DE-ESO:so106"]["distant_form"="sign"],
-  [zoom>=14]["feature"="AT-V2:kreuztafel"]["distant_form"="sign"] {
+  ["feature"="DE-ESO:so106"]["distant_form"="sign"],
+  ["feature"="AT-V2:kreuztafel"]["distant_form"="sign"] {
     marker-file: url('symbols/de/so106.svg');
     marker-width: 16;
     marker-height: 11;
@@ -800,7 +800,7 @@ Format details:
   /**********************************************/
   /* DE distant signal replacement by sign Ne 2 */
   /**********************************************/
-  [zoom>=14]["feature"="DE-ESO:db:ne2"]["distant_form"="sign"] {
+  ["feature"="DE-ESO:db:ne2"]["distant_form"="sign"] {
     marker-file: url('symbols/de/ne2.svg');
     marker-width: 10;
     marker-height: 16;
@@ -818,8 +818,8 @@ Format details:
   /* DE main semaphore signals type Hp      */
   /* AT main semaphore signal "Hauptsignal" */
   /******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="semaphore"],
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"] {
+  ["feature"="DE-ESO:hp"]["main_form"="semaphore"],
+  ["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"] {
     marker-file: url('symbols/de/hp0-semaphore.svg');
     marker-width: 16;
     marker-height: 16;
@@ -859,7 +859,7 @@ Format details:
   /******************************************/
   /* DE main light signals type Hp which    */
   /******************************************/
-  [zoom>=14]["feature"="DE-ESO:hp"]["main_form"="light"] {
+  ["feature"="DE-ESO:hp"]["main_form"="light"] {
     marker-file: url('symbols/de/hp0-light.svg');
     marker-width: 9;
     marker-height: 16;
@@ -891,7 +891,7 @@ Format details:
   /*************************/
   /* AT main light signals */
   /*************************/
-  [zoom>=14]["feature"="AT-V2:hauptsignal"]["main_form"="light"] {
+  ["feature"="AT-V2:hauptsignal"]["main_form"="light"] {
     marker-file: url('symbols/at/hauptsignal-halt.svg');
     marker-width: 8;
     marker-height: 16;
@@ -929,7 +929,7 @@ Format details:
   /* FI main light signals */
   /*************************/
   /* new type */
-  [zoom>=14]["feature"="FI:Po"]["main_form"="light"] {
+  ["feature"="FI:Po"]["main_form"="light"] {
     marker-file: url('symbols/fi/po0-new.svg');
     marker-width: 9;
     marker-height: 15;
@@ -957,7 +957,7 @@ Format details:
   }
 
   /* old type */
-  [zoom>=14]["feature"="FI:Po-v"]["main_form"="light"] {
+  ["feature"="FI:Po-v"]["main_form"="light"] {
     marker-file: url('symbols/fi/po0-old.svg');
     marker-width: 7;
     marker-height: 16;
@@ -987,7 +987,7 @@ Format details:
   /************************************/
   /* FI combined block signal type So */
   /************************************/
-  [zoom>=14]["feature"="FI:So"]["combined_form"="light"]["combined_states"=~"FI:Po1"]["combined_states"=~"FI:Eo1"] {
+  ["feature"="FI:So"]["combined_form"="light"]["combined_states"=~"FI:Po1"]["combined_states"=~"FI:Eo1"] {
     marker-file: url('symbols/fi/eo1-po1-combined-block.svg');
     marker-width: 12;
     marker-height: 15;
@@ -1007,7 +1007,7 @@ Format details:
   /*******************************************************/
   /* DE main, combined and distant light signals type Hl */
   /*******************************************************/
-  [zoom>=14]["feature"="DE-ESO:hl"] {
+  ["feature"="DE-ESO:hl"] {
     /* =null filters are required to avoid unnecessary filter rules in the resulting XML file */
     ["distant_form"="light"]["main_form"=null]["combined_form"=null] {
       marker-file: url('symbols/de/hl1-distant.svg');
@@ -1094,7 +1094,7 @@ Format details:
   /*************************************/
   /* DE combined light signals type Sv */
   /*************************************/
-  [zoom>=14]["feature"="DE-ESO:sv"] {
+  ["feature"="DE-ESO:sv"] {
     /* can display Sv0 */
     ["combined_states"=~"DE-ESO:sv0"] {
       marker-file: url('symbols/de/sv-sv0.svg');
@@ -1183,7 +1183,7 @@ Format details:
   /****************************************/
   /* DE Hamburger Hochbahn main signal    */
   /****************************************/
-  [zoom>=14]["feature"="DE-HHA:h"]["main_form"="light"] {
+  ["feature"="DE-HHA:h"]["main_form"="light"] {
     marker-file: url('symbols/de/hha/h0.svg');
     marker-width: 6;
     marker-height: 16;
@@ -1202,7 +1202,7 @@ Format details:
     /*************************************/
     /* with railway:signal:main:states=* */
     /*************************************/
-    [zoom>=14]["feature"="DE-HHA:h"]["main_form"="light"]["main_states"!=null] {
+    ["feature"="DE-HHA:h"]["main_form"="light"]["main_states"!=null] {
       marker-file: url('symbols/de/hha/h1.svg');
     }
   }
@@ -1210,7 +1210,7 @@ Format details:
   /*************************************************/
   /* DE main, combined and distant signals type Ks */
   /*************************************************/
-  [zoom>=14]["feature"="DE-ESO:ks"] {
+  ["feature"="DE-ESO:ks"] {
     /* We have to add filters for form=null to avoid unnecessary and duplicated rules in the resulting XML file. */
     ["distant_form"="light"]["main_form"=null]["combined_form"=null] {
       marker-file: url('symbols/de/ks-distant.svg');

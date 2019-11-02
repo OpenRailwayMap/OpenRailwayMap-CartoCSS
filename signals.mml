@@ -37,6 +37,7 @@ _parts:
 Stylesheet:
   - fonts.mss
   - signals.mss
+  - signal_boxes.mss
   - common.mss
 
 Layer:
@@ -217,6 +218,46 @@ Layer:
         ) AS railway_line_fill
     properties:
       minzoom: 9
+  - id: signal_boxes_point
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+           way
+          FROM (
+            SELECT
+                way
+              FROM openrailwaymap_osm_point
+              WHERE railway = 'signal_box'
+            UNION ALL
+            -- include small signal box polygons as well
+            SELECT
+               ST_PointOnSurface(way) AS way
+              FROM openrailwaymap_osm_polygon
+              WHERE
+                railway = 'signal_box'
+                AND way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) < 24::real
+          ) AS boxes
+        ) AS signal_boxes_point
+    properties:
+      minzoom: 13
+  - id: signal_boxes_polygon
+    geometry: polygon
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way
+          FROM openrailwaymap_osm_polygon
+          WHERE
+            railway = 'signal_box'
+            AND way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) >= 24
+        ) AS signal_boxes_point
+    properties:
+      minzoom: 13
   - id: railway_signals
     geometry: point
     <<: *extents
@@ -375,3 +416,42 @@ Layer:
         ) AS railway_signals 
     properties:
       minzoom: 14
+  - id: signal_boxes_text
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way,
+            ref,
+            name,
+            is_point,
+            way_area
+          FROM (
+            SELECT
+                way,
+                tags->'railway:ref' AS ref,
+                name,
+                1::int AS is_point,
+                0::real AS way_area
+              FROM openrailwaymap_osm_point
+              WHERE railway = 'signal_box'
+            UNION ALL
+            SELECT
+                ST_PointOnSurface(way) AS way,
+                tags->'railway:ref' AS ref,
+                -- (way_area/NULLIF(POW(!scale_denominator!*0.001*0.28, 2),0))::text AS ref,
+                name,
+                CASE
+                  WHEN way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) < 24::real THEN 1::int
+                  ELSE 0::int
+                END AS is_point,
+                way_area
+              FROM openrailwaymap_osm_polygon
+              WHERE railway = 'signal_box'
+          ) AS pointpolygons
+          ORDER BY way_area DESC NULLS LAST
+        ) AS signal_boxes_text
+    properties:
+      minzoom: 13

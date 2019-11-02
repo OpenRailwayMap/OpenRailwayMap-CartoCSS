@@ -26,7 +26,8 @@ CREATE OR REPLACE VIEW openrailwaymap_osm_polygon AS
     railway,
     tags->'public_transport' AS public_transport,
     name,
-    tags AS tags
+    tags AS tags,
+    way_area
   FROM planet_osm_polygon;
 
 CREATE OR REPLACE VIEW openrailwaymap_osm_point AS

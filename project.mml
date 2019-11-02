@@ -297,6 +297,7 @@ Layer:
                  WHEN railway = 'razed' THEN 200
                  ELSE 50
             END AS rank,
+            ST_Length(way) / NULLIF(!scale_denominator!*0.001*0.28, 0) AS length_pixels,
             z_order
           FROM
             (SELECT
@@ -415,7 +416,7 @@ Layer:
           FROM openrailwaymap_osm_point
           WHERE railway IN ('crossing', 'level_crossing', 'phone', 'tram_stop', 'border', 'owner_change', 'radio')
           ORDER BY prio DESC
-        ) AS railway_text_high
+        ) AS railway_symbols
     properties:
       minzoom: 11
   - id: railway_text_med
@@ -474,7 +475,7 @@ Layer:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            way, railway,
+            way, railway, usage, service,
             disused, abandoned, razed, construction, proposed,
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,
@@ -571,7 +572,7 @@ Layer:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            way, railway,
+            way, railway, usage, service,
             disused, abandoned, razed, construction, proposed,
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,

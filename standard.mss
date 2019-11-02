@@ -31,7 +31,7 @@
 @construction_dasharray: 9,9;
 @proposed_dasharray: 2,8;
 
-#railway_bridge::railing[zoom>=9] {
+#railway_bridge::railing[zoom>=9][length_pixels>3] {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @bridge_casing_color;
@@ -383,6 +383,7 @@
     ["usage"="main"]["service"=null] {
       line-color: @main_color;
       line-width: 1.5;
+      line-cap: round;
       #railway_tunnel::bright {
         line-width: 1.5 + @railway_tunnel_casing_add;
       }
@@ -414,6 +415,7 @@
     [zoom>=8]["usage"="branch"]["service"=null] {
       line-color: @branch_color;
       line-width: 2.5;
+      line-cap: round;
       #railway_tunnel::bright {
         line-width: 2.5 + @railway_tunnel_casing_add;
       }
@@ -435,6 +437,7 @@
     [zoom>=11]["usage"="industrial"] {
       line-color: @industrial_color;
       line-width: 2;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 2 + @railway_tunnel_casing_add;
@@ -456,6 +459,7 @@
     [zoom>=13]["usage"=null]["service"=null] {
       line-color: @no_usage_color;
       line-width: 2;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 2 + @railway_tunnel_casing_add;
@@ -471,6 +475,7 @@
     [zoom>=11]["usage"=null]["service"="crossover"] {
       line-color: @siding_color;
       line-width: 2;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 2 + @railway_tunnel_casing_add;
@@ -485,6 +490,7 @@
     [zoom>=12]["usage"=null]["service"="yard"] {
       line-color: @yard_color;
       line-width: 1.5;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 1.5 + @railway_tunnel_casing_add;
@@ -499,6 +505,7 @@
     [zoom>=11]["usage"=null]["service"="spur"] {
       line-color: @spur_color;
       line-width: 1.5;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 1.5 + @railway_tunnel_casing_add;
@@ -519,6 +526,7 @@
     [zoom>=12]["service"="yard"] {
       line-width: 3;
       line-color: @narrow_gauge_color;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 3 + @railway_tunnel_casing_add;
@@ -543,6 +551,7 @@
     #railway_tunnel::bright {
       line-color: @tunnel_color;
       comp-op: screen;
+      line-cap: round;
     }
   }
 
@@ -554,6 +563,7 @@
     [zoom>=13] {
       line-color: @disused_color;
       line-width: 3;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 3 + @railway_tunnel_casing_add;
@@ -583,6 +593,7 @@
       line-color: @abandoned_color;
       line-width: 3;
       line-dasharray: @abandoned_dasharray;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 3 + @railway_tunnel_casing_add;
@@ -610,6 +621,7 @@
       line-color: @razed_color;
       line-width: 3;
       line-dasharray: @razed_dasharray;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 3 + @railway_tunnel_casing_add;
@@ -643,6 +655,7 @@
     [zoom>=13] {
       line-color: @no_usage_color;
       line-width: 3;
+      line-cap: round;
 
       #railway_tunnel::bright {
         line-width: 2 + @railway_tunnel_casing_add;
@@ -706,6 +719,7 @@
   [zoom>=13]["railway"="subway"] {
     line-color: @subway_color;
     line-width: 3;
+    line-cap: round;
 
     #railway_tunnel::bright {
       line-width: 3 + @railway_tunnel_casing_add;
@@ -729,6 +743,7 @@
   [zoom>=13]["railway"="light_rail"] {
     line-color: @light_rail_color;
     line-width: 3;
+    line-cap: round;
 
     #railway_tunnel::bright {
       line-width: 3 + @railway_tunnel_casing_add;
@@ -752,6 +767,7 @@
   [zoom>=13]["railway"="tram"] {
     line-color: @tram_color;
     line-width: 3;
+    line-cap: round;
 
     #railway_tunnel::bright {
       line-width: 3 + @railway_tunnel_casing_add;

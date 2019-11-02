@@ -38,6 +38,7 @@ Stylesheet:
   - fonts.mss
   - signals.mss
   - signal_boxes.mss
+  - train_protection.mss
   - common.mss
 
 Layer:
@@ -88,8 +89,6 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
-            -- speeds are converted to kph in this layer because it is used for colouring
-            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
             NULL AS disused_railway,
@@ -98,25 +97,24 @@ Layer:
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
-            CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
-                 WHEN railway = 'rail' AND usage = 'branch' THEN 1000
-                 ELSE 50
-            END AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage,
-                maxspeed,
-                maxspeed_forward,
-                maxspeed_backward,
-                preferred_direction,
-                z_order
+                tags->'railway:pzb' AS pzb,
+                railway_null_to_no(tags->'railway:lzb') AS lzb,
+                tags->'railway:atb' AS atb,
+                tags->'railway:atb-eg' AS atb_eg,
+                tags->'railway:atb-ng' AS atb_ng,
+                tags->'railway:atb-vv' AS atb_vv,
+                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
+                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
           ORDER BY
-            z_order,
-            rank NULLS LAST,
-            maxspeed ASC NULLS FIRST
+            rank NULLS LAST
         ) AS openrailwaymap_line_low
     properties:
       maxzoom: 7
@@ -128,8 +126,6 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
-            -- speeds are converted to kph in this layer because it is used for colouring
-            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
             NULL AS disused_railway,
@@ -138,25 +134,24 @@ Layer:
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
-            CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
-                 WHEN railway = 'rail' AND usage = 'branch' THEN 1000
-                 ELSE 50
-            END AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage,
-                maxspeed,
-                maxspeed_forward,
-                maxspeed_backward,
-                preferred_direction,
-                z_order
+                tags->'railway:pzb' AS pzb,
+                railway_null_to_no(tags->'railway:lzb') AS lzb,
+                tags->'railway:atb' AS atb,
+                tags->'railway:atb-eg' AS atb_eg,
+                tags->'railway:atb-ng' AS atb_ng,
+                tags->'railway:atb-vv' AS atb_vv,
+                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
+                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
             ) AS r
           ORDER BY
-            z_order,
-            rank NULLS LAST,
-            maxspeed ASC NULLS FIRST
+            rank NULLS LAST
         ) AS railway_line_med
     properties:
       minzoom: 8
@@ -169,8 +164,6 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            -- speeds are converted to kph in this layer because it is used for colouring
-            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             disused, construction,
             disused_railway,
             construction_railway,
@@ -178,28 +171,11 @@ Layer:
             construction_usage, construction_service,
             preserved_railway, preserved_service,
             preserved_usage,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
-                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
-                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
-                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
-                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
-                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
-                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
-                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
-                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
-                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
-                 WHEN railway IN ('preserved', 'construction') THEN 400
-                 WHEN railway = 'disused' THEN 300
-
-                 ELSE 50
-            END AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage, service,
-                maxspeed,
-                maxspeed_forward,
-                maxspeed_backward,
-                preferred_direction,
                 tags->'disused' AS disused, construction,
                 tags->'disused:railway' AS disused_railway,
                 tags->'construction:railway' AS construction_railway,
@@ -207,14 +183,21 @@ Layer:
                 tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
+                tags->'railway:pzb' AS pzb,
+                railway_null_to_no(tags->'railway:lzb') AS lzb,
+                tags->'railway:atb' AS atb,
+                tags->'railway:atb-eg' AS atb_eg,
+                tags->'railway:atb-ng' AS atb_ng,
+                tags->'railway:atb-vv' AS atb_vv,
+                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
+                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs,
                 z_order
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
             ) AS r
           ORDER BY
             z_order,
-            rank NULLS LAST,
-            maxspeed ASC NULLS FIRST
+            rank NULLS LAST
         ) AS railway_line_fill
     properties:
       minzoom: 9

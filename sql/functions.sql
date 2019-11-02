@@ -256,3 +256,58 @@ BEGIN
   RETURN TRUE;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Set a value to 'no' if it is null.
+CREATE OR REPLACE FUNCTION railway_null_to_no(field TEXT) RETURNS
+TEXT AS $$
+BEGIN
+  RETURN COALESCE(field, 'no');
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Set a value to 'no' if it is null or 0.
+CREATE OR REPLACE FUNCTION railway_etcs_null_no(field TEXT) RETURNS
+TEXT AS $$
+BEGIN
+  IF field = '0' THEN
+    RETURN 'no';
+  END IF;
+  RETURN COALESCE(field, 'no');
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Get rank by train protection a track is equipped with
+CREATE OR REPLACE FUNCTION railway_train_protection_rank(
+  pzb TEXT,
+  lzb TEXT,
+  atb TEXT,
+  atb_eg TEXT,
+  atb_ng TEXT,
+  atb_vv TEXT,
+  etcs TEXT,
+  construction_etcs TEXT) RETURNS INTEGER AS $$
+BEGIN
+  IF etcs <> 'no' THEN
+    RETURN 10;
+  END IF;
+  IF construction_etcs <> 'no' THEN
+    RETURN 9;
+  END IF;
+  IF COALESCE(atb, atb_eg, atb_ng, atb_vv) = 'yes' THEN
+    RETURN 4;
+  END IF;
+  IF lzb = 'yes' THEN
+    RETURN 3;
+  END IF;
+  IF pzb = 'yes' THEN
+    RETURN 2;
+  END IF;
+  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') THEN
+    RETURN 1;
+  END IF;
+  RETURN 0;
+END;
+$$ LANGUAGE plpgsql;

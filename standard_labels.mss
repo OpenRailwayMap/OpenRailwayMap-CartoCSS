@@ -21,8 +21,8 @@
 @track-ref-color: white;
 @track-ref-size: 10;
 
-#railway_text_km_med,
-#railway_text_km_high {
+#railway_text_km_med[zoom>=11][zoom<=13],
+#railway_text_km_high[zoom>=14] {
   text-name: '[pos]';
   text-face-name: @bold-fonts;
   text-size: @text-size;
@@ -35,8 +35,8 @@
 }
 
 
-#railway_text_stations_med,
-#railway_text_stations_high {
+#railway_text_stations_med[zoom>=6][zoom<=10],
+#railway_text_stations_high[zoom>=11] {
   [railway = 'station'][station != 'light_rail'][station != 'subway'][zoom <= 9],
   [railway = 'tram_stop'][zoom >= 14],
   [railway = 'station'][zoom >= 10],
@@ -73,7 +73,7 @@
   }
 }
 
-#railway_text_detail::track_numbers["track_ref"!=""] {
+#railway_text_detail::track_numbers[zoom>=17]["track_ref"!=""] {
   text-name: '[track_ref]';
   text-face-name: @bold-fonts;
   text-placement: line;
@@ -86,14 +86,14 @@
   text-min-padding: 10;
 } 
 
-#railway_text_med,
-#railway_text_high {
+#railway_text_med[zoom>=8][zoom<=14],
+#railway_text_high[zoom>=15][zoom<=16] {
   text-spacing: 200;
 }
 
-#railway_text_med,
-#railway_text_high,
-#railway_text_detail::line_numbers["label"!=""] {
+#railway_text_med[zoom>=8][zoom<=14],
+#railway_text_high[zoom>=15][zoom<=16],
+#railway_text_detail::line_numbers[zoom>=17]["label"!=""] {
   text-name: '[label]';
   text-face-name: @bold-fonts;
   text-placement: line;

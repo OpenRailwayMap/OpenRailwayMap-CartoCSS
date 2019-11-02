@@ -1,7 +1,7 @@
 @switch-color: black;
 @switch-local-color: yellow;
 
-#railway_symbols {
+#railway_symbols[zoom>=11] {
   [railway = 'switch'][zoom >= 16] {
     marker-type: ellipse;
     marker-width: 8;
@@ -29,7 +29,7 @@
     marker-fill: @text-tram-stop-color;
   }
 
-  [railway = 'border'][zoom >= 11],
+  [railway = 'border'],
   [railway = 'owner_change'][zoom >= 13] {
     marker-file: url('symbols/border.svg');
     marker-width: 16;

@@ -31,7 +31,7 @@
 @construction_dasharray: 9,9;
 @proposed_dasharray: 2,8;
 
-#railway_bridge::railing {
+#railway_bridge::railing[zoom>=9] {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @bridge_casing_color;
@@ -134,11 +134,11 @@
 }
 
 
-#railway_line_casing::casing,
-#railway_line_low::casing,
-#railway_line_med::casing,
-#railway_tunnel::casing,
-#railway_bridge::casing {
+#railway_line_casing::casing[zoom>=9],
+#railway_line_low::casing[zoom<=7],
+#railway_line_med::casing[zoom>7][zoom<9],
+#railway_tunnel::casing[zoom>=9],
+#railway_bridge::casing[zoom>=9] {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @railway_casing_color;
@@ -373,12 +373,12 @@
   }
 }
 
-#railway_line_fill::fill,
-#railway_line_low::fill,
-#railway_line_med::fill,
-#railway_tunnel::fill,
-#railway_tunnel::bright,
-#railway_bridge::fill {
+#railway_line_fill::fill[zoom>=9],
+#railway_line_low::fill[zoom<=7],
+#railway_line_med::fill[zoom>7][zoom<9],
+#railway_tunnel::fill[zoom>=9],
+#railway_tunnel::bright[zoom>=9],
+#railway_bridge::fill[zoom>=9] {
   ["railway"="rail"] {
     ["usage"="main"]["service"=null] {
       line-color: @main_color;

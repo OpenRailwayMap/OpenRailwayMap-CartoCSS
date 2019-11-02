@@ -530,42 +530,6 @@ Format details:
     marker-allow-overlap: true;
   }
 
-  /*****************************/
-  /* DE distant signal type Ks */
-  /*****************************/
-  [zoom>=14]["feature"="DE-ESO:ks"]["distant_form"="light"] {
-    marker-file: url('symbols/de/ks-distant.svg');
-    marker-width: 10;
-    marker-height: 16;
-    marker-allow-overlap: true;
-
-    ::text {
-      text-name: [ref];
-      text-dy: 12;
-      text-fill: @signal-text-fill;
-      text-halo-radius: @signal-text-halo-radius;
-      text-halo-fill: @signal-text-halo-fill;
-      text-face-name: @bold-fonts;
-      text-size: 10;
-    }
-
-    /* repeaters */
-    ["distant_repeated"="yes"] {
-      marker-file: url('symbols/de/ks-distant-repeated.svg');
-      marker-width: 10;
-      marker-height: 16;
-      marker-allow-overlap: true;
-    }
-
-    /* shortened breaking distance */
-    ["distant_shortened"="yes"] {
-      marker-file: url('symbols/de/ks-distant-shortened.svg');
-      marker-width: 10;
-      marker-height: 16;
-      marker-allow-overlap: true;
-    }
-  }
-
   /********************************************************************************/
   /* DE distant light signals type Vr which                                       */
   /*  - are repeaters or shortened                                                */
@@ -1277,11 +1241,37 @@ Format details:
     }
   }
 
-  /****************************************/
-  /* DE main and combined signals type Ks */
-  /****************************************/
+  /*************************************************/
+  /* DE main, combined and distant signals type Ks */
+  /*************************************************/
   [zoom>=14]["feature"="DE-ESO:ks"] {
-    ::text {
+    /* We have to add filters for form=null to avoid unnecessary and duplicated rules in the resulting XML file. */
+    ["distant_form"="light"]["main_form"=null]["combined_form"=null] {
+      marker-file: url('symbols/de/ks-distant.svg');
+      marker-width: 10;
+      marker-height: 16;
+      marker-allow-overlap: true;
+
+      /* repeaters */
+      ["distant_repeated"="yes"] {
+        marker-file: url('symbols/de/ks-distant-repeated.svg');
+        marker-width: 10;
+        marker-height: 16;
+        marker-allow-overlap: true;
+      }
+
+      /* shortened breaking distance */
+      ["distant_shortened"="yes"] {
+        marker-file: url('symbols/de/ks-distant-shortened.svg');
+        marker-width: 10;
+        marker-height: 16;
+        marker-allow-overlap: true;
+      }
+    }
+
+    ["main_form"="light"]::text,
+    ["distant_form"="light"]::text,
+    ["combined_form"="light"]::text {
       text-name: [ref];
       text-dy: 12;
       text-fill: @signal-text-fill;
@@ -1292,7 +1282,7 @@ Format details:
     }
 
     /* main signals */
-    ["main_form"="light"] {
+    ["main_form"="light"]["distant_form"=null]["combined_form"=null] {
       marker-file: url('symbols/de/ks-main.svg');
       marker-width: 10;
       marker-height: 16;
@@ -1300,7 +1290,7 @@ Format details:
     }
 
     /* combined signals */
-    ["combined_form"="light"] {
+    ["combined_form"="light"]["main_form"=null]["distant_form"=null] {
       marker-file: url('symbols/de/ks-combined.svg');
       marker-width: 10;
       marker-height: 16;

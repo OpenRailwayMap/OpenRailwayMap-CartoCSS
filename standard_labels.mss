@@ -87,20 +87,68 @@
 } 
 
 #railway_text_med[zoom>=8][zoom<=14],
-#railway_text_high[zoom>=15][zoom<=16] {
-  text-spacing: 200;
-}
-
-#railway_text_med[zoom>=8][zoom<=14],
 #railway_text_high[zoom>=15][zoom<=16],
 #railway_text_detail::line_numbers[zoom>=17]["label"!=""] {
-  text-name: '[label]';
-  text-face-name: @bold-fonts;
-  text-placement: line;
-  text-size: @text-size;
-  text-fill: @text-color;
-  text-halo-radius: @text-halo-radius;
-  text-halo-fill: @text-halo-color;
-  text-min-distance: 30;
-  text-min-padding: 10;
+  ["railway"="rail"]["usage"="main"]["service"=null],
+  ["railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom=10]["railway"="rail"]["usage"="industrial"]["service"=null],
+  [zoom>=11]["railway"="rail"]["usage"="industrial"],
+  [zoom>=13]["railway"="rail"]["usage"=null]["service"=null],
+  [zoom>=11]["railway"="rail"]["usage"=null]["service"="siding"],
+  [zoom>=11]["railway"="rail"]["usage"=null]["service"="crossover"],
+  [zoom>=12]["railway"="rail"]["usage"=null]["service"="yard"],
+  [zoom>=11]["railway"="rail"]["usage"=null]["service"="spur"],
+  [zoom>=10]["railway"="narrow_gauge"]["service"=null],
+  [zoom>=11]["railway"="narrow_gauge"]["service"="spur"],
+  [zoom>=11]["railway"="narrow_gauge"]["service"="siding"],
+  [zoom>=11]["railway"="narrow_gauge"]["service"="crossover"],
+  [zoom>=12]["railway"="narrow_gauge"]["service"="yard"],
+  [zoom>=9]["railway"="disused"]["disused_railway"="rail"]["service"=null],
+  [zoom>=11]["railway"="disused"]["disused_railway"="subway"]["service"=null],
+  [zoom>=11]["railway"="disused"]["disused_railway"="light_rail"]["service"=null],
+  [zoom>=12]["railway"="disused"]["disused_railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="disused"],
+  [zoom>=9]["railway"="abandoned"]["abandoned_railway"="rail"]["service"=null],
+  [zoom>=11]["railway"="abandoned"]["abandoned_railway"="subway"]["service"=null],
+  [zoom>=11]["railway"="abandoned"]["abandoned_railway"="light_rail"]["service"=null],
+  [zoom>=12]["railway"="abandoned"]["abandoned_railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="abandoned"],
+  [zoom>=10]["railway"="razed"]["razed_railway"="rail"]["service"=null],
+  [zoom>=11]["railway"="razed"]["razed_railway"="subway"]["service"=null],
+  [zoom>=11]["railway"="razed"]["razed_railway"="light_rail"]["service"=null],
+  [zoom>=12]["railway"="razed"]["razed_railway"="tram"]["service"=null],
+  [zoom>=14]["railway"="razed"],
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=9]["railway"="proposed"]["proposed_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=9]["railway"="proposed"]["proposed_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="subway"]["service"=null],
+  [zoom>=10]["railway"="proposed"]["proposed_railway"="subway"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="light_rail"]["service"=null],
+  [zoom>=10]["railway"="proposed"]["proposed_railway"="light_rail"]["service"=null],
+  [zoom>=11]["railway"="construction"]["construction_railway"="tram"]["service"=null],
+  [zoom>=11]["railway"="proposed"]["proposed_railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="construction"],
+  [zoom>=13]["railway"="proposed"],
+  [zoom>=10]["railway"="subway"]["service"=null],
+  [zoom>=13]["railway"="subway"],
+  [zoom>=10]["railway"="light_rail"]["service"=null],
+  [zoom>=13]["railway"="light_rail"],
+  [zoom>=11]["railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="tram"] {
+    text-name: '[label]';
+    text-face-name: @bold-fonts;
+    text-placement: line;
+    text-size: @text-size;
+    text-fill: @text-color;
+    text-halo-radius: @text-halo-radius;
+    text-halo-fill: @text-halo-color;
+    text-min-distance: 30;
+    text-min-padding: 10;
+
+    #railway_text_med,
+    #railway_text_high {
+      text-spacing: 200;
+    }
+  }
 }

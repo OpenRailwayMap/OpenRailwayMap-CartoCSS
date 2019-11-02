@@ -425,7 +425,11 @@ Layer:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            way, railway,
+            way, railway, usage, service,
+            disused, abandoned, razed, construction, proposed,
+            disused_railway, abandoned_railway,
+            razed_railway, construction_railway,
+            proposed_railway,
             CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
@@ -449,6 +453,10 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
+                tags->'disused' AS disused, tags->'abandoned' AS abandoned, tags->'razed' AS razed, construction, tags->'proposed' AS proposed,
+                tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
+                tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
+                tags->'proposed:railway' AS proposed_railway,
                 ref,
                 z_order
               FROM openrailwaymap_osm_line
@@ -467,6 +475,10 @@ Layer:
       table: |-
         (SELECT
             way, railway,
+            disused, abandoned, razed, construction, proposed,
+            disused_railway, abandoned_railway,
+            razed_railway, construction_railway,
+            proposed_railway,
             CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
@@ -490,6 +502,10 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
+                tags->'disused' AS disused, tags->'abandoned' AS abandoned, tags->'razed' AS razed, construction, tags->'proposed' AS proposed,
+                tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
+                tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
+                tags->'proposed:railway' AS proposed_railway,
                 name, ref,
                 z_order
               FROM openrailwaymap_osm_line
@@ -556,6 +572,10 @@ Layer:
       table: |-
         (SELECT
             way, railway,
+            disused, abandoned, razed, construction, proposed,
+            disused_railway, abandoned_railway,
+            razed_railway, construction_railway,
+            proposed_railway,
             CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
@@ -580,6 +600,10 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
+                tags->'disused' AS disused, tags->'abandoned' AS abandoned, tags->'razed' AS razed, construction, tags->'proposed' AS proposed,
+                tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
+                tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
+                tags->'proposed:railway' AS proposed_railway,
                 name, ref,
                 tags->'railway:track_ref' AS track_ref,
                 z_order

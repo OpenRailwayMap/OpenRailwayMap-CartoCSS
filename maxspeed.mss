@@ -179,7 +179,7 @@
   }
 }
 
-#railway_line_text {
+#railway_line_text[zoom>=14] {
   [railway="rail"],
   [railway="construction"][construction_railway="rail"],
   [railway="disused"][disused_railway="rail"],

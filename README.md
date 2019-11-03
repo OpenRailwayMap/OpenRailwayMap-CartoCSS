@@ -1,4 +1,4 @@
-# OpenRailwayMap CartoCSS port
+# OpenRailwayMap CartoCSS Map Styles
 
 This is a port of the OpenRailwayMap Infrastructure map style from
 MapCSS to CartoCSS to be able to use Mapnik to render maps.
@@ -20,16 +20,11 @@ There are a couple of smaller and larger differences to the MapCSS style:
 
 ## Setup Notes
 
-This style requires a PostGIS database imported with osm2pgsql. Use either the
-style file orm-simple.style from this repository or create view which provide
-the database scheme required by this style.
-
-In order to make the ranking of station labels work, this style requires the so-called
-Osm2pgsql "slim tables" (to be precise, it needs `planet_osm_rels` only).
+See [SETUP.md](SETUP.md) for details.
 
 ## License
 
-Copyright (C) 2017 Michael Reichert
+Copyright (C) 2017–2019 Michael Reichert
 
 The [original map style](https://github.com/OpenRailwayMap/OpenRailwayMap/tree/master/styles)
 is Copyright (C) 2012 Alexander Matheisen

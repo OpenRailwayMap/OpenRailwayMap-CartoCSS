@@ -540,15 +540,15 @@ Format details:
       text-size: 10;
     }
 
-  /*  can display Vr 1 */
-  ["distant_states"=~"^(.*;)?DE-ESO:vr1(;.*)?$"] {
-    marker-file: url('symbols/de/vr1-light.svg');
-  }
+    /*  can display Vr 1 */
+    ["distant_states"=~"^(.*;)?DE-ESO:vr1(;.*)?$"] {
+      marker-file: url('symbols/de/vr1-light.svg');
+    }
 
-  /*  can display Vr 2 */
-  ["distant_states"=~"^(.*;)?DE-ESO:vr2(;.*)?$"] {
-    marker-file: url('symbols/de/vr2-light.svg');
-  }
+    /*  can display Vr 2 */
+    ["distant_states"=~"^(.*;)?DE-ESO:vr2(;.*)?$"] {
+      marker-file: url('symbols/de/vr2-light.svg');
+    }
 
     ["distant_repeated"="yes"],
     ["distant_shortened"="yes"] {

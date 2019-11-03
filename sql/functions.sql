@@ -311,3 +311,17 @@ BEGIN
   RETURN 0;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Get name for labelling in standard style depending whether it is a bridge, a tunnel or none of these two.
+CREATE OR REPLACE FUNCTION railway_label_name(name TEXT, tags HSTORE, tunnel TEXT, bridge TEXT) RETURNS TEXT AS $$
+BEGIN
+  IF tunnel IS NOT NULL AND tunnel != 'no' THEN
+    RETURN COALESCE(tags->'tunnel:name', name);
+  END IF;
+  IF bridge IS NOT NULL AND bridge != 'no' THEN
+    RETURN COALESCE(tags->'bridge:name', name);
+  END IF;
+  RETURN name;
+END;
+$$ LANGUAGE plpgsql;

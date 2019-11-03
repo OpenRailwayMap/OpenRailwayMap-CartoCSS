@@ -37,6 +37,7 @@ _parts:
 Stylesheet:
   - fonts.mss
   - signals.mss
+  - signals_deactivated.mss
   - signal_boxes.mss
   - train_protection.mss
   - common.mss
@@ -275,6 +276,20 @@ Layer:
             ) AS feature,
             tags->'railway:signal:passing:caption' AS passing_caption,
             tags->'railway:signal:stop:caption' AS stop_caption,
+            tags->'railway:signal:combined:deactivated' AS combined_deactivated,
+            tags->'railway:signal:main:deactivated' AS main_deactivated,
+            tags->'railway:signal:distant:deactivated' AS distant_deactivated,
+            tags->'railway:signal:train:protection:deactivated' AS train_protection_deactivated,
+            tags->'railway:signal:minor:deactivated' AS minor_deactivated,
+            tags->'railway:signal:passing:deactivated' AS passing_deactivated,
+            tags->'railway:signal:shunting:deactivated' AS shunting_deactivated,
+            tags->'railway:signal:stop:deactivated' AS stop_deactivated,
+            tags->'railway:signal:stop_demand:deactivated' AS stop_demand_deactivated,
+            tags->'railway:signal:station:distant:deactivated' AS station_distant_deactivated,
+            tags->'railway:signal:crossing:distant:deactivated' AS crossing_distant_deactivated,
+            tags->'railway:signal:crossing:deactivated' AS crossing_deactivated,
+            tags->'railway:signal:ring:deactivated' AS ring_deactivated,
+            tags->'railway:signal:whistle:deactivated' AS whistle_deactivated,
             tags->'railway:signal:combined:form' AS combined_form,
             tags->'railway:signal:main:form' AS main_form,
             tags->'railway:signal:distant:form' AS distant_form,

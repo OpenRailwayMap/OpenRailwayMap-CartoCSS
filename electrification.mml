@@ -1,0 +1,275 @@
+scale: 1
+metatile: 2
+name: OpenRailwayMap Electrification
+description: A map style for railway electrification
+bounds: &world
+  - -180
+  - -85.05112877980659
+  - 180
+  - 85.05112877980659
+center:
+  - 0
+  - 0
+  - 4
+format: png
+interactivity: false
+minzoom: 0
+maxzoom: 22
+srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
+
+# Various parts to be included later on
+_parts:
+  # Extents are used for tilemill, and don't actually make it to the generated XML
+  extents: &extents
+    extent: *world
+    srs-name: "900913"
+    srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
+  extents84: &extents84
+    extent: *world
+    srs-name: "WGS84"
+    srs: "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+  osm2pgsql: &osm2pgsql
+    type: "postgis"
+    dbname: "gis"
+    key_field: ""
+    geometry_field: "way"
+    extent: "-20037508,-20037508,20037508,20037508"
+
+Stylesheet:
+  - fonts.mss
+  - electrification.mss
+  - common.mss
+
+Layer:
+  - id: railway_line_casing
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage, service,
+            disused, construction,
+            disused_railway,
+            construction_railway,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'disused' THEN 300
+                 ELSE 50
+            END AS rank,
+            electrified,
+            frequency,
+            construction_electrified,
+            construction_frequency,
+            proposed_electrified,
+            proposed_frequency,
+            railway_no_to_null(deelectrified)
+          FROM
+            (SELECT
+                way, railway, usage, service,
+                tags->'disused' AS disused, construction,
+                tags->'disused:railway' AS disused_railway,
+                tags->'construction:railway' AS construction_railway,
+                electrified,
+                frequency,
+                construction_electrified,
+                construction_frequency,
+                proposed_electrified,
+                proposed_frequency,
+                deelectrified,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
+            ) AS r
+          ORDER by z_order, rank NULLS LAST
+        ) AS railway_line_casing
+    properties:
+      minzoom: 9
+  - id: railway_line_low
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage,
+            -- speeds are converted to kph in this layer because it is used for colouring
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
+            NULL AS service,
+            NULL AS disused, NULL AS construction,
+            NULL AS disused_railway,
+            NULL AS construction_railway,
+            NULL AS disused_usage, NULL AS disused_service,
+            NULL AS construction_usage, NULL AS construction_service,
+            NULL AS preserved_railway, NULL AS preserved_service,
+            NULL AS preserved_usage,
+            CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+                 ELSE 50
+            END AS rank,
+            electrified,
+            frequency,
+            construction_electrified,
+            construction_frequency,
+            proposed_electrified,
+            proposed_frequency,
+            railway_no_to_null(deelectrified),
+          FROM
+            (SELECT
+                way, railway, usage,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
+                electrified,
+                frequency,
+                construction_electrified,
+                construction_frequency,
+                proposed_electrified,
+                proposed_frequency,
+                deelectrified,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
+            ) AS r
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
+        ) AS openrailwaymap_line_low
+    properties:
+      maxzoom: 7
+  - id: railway_line_med
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage,
+            -- speeds are converted to kph in this layer because it is used for colouring
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
+            NULL AS service,
+            NULL AS disused, NULL AS construction,
+            NULL AS disused_railway,
+            NULL AS construction_railway,
+            NULL AS disused_usage, NULL AS disused_service,
+            NULL AS construction_usage, NULL AS construction_service,
+            NULL AS preserved_railway, NULL AS preserved_service,
+            NULL AS preserved_usage,
+            CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+                 ELSE 50
+            END AS rank,
+            electrified,
+            frequency,
+            construction_electrified,
+            construction_frequency,
+            proposed_electrified,
+            proposed_frequency,
+            railway_no_to_null(deelectrified)
+          FROM
+            (SELECT
+                way, railway, usage,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
+                electrified,
+                frequency,
+                construction_electrified,
+                construction_frequency,
+                proposed_electrified,
+                proposed_frequency,
+                deelectrified,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
+            ) AS r
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
+        ) AS railway_line_med
+    properties:
+      minzoom: 8
+      maxzoom: 8
+  - id: railway_line_fill
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage, service,
+            -- speeds are converted to kph in this layer because it is used for colouring
+            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
+            disused, construction,
+            disused_railway,
+            construction_railway,
+            disused_usage, disused_service,
+            construction_usage, construction_service,
+            preserved_railway, preserved_service,
+            preserved_usage,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'disused' THEN 300
+
+                 ELSE 50
+            END AS rank,
+            electrified,
+            frequency,
+            construction_electrified,
+            construction_frequency,
+            proposed_electrified,
+            proposed_frequency
+          FROM
+            (SELECT
+                way, railway, usage, service,
+                maxspeed,
+                maxspeed_forward,
+                maxspeed_backward,
+                preferred_direction,
+                tags->'disused' AS disused, construction,
+                tags->'disused:railway' AS disused_railway,
+                tags->'construction:railway' AS construction_railway,
+                tags->'disused:usage' AS disused_usage, tags->'disused:service' AS disused_service,
+                tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
+                tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
+                tags->'preserved:usage' AS preserved_usage,
+                electrified,
+                frequency,
+                construction_electrified,
+                construction_frequency,
+                proposed_electrified,
+                proposed_frequency,
+                deelectrified,
+                z_order
+              FROM openrailwaymap_osm_line
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
+            ) AS r
+          ORDER BY
+            z_order,
+            rank NULLS LAST,
+            maxspeed ASC NULLS FIRST
+        ) AS railway_line_fill
+    properties:
+      minzoom: 9

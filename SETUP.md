@@ -24,6 +24,8 @@ psql -d gis -f sql/functions.sql
 psql -d gis -f sql/get_station_importance.sql
 ```
 
+If you update your data, you have to refresh the materialized view of the train stations and their importance using `psql -d gis -f sql/update_station_importance.sql`.
+
 
 ## Detailed Instructions for Development Setup
 
@@ -113,6 +115,8 @@ psql -d gis -f sql/osm_carto_views.sql
 psql -d gis -f sql/functions.sql
 psql -d gis -f sql/get_station_importance.sql
 ```
+
+If you update your database, you have to refresh the materialized view of the train stations periodically. Call `psql -d gis -f sql/update_station_importance.sql` to refresh it.
 
 
 ### Install Carto

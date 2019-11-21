@@ -56,7 +56,7 @@ We granted superuser permissions to our user to avoid usage of sudo for further 
 Now we can create an empty database:
 
 ```sh
-createdb -E uf8 -O $USER gis
+createdb -E utf8 -O $USER gis
 ```
 
 If PostgreSQL asks for a password or other authentication problems occur, you have to ensure that the `peer` authentication method is enabled. It allows you to log into the database as a user having the same username as your system account (i.e. if your are logged into Linux as franz, you will be able to log into PostgreSQL as franz as well). To enable the `peer` method, add the following line to `pg_hba.conf` (location on Debian systems: `/etc/postgresql/$POSTGRES_VERSION/main/pg_hba.conf`). Replace `$USER` by your username. See chapter 20.3 and 20.9 of the [PostgreSQL documentation](https://www.postgresql.org/docs/current/client-authentication.html) for details about client authentication.
@@ -162,7 +162,7 @@ If you get strange exceptions thrown during installing Kosmtik, using Nik4 to re
 
 If you choose this path, you have to install Carto as well (see above).
 
-Your development workflow would be the following:
+Your development work flow would be the following:
 
 * edit the .mml or .mss files
 * call `carto $STYLE.mml > $STYLE.xml`

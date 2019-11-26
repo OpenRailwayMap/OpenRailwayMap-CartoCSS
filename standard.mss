@@ -280,24 +280,14 @@
     line-color: @no_usage_color;
     line-width: 2;
 
-    #railway_tunnel::bright {
-      line-width: 2 + @railway_tunnel_casing_add;
-    }
-
     ["service"!=null] {
       line-width: 1.5;
-
-      #railway_tunnel::bright {
-        line-width: 1.5 + @railway_tunnel_casing_add;
-      }
     }
 
-    #railway_tunnel::bright["railway"="construction"],
     ["railway"="construction"] {
       line-dasharray: @construction_dasharray;
     }
 
-    #railway_tunnel::bright["railway"="proposed"],
     ["railway"="proposed"] {
       line-dasharray: @proposed_dasharray;
     }
@@ -329,11 +319,6 @@
     ["railway"="construction"]["construction_railway"="tram"],
     ["railway"="proposed"]["proposed_railway"="tram"] {
       line-color: @tram_color;
-    }
-
-    #railway_tunnel::bright {
-      line-color: @tunnel_color;
-      comp-op: screen;
     }
   }
 

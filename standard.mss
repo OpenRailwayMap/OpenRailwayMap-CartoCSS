@@ -265,77 +265,75 @@
     }
   }
 
-  ["railway"="construction"],
-  ["railway"="proposed"] {
-    [zoom>=9]["construction_railway"="rail"]["usage"="main"]["service"=null],
-    [zoom>=9]["proposed_railway"="rail"]["usage"="main"]["service"=null],
-    [zoom>=9]["construction_railway"="rail"]["usage"="branch"]["service"=null],
-    [zoom>=9]["proposed_railway"="rail"]["usage"="branch"]["service"=null],
-    [zoom>=10]["construction_railway"="subway"]["service"=null],
-    [zoom>=10]["proposed_railway"="subway"]["service"=null],
-    [zoom>=10]["construction_railway"="light_rail"]["service"=null],
-    [zoom>=10]["proposed_railway"="light_rail"]["service"=null],
-    [zoom>=11]["construction_railway"="tram"]["service"=null],
-    [zoom>=11]["proposed_railway"="tram"]["service"=null],
-    [zoom>=13] {
-      line-color: @no_usage_color;
-      line-width: 2;
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=9]["railway"="proposed"]["proposed_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=9]["railway"="proposed"]["proposed_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="subway"]["service"=null],
+  [zoom>=10]["railway"="proposed"]["proposed_railway"="subway"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="light_rail"]["service"=null],
+  [zoom>=10]["railway"="proposed"]["proposed_railway"="light_rail"]["service"=null],
+  [zoom>=11]["railway"="construction"]["construction_railway"="tram"]["service"=null],
+  [zoom>=11]["railway"="proposed"]["proposed_railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="construction"],
+  [zoom>=13]["railway"="proposed"] {
+    line-color: @no_usage_color;
+    line-width: 2;
+
+    #railway_tunnel::bright {
+      line-width: 2 + @railway_tunnel_casing_add;
+    }
+
+    ["service"!=null] {
+      line-width: 1.5;
 
       #railway_tunnel::bright {
-        line-width: 2 + @railway_tunnel_casing_add;
+        line-width: 1.5 + @railway_tunnel_casing_add;
       }
+    }
 
-      ["service"!=null] {
-        line-width: 1.5;
+    #railway_tunnel::bright["railway"="construction"],
+    ["railway"="construction"] {
+      line-dasharray: @construction_dasharray;
+    }
 
-        #railway_tunnel::bright {
-          line-width: 1.5 + @railway_tunnel_casing_add;
-        }
+    #railway_tunnel::bright["railway"="proposed"],
+    ["railway"="proposed"] {
+      line-dasharray: @proposed_dasharray;
+    }
+
+    ["railway"="construction"]["construction_railway"="rail"]["usage"="main"],
+    ["railway"="proposed"]["proposed_railway"="rail"]["usage"="main"] {
+      line-color: @main_color;
+
+      ["highspeed"="yes"] {
+        line-color: @highspeed_color;
       }
+    }
 
-      #railway_tunnel::bright["railway"="construction"],
-      ["railway"="construction"] {
-        line-dasharray: @construction_dasharray;
-      }
+    ["railway"="construction"]["construction_railway"="rail"]["usage"="branch"],
+    ["railway"="proposed"]["proposed_railway"="rail"]["usage"="branch"] {
+      line-color: @branch_color;
+    }
 
-      #railway_tunnel::bright["railway"="proposed"],
-      ["railway"="proposed"] {
-        line-dasharray: @proposed_dasharray;
-      }
+    ["railway"="construction"]["construction_railway"="subway"],
+    ["railway"="proposed"]["proposed_railway"="subway"] {
+      line-color: @subway_color;
+    }
 
-      ["construction_railway"="rail"]["usage"="main"],
-      ["proposed_railway"="rail"]["usage"="main"] {
-        line-color: @main_color;
+    ["railway"="construction"]["construction_railway"="light_rail"],
+    ["railway"="proposed"]["proposed_railway"="light_rail"] {
+      line-color: @light_rail_color;
+    }
 
-        ["highspeed"="yes"] {
-          line-color: @highspeed_color;
-        }
-      }
+    ["railway"="construction"]["construction_railway"="tram"],
+    ["railway"="proposed"]["proposed_railway"="tram"] {
+      line-color: @tram_color;
+    }
 
-      ["construction_railway"="rail"]["usage"="branch"],
-      ["proposed_railway"="rail"]["usage"="branch"] {
-        line-color: @branch_color;
-      }
-
-      ["construction_railway"="subway"],
-      ["proposed_railway"="subway"] {
-        line-color: @subway_color;
-      }
-
-      ["construction_railway"="light_rail"],
-      ["proposed_railway"="light_rail"] {
-        line-color: @light_rail_color;
-      }
-
-      ["construction_railway"="tram"],
-      ["proposed_railway"="tram"] {
-        line-color: @tram_color;
-      }
-
-      #railway_tunnel::bright {
-        line-color: @tunnel_color;
-        comp-op: screen;
-      }
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 
@@ -640,77 +638,75 @@
     }
   }
 
-  ["railway"="construction"],
-  ["railway"="proposed"] {
-    [zoom>=9]["construction_railway"="rail"]["usage"="main"]["service"=null],
-    [zoom>=9]["proposed_railway"="rail"]["usage"="main"]["service"=null],
-    [zoom>=9]["construction_railway"="rail"]["usage"="branch"]["service"=null],
-    [zoom>=9]["proposed_railway"="rail"]["usage"="branch"]["service"=null],
-    [zoom>=10]["construction_railway"="subway"]["service"=null],
-    [zoom>=10]["proposed_railway"="subway"]["service"=null],
-    [zoom>=10]["construction_railway"="light_rail"]["service"=null],
-    [zoom>=10]["proposed_railway"="light_rail"]["service"=null],
-    [zoom>=11]["construction_railway"="tram"]["service"=null],
-    [zoom>=11]["proposed_railway"="tram"]["service"=null],
-    [zoom>=13] {
-      line-color: @no_usage_color;
-      line-width: 3;
-      line-cap: round;
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=9]["railway"="proposed"]["proposed_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=9]["railway"="proposed"]["proposed_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="subway"]["service"=null],
+  [zoom>=10]["railway"="proposed"]["proposed_railway"="subway"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="light_rail"]["service"=null],
+  [zoom>=10]["railway"="proposed"]["proposed_railway"="light_rail"]["service"=null],
+  [zoom>=11]["railway"="construction"]["construction_railway"="tram"]["service"=null],
+  [zoom>=11]["railway"="proposed"]["proposed_railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="construction"],
+  [zoom>=13]["railway"="proposed"] {
+    line-color: @no_usage_color;
+    line-width: 3;
+    line-cap: round;
+
+    #railway_tunnel::bright {
+      line-width: 2 + @railway_tunnel_casing_add;
+    }
+
+    ["service"!=null] {
+      line-width: 1.5;
 
       #railway_tunnel::bright {
-        line-width: 2 + @railway_tunnel_casing_add;
+        line-width: 1.5 + @railway_tunnel_casing_add;
       }
+    }
 
-      ["service"!=null] {
-        line-width: 1.5;
+    #railway_tunnel::bright["railway"="construction"],
+    ["railway"="construction"] {
+      line-dasharray: @construction_dasharray;
+    }
 
-        #railway_tunnel::bright {
-          line-width: 1.5 + @railway_tunnel_casing_add;
-        }
+    ["railway"="proposed"] {
+      line-dasharray: @proposed_dasharray;
+    }
+
+    ["railway"="construction"]["construction_railway"="rail"]["usage"="main"],
+    ["railway"="proposed"]["proposed_railway"="rail"]["usage"="main"] {
+      line-color: @main_color;
+
+      ["highspeed"="yes"] {
+        line-color: @highspeed_color;
       }
+    }
 
-      #railway_tunnel::bright["railway"="construction"],
-      ["railway"="construction"] {
-        line-dasharray: @construction_dasharray;
-      }
+    ["railway"="construction"]["construction_railway"="rail"]["usage"="branch"],
+    ["railway"="proposed"]["proposed_railway"="rail"]["usage"="branch"] {
+      line-color: @branch_color;
+    }
 
-      ["railway"="proposed"] {
-        line-dasharray: @proposed_dasharray;
-      }
+    ["railway"="construction"]["construction_railway"="subway"],
+    ["railway"="proposed"]["proposed_railway"="subway"] {
+      line-color: @subway_color;
+    }
 
-      ["construction_railway"="rail"]["usage"="main"],
-      ["proposed_railway"="rail"]["usage"="main"] {
-        line-color: @main_color;
+    ["railway"="construction"]["construction_railway"="light_rail"],
+    ["railway"="proposed"]["proposed_railway"="light_rail"] {
+      line-color: @light_rail_color;
+    }
 
-        ["highspeed"="yes"] {
-          line-color: @highspeed_color;
-        }
-      }
+    ["railway"="construction"]["construction_railway"="tram"],
+    ["railway"="proposed"]["proposed_railway"="tram"] {
+      line-color: @tram_color;
+    }
 
-      ["construction_railway"="rail"]["usage"="branch"],
-      ["proposed_railway"="rail"]["usage"="branch"] {
-        line-color: @branch_color;
-      }
-
-      ["construction_railway"="subway"],
-      ["proposed_railway"="subway"] {
-        line-color: @subway_color;
-      }
-
-      ["construction_railway"="light_rail"],
-      ["proposed_railway"="light_rail"] {
-        line-color: @light_rail_color;
-      }
-
-      ["construction_railway"="tram"],
-      ["proposed_railway"="tram"] {
-        line-color: @tram_color;
-      }
-
-      #railway_tunnel::bright {
-        line-color: @tunnel_color;
-        comp-op: screen;
-      }
+    #railway_tunnel::bright {
+      line-color: @tunnel_color;
+      comp-op: screen;
     }
   }
 

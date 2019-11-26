@@ -690,6 +690,7 @@
     }
 
     #railway_tunnel::bright {
+      line-cap: round;
       line-color: @tunnel_color;
       comp-op: screen;
     }

@@ -1,13 +1,21 @@
 @text-halo-color: white;
 @text-halo-radius: 1;
 
+@construction_dashes: 9,9;
+
 @no_train_protection_color: black;
 @pzb_color: #ffb900;
 @lzb_color: red;
 @atb_color: #ff8c00;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
-@etcs_construction_dashes: 9,9;
+
+/* Casing of railway lines under construction should be dahsed as well. */
+#railway_line_casing[zoom>=9]["railway"="construction"]::casing {
+  ["railway"="construction"] {
+    line-dasharray: @construction_dashes;
+  }
+}
 
 #railway_line_fill[zoom>=9]::fill,
 #railway_line_low[zoom<=7]::fill,
@@ -59,7 +67,10 @@
     }
     ["construction_etcs"!="no"] {
       line-color: @etcs_construction_color;
-      line-dasharray: @etcs_construction_dashes;
+    }
+
+    ["railway"="construction"] {
+      line-dasharray: @construction_dashes;
     }
   }
 }

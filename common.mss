@@ -1,3 +1,6 @@
+/** Grey color and line width for railway tracks in use.
+  * To be overriden by colouring for speed limits, train protection or electrification.
+  */
 @railway_fill_color: grey;
 @railway_casing_color: white;
 
@@ -76,11 +79,6 @@
     }
   }
 
-  [zoom>=9]["railway"="disused"]["disused_railway"="rail"]["service"=null],
-  [zoom>=11]["railway"="disused"]["disused_railway"="subway"]["service"=null],
-  [zoom>=11]["railway"="disused"]["disused_railway"="light_rail"]["service"=null],
-  [zoom>=12]["railway"="disused"]["disused_railway"="tram"]["service"=null],
-  [zoom>=13]["railway"="disused"],
   [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
   [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],
   [zoom>=10]["railway"="construction"]["construction_railway"="subway"]["service"=null],
@@ -171,11 +169,6 @@
     }
   }
 
-  [zoom>=9]["railway"="disused"]["disused_railway"="rail"]["service"=null],
-  [zoom>=11]["railway"="disused"]["disused_railway"="subway"]["service"=null],
-  [zoom>=11]["railway"="disused"]["disused_railway"="light_rail"]["service"=null],
-  [zoom>=12]["railway"="disused"]["disused_railway"="tram"]["service"=null],
-  [zoom>=13]["railway"="disused"],
   [zoom>=9] ["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
   [zoom>=9] ["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],
   [zoom>=10]["railway"="construction"]["construction_railway"="subway"]["service"=null],

@@ -6,6 +6,7 @@
 @lzb_color: red;
 @atb_color: #ff8c00;
 @etcs_color: blue;
+@etcs_construction_color: #87CEFA;
 @etcs_construction_dashes: 9,9;
 
 #railway_line_fill[zoom>=9]::fill,
@@ -56,7 +57,8 @@
     ["etcs"!="no"] {
       line-color: @etcs_color;
     }
-    ["construction_etcs"!="no"]::fill_etcs {
+    ["construction_etcs"!="no"] {
+      line-color: @etcs_construction_color;
       line-dasharray: @etcs_construction_dashes;
     }
   }

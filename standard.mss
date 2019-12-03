@@ -20,6 +20,10 @@
 @bridge_casing_color: #000000;
 @tunnel_color: #979797;
 
+@turntable_fill: #ababab;
+@turntable_casing: #808080;
+@turntable_casing_width: 2;
+
 @railway_casing_add: 2;
 
 /* additional width of the casing of dashed lines */
@@ -30,6 +34,15 @@
 @razed_dasharray: 3,7;
 @construction_dasharray: 9,9;
 @proposed_dasharray: 2,8;
+
+#railway_turntables[zoom>=11] {
+  polygon-fill: @turntable_fill;
+  [zoom>16] {
+    line-color: @turntable_casing;
+    line-width: @turntable_casing_width;
+  }
+}
+
 
 #railway_bridge::railing[zoom>=9][length_pixels>3] {
   ["railway"="rail"] {

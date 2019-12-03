@@ -207,6 +207,19 @@ Layer:
     properties:
       minzoom: 8
       maxzoom: 8
+  - id: railway_turntables
+    geometry: polygon
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway
+          FROM openrailwaymap_osm_polygon
+          WHERE railway IN ('turntable', 'traverser')
+        ) AS railway_turntable
+    properties:
+      minzoom: 11
   - id: railway_line_fill
     geometry: line
     <<: *extents

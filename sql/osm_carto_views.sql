@@ -48,6 +48,7 @@ CREATE OR REPLACE VIEW openrailwaymap_osm_point AS
     tags->'railway:signal:speed_limit_distant'       AS "signal_speed_limit_distant",
     tags->'railway:signal:speed_limit_distant:form'  AS "signal_speed_limit_distant_form",
     tags->'railway:signal:speed_limit_distant:speed' AS "signal_speed_limit_distant_speed",
+    tags->'railway:local_operated' AS railway_local_operated,
     tags AS tags
   FROM planet_osm_point;
 

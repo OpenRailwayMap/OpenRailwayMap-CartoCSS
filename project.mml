@@ -419,7 +419,6 @@ Layer:
         (SELECT
             way,
             railway,
-            tags->'railway:switch:local_operated' AS local_operated,
             man_made,
             CASE
               WHEN railway = 'crossing' THEN -1::int
@@ -581,6 +580,20 @@ Layer:
         ) AS railway_text_km
     properties:
       minzoom: 14
+  - id: railway_switch_ref
+    geometry: point
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, ref, railway_local_operated
+          FROM openrailwaymap_osm_point
+          WHERE railway IN ('switch', 'railway_crossing') AND ref IS NOT NULL
+          ORDER by char_length(ref) ASC
+        ) AS railway_switch_ref
+    properties:
+      minzoom: 16
   - id: railway_text_detail
     geometry: line
     <<: *extents

@@ -2,16 +2,6 @@
 @switch-local-color: yellow;
 
 #railway_symbols[zoom>=11] {
-  [railway = 'switch'][zoom >= 16] {
-    marker-type: ellipse;
-    marker-width: 8;
-    marker-height: 8;
-    marker-fill: @switch-color;
-    [local_operated = 'yes'] {
-      marker-fill: @switch-local-color;
-    }
-  }
-
   [railway = 'level_crossing'][zoom >= 14],
   [railway = 'crossing'][zoom >= 14] {
     marker-file: url('symbols/level-crossing.svg');

@@ -21,6 +21,9 @@
 @track-ref-color: white;
 @track-ref-size: 10;
 
+@switch-halo-radius: 2;
+@local-operated-halo-fill: yellow;
+
 #railway_text_km_med[zoom>=11][zoom<=13],
 #railway_text_km_high[zoom>=14] {
   text-name: '[pos]';
@@ -150,5 +153,18 @@
     #railway_text_high {
       text-spacing: 200;
     }
+  }
+}
+
+#railway_switch_ref[zoom>=16] {
+  text-name: [ref];
+  text-face-name: @book-fonts;
+  text-size: @text-size;
+  text-fill: black;
+  text-halo-radius: @switch-halo-radius;
+  text-halo-fill: @text-halo-color;
+  text-min-distance: 20;
+  ["railway_local_operated"="yes"] {
+    text-halo-fill: @local-operated-halo-fill;
   }
 }

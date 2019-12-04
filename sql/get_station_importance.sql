@@ -19,7 +19,7 @@
 --    FROM planet_osm_polygon
 --    WHERE railway IN ('station', 'halt', 'platform') OR public_transport IN ('stop_position', 'platform');
 
-CREATE INDEX planet_osm_point_railway_geom_idx ON planet_osm_point USING GIST(way) WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop');
+CREATE INDEX IF NOT EXISTS planet_osm_point_railway_geom_idx ON planet_osm_point USING GIST(way) WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop');
 
 -- Node members in relations
 -- TODO optionally check array_length(parts, 1) against way_off or rel_off

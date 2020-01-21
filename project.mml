@@ -54,7 +54,7 @@ Layer:
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,
             proposed_railway,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+            CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
@@ -101,7 +101,7 @@ Layer:
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,
             proposed_railway,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+            CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
@@ -239,7 +239,7 @@ Layer:
             proposed_usage, proposed_service,
             preserved_railway, preserved_service,
             preserved_usage,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+            CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
@@ -292,7 +292,7 @@ Layer:
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,
             proposed_railway,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+            CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
@@ -443,7 +443,7 @@ Layer:
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,
             proposed_railway,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+            CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
@@ -492,7 +492,7 @@ Layer:
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,
             proposed_railway,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+            CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
@@ -606,7 +606,7 @@ Layer:
             disused_railway, abandoned_railway,
             razed_railway, construction_railway,
             proposed_railway,
-            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+            CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
                  WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860

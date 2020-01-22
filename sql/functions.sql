@@ -1,3 +1,12 @@
+CREATE OR REPLACE FUNCTION railway_no_to_null(value TEXT) RETURNS TEXT AS $$
+BEGIN
+  IF value = 'no' THEN
+    RETURN NULL;
+  END IF;
+  RETURN value;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION railway_get_first_pos(pos_value TEXT) RETURNS TEXT AS $$
 DECLARE
   pos_part1 TEXT;

@@ -68,6 +68,7 @@ Layer:
             END AS rank,
             electrified,
             frequency,
+            voltage,
             construction_electrified,
             construction_frequency,
             proposed_electrified,
@@ -81,6 +82,7 @@ Layer:
                 tags->'construction:railway' AS construction_railway,
                 electrified,
                 frequency,
+                voltage,
                 construction_electrified,
                 construction_frequency,
                 proposed_electrified,
@@ -102,8 +104,6 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
-            -- speeds are converted to kph in this layer because it is used for colouring
-            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
             NULL AS disused_railway,
@@ -118,24 +118,29 @@ Layer:
             END AS rank,
             electrified,
             frequency,
+            voltage,
             construction_electrified,
             construction_frequency,
+            construction_voltage,
             proposed_electrified,
             proposed_frequency,
-            railway_no_to_null(deelectrified),
+            proposed_voltage,
+            abandoned_electrified,
+            deelectrified,
+            railway_no_to_null(deelectrified)
           FROM
             (SELECT
                 way, railway, usage,
-                maxspeed,
-                maxspeed_forward,
-                maxspeed_backward,
-                preferred_direction,
                 electrified,
                 frequency,
+                voltage,
                 construction_electrified,
                 construction_frequency,
+                construction_voltage,
                 proposed_electrified,
                 proposed_frequency,
+                proposed_voltage,
+                abandoned_electrified,
                 deelectrified,
                 z_order
               FROM openrailwaymap_osm_line
@@ -143,8 +148,7 @@ Layer:
             ) AS r
           ORDER BY
             z_order,
-            rank NULLS LAST,
-            maxspeed ASC NULLS FIRST
+            rank NULLS LAST
         ) AS openrailwaymap_line_low
     properties:
       maxzoom: 7
@@ -156,8 +160,6 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage,
-            -- speeds are converted to kph in this layer because it is used for colouring
-            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             NULL AS service,
             NULL AS disused, NULL AS construction,
             NULL AS disused_railway,
@@ -172,24 +174,29 @@ Layer:
             END AS rank,
             electrified,
             frequency,
+            voltage,
             construction_electrified,
             construction_frequency,
+            construction_voltage,
             proposed_electrified,
             proposed_frequency,
+            proposed_voltage,
+            abandoned_electrified,
+            deelectrified,
             railway_no_to_null(deelectrified)
           FROM
             (SELECT
                 way, railway, usage,
-                maxspeed,
-                maxspeed_forward,
-                maxspeed_backward,
-                preferred_direction,
                 electrified,
                 frequency,
+                voltage,
                 construction_electrified,
                 construction_frequency,
+                construction_voltage,
                 proposed_electrified,
                 proposed_frequency,
+                proposed_voltage,
+                abandoned_electrified,
                 deelectrified,
                 z_order
               FROM openrailwaymap_osm_line
@@ -197,8 +204,7 @@ Layer:
             ) AS r
           ORDER BY
             z_order,
-            rank NULLS LAST,
-            maxspeed ASC NULLS FIRST
+            rank NULLS LAST
         ) AS railway_line_med
     properties:
       minzoom: 8
@@ -211,8 +217,6 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            -- speeds are converted to kph in this layer because it is used for colouring
-            railway_dominant_speed(preferred_direction, maxspeed, maxspeed_forward, maxspeed_backward) AS maxspeed,
             disused, construction,
             disused_railway,
             construction_railway,
@@ -237,17 +241,18 @@ Layer:
             END AS rank,
             electrified,
             frequency,
+            voltage,
             construction_electrified,
             construction_frequency,
+            construction_voltage,
             proposed_electrified,
-            proposed_frequency
+            proposed_frequency,
+            proposed_voltage,
+            abandoned_electrified,
+            deelectrified
           FROM
             (SELECT
                 way, railway, usage, service,
-                maxspeed,
-                maxspeed_forward,
-                maxspeed_backward,
-                preferred_direction,
                 tags->'disused' AS disused, construction,
                 tags->'disused:railway' AS disused_railway,
                 tags->'construction:railway' AS construction_railway,
@@ -257,10 +262,14 @@ Layer:
                 tags->'preserved:usage' AS preserved_usage,
                 electrified,
                 frequency,
+                voltage,
                 construction_electrified,
                 construction_frequency,
+                construction_voltage,
                 proposed_electrified,
                 proposed_frequency,
+                proposed_voltage,
+                abandoned_electrified,
                 deelectrified,
                 z_order
               FROM openrailwaymap_osm_line
@@ -268,8 +277,7 @@ Layer:
             ) AS r
           ORDER BY
             z_order,
-            rank NULLS LAST,
-            maxspeed ASC NULLS FIRST
+            rank NULLS LAST
         ) AS railway_line_fill
     properties:
       minzoom: 9

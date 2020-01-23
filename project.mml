@@ -200,7 +200,7 @@ Layer:
                 way, railway, usage, tags->'highspeed' AS highspeed,
                 z_order
               FROM openrailwaymap_osm_line
-              WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
+              WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
           ORDER by z_order, rank NULLS LAST
         ) AS railway_line_med

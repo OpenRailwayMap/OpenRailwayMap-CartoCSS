@@ -367,31 +367,29 @@ Format details:
   /************************************************/
   /* DE minor semaphore signals and signs type Sh */
   /************************************************/
-  [zoom>=17]["feature"="DE-ESO:sh"] {
-    ["minor_form"="semaphore"],
-    ["minor_form"="sign"] {
-      marker-file: url('symbols/de/sh0-semaphore-dwarf.svg');
-      marker-width: 12;
-      marker-height: 11;
+  [zoom>=17]["feature"="DE-ESO:sh"]["minor_form"="semaphore"],
+  [zoom>=17]["feature"="DE-ESO:sh0"]["minor_form"="sign"] {
+    marker-file: url('symbols/de/sh0-semaphore-dwarf.svg');
+    marker-width: 12;
+    marker-height: 11;
+    marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 11;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    ["minor_form"="semaphore"]["minor_height"="normal"],
+    ["minor_form"="semaphore"]["minor_height"=null] {
+      marker-file: url('symbols/de/sh1-semaphore-normal.svg');
+      marker-width: 10;
+      marker-height: 12;
       marker-allow-overlap: true;
-
-      ::text {
-        text-name: [ref];
-        text-dy: 11;
-        text-fill: @signal-text-fill;
-        text-halo-radius: @signal-text-halo-radius;
-        text-halo-fill: @signal-text-halo-fill;
-        text-face-name: @bold-fonts;
-        text-size: 10;
-      }
-
-      ["minor_form"="semaphore"]["minor_height"="normal"],
-      ["minor_form"="semaphore"]["minor_height"=null] {
-        marker-file: url('symbols/de/sh1-semaphore-normal.svg');
-        marker-width: 10;
-        marker-height: 12;
-        marker-allow-overlap: true;
-      }
     }
   }
 

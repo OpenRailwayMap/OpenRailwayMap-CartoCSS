@@ -390,7 +390,7 @@ Layer:
             tags->'railway:signal:whistle:type' AS whistle_type
           FROM openrailwaymap_osm_signals
           WHERE
-            railway = 'signal'
+            railway IN ('signal', 'buffer_stop', 'derail')
             AND "signal_direction" IS NOT NULL
           ORDER BY
             -- distant signals are less important, signals for slower speeds are more important

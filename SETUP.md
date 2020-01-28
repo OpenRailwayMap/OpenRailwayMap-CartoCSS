@@ -2,6 +2,16 @@
 
 This guide mainly covers setup for development purposes. If you set up a tile server, follow the guides at [switch2osm.org](https://switch2osm.org) and adapt the style specific steps by those listed in the overview section of this guide.
 
+## Building quickly
+
+Building the Mapnik XML files does not require access to a PostgreSQL database with OSM data in it.
+If you just want to generated the Mapnik XML files and have `carto` in your path, run
+
+```sh
+util/prepare_makefile.sh
+make
+```
+
 ## Overview for Experienced Developers
 
 If you are experienced with CartoCSS map styles and their setup, this section contains the important information for you.

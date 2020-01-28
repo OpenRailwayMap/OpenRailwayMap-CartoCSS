@@ -1,6 +1,7 @@
 *.swp
 data/
-project.xml
+standard.xml
 maxspeed.xml
 signals.xml
 *.mapcss
+*.d

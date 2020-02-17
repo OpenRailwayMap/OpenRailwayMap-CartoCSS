@@ -16,6 +16,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION railway_to_int(value TEXT) RETURNS INTEGER AS $$
+BEGIN
+  IF value ~ '^-?[0-9]+$' THEN
+    RETURN value::INTEGER;
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION railway_get_first_pos(pos_value TEXT) RETURNS TEXT AS $$
 DECLARE
   pos_part1 TEXT;
@@ -341,5 +350,55 @@ BEGIN
     RETURN COALESCE(tags->'bridge:name', name);
   END IF;
   RETURN name;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Get label for electrification
+CREATE OR REPLACE FUNCTION railway_electrification_label(electrified TEXT, deelectrified TEXT,
+    construction_electrified TEXT, proposed_electrified TEXT, voltage TEXT, frequency TEXT,
+    construction_voltage TEXT, construction_frequency TEXT, proposed_voltage TEXT,
+    proposed_frequency TEXT) RETURNS TEXT AS $$
+DECLARE
+  volt TEXT;
+  freq TEXT;
+  volt_int INTEGER;
+  kilovolt NUMERIC(3, 1);
+  volt_text TEXT;
+  freq_text TEXT;
+BEGIN
+  -- Select right values for voltage and frequency part of the label
+  IF railway_no_to_null(electrified) IS NOT NULL OR railway_no_to_null(deelectrified) IS NOT NULL THEN
+    volt := voltage;
+    freq := frequency;
+  ELSIF railway_no_to_null(construction_electrified) IS NOT NULL THEN
+    volt := construction_voltage;
+    freq := construction_frequency;
+  ELSIF railway_no_to_null(proposed_electrified) IS NOT NULL THEN
+    volt := proposed_voltage;
+    freq := proposed_frequency;
+  ELSE
+    RETURN NULL;
+  END IF;
+  -- Grounded sections
+  IF volt = '0' THEN
+    RETURN '0V';
+  END IF;
+  -- Round voltage nicely
+  volt_int := railway_to_int(volt);
+  IF volt_int < 1000 THEN
+    volt_text := volt || 'V';
+  ELSIF volt_int % 1000 = 0 THEN
+    volt_text := (volt_int/1000)::TEXT || 'kV';
+  ELSE
+    volt_text := (volt_int::FLOAT / 1000::FLOAT)::NUMERIC(3, 1)::TEXT || 'kV';
+  END IF;
+  -- Output voltage and frequency
+  IF freq = '0' OR freq IS NULL THEN
+    RETURN volt_text || ' =';
+  END IF;
+  IF freq IS NOT NULL THEN
+    RETURN volt_text || ' ' || freq || 'Hz';
+  END IF;
+  RETURN volt_text;
 END;
 $$ LANGUAGE plpgsql;

@@ -281,3 +281,108 @@ Layer:
         ) AS railway_line_fill
     properties:
       minzoom: 9
+  - id: railway_text_med
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage, service,
+            tags->'disused' AS disused,
+            construction,
+            tags->'disused:railway' AS disused_railway,
+            tags->'construction:railway' AS construction_railway,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'disused' THEN 300
+                 ELSE 50
+            END AS rank,
+            z_order,
+            railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
+            electrified,
+            frequency,
+            voltage,
+            construction_electrified,
+            construction_frequency,
+            construction_voltage,
+            proposed_electrified,
+            proposed_frequency,
+            proposed_voltage,
+            abandoned_electrified,
+            deelectrified
+          FROM openrailwaymap_osm_line
+          WHERE
+            railway IN ('rail', 'disused', 'construction')
+            AND (
+              electrified IS NOT NULL
+              OR deelectrified IS NOT NULL
+              OR construction_electrified IS NOT NULL
+              OR proposed_electrified IS NOT NULL
+            )
+          ORDER by z_order, rank NULLS LAST
+        ) AS railway_text_high
+    properties:
+      minzoom: 8
+      maxzoom: 10
+  - id: railway_text_high
+    geometry: line
+    <<: *extents
+    Datasource:
+      <<: *osm2pgsql
+      table: |-
+        (SELECT
+            way, railway, usage, service,
+            tags->'disused' AS disused,
+            construction,
+            tags->'disused:railway' AS disused_railway,
+            tags->'construction:railway' AS construction_railway,
+            CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+                 WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+                 WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+                 WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+                 WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+                 WHEN railway IN ('preserved', 'construction') THEN 400
+                 WHEN railway = 'disused' THEN 300
+                 ELSE 50
+            END AS rank,
+            z_order,
+            railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
+            electrified,
+            frequency,
+            voltage,
+            construction_electrified,
+            construction_frequency,
+            construction_voltage,
+            proposed_electrified,
+            proposed_frequency,
+            proposed_voltage,
+            abandoned_electrified,
+            deelectrified
+          FROM openrailwaymap_osm_line
+          WHERE
+            railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
+            AND (
+              electrified IS NOT NULL
+              OR deelectrified IS NOT NULL
+              OR construction_electrified IS NOT NULL
+              OR proposed_electrified IS NOT NULL
+            )
+          ORDER by z_order, rank NULLS LAST
+        ) AS railway_text_high
+    properties:
+      minzoom: 11

@@ -353,6 +353,67 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Get state of electrification
+CREATE OR REPLACE FUNCTION railway_electrification_state(railway TEXT, electrified TEXT,  deelectrified TEXT, abandoned_electrified TEXT, construction_electrified TEXT, proposed_electrified TEXT) RETURNS TEXT AS $$
+DECLARE
+  state TEXT;
+  valid_values TEXT[] := ARRAY['contact_line', 'yes', 'rail', 'ground-level_power_supply', 'contact_line;rail', 'rail;contact_line'];
+BEGIN
+  state := NULL;
+  IF electrified = ANY(valid_values) THEN
+    return 'present';
+  END IF;
+  IF electrified = 'no' THEN
+    state := 'no';
+  END IF;
+  IF construction_electrified = ANY(valid_values) THEN
+    RETURN 'construction';
+  END IF;
+  IF proposed_electrified = ANY(valid_values) THEN
+    RETURN 'proposed';
+  END IF;
+  IF state = 'no' AND deelectrified = ANY(valid_values) THEN
+    RETURN 'deelectrified';
+  END IF;
+  IF state = 'no' AND abandoned_electrified = ANY(valid_values) THEN
+    RETURN 'abandoned';
+  END IF;
+  RETURN state;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Get voltage for given state
+CREATE OR REPLACE FUNCTION railway_voltage_for_state(state TEXT, voltage FLOAT, construction_voltage FLOAT, proposed_voltage FLOAT) RETURNS FLOAT AS $$
+BEGIN
+  IF state = 'present' THEN
+    RETURN voltage;
+  END IF;
+  IF state = 'construction' THEN
+    RETURN construction_voltage;
+  END IF;
+  IF state = 'proposed' THEN
+    RETURN proposed_voltage;
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Get frequency for given state
+CREATE OR REPLACE FUNCTION railway_frequency_for_state(state TEXT, frequency FLOAT, construction_frequency FLOAT, proposed_frequency FLOAT) RETURNS FLOAT AS $$
+BEGIN
+  IF state = 'present' THEN
+    RETURN frequency;
+  END IF;
+  IF state = 'construction' THEN
+    RETURN construction_frequency;
+  END IF;
+  IF state = 'proposed' THEN
+    RETURN proposed_frequency;
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Get label for electrification
 CREATE OR REPLACE FUNCTION railway_electrification_label(electrified TEXT, deelectrified TEXT,
     construction_electrified TEXT, proposed_electrified TEXT, voltage TEXT, frequency TEXT,

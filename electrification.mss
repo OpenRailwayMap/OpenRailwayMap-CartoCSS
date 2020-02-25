@@ -24,7 +24,7 @@
 
 #railway_line_fill[zoom>=9]::fill,
 #railway_line_low[zoom<=7]::fill,
-#railway_line_med[zoom>7][zoom<9]::fill {
+#railway_line_med[zoom=8]::fill {
   ["railway"="rail"]["usage"="main"]["service"=null],
   [zoom>=8]["railway"="rail"]["usage"="branch"]["service"=null],
   [zoom=10]["railway"="rail"]["usage"="industrial"]["service"=null],
@@ -74,67 +74,67 @@
       line-dasharray: @proposed-dashes;
     }
 
-    ["frequency"=0]["voltage"<750] {
+    [frequency=0]["voltage"<750] {
        line-color: #FF79B8;
     }
 
-    ["frequency"=0]["voltage"=750] {
+    [frequency=0]["voltage"=750] {
        line-color: #F930FF;
     }
 
-    ["frequency"=0][voltage>750][voltage<1000] {
+    [frequency=0][voltage>750][voltage<1000] {
        line-color: #D033FF;
     }
 
-    ["frequency"=0]["voltage"=1000] {
+    [frequency=0]["voltage"=1000] {
        line-color: #5C1CCB;
     }
 
-    ["frequency"=0][voltage>1000][voltage<1500] {
+    [frequency=0][voltage>1000][voltage<1500] {
        line-color: #007ACB;
     }
 
-    ["frequency"=0]["voltage"=1500] {
+    [frequency=0]["voltage"=1500] {
        line-color: #0098CB;
     }
 
-    ["frequency"=0][voltage>1500][voltage<3000] {
+    [frequency=0][voltage>1500][voltage<3000] {
        line-color: #00B7CB;
     }
 
-    ["frequency"=0]["voltage"=3000] {
+    [frequency=0]["voltage"=3000] {
        line-color: #0000FF;
     }
 
-    ["frequency"=0][voltage>3000] {
+    [frequency=0][voltage>3000] {
        line-color: #1969FF;
     }
 
-    ["frequency"!=null]["frequency"!=0][voltage<15000] {
+    [frequency!=null]["frequency"!=0][voltage<15000] {
        line-color: #97FF2F;
     }
 
-    ["frequency"=null][frequency!=0][voltage>=15000][voltage<25000] {
+    [frequency=null][frequency!=0][voltage>=15000][voltage<25000] {
        line-color: #F1F100;
     }
 
-    [frequency=16.67]["voltage"=15000] {
+    [frequency=16.67][voltage=15000] {
        line-color: #00FF00;
     }
 
-   [frequency=16.7]["voltage"=15000] {
+   [frequency=16.7][voltage=15000] {
       line-color: #00CB66;
    }
 
-   ["frequency"=null][frequency!=0][voltage>=25000] {
+   [frequency=null][frequency!=0][voltage>=25000] {
       line-color: #FF9F19;
    }
 
-   ["frequency"=50]["voltage"=25000] {
+   [frequency=50]["voltage"=25000] {
       line-color: #FF0000;
    }
 
-   ["frequency"=60]["voltage"=25000] {
+   [frequency=60]["voltage"=25000] {
       line-color: #C00000;
    }
   /*  [disused!=null],
@@ -144,23 +144,40 @@
   }
 }
 
-#railway_text_med[zoom<=10],
-#railway_text_high[zoom>=11] {
-  [railway="rail"],
-  [railway="construction"][construction_railway="rail"],
-  [railway="disused"][disused_railway="rail"],
-  [zoom>=11][railway="narrow_gauge"],
-  [zoom>=11][railway="construction"][construction_railway="narrow_gauge"],
-  [zoom>=11][railway="disused"][disused_railway="narrow_gauge"],
-  [zoom>=12][railway="light_rail"],
-  [zoom>=12][railway="construction"][construction_railway="light_rail"],
-  [zoom>=12][railway="disused"][disused_railway="light_rail"],
-  [zoom>=12][railway="subway"],
-  [zoom>=12][railway="construction"][construction_railway="subway"],
-  [zoom>=12][railway="disused"][disused_railway="subway"],
-  [zoom>=13][railway="tram"],
-  [zoom>=13][railway="construction"][construction_railway="tram"],
-  [zoom>=13][railway="disused"][disused_railway="tram"] {
+#railway_text_med[zoom=8],
+#railway_text_high[zoom>=9] {
+  ["railway"="rail"]["usage"="main"]["service"=null],
+  ["railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom=10]["railway"="rail"]["usage"="industrial"]["service"=null],
+  [zoom>=13]["railway"="rail"]["usage"=null]["service"=null],
+  [zoom>=11]["railway"="rail"]["usage"="industrial"],
+  [zoom>=11]["railway"="rail"]["usage"=null]["service"="siding"],
+  [zoom>=11]["railway"="rail"]["usage"=null]["service"="crossover"],
+  [zoom>=12]["railway"="rail"]["usage"=null]["service"="yard"],
+  [zoom>=11]["railway"="rail"]["usage"=null]["service"="spur"],
+  [zoom>=11]["railway"="narrow_gauge"]["service"=null],
+  [zoom>=11]["railway"="narrow_gauge"]["service"="spur"],
+  [zoom>=11]["railway"="narrow_gauge"]["service"="siding"],
+  [zoom>=11]["railway"="narrow_gauge"]["service"="crossover"],
+  [zoom>=12]["railway"="narrow_gauge"]["service"="yard"],
+  [zoom>=11]["railway"="disused"]["disused_railway"="rail"]["service"=null],
+  [zoom>=12]["railway"="disused"]["disused_railway"="subway"]["service"=null],
+  [zoom>=12]["railway"="disused"]["disused_railway"="light_rail"]["service"=null],
+  [zoom>=13]["railway"="disused"]["disused_railway"="tram"]["service"=null],
+  /* service!=null is required to get a smaller Mapnik XML style with the Carto compiler. */
+  [zoom>=13]["railway"="disused"]["service"!=null],
+  [zoom>=11]["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=11]["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=12]["railway"="construction"]["construction_railway"="subway"]["service"=null],
+  [zoom>=12]["railway"="construction"]["construction_railway"="light_rail"]["service"=null],
+  [zoom>=13]["railway"="construction"]["construction_railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="construction"]["service"!=null],
+  [zoom>=12]["railway"="subway"]["service"=null],
+  [zoom>=13]["railway"="subway"]["service"!=null],
+  [zoom>=12]["railway"="light_rail"]["service"=null],
+  [zoom>=13]["railway"="light_rail"]["service"!=null],
+  [zoom>=13]["railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="tram"]["service"!=null] {
     text-name: [label];
     text-face-name: @bold-fonts;
     text-size: 11;

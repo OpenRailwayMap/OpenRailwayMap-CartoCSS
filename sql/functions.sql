@@ -383,32 +383,32 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Get voltage for given state
-CREATE OR REPLACE FUNCTION railway_voltage_for_state(state TEXT, voltage FLOAT, construction_voltage FLOAT, proposed_voltage FLOAT) RETURNS FLOAT AS $$
+CREATE OR REPLACE FUNCTION railway_voltage_for_state(state TEXT, voltage TEXT, construction_voltage TEXT, proposed_voltage TEXT) RETURNS INTEGER AS $$
 BEGIN
   IF state = 'present' THEN
-    RETURN voltage;
+    RETURN railway_to_int(voltage);
   END IF;
   IF state = 'construction' THEN
-    RETURN construction_voltage;
+    RETURN railway_to_int(construction_voltage);
   END IF;
   IF state = 'proposed' THEN
-    RETURN proposed_voltage;
+    RETURN railway_to_int(proposed_voltage);
   END IF;
   RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
 -- Get frequency for given state
-CREATE OR REPLACE FUNCTION railway_frequency_for_state(state TEXT, frequency FLOAT, construction_frequency FLOAT, proposed_frequency FLOAT) RETURNS FLOAT AS $$
+CREATE OR REPLACE FUNCTION railway_frequency_for_state(state TEXT, frequency TEXT, construction_frequency TEXT, proposed_frequency TEXT) RETURNS FLOAT AS $$
 BEGIN
   IF state = 'present' THEN
-    RETURN frequency;
+    RETURN railway_to_float(frequency);
   END IF;
   IF state = 'construction' THEN
-    RETURN construction_frequency;
+    RETURN railway_to_float(construction_frequency);
   END IF;
   IF state = 'proposed' THEN
-    RETURN proposed_frequency;
+    RETURN railway_to_float(proposed_frequency);
   END IF;
   RETURN NULL;
 END;

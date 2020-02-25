@@ -277,17 +277,7 @@ Layer:
             END AS rank,
             z_order,
             railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
-            electrified,
-            frequency,
-            voltage,
-            construction_electrified,
-            construction_frequency,
-            construction_voltage,
-            proposed_electrified,
-            proposed_frequency,
-            proposed_voltage,
-            abandoned_electrified,
-            deelectrified
+            railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified) AS state
           FROM openrailwaymap_osm_line
           WHERE
             railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
@@ -330,17 +320,7 @@ Layer:
             END AS rank,
             z_order,
             railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
-            electrified,
-            frequency,
-            voltage,
-            construction_electrified,
-            construction_frequency,
-            construction_voltage,
-            proposed_electrified,
-            proposed_frequency,
-            proposed_voltage,
-            abandoned_electrified,
-            deelectrified
+            railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified) AS state
           FROM openrailwaymap_osm_line
           WHERE
             railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')

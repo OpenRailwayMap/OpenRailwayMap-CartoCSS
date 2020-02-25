@@ -186,5 +186,8 @@
     text-min-distance: 30;
     text-halo-radius: @text-halo-radius;
     text-halo-fill: @text-halo-color;
+    ["state"!="present"] {
+      text-face-name: @oblique-fonts;
+    }
   }
 }

@@ -127,7 +127,7 @@ CREATE OR REPLACE VIEW station_nodes_platforms_rel_count AS
 CREATE MATERIALIZED VIEW stations_with_route_counts AS
   SELECT DISTINCT ON (osm_id, name, tags, railway) osm_id, name, tags, railway, route_count, way
     FROM (
-      SELECT  osm_id, name, tags, railway, ARRAY_LENGTH(ARRAY_AGG(DISTINCT route_id), 1) AS route_count, way
+      SELECT osm_id, name, tags, railway, ARRAY_LENGTH(ARRAY_AGG(DISTINCT route_id), 1) AS route_count, way
         FROM (
           SELECT osm_id, name, tags, railway, UNNEST(route_ids) AS route_id, way
             FROM station_nodes_stop_positions_rel_count
@@ -139,5 +139,7 @@ CREATE MATERIALIZED VIEW stations_with_route_counts AS
       UNION ALL
       SELECT osm_id, name, tags, railway, 0 AS route_count, way
         FROM planet_osm_point
-	WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop')
-    ) AS facilities;
+        WHERE railway IN ('station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop')
+    ) AS facilities
+    -- ORDER BY is required to ensure that the larger route_count is used.
+    ORDER BY osm_id, name, tags, railway, route_count DESC;

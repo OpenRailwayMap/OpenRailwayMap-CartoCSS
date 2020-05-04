@@ -642,7 +642,7 @@ Layer:
               FROM openrailwaymap_osm_line
               WHERE
                 railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed')
-                AND (ref IS NOT NULL OR name IS NOT NULL OR tags ? 'bridge:name' OR tags ? 'tunnel:name')
+                AND (ref IS NOT NULL OR name IS NOT NULL OR tags ? 'bridge:name' OR tags ? 'tunnel:name' OR tags ? 'railway:track_ref')
             ) AS r
           ORDER by z_order, rank NULLS LAST
         ) AS railway_text_detail

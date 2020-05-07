@@ -407,7 +407,7 @@ Format details:
   /*******************************************/
   /* FI shunting light signals type Ro (new) */
   /*******************************************/
-  [zoom>=17]["feature"="FI:Ro"]["shunting_states"=~"FI:Ro0"]["shunting_form"="light"] {
+  [zoom>=17]["feature"="FI:Ro"]["shunting_states"=~"^(.*;)?FI:Ro0(;.*)?$"]["shunting_form"="light"] {
     marker-file: url('symbols/fi/ro0-new.svg');
     marker-width: 11;
     marker-height: 12;
@@ -427,7 +427,7 @@ Format details:
   /******************************************************/
   /* FI minor light signals type Lo at moveable bridges */
   /******************************************************/
-  [zoom>=17]["feature"="FI:Lo"]["minor_states"=~"FI:Lo0"]["minor_form"="light"] {
+  [zoom>=17]["feature"="FI:Lo"]["minor_states"=~"^(.*;)?FI:Lo0(;.*)?$"]["minor_form"="light"] {
     marker-file: url('symbols/fi/lo0.svg');
     marker-width: 7;
     marker-height: 12;
@@ -554,12 +554,12 @@ Format details:
 
       /* can display Vr 1 */
       /* Signals which can Vr 2 as well will match the next rule as well which will overwrite this rule. */
-      ["distant_states"=~"DE-ESO:vr1"] {
+      ["distant_states"=~"^(.*;)?DE-ESO:vr1(;.*)?$"] {
         marker-file: url('symbols/de/vr1-light-repeated.svg');
       }
 
       /* can display Vr 2 */
-      ["distant_states"=~"DE-ESO:vr2"] {
+      ["distant_states"=~"^(.*;)?DE-ESO:vr2(;.*)?$"] {
         marker-file: url('symbols/de/vr2-light-repeated.svg');
       }
     }
@@ -589,7 +589,7 @@ Format details:
 
     /* can display Vr 1 */
     /* This rule is overwritten if the signal can show Vr 2 as well. */
-    ["distant_states"=~"DE-ESO:vr1"] {
+    ["distant_states"=~"^(.*;)?DE-ESO:vr1(;.*)?$"] {
       marker-file: url('symbols/de/vr1-semaphore.svg');
       marker-width: 12;
       marker-height: 19;
@@ -597,7 +597,7 @@ Format details:
     }
 
     /* can display Vr 2 */
-    ["distant_states"=~"DE-ESO:vr2"] {
+    ["distant_states"=~"^(.*;)?DE-ESO:vr2(;.*)?$"] {
       marker-file: url('symbols/de/vr2-semaphore.svg');
       marker-width: 12;
       marker-height: 26;
@@ -693,7 +693,7 @@ Format details:
 
     /* can show proceed with full speed                                  */
     /* if the signal can also show other aspects, later rules will match */
-    ["distant_states"=~"AT-V2:hauptsignal_frei"] {
+    ["distant_states"=~"^(.*;)?AT-V2:hauptsignal_frei(;.*)?$"] {
       marker-file: url('symbols/at/vorsignal-hauptsignal-frei.svg');
       marker-width: 11;
       marker-height: 11;
@@ -701,8 +701,8 @@ Format details:
     }
 
     /* can show proceed with 40 kph speed (on narrow gauge lines 20 kph) */
-    ["distant_states"=~"AT-V2:hauptsignal_frei_mit_40"],
-    ["distant_states"=~"AT-V2:hauptsignal_frei_mit_20"] {
+    ["distant_states"=~"^(.*;)?AT-V2:hauptsignal_frei_mit_40(;.*)?$"],
+    ["distant_states"=~"^(.*;)?AT-V2:hauptsignal_frei_mit_20(;.*)?$"] {
       marker-file: url('symbols/at/vorsignal-hauptsignal-frei-mit-40.svg');
       marker-width: 11;
       marker-height: 11;
@@ -710,7 +710,7 @@ Format details:
     }
 
     /* can show proceed with 60 kph speed                                */
-    ["distant_states"=~"AT-V2:hauptsignal_frei_mit_60"] {
+    ["distant_states"=~"^(.*;)?AT-V2:hauptsignal_frei_mit_60(;.*)?$"] {
       marker-file: url('symbols/at/vorsignal-hauptsignal-frei-mit-60.svg');
       marker-width: 11;
       marker-height: 11;
@@ -768,16 +768,16 @@ Format details:
 
       /* can display Eo 1 (expect proceed) */
       /* new type */
-      ["distant_states"=~"FI:Eo1"] {
+      ["distant_states"=~"^(.*;)?FI:Eo1(;.*)?$"] {
         marker-file: url('symbols/fi/eo1-new.svg');
       }
       /* old type */
-      ["distant_states"=~"FI:Eo1"] {
+      ["distant_states"=~"^(.*;)?FI:Eo1(;.*)?$"] {
         marker-file: url('symbols/fi/eo1-old.svg');
       }
 
       /* can display Eo 2 (expect proceed) -- new type */
-      ["distant_states"=~"FI:Eo2"] {
+      ["distant_states"=~"^(.*;)?FI:Eo2(;.*)?$"] {
         marker-file: url('symbols/fi/eo2-new.svg');
       }
     }
@@ -835,8 +835,8 @@ Format details:
 
     /* DE: can display Hp 1                           */
     /* AT: can display "Frei" (proceed at full speed) */
-    ["feature"="DE-ESO:hp"]["main_states"=~"DE-ESO:hp1"],
-    ["feature"="AT-V2:hauptsignal"]["main_states"=~"AT-V2:frei"] {
+    ["feature"="DE-ESO:hp"]["main_states"=~"^(.*;)?DE-ESO:hp1(;.*)?$"],
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei(;.*)?$"] {
       marker-file: url('symbols/de/hp1-semaphore.svg');
       marker-width: 12;
       marker-height: 19;
@@ -845,9 +845,9 @@ Format details:
     /* DE: can display Hp 2                                              */
     /* AT: can display "Frei mit 40" (proceed at 40 kph)                 */
     /* AT: can display "Frei mit 20" (proceed at 20 kph) -- narrow gauge */
-    ["feature"="DE-ESO:hp"]["main_states"=~"DE-ESO:hp2"],
-    ["feature"="AT-V2:hauptsignal"]["main_states"=~"AT-V2:frei_mit_40"],
-    ["feature"="AT-V2:hauptsignal"]["main_states"=~"AT-V2:frei_mit_20"] {
+    ["feature"="DE-ESO:hp"]["main_states"=~"^(.*;)?DE-ESO:hp2(;.*)?$"],
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei_mit_40(;.*)?$"],
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei_mit_20(;.*)?$"] {
       marker-file: url('symbols/de/hp2-semaphore.svg');
       marker-width: 12;
       marker-height: 20;
@@ -874,12 +874,12 @@ Format details:
     }
 
     /* cannot display Hp 2 */
-    ["main_states"=~"DE-ESO:hp1"] {
+    ["main_states"=~"^(.*;)?DE-ESO:hp1(;.*)?$"] {
       marker-file: url('symbols/de/hp1-light.svg');
     }
 
     /*can display Hp 2 */
-    ["main_states"=~"DE-ESO:hp2"] {
+    ["main_states"=~"^(.*;)?DE-ESO:hp2(;.*)?$"] {
       marker-file: url('symbols/de/hp2-light.svg');
       marker-width: 8;
       marker-height: 16;
@@ -906,19 +906,19 @@ Format details:
     }
 
     /* can show proceed with full speed */
-    ["main_states"=~"AT-V2:frei"] {
+    ["main_states"=~"^(.*;)?AT-V2:frei(;.*)?$"] {
       marker-file: url('symbols/at/hauptsignal-frei.svg');
     }
 
     /* can show proceed with 40 kph or 20 kph */
     /* On narrow gauge railway lines "frei mit 40" is called "frei mit 20" but has the same appearance. */
-    ["main_states"=~"AT-V2:frei_mit_40"],
-    ["main_states"=~"AT-V2:frei_mit_20"] {
+    ["main_states"=~"^(.*;)?AT-V2:frei_mit_40(;.*)?$"],
+    ["main_states"=~"^(.*;)?AT-V2:frei_mit_20(;.*)?$"] {
       marker-file: url('symbols/at/hauptsignal-frei-mit-40.svg');
     }
 
     /* can show proceed with 60 kph    */
-    ["main_states"=~"AT-V2:frei_mit_60"] {
+    ["main_states"=~"^(.*;)?AT-V2:frei_mit_60(;.*)?$"] {
       marker-file: url('symbols/at/hauptsignal-frei-mit-60.svg');
     }
   }
@@ -944,12 +944,12 @@ Format details:
     }
 
     /* can display Po1 */
-    ["main_states"=~"FI:Po1"] {
+    ["main_states"=~"^(.*;)?FI:Po1(;.*)?$"] {
       marker-file: url('symbols/fi/po1-new.svg');
     }
 
     /* can display Po2 */
-    ["main_states"=~"FI:Po2"] {
+    ["main_states"=~"^(.*;)?FI:Po2(;.*)?$"] {
       marker-file: url('symbols/fi/po2-new.svg');
     }
   }
@@ -972,12 +972,12 @@ Format details:
     }
 
     /* can display Po1 */
-    ["main_states"=~"FI:Po1"] {
+    ["main_states"=~"^(.*;)?FI:Po1(;.*)?$"] {
       marker-file: url('symbols/fi/po1-old.svg');
     }
 
     /* can display Po2 */
-    ["main_states"=~"FI:Po2"] {
+    ["main_states"=~"^(.*;)?FI:Po2(;.*)?$"] {
       marker-file: url('symbols/fi/po2-old.svg');
     }
   }
@@ -985,7 +985,7 @@ Format details:
   /************************************/
   /* FI combined block signal type So */
   /************************************/
-  ["feature"="FI:So"]["combined_form"="light"]["combined_states"=~"FI:Po1"]["combined_states"=~"FI:Eo1"] {
+  ["feature"="FI:So"]["combined_form"="light"]["combined_states"=~"^(.*;)?FI:Po1(;.*)?$"]["combined_states"=~"^(.*;)?FI:Eo1(;.*)?$"] {
     marker-file: url('symbols/fi/eo1-po1-combined-block.svg');
     marker-width: 12;
     marker-height: 15;
@@ -1033,24 +1033,24 @@ Format details:
       marker-allow-overlap: true;
 
       /* can display Hl 1 */
-      ["main_states"=~"DE-ESO:hl1"] {
+      ["main_states"=~"^(.*;)?DE-ESO:hl1(;.*)?$"] {
         marker-file: url('symbols/de/hl1.svg');
       }
 
       /* can display Hl 3a */
-      ["main_states"=~"DE-ESO:hl3a"] {
+      ["main_states"=~"^(.*;)?DE-ESO:hl3a(;.*)?$"] {
         marker-file: url('symbols/de/hl3a.svg');
       }
 
       /* can display Hl 3b */
-      ["main_states"=~"DE-ESO:hl3b"] {
+      ["main_states"=~"^(.*;)?DE-ESO:hl3b(;.*)?$"] {
         marker-file: url('symbols/de/hl3b.svg');
         marker-width: 8;
         marker-height: 24;
       }
 
       /* can display Hl 2 */
-      ["main_states"=~"DE-ESO:hl2"] {
+      ["main_states"=~"^(.*;)?DE-ESO:hl2(;.*)?$"] {
         marker-file: url('symbols/de/hl2.svg');
         marker-width: 8;
         marker-height: 24;
@@ -1064,24 +1064,24 @@ Format details:
       marker-allow-overlap: true;
 
       /* can display Hl 10 */
-      ["combined_states"=~"DE-ESO:hl10"] {
+      ["combined_states"=~"^(.*;)?DE-ESO:hl10(;.*)?$"] {
         marker-file: url('symbols/de/hl10.svg');
       }
 
       /* cannot display Hl 12a */
-      ["combined_states"=~"DE-ESO:hl12a"] {
+      ["combined_states"=~"^(.*;)?DE-ESO:hl12a(;.*)?$"] {
         marker-file: url('symbols/de/hl12a.svg');
       }
 
       /* cannot display Hl 12b */
-      ["combined_states"=~"DE-ESO:hl12b"] {
+      ["combined_states"=~"^(.*;)?DE-ESO:hl12b(;.*)?$"] {
         marker-file: url('symbols/de/hl12b.svg');
         marker-width: 8;
         marker-height: 24;
       }
 
       /* can display Hl 11 */
-      ["combined_states"=~"DE-ESO:hl11"] {
+      ["combined_states"=~"^(.*;)?DE-ESO:hl11(;.*)?$"] {
         marker-file: url('symbols/de/hl11.svg');
         marker-width: 8;
         marker-height: 24;
@@ -1094,7 +1094,7 @@ Format details:
   /*************************************/
   ["feature"="DE-ESO:sv"] {
     /* can display Sv0 */
-    ["combined_states"=~"DE-ESO:sv0"] {
+    ["combined_states"=~"^(.*;)?DE-ESO:sv0(;.*)?$"] {
       marker-file: url('symbols/de/sv-sv0.svg');
       marker-width: 8;
       marker-height: 16;
@@ -1112,7 +1112,7 @@ Format details:
     }
 
     /* can display Hp 0 */
-    ["combined_states"=~"DE-ESO:hp0"] {
+    ["combined_states"=~"^(.*;)?DE-ESO:hp0(;.*)?$"] {
       marker-file: url('symbols/de/sv-hp0.svg');
       marker-width: 8;
       marker-height: 16;
@@ -1154,8 +1154,8 @@ Format details:
     /* DE tram main signal "Fahrsignal" */
     /* can show F 1 (proceed straight)  */
     /************************************/
-    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f1"],
-    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f1"] {
+    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-BOStrab:f1(;.*)?$"],
+    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-AVG:f1(;.*)?$"] {
       marker-file: url('symbols/de/bostrab/f1.svg');
     }
 
@@ -1163,8 +1163,8 @@ Format details:
     /* DE tram main signal "Fahrsignal" */
     /* can show F 2 (proceed right)     */
     /************************************/
-    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f2"],
-    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f2"] {
+    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-BOStrab:f2(;.*)?$"],
+    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-AVG:f2(;.*)?$"] {
       marker-file: url('symbols/de/bostrab/f2.svg');
     }
 
@@ -1172,8 +1172,8 @@ Format details:
     /* DE tram main signal "Fahrsignal" */
     /* can show F 3 (proceed left)      */
     /************************************/
-    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"DE-BOStrab:f3"],
-    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"DE-AVG:f3"] {
+    ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-BOStrab:f3(;.*)?$"],
+    ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-AVG:f3(;.*)?$"] {
       marker-file: url('symbols/de/bostrab/f3.svg');
     }
   }

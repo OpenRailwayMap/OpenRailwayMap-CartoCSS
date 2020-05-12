@@ -72,7 +72,7 @@ Layer:
                  WHEN railway = 'razed' THEN 200
                  ELSE 50
             END AS rank,
-            z_order
+            layer
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
@@ -80,15 +80,15 @@ Layer:
                 tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND tunnel IS NOT NULL AND tunnel != 'no'
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_tunnel
     properties:
       minzoom: 9
-      group-by: z_order
+      group-by: layer
   - id: railway_line_casing
     geometry: line
     <<: *extents
@@ -126,11 +126,11 @@ Layer:
                 tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND (tunnel IS NULL OR tunnel = 'no')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_line_casing
     properties:
       minzoom: 9
@@ -162,11 +162,11 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, tags->'highspeed' AS highspeed,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS openrailwaymap_line_low
     properties:
       maxzoom: 7
@@ -198,11 +198,11 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, tags->'highspeed' AS highspeed,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_line_med
     properties:
       minzoom: 8
@@ -272,11 +272,11 @@ Layer:
                 tags->'proposed:usage' AS proposed_usage, tags->'proposed:service' AS proposed_service,
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND (tunnel IS NULL OR tunnel = 'no')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_line_fill
     properties:
       minzoom: 9
@@ -311,7 +311,7 @@ Layer:
                  ELSE 50
             END AS rank,
             ST_Length(way) / NULLIF(!scale_denominator!*0.001*0.28, 0) AS length_pixels,
-            z_order
+            layer
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
@@ -319,15 +319,15 @@ Layer:
                 tags->'disused:railway' AS disused_railway, tags->'abandoned:railway' AS abandoned_railway,
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND bridge IS NOT NULL AND bridge != 'no'
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_bridge
     properties:
       minzoom: 9
-      group-by: z_order
+      group-by: layer
   - id: railway_text_stations_med
     geometry: point
     <<: *extents
@@ -471,11 +471,11 @@ Layer:
                 tags->'razed:railway' AS razed_railway, tags->'construction:railway' AS construction_railway,
                 tags->'proposed:railway' AS proposed_railway,
                 ref,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed') AND (tunnel IS NULL OR tunnel = 'no')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_text_med
     properties:
       minzoom: 8
@@ -524,13 +524,13 @@ Layer:
                 tags, tunnel, bridge,
                 name, ref,
                 railway_label_name(name, tags, tunnel, bridge) AS label_name,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE
                 railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed')
                 AND (ref IS NOT NULL OR name IS NOT NULL OR tags ? 'bridge:name' OR tags ? 'tunnel:name')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_text_high
     properties:
       minzoom: 15
@@ -644,13 +644,13 @@ Layer:
                 tags->'railway:track_ref' AS track_ref,
                 tunnel, bridge,
                 railway_label_name(name, tags, tunnel, bridge) AS label_name,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE
                 railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'abandoned', 'razed', 'construction', 'proposed')
                 AND (ref IS NOT NULL OR name IS NOT NULL OR tags ? 'bridge:name' OR tags ? 'tunnel:name' OR tags ? 'railway:track_ref')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_text_detail
     properties:
       minzoom: 17

@@ -15,7 +15,7 @@ CREATE OR REPLACE VIEW openrailwaymap_osm_line AS
     tags->'railway:preferred_direction' AS preferred_direction,
     ref,
     name,
-    z_order,
+    layer,
     tags
   FROM planet_osm_line;
 

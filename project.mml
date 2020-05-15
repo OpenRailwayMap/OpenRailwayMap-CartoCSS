@@ -508,10 +508,12 @@ Layer:
                  WHEN railway = 'disused' THEN 300
                  WHEN railway = 'abandoned' THEN 250
                  WHEN railway = 'razed' THEN 200
-
                  ELSE 50
             END AS rank,
-            ref || ' ' || railway_label_name(name, tags, tunnel, bridge) AS label
+            CASE
+              WHEN ref IS NOT NULL AND label_name IS NOT NULL THEN ref || ' ' || label_name
+              ELSE COALESCE(ref, label_name)
+            END AS label
           FROM
             (SELECT
                 way, railway, usage, service, tags->'highspeed' AS highspeed,
@@ -521,6 +523,7 @@ Layer:
                 tags->'proposed:railway' AS proposed_railway,
                 tags, tunnel, bridge,
                 name, ref,
+                railway_label_name(name, tags, tunnel, bridge) AS label_name,
                 z_order
               FROM openrailwaymap_osm_line
               WHERE
@@ -622,10 +625,12 @@ Layer:
                  WHEN railway = 'disused' THEN 300
                  WHEN railway = 'abandoned' THEN 250
                  WHEN railway = 'razed' THEN 200
-
                  ELSE 50
             END AS rank,
-            ref || ' ' || railway_label_name(name, tags, tunnel, bridge) AS label,
+            CASE
+              WHEN ref IS NOT NULL AND label_name IS NOT NULL THEN ref || ' ' || label_name
+              ELSE COALESCE(ref, label_name)
+            END AS label,
             track_ref
           FROM
             (SELECT
@@ -638,6 +643,7 @@ Layer:
                 name, ref,
                 tags->'railway:track_ref' AS track_ref,
                 tunnel, bridge,
+                railway_label_name(name, tags, tunnel, bridge) AS label_name,
                 z_order
               FROM openrailwaymap_osm_line
               WHERE

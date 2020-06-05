@@ -3,5 +3,6 @@ data/
 standard.xml
 maxspeed.xml
 signals.xml
+electrification.xml
 *.mapcss
 *.d

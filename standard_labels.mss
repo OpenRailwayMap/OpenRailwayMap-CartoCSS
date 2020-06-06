@@ -56,6 +56,10 @@
     [railway = 'halt'] {
       text-fill: @text-station-color;
       text-halo-fill: @text-station-halo-color;
+      [station = 'light_rail'],
+      [station = 'subway'] {
+        text-face-name: @oblique-fonts;
+      }
     }
     [railway = 'tram_stop'] {
       text-fill: @text-tram-stop-color;

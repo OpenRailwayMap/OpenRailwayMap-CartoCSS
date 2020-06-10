@@ -5,10 +5,10 @@ This guide mainly covers setup for development purposes. If you set up a tile se
 ## Building quickly
 
 Building the Mapnik XML files does not require access to a PostgreSQL database with OSM data in it.
-If you just want to generated the Mapnik XML files and have `carto` in your path, run
+If you just want to generated the Mapnik XML files and have `carto` in your path, run the following
+command (Python 3 and PyYAML are required as build dependencies in addition to Carto):
 
 ```sh
-util/prepare_makefile.sh
 make
 ```
 
@@ -51,11 +51,16 @@ The detailed instructions cover the setup on Linux and might work on OS X. Windo
 * Carto
 * development only: Kosmtik or Nik4
 
+Build dependencies required for using the Makefile:
+
+* Python 3
+* PyYAML
+
 ### Database Setup
 
 Install PostgreSQL and PostGIS. Your distribution likely provides packages for PostgreSQL and PostGIS.
 
-Debian-like systems: `sudo apt install postgresql postgis`
+Debian-like systems: `sudo apt install postgresql postgis postgresql-client postgresql-10-postgis-2.4` (you might have to adapt the version numbers of PostgreSQL and PostGIS, there is no metapackage)
 
 Create a database user. PostgreSQL provides a command line programme called *createuser* for that purpose. It has to be called using the permissions of the user running PostgreSQL – that's usually `postgres`.
 
@@ -164,6 +169,13 @@ node_modules/kosmtik/index.js serve path_to_openrailwymap_styles/project.mml
 Change the name of the .mml file if you want to work on a style other than the infrastructure style.
 
 You can now view the map in your browser at [http://127.0.0.1:6789/](http://127.0.0.1:6789/). If you save changes to the .mml or .mss files, Kosmtik will rebuild the Mapnik XML style and re-render the map tiles.
+
+
+### Makefile setup
+
+If you want to use the Makefile to build the Mapnik XML style files, additional build dependencies (see above) are required.
+
+Debian-like systems: `apt install python3 python3-yaml`
 
 
 ### Development Setup only: Install Nik4

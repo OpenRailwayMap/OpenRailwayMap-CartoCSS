@@ -74,11 +74,11 @@ Layer:
                 tags->'disused' AS disused, construction,
                 tags->'disused:railway' AS disused_railway,
                 tags->'construction:railway' AS construction_railway,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_line_casing
     properties:
       minzoom: 9
@@ -111,12 +111,12 @@ Layer:
                 maxspeed_forward,
                 maxspeed_backward,
                 preferred_direction,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST,
             maxspeed ASC NULLS FIRST
         ) AS openrailwaymap_line_low
@@ -151,12 +151,12 @@ Layer:
                 maxspeed_forward,
                 maxspeed_backward,
                 preferred_direction,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
             ) AS r
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST,
             maxspeed ASC NULLS FIRST
         ) AS railway_line_med
@@ -209,12 +209,12 @@ Layer:
                 tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
             ) AS r
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST,
             maxspeed ASC NULLS FIRST
         ) AS railway_line_fill
@@ -302,14 +302,14 @@ Layer:
                 tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
 
             ) AS r
           WHERE bbox_pixels > 150
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST,
             maxspeed DESC NULLS LAST
         ) AS railway_line_text

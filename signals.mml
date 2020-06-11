@@ -74,11 +74,11 @@ Layer:
                 tags->'disused' AS disused, construction,
                 tags->'disused:railway' AS disused_railway,
                 tags->'construction:railway' AS construction_railway,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_line_casing
     properties:
       minzoom: 9
@@ -192,12 +192,12 @@ Layer:
                 tags->'railway:atb-vv' AS atb_vv,
                 railway_etcs_null_no(tags->'railway:etcs') AS etcs,
                 railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
             ) AS r
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST
         ) AS railway_line_fill
     properties:

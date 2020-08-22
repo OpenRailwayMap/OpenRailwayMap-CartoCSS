@@ -89,11 +89,11 @@ Layer:
                 proposed_electrified,
                 proposed_frequency,
                 deelectrified,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
             ) AS r
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_line_casing
     properties:
       minzoom: 9
@@ -130,12 +130,11 @@ Layer:
                 construction_voltage AS construction_voltage,
                 proposed_frequency AS proposed_frequency,
                 proposed_voltage AS proposed_voltage,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
             ) AS r
-          ORDER BY
-            z_order
+          ORDER BY layer NULLS LAST
         ) AS openrailwaymap_line_low
     properties:
       maxzoom: 7
@@ -176,12 +175,12 @@ Layer:
                 construction_voltage AS construction_voltage,
                 proposed_frequency AS proposed_frequency,
                 proposed_voltage AS proposed_voltage,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST
         ) AS railway_line_med
     properties:
@@ -237,12 +236,12 @@ Layer:
                 construction_voltage AS construction_voltage,
                 proposed_frequency AS proposed_frequency,
                 proposed_voltage AS proposed_voltage,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
             ) AS r
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST
         ) AS railway_line_fill
     properties:
@@ -297,12 +296,12 @@ Layer:
                 construction_voltage AS construction_voltage,
                 proposed_frequency AS proposed_frequency,
                 proposed_voltage AS proposed_voltage,
-                z_order
+                layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
             ) AS r
           ORDER BY
-            z_order,
+            layer,
             rank NULLS LAST
         ) AS electrification_future
     properties:
@@ -344,7 +343,7 @@ Layer:
                  WHEN railway = 'rail' AND usage = 'branch' THEN 1000
                  ELSE 50
             END AS rank,
-            z_order,
+            layer,
             railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
             railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS state
           FROM openrailwaymap_osm_line
@@ -356,7 +355,7 @@ Layer:
               OR construction_electrified IS NOT NULL
               OR proposed_electrified IS NOT NULL
             )
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_text_high
     properties:
       minzoom: 8
@@ -387,7 +386,7 @@ Layer:
                  WHEN railway = 'disused' THEN 300
                  ELSE 50
             END AS rank,
-            z_order,
+            layer,
             railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
             railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS state
           FROM openrailwaymap_osm_line
@@ -399,7 +398,7 @@ Layer:
               OR construction_electrified IS NOT NULL
               OR proposed_electrified IS NOT NULL
             )
-          ORDER by z_order, rank NULLS LAST
+          ORDER by layer, rank NULLS LAST
         ) AS railway_text_high
     properties:
       minzoom: 9

@@ -50,8 +50,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            disused, construction,
-            disused_railway,
+            construction,
             construction_railway,
             CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
@@ -64,7 +63,6 @@ Layer:
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
                  WHEN railway IN ('preserved', 'construction') THEN 400
-                 WHEN railway = 'disused' THEN 300
                  ELSE 50
             END AS rank,
             electrified,
@@ -78,8 +76,7 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service,
-                tags->'disused' AS disused, construction,
-                tags->'disused:railway' AS disused_railway,
+                construction,
                 tags->'construction:railway' AS construction_railway,
                 electrified,
                 frequency,
@@ -91,7 +88,7 @@ Layer:
                 deelectrified,
                 layer
               FROM openrailwaymap_osm_line
-              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction')
             ) AS r
           ORDER by layer, rank NULLS LAST
         ) AS railway_line_casing
@@ -106,10 +103,8 @@ Layer:
         (SELECT
             way, railway, usage,
             NULL AS service,
-            NULL AS disused, NULL AS construction,
-            NULL AS disused_railway,
+            NULL AS construction,
             NULL AS construction_railway,
-            NULL AS disused_usage, NULL AS disused_service,
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
@@ -147,10 +142,8 @@ Layer:
         (SELECT
             way, railway, usage,
             NULL AS service,
-            NULL AS disused, NULL AS construction,
-            NULL AS disused_railway,
+            NULL AS construction,
             NULL AS construction_railway,
-            NULL AS disused_usage, NULL AS disused_service,
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
@@ -194,10 +187,8 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            disused, construction,
-            disused_railway,
+            construction,
             construction_railway,
-            disused_usage, disused_service,
             construction_usage, construction_service,
             preserved_railway, preserved_service,
             preserved_usage,
@@ -212,7 +203,6 @@ Layer:
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
                  WHEN railway IN ('preserved', 'construction') THEN 400
-                 WHEN railway = 'disused' THEN 300
                  ELSE 50
             END AS rank,
             electrification_state_without_future AS state,
@@ -221,10 +211,8 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service,
-                tags->'disused' AS disused, construction,
-                tags->'disused:railway' AS disused_railway,
+                construction,
                 tags->'construction:railway' AS construction_railway,
-                tags->'disused:usage' AS disused_usage, tags->'disused:service' AS disused_service,
                 tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
@@ -238,7 +226,7 @@ Layer:
                 proposed_voltage AS proposed_voltage,
                 layer
               FROM openrailwaymap_osm_line
-              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved')
             ) AS r
           ORDER BY
             layer,
@@ -255,10 +243,8 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            disused, construction,
-            disused_railway,
+            construction,
             construction_railway,
-            disused_usage, disused_service,
             construction_usage, construction_service,
             preserved_railway, preserved_service,
             preserved_usage,
@@ -273,7 +259,6 @@ Layer:
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
                  WHEN railway IN ('preserved', 'construction') THEN 400
-                 WHEN railway = 'disused' THEN 300
                  ELSE 50
             END AS rank,
             electrification_state AS state,
@@ -282,10 +267,8 @@ Layer:
           FROM
             (SELECT
                 way, railway, usage, service,
-                tags->'disused' AS disused, construction,
-                tags->'disused:railway' AS disused_railway,
+                construction,
                 tags->'construction:railway' AS construction_railway,
-                tags->'disused:usage' AS disused_usage, tags->'disused:service' AS disused_service,
                 tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
@@ -298,7 +281,7 @@ Layer:
                 proposed_voltage AS proposed_voltage,
                 layer
               FROM openrailwaymap_osm_line
-              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved')
             ) AS r
           ORDER BY
             layer,
@@ -335,9 +318,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            tags->'disused' AS disused,
             construction,
-            tags->'disused:railway' AS disused_railway,
             tags->'construction:railway' AS construction_railway,
             CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
                  WHEN railway = 'rail' AND usage = 'branch' THEN 1000
@@ -368,9 +349,7 @@ Layer:
       table: |-
         (SELECT
             way, railway, usage, service,
-            tags->'disused' AS disused,
             construction,
-            tags->'disused:railway' AS disused_railway,
             tags->'construction:railway' AS construction_railway,
             CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
                  WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
@@ -383,7 +362,6 @@ Layer:
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
                  WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
                  WHEN railway IN ('preserved', 'construction') THEN 400
-                 WHEN railway = 'disused' THEN 300
                  ELSE 50
             END AS rank,
             layer,
@@ -391,7 +369,7 @@ Layer:
             railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS state
           FROM openrailwaymap_osm_line
           WHERE
-            railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
+            railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved')
             AND (
               electrified IS NOT NULL
               OR deelectrified IS NOT NULL

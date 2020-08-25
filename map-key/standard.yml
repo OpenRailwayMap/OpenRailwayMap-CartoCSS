@@ -1,0 +1,455 @@
+width: 100
+height: 60
+background: "transparent"
+features:
+  - name: Bridge
+    min_zoom: 9
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      length_pixels: 1000
+    properties:
+      group: "Track type"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_bridge"
+
+  - name: Tunnel
+    type: linestring
+    min_zoom: 10
+    tags:
+      railway: "rail"
+      usage: "main"
+    properties:
+      group: "Track type"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_tunnel"
+  - name: Line ref
+    type: linestring
+    tags:
+      railway: rail
+      label: "1761"
+      usage: main
+    properties:
+      group: "Track type"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_text_med"
+    min_zoom: 2
+    max_zoom: 14
+# On zoom >= 15, the reference number and name of the line is shown.
+  - name: Line ref and name
+    type: linestring
+    tags:
+      railway: rail
+      label: "1761 Moselstrecke"
+      usage: main
+    properties:
+      group: "Track type"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+      - "railway_text_high"
+      - "railway_text_detail"
+    min_zoom: 15
+  - name: Railroad line
+    type: linestring
+    tags:
+      railway: rail
+    properties:
+      group: "Track type"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 10
+  - name: Narrow gauge track
+    type: linestring
+    tags:
+      railway: "narrow_gauge"
+    properties:
+      group: "Track type"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 9
+  - name: Siding
+    type: linestring
+    tags:
+      railway: rail
+      track_ref: "7"
+      service: siding
+    properties:
+      group: "Track usage"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+      - "railway_text_med"
+      - "railway_text_high"
+      - "railway_text_detail"
+    min_zoom: 10
+  - name: Yard track
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      railway: rail
+      track_ref: "7"
+      service: yard
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+      - "railway_text_med"
+      - "railway_text_high"
+      - "railway_text_detail"
+    min_zoom: 10
+  - name: Spur
+    type: linestring
+    tags:
+      railway: rail
+      service: spur
+    properties:
+      group: "Track usage"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+      - "railway_text_med"
+      - "railway_text_high"
+      - "railway_text_detail"
+    min_zoom: 10
+  - name: Crossover track
+    type: linestring
+    tags:
+      railway: rail
+      service: crossover
+    properties:
+      group: "Track usage"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 10
+  - name: Branch line
+    type: linestring
+    tags:
+      railway: rail
+      usage: branch
+    properties:
+      group: "Track usage"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+    min_zoom: 7
+  - name: Main line
+    type: linestring
+    tags:
+      railway: rail
+      usage: main
+    properties:
+      group: "Track usage"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+    min_zoom: 2
+  - name: Highspeed line
+    type: linestring
+    tags:
+      railway: rail
+      usage: main
+      # Mind that yes without quoting is interpreted as boolean
+      highspeed: "yes"
+    properties:
+      group: "Track usage"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+    min_zoom: 2
+  - name: Industrial line
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      railway: rail
+      usage: industrial
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 10
+  - name: Industrial service track
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      railway: rail
+      service: yard
+      usage: industrial
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 10
+  - name: Track under construction
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      "construction:railway": rail
+      railway: construction
+      usage: main
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 9
+  - name: Proposed track
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      proposed:railway: rail
+      railway: proposed
+      usage: main
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 9
+  - name: Disused track
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      "disused:railway": rail
+      railway: disused
+      usage: main
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 9
+  - name: Abandoned track
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      "abandoned:railway": rail
+      railway: abandoned
+      usage: main
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 9
+  - name: Razed track
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      railway: razed
+      "razed:railway": rail
+      usage: main
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 9
+  - name: Tram
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      railway: tram
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 11
+  - name: Subway
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      railway: subway
+      tunnel: "yes"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+      - "railway_tunnel"
+    min_zoom: 10
+  - name: Light rail
+    type: linestring
+    properties:
+      group: "Track usage"
+    tags:
+      railway: light_rail
+    layers:
+      - "railway_line_casing"
+      - "railway_line_fill"
+    min_zoom: 10
+  - name: Switch (remote-controlled)
+    type: point
+    properties:
+      group: "Track usage"
+    tags:
+      railway: switch
+      railway_local_operated: null
+      ref: W23
+    layers:
+      - railway_switch_ref
+    min_zoom: 16
+  - name: Switch (local operated)
+    type: point
+    properties:
+      group: "Track usage"
+    tags:
+      railway: switch
+      railway_local_operated: 'yes'
+      ref: W23
+    layers:
+      - railway_switch_ref
+    min_zoom: 16
+  - name: Resetting switch
+    type: point 
+    properties:
+      group: "Track usage"
+    tags:
+      railway: switch
+      railway_switch_resetting: 'yes'
+      railway_local_operated: null
+      ref: W23
+    layers:
+      - railway_switch_ref
+    min_zoom: 16
+  - name: Milestone
+    type: point
+    properties:
+      group: "Track usage"
+    tags:
+      railway: milestone
+      pos: 26.4
+    layers:
+      - railway_text_km_med
+      - railway_text_km_high
+    min_zoom: 11
+  # Stations are splitted because different layers have different values in the "label 
+  - name: Station
+    type: point
+    properties:
+      group: "Operating sites"
+    tags:
+      railway: station
+      label: KB
+    layers:
+      - railway_text_stations_med
+      - railway_text_stations_high
+    min_zoom: 6
+  - name: Yard
+    type: point
+    properties:
+      group: "Operating sites"
+    tags:
+      label: Neuss Gbf
+      railway: yard
+    layers:
+      - railway_text_stations_med
+      - railway_text_stations_high
+    min_zoom: 8
+  - name: Halt
+    type: point
+    properties:
+      group: "Operating sites"
+    tags:
+      label: Lemmie
+      railway: halt
+    layers:
+      - railway_text_stations_med
+      - railway_text_stations_high
+    min_zoom: 10
+  - name: Junction, Crossover, Service Station, Site
+    type: point
+    properties:
+      group: "Operating sites"
+    tags:
+      label: Lohbruch
+      railway: service_station
+    layers:
+      - railway_text_stations_med
+      - railway_text_stations_high
+    min_zoom: 8
+  - name: Subway/Light rail station
+    type: point
+    properties:
+      group: "Operating sites"
+    tags:
+      label: Rathaus
+      railway: station
+      station: subway
+    layers:
+      - railway_text_stations_high
+    min_zoom: 10
+  - name: Tram stop
+    type: point
+    properties:
+      group: "Operating sites"
+    tags:
+      label: Grundend
+      railway: tram_stop
+    layers:
+      - railway_text_stations_high
+    min_zoom: 13
+  - name: Owner change
+    type: point
+    properties:
+      group: "Operating sites"
+    tags:
+      railway: border
+    layers:
+      - railway_symbols
+    min_zoom: 11
+extra_tags:
+# This list has to contain all fields which are queried by the Mapnik style but not set above.
+  - highspeed
+  - disused
+  - abandoned
+  - razed
+  - construction
+  - proposed
+  - disused_railway
+  - abandoned_railway
+  - razed_railway
+  - construction_railway
+  - proposed_railway
+  - preserved_railway
+  - usage
+  - service
+  - disused_usage
+  - disused_service
+  - abandoned_usage
+  - abandoned_service
+  - razed_usage
+  - razed_service
+  - construction_usage
+  - construction_service
+  - proposed_usage
+  - proposed_service
+  - preserved_usage
+  - preserved_service
+  - track_ref
+  - tunnel
+  - bridge
+  - label
+  - rank
+  - pos
+  - prio
+  - layer
+  - man_made
+  - length_pixels
+  - station

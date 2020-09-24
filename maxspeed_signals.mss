@@ -674,7 +674,7 @@
     
     /* German line speed signals (Lf 7) */
     ["feature"="DE-ESO:lf7"]["signal_speed_limit_form"="sign"] {
-      ["signal_speed_limit_speed"=~"^(1[0-6]|[1-9])0$"] {
+      ["signal_speed_limit_speed"=~"^(20|1[0-9]|[1-9])0$"] {
         marker-allow-overlap: true;
         marker-width: 13;
         marker-height: 16;

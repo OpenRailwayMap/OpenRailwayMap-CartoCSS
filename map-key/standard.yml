@@ -1,5 +1,5 @@
 width: 100
-height: 60
+height: 25
 background: "transparent"
 features:
   - name: Bridge
@@ -72,7 +72,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 10
+    min_zoom: 13
   - name: Narrow gauge track
     type: linestring
     tags:
@@ -82,7 +82,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 9
+    min_zoom: 10
   - name: Siding
     type: linestring
     tags:
@@ -97,7 +97,7 @@ features:
       - "railway_text_med"
       - "railway_text_high"
       - "railway_text_detail"
-    min_zoom: 10
+    min_zoom: 11
   - name: Yard track
     type: linestring
     properties:
@@ -112,7 +112,7 @@ features:
       - "railway_text_med"
       - "railway_text_high"
       - "railway_text_detail"
-    min_zoom: 10
+    min_zoom: 12
   - name: Spur
     type: linestring
     tags:
@@ -126,7 +126,7 @@ features:
       - "railway_text_med"
       - "railway_text_high"
       - "railway_text_detail"
-    min_zoom: 10
+    min_zoom: 11
   - name: Crossover track
     type: linestring
     tags:
@@ -137,7 +137,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 10
+    min_zoom: 11
   - name: Branch line
     type: linestring
     tags:
@@ -150,7 +150,7 @@ features:
       - "railway_line_low"
       - "railway_line_med"
       - "railway_line_fill"
-    min_zoom: 7
+    min_zoom: 8
   - name: Main line
     type: linestring
     tags:
@@ -201,7 +201,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 10
+    min_zoom: 11
   - name: Track under construction
     type: linestring
     properties:
@@ -213,7 +213,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 9
+    min_zoom: 13
   - name: Proposed track
     type: linestring
     properties:
@@ -225,7 +225,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 9
+    min_zoom: 13
   - name: Disused track
     type: linestring
     properties:
@@ -237,7 +237,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 9
+    min_zoom: 13
   - name: Abandoned track
     type: linestring
     properties:
@@ -249,7 +249,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 9
+    min_zoom: 13
   - name: Razed track
     type: linestring
     properties:
@@ -261,7 +261,7 @@ features:
     layers:
       - "railway_line_casing"
       - "railway_line_fill"
-    min_zoom: 9
+    min_zoom: 14
   - name: Tram
     type: linestring
     properties:
@@ -342,6 +342,8 @@ features:
   # Stations are splitted because different layers have different values in the "label 
   - name: Station
     type: point
+    image:
+      height: 30
     properties:
       group: "Operating sites"
     tags:
@@ -353,6 +355,8 @@ features:
     min_zoom: 6
   - name: Yard
     type: point
+    image:
+      height: 30
     properties:
       group: "Operating sites"
     tags:
@@ -361,9 +365,11 @@ features:
     layers:
       - railway_text_stations_med
       - railway_text_stations_high
-    min_zoom: 8
+    min_zoom: 11
   - name: Halt
     type: point
+    image:
+      height: 30
     properties:
       group: "Operating sites"
     tags:
@@ -375,6 +381,8 @@ features:
     min_zoom: 10
   - name: Junction, Crossover, Service Station, Site
     type: point
+    image:
+      height: 30
     properties:
       group: "Operating sites"
     tags:
@@ -383,9 +391,11 @@ features:
     layers:
       - railway_text_stations_med
       - railway_text_stations_high
-    min_zoom: 8
+    min_zoom: 11
   - name: Subway/Light rail station
     type: point
+    image:
+      height: 30
     properties:
       group: "Operating sites"
     tags:
@@ -394,9 +404,11 @@ features:
       station: subway
     layers:
       - railway_text_stations_high
-    min_zoom: 10
+    min_zoom: 11
   - name: Tram stop
     type: point
+    image:
+      height: 40
     properties:
       group: "Operating sites"
     tags:
@@ -404,6 +416,7 @@ features:
       railway: tram_stop
     layers:
       - railway_text_stations_high
+      - railway_symbols
     min_zoom: 13
   - name: Owner change
     type: point
@@ -413,7 +426,7 @@ features:
       railway: border
     layers:
       - railway_symbols
-    min_zoom: 11
+    min_zoom: 12
 extra_tags:
 # This list has to contain all fields which are queried by the Mapnik style but not set above.
   - highspeed

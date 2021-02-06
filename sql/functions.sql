@@ -456,7 +456,7 @@ BEGIN
     volt_text := (volt_int::FLOAT / 1000::FLOAT)::NUMERIC(3, 1)::TEXT || 'kV';
   END IF;
   -- Output voltage and frequency
-  IF freq = '0' OR freq IS NULL THEN
+  IF freq = '0' THEN
     RETURN volt_text || ' =';
   END IF;
   IF freq IS NOT NULL THEN

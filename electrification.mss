@@ -148,7 +148,9 @@
   [zoom>=11]["railway"="tram"]["service"=null],
   [zoom>=13]["railway"="tram"]["service"!=null] {
 
-    ["state"="no"] {
+    ["state"="no"],
+    ["state"="proposed"][zoom < 9],
+    ["state"="construction"][zoom < 9] {
        line-color: black;
     }
 

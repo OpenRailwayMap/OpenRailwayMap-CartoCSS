@@ -8,7 +8,7 @@
         marker-width: 7;
         marker-height: 22;
       }
-    
+
       ["signal_speed_limit_form"="light"] {
         marker-allow-overlap: true;
         marker-file: url('symbols/de/zs10-light.svg');
@@ -16,7 +16,7 @@
         marker-height: 22;
       }
     }
-    
+
     /* German speed signals (Zs 3v) as signs */
     ["feature"="DE-ESO:zs3v"]["signal_speed_limit_distant_form"="sign"] {
       ["signal_speed_limit_distant_speed"=null],
@@ -125,7 +125,7 @@
         marker-file: url('symbols/de/zs3v-120-light.svg');
       }
     }
-    
+
     /* Austrian speed signals (Geschwindigkeitsvoranzeiger) as signs */
     ["feature"="AT-V2:geschwindigkeitvorsanzeiger"]["signal_speed_limit_distant_form"="sign"] {
       ["signal_speed_limit_distant_speed"=~"^(10|[1-9])0$"] {
@@ -200,7 +200,7 @@
         marker-file: url('symbols/at/geschwindigkeitsvoranzeiger-120-light.svg');
       }
     }
-    
+
     /* German speed signals (Zs 3) as signs */
     ["feature"="DE-ESO:zs3"]["signal_speed_limit_form"="sign"] {
       ["signal_speed_limit_speed"=~"^(1[0-6]|[1-9])0$"],
@@ -309,7 +309,7 @@
         marker-file: url('symbols/de/zs3-120-light.svg');
       }
     }
-    
+
     /* Austrian speed signals (Geschwindigkeitsanzeiger)*/
     ["feature"="AT-V2:geschwindigkeitsanzeiger"]["signal_speed_limit_form"="sign"] {
       ["signal_speed_limit_speed"=~"^(1[0-26]|[1-9])0$"] {
@@ -396,13 +396,19 @@
   [zoom>=14] {
     /* West German branch line speed signals (Lf 4 DS 301) */
     ["feature"="DE-ESO:db:lf4"]["signal_speed_limit_distant_form"="sign"] {
-      ["signal_speed_limit_distant_speed"=~"^[1-8]0$"] {
+      ["signal_speed_limit_distant_speed"=~"^([2-8]0|1[05]|0)$"] {
         marker-allow-overlap: true;
         marker-width: 22;
         marker-height: 19;
       }
+      ["signal_speed_limit_distant_speed"="0"] {
+        marker-file: url('symbols/de/lf4-ds301-0-sign-down.svg');
+      }
       ["signal_speed_limit_distant_speed"="10"] {
         marker-file: url('symbols/de/lf4-ds301-10-sign-down.svg');
+      }
+      ["signal_speed_limit_distant_speed"="15"] {
+        marker-file: url('symbols/de/lf4-ds301-15-sign-down.svg');
       }
       ["signal_speed_limit_distant_speed"="20"] {
         marker-file: url('symbols/de/lf4-ds301-20-sign-down.svg');
@@ -426,16 +432,22 @@
         marker-file: url('symbols/de/lf4-ds301-80-sign-down.svg');
       }
     }
-    
+
     /* German line speed signals (Lf 6) */
     ["feature"="DE-ESO:lf6"]["signal_speed_limit_distant_form"="sign"] {
-      ["signal_speed_limit_distant_speed"=~"^(1[0-5]|[1-9])0$"] {
+      ["signal_speed_limit_distant_speed"=~"^((1[0-9]|[1-9])0|5|15)$"] {
         marker-allow-overlap: true;
         marker-width: 22;
         marker-height: 19;
       }
+      ["signal_speed_limit_distant_speed"="5"] {
+        marker-file: url('symbols/de/lf6-5-sign-down.svg');
+      }
       ["signal_speed_limit_distant_speed"="10"] {
         marker-file: url('symbols/de/lf6-10-sign-down.svg');
+      }
+      ["signal_speed_limit_distant_speed"="15"] {
+        marker-file: url('symbols/de/lf6-15-sign-down.svg');
       }
       ["signal_speed_limit_distant_speed"="20"] {
         marker-file: url('symbols/de/lf6-20-sign-down.svg');
@@ -482,8 +494,20 @@
       ["signal_speed_limit_distant_speed"="160"] {
         marker-file: url('symbols/de/lf6-160-sign-down.svg');
       }
+      ["signal_speed_limit_distant_speed"="170"] {
+        marker-file: url('symbols/de/lf6-170-sign-down.svg');
+      }
+      ["signal_speed_limit_distant_speed"="180"] {
+        marker-file: url('symbols/de/lf6-180-sign-down.svg');
+      }
+      ["signal_speed_limit_distant_speed"="190"] {
+        marker-file: url('symbols/de/lf6-190-sign-down.svg');
+      }
+      ["signal_speed_limit_distant_speed"="200"] {
+        marker-file: url('symbols/de/lf6-200-sign-down.svg');
+      }
     }
-    
+
     /* Austrian line speed signals (Ankündigungstafel) */
     ["feature"="AT-V2:ankündigungstafel"]["signal_speed_limit_distant_form"="sign"] {
       ["signal_speed_limit_distant_speed"=~"^(1[0-4]|[1-9])0$"] {
@@ -534,7 +558,7 @@
         marker-file: url('symbols/at/ankuendigungstafel-140-sign.svg');
       }
     }
-    
+
     ["feature"="DE-HHA:l1"]["signal_speed_limit_distant_form"="sign"] {
       ["signal_speed_limit_distant_speed"=~"^[3-7]0$"] {
         marker-allow-overlap: true;
@@ -558,7 +582,7 @@
       }
     }
   }
-  
+
   [zoom>=15] {
     ["feature"="DE-BOStrab:g3"]["signal_speed_limit_form"="sign"] {
       marker-width: 11;
@@ -566,7 +590,7 @@
       marker-file: url('symbols/de/bostrab/g3.svg');
       marker-allow-overlap: true;
     }
-    
+
     /* German tram distance speed limit signals as signs (G 1a) */
     ["feature"="DE-BOStrab:g1a"]["signal_speed_limit_distant_form"="sign"] {
       ["signal_speed_limit_distant_speed"=~"^[1-6]0$"],
@@ -603,7 +627,7 @@
         marker-file: url('symbols/de/bostrab/g1a-60.svg');
       }
     }
-    
+
     /* German tram speed limit signals as signs (G 4) */
     ["feature"="DE-BOStrab:g4"]["signal_speed_limit_form"="sign"] {
       ["signal_speed_limit_speed"=~"^[2-7]0$"],
@@ -637,7 +661,7 @@
         marker-file: url('symbols/de/bostrab/g4-70.svg');
       }
     }
-    
+
     /* German tram speed limit signals as signs (G 2a) */
     ["feature"="DE-BOStrab:g2a"]["signal_speed_limit_form"="sign"] {
       ["signal_speed_limit_speed"=~"^([1-3]5|[1-6]0)$"] {
@@ -683,7 +707,7 @@
       marker-height: 16;
       marker-file: url('symbols/de/lf5-dv301-sign.svg');
     }
-    
+
     /* West German line speed signal "Anfangstafel" (Lf 5) */
     ["feature"="DE-ESO:db:lf5"]["signal_speed_limit_form"="sign"] {
       marker-allow-overlap: true;
@@ -691,16 +715,22 @@
       marker-height: 16;
       marker-file: url('symbols/de/lf5-ds301-sign.svg');
     }
-    
+
     /* German line speed signals (Lf 7) */
     ["feature"="DE-ESO:lf7"]["signal_speed_limit_form"="sign"] {
-      ["signal_speed_limit_speed"=~"^(20|1[0-9]|[1-9])0$"] {
+      ["signal_speed_limit_speed"=~"^((1?[1-9]|[12]0)0|5|15)$"] {
         marker-allow-overlap: true;
         marker-width: 13;
         marker-height: 16;
       }
+      ["signal_speed_limit_speed"="5"] {
+        marker-file: url('symbols/de/lf7-5-sign.svg');
+      }
       ["signal_speed_limit_speed"="10"] {
         marker-file: url('symbols/de/lf7-10-sign.svg');
+      }
+      ["signal_speed_limit_speed"="15"] {
+        marker-file: url('symbols/de/lf7-15-sign.svg');
       }
       ["signal_speed_limit_speed"="20"] {
         marker-file: url('symbols/de/lf7-20-sign.svg');
@@ -760,7 +790,7 @@
         marker-file: url('symbols/de/lf7-200-sign.svg');
       }
     }
-    
+
     /* Austrian line speed signals (Geschwindigkeitstafel) */
     ["feature"="AT-V2:geschwindigkeitstafel"]["signal_speed_limit_form"="sign"] {
       ["signal_speed_limit_speed"=~"^(1[0-6]0|[1-9][05])$"] {

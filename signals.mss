@@ -384,6 +384,13 @@ Format details:
       text-size: 10;
     }
 
+    ["minor_states"=~"^(.*;)?DE-ESO:wn7(;.*)?$"] {
+      marker-file: url('symbols/de/wn7-semaphore-normal.svg');
+      marker-width: 12;
+      marker-height: 11;
+      marker-allow-overlap: true;
+  }
+
     ["minor_form"="semaphore"]["minor_height"="normal"],
     ["minor_form"="semaphore"]["minor_height"=null] {
       marker-file: url('symbols/de/sh1-semaphore-normal.svg');
@@ -564,7 +571,6 @@ Format details:
       }
     }
   }
-
 
   /********************************************************************************/
   /* DE distant semaphore signals type Vr which                                   */

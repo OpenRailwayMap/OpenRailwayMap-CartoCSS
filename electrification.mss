@@ -21,6 +21,10 @@
 @color_gt25kv_ac: #FF9F19;
 @color_25kv_50: #FF0000;
 @color_25kv_60: #C00000;
+@color_12kv_25hz: #CCCC00;
+@color_12_5kv_60hz: #999900;
+@color_20kv_50hz: #FFCC66;
+@color_20kv_60hz: #FF9966;
 
 /**
   * Railway tracks with electrification under construction or proposed electrification
@@ -209,7 +213,15 @@
        line-color: #97FF2F;
     }
 
-    [frequency=null][frequency!=0][voltage>=15000][voltage<25000] {
+    [frequency=25][voltage=12000] {
+       line-color: @color_12kv_25hz;
+    }
+
+    [frequency=60][voltage=12500] {
+       line-color: @color_12_5kv_60hz;
+    }
+
+    [frequency!=null][frequency!=0][voltage>=15000][voltage<25000] {
        line-color: #F1F100;
     }
 
@@ -221,7 +233,15 @@
        line-color: #00CB66;
     }
 
-    [frequency=null][frequency!=0][voltage>=25000] {
+    [frequency=50][voltage=20000] {
+       line-color: @color_20kv_50hz;
+    }
+
+    [frequency=60][voltage=20000] {
+       line-color: @color_20kv_60hz;
+    }
+
+    [frequency!=null][frequency!=0][voltage>=25000] {
        line-color: #FF9F19;
     }
 

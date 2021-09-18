@@ -240,7 +240,6 @@
       line-color: @color_gauge_0600;
     }
 
-    ["gauge"="2'0\""],
     [gauge=609],
     [gauge>609][gauge<700] {
       line-color: @color_gauge_0610;
@@ -286,7 +285,6 @@
       line-color: @color_gauge_0900;
     }
 
-    ["gauge"="3'0\""],
     [gauge=914],
     [gauge>914][gauge<950] {
       line-color: @color_gauge_0914;
@@ -434,61 +432,31 @@
 
     /* miniature tracks */
 
-    ["gauge"="2.5inch"],
-    ["gauge"="2_1/2_inch"],
-    ["gauge"="2½\""],
-    ["gauge"="2.5\""],
-    ["gauge"="0'2.5\""],
     [gauge=63],
     [gauge>63][gauge<88] {
       line-color: @color_gauge_0064;
     }
 
-    ["gauge"="3.5inch"],
-    ["gauge"="3_1/2_inch"],
-    ["gauge"="3½\""],
-    ["gauge"="3.5\""],
-    ["gauge"="0'3.5\""],
     [gauge=88],
     [gauge>88][gauge<127] {
       line-color: @color_gauge_0089;
     }
     
-    ["gauge"="5inch"],
-    ["gauge"="5''"],
-    ["gauge"="5\""],
-    ["gauge"="0'5\""],
     [gauge=127],
     [gauge>127][gauge<184] {
       line-color: @color_gauge_0127;
     }
 
-    ["gauge"="7.25inch"],
-    ["gauge"="7_1/4_inch"],
-    ["gauge"="7¼\""],
-    ["gauge"="7.25''"],
-    ["gauge"="7.25\""],
-    ["gauge"="0'7.25\""],
     [gauge=184],
     [gauge>184][gauge<190] {
       line-color: @color_gauge_0184;
     }
 
-    ["gauge"="7.5inch"],
-    ["gauge"="7_1/2_inch"],
-    ["gauge"="7½\""],
-    ["gauge"="7.5\""],
-    ["gauge"="0'7.5\""],
     [gauge=190],
     [gauge>190][gauge<260] {
       line-color: @color_gauge_0190;
     }
 
-    ["gauge"="10.25inch"],
-    ["gauge"="10_1/4_inch"],
-    ["gauge"="10¼\""],
-    ["gauge"="10.25\""],
-    ["gauge"="0'10.25\""],
     [gauge=260],
     [gauge>260][gauge<380] {
       line-color: @color_gauge_0260;

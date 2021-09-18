@@ -173,6 +173,18 @@
       }
     }
 
+    [frequency!=null]["frequency"!=0][voltage<15000] {
+       line-color: #97FF2F;
+    }
+
+    [frequency!=null]["frequency"!=0][voltage>=15000][voltage<25000] {
+       line-color: #F1F100;
+    }
+
+    [frequency!=null]["frequency"!=0][voltage>=25000] {
+       line-color: #FF9F19;
+    }
+
     [frequency=0]["voltage"<750] {
        line-color: #FF79B8;
     }
@@ -209,20 +221,12 @@
        line-color: #1969FF;
     }
 
-    [frequency!=null]["frequency"!=0][voltage<15000] {
-       line-color: #97FF2F;
-    }
-
     [frequency=25][voltage=12000] {
        line-color: @color_12kv_25hz;
     }
 
     [frequency=60][voltage=12500] {
        line-color: @color_12_5kv_60hz;
-    }
-
-    [frequency!=null][frequency!=0][voltage>=15000][voltage<25000] {
-       line-color: #F1F100;
     }
 
     [frequency=16.67][voltage=15000] {
@@ -239,10 +243,6 @@
 
     [frequency=60][voltage=20000] {
        line-color: @color_20kv_60hz;
-    }
-
-    [frequency!=null][frequency!=0][voltage>=25000] {
-       line-color: #FF9F19;
     }
 
     [frequency=50]["voltage"=25000] {

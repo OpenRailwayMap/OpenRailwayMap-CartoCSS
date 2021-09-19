@@ -349,7 +349,7 @@ Layer:
             tags->'gauge' AS gauge
           FROM openrailwaymap_osm_line
           WHERE
-            railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved'. 'monorail', 'miniature')
+            railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
           ORDER by layer, rank NULLS LAST
         ) AS railway_text_high
     properties:

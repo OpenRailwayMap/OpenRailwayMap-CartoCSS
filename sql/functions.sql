@@ -471,7 +471,7 @@ CREATE OR REPLACE FUNCTION railway_desired_value_from_list(desired_nr INTEGER, l
 DECLARE
   value_array TEXT[];
 BEGIN
-  IF listed_values IS NULL OR listed_values = '' OR THEN desired_nr <= 0 THEN
+  IF listed_values IS NULL OR listed_values = '' OR desired_nr <= 0 THEN
     RETURN NULL;
   END IF;
   value_array := regexp_split_to_array(listed_values, ';');

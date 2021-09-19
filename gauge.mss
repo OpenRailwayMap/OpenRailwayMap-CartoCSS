@@ -545,12 +545,7 @@
   [zoom>=13]["railway"="monorail"]["service"!=null],
   [zoom>=13]["railway"="miniature"]["service"=null],
   [zoom>=13]["railway"="miniature"]["service"!=null] {
-    ["gauge"!=null] {
-      text-name: [gauge];
-    }
-    ["gauge"=null] {
-      text-name: [railway];
-    }
+    text-name: [label];
     text-face-name: @bold-fonts;
     text-size: 11;
     text-placement: line;

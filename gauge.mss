@@ -220,245 +220,245 @@
     
     /* tracks with numeric gauge value */
 
-    [gauge=380],
-    [gauge>380][gauge<500] {
+    [gaugeint=380],
+    [gaugeint>380][gaugeint<500] {
       line-color: @color_gauge_0381;
     }
 
-    [gauge=500],
-    [gauge>500][gauge<597] {
+    [gaugeint=500],
+    [gaugeint>500][gaugeint<597] {
       line-color: @color_gauge_0500;
     }
 
-    [gauge=597],
-    [gauge>597][gauge<600] {
+    [gaugeint=597],
+    [gaugeint>597][gaugeint<600] {
       line-color: @color_gauge_0597;
     }
 
-    [gauge=600],
-    [gauge>600][gauge<609] {
+    [gaugeint=600],
+    [gaugeint>600][gaugeint<609] {
       line-color: @color_gauge_0600;
     }
 
-    [gauge=609],
-    [gauge>609][gauge<700] {
+    [gaugeint=609],
+    [gaugeint>609][gaugeint<700] {
       line-color: @color_gauge_0610;
     }
 
-    [gauge=700],
-    [gauge>700][gauge<750] {
+    [gaugeint=700],
+    [gaugeint>700][gaugeint<750] {
       line-color: @color_gauge_0700;
     }
 
-    [gauge=750],
-    [gauge>750][gauge<760] {
+    [gaugeint=750],
+    [gaugeint>750][gaugeint<760] {
       line-color: @color_gauge_0750;
     }
 
-    [gauge=760],
-    [gauge>760][gauge<762] {
+    [gaugeint=760],
+    [gaugeint>760][gaugeint<762] {
       line-color: @color_gauge_0760;
     }
 
-    [gauge=762],
-    [gauge>762][gauge<785] {
+    [gaugeint=762],
+    [gaugeint>762][gaugeint<785] {
       line-color: @color_gauge_0762;
     }
 
-    [gauge=785],
-    [gauge>785][gauge<800] {
+    [gaugeint=785],
+    [gaugeint>785][gaugeint<800] {
       line-color: @color_gauge_0785;
     }
     
-    [gauge=800],
-    [gauge>800][gauge<891] {
+    [gaugeint=800],
+    [gaugeint>800][gaugeint<891] {
       line-color: @color_gauge_0800;
     }
     
-    [gauge=891],
-    [gauge>891][gauge<900] {
+    [gaugeint=891],
+    [gaugeint>891][gaugeint<900] {
       line-color: @color_gauge_0891;
     }
 
-    [gauge=900],
-    [gauge>900][gauge<914] {
+    [gaugeint=900],
+    [gaugeint>900][gaugeint<914] {
       line-color: @color_gauge_0900;
     }
 
-    [gauge=914],
-    [gauge>914][gauge<950] {
+    [gaugeint=914],
+    [gaugeint>914][gaugeint<950] {
       line-color: @color_gauge_0914;
     }
 
-    [gauge=950],
-    [gauge>950][gauge<1000] {
+    [gaugeint=950],
+    [gaugeint>950][gaugeint<1000] {
       line-color: @color_gauge_0950;
     }
 
-    [gauge=1000],
-    [gauge>1000][gauge<1009] {
+    [gaugeint=1000],
+    [gaugeint>1000][gaugeint<1009] {
       line-color: @color_gauge_1000;
     }
 
-    [gauge=1009],
-    [gauge>1009][gauge<1050] {
+    [gaugeint=1009],
+    [gaugeint>1009][gaugeint<1050] {
       line-color: @color_gauge_1009;
     }
 
-    [gauge=1050],
-    [gauge>1050][gauge<1066] {
+    [gaugeint=1050],
+    [gaugeint>1050][gaugeint<1066] {
       line-color: @color_gauge_1050;
     }
 
-    [gauge=1066],
-    [gauge>1066][gauge<1100] {
+    [gaugeint=1066],
+    [gaugeint>1066][gaugeint<1100] {
       line-color: @color_gauge_1067;
     }
 
-    [gauge=1100],
-    [gauge>1100][gauge<1200] {
+    [gaugeint=1100],
+    [gaugeint>1100][gaugeint<1200] {
       line-color: @color_gauge_1100;
     }
 
-    [gauge=1200],
-    [gauge>1200][gauge<1372] {
+    [gaugeint=1200],
+    [gaugeint>1200][gaugeint<1372] {
       line-color: @color_gauge_1200;
     }
 
-    [gauge=1372],
-    [gauge>1372][gauge<1422] {
+    [gaugeint=1372],
+    [gaugeint>1372][gaugeint<1422] {
       line-color: @color_gauge_1372;
     }
 
-    [gauge=1422],
-    [gauge>1422][gauge<1432] {
+    [gaugeint=1422],
+    [gaugeint>1422][gaugeint<1432] {
       line-color: @color_gauge_1422;
     }
 
-    [gauge=1432],
-    [gauge>1432][gauge<1435] {
+    [gaugeint=1432],
+    [gaugeint>1432][gaugeint<1435] {
       line-color: @color_gauge_1432;
     }
 
-    [gauge=1435],
-    [gauge>1435][gauge<1440] {
+    [gaugeint=1435],
+    [gaugeint>1435][gaugeint<1440] {
       line-color: @color_gauge_1435;
     }
 
-    [gauge=1440],
-    [gauge>1440][gauge<1445] {
+    [gaugeint=1440],
+    [gaugeint>1440][gaugeint<1445] {
       line-color: @color_gauge_1440;
     }
 
-    [gauge=1445],
-    [gauge>1445][gauge<1450] {
+    [gaugeint=1445],
+    [gaugeint>1445][gaugeint<1450] {
       line-color: @color_gauge_1445;
     }
 
-    [gauge=1450],
-    [gauge>1450][gauge<1458] {
+    [gaugeint=1450],
+    [gaugeint>1450][gaugeint<1458] {
       line-color: @color_gauge_1450;
     }
 
-    [gauge=1458],
-    [gauge>1458][gauge<1495] {
+    [gaugeint=1458],
+    [gaugeint>1458][gaugeint<1495] {
       line-color: @color_gauge_1458;
     }
 
-    [gauge=1495],
-    [gauge>1495][gauge<1520] {
+    [gaugeint=1495],
+    [gaugeint>1495][gaugeint<1520] {
       line-color: @color_gauge_1495;
     }
 
-    [gauge=1520],
-    [gauge>1520][gauge<1522] {
+    [gaugeint=1520],
+    [gaugeint>1520][gaugeint<1522] {
       line-color: @color_gauge_1520;
     }
 
-    [gauge=1522],
-    [gauge>1522][gauge<1524] {
+    [gaugeint=1522],
+    [gaugeint>1522][gaugeint<1524] {
       line-color: @color_gauge_1522;
     }
 
-    [gauge=1524],
-    [gauge>1524][gauge<1581] {
+    [gaugeint=1524],
+    [gaugeint>1524][gaugeint<1581] {
       line-color: @color_gauge_1524;
     }
 
-    [gauge=1581],
-    [gauge>1581][gauge<1588] {
+    [gaugeint=1581],
+    [gaugeint>1581][gaugeint<1588] {
       line-color: @color_gauge_1581;
     }
 
-    [gauge=1588],
-    [gauge>1588][gauge<1600] {
+    [gaugeint=1588],
+    [gaugeint>1588][gaugeint<1600] {
       line-color: @color_gauge_1588;
     }
 
-    [gauge=1600],
-    [gauge>1600][gauge<1668] {
+    [gaugeint=1600],
+    [gaugeint>1600][gaugeint<1668] {
       line-color: @color_gauge_1600;
     }
 
-    [gauge=1668],
-    [gauge>1668][gauge<1676] {
+    [gaugeint=1668],
+    [gaugeint>1668][gaugeint<1676] {
       line-color: @color_gauge_1668;
     }
 
-    [gauge=1676],
-    [gauge>1676][gauge<1700] {
+    [gaugeint=1676],
+    [gaugeint>1676][gaugeint<1700] {
       line-color: @color_gauge_1676;
     }
 
-    [gauge=1700],
-    [gauge>1700][gauge<1800] {
+    [gaugeint=1700],
+    [gaugeint>1700][gaugeint<1800] {
       line-color: @color_gauge_1700;
     }
 
-    [gauge=1800],
-    [gauge>1800][gauge<1880] {
+    [gaugeint=1800],
+    [gaugeint>1800][gaugeint<1880] {
       line-color: @color_gauge_1800;
     }
 
-    [gauge=1880],
-    [gauge>1880][gauge<2000] {
+    [gaugeint=1880],
+    [gaugeint>1880][gaugeint<2000] {
       line-color: @color_gauge_1880;
     }
 
-    [gauge=2000],
-    [gauge>2000][gauge<3000] {
+    [gaugeint=2000],
+    [gaugeint>2000][gaugeint<3000] {
       line-color: @color_gauge_2000;
     }
 
     /* miniature tracks */
 
-    [gauge=63],
-    [gauge>63][gauge<88] {
+    [gaugeint=63],
+    [gaugeint>63][gaugeint<88] {
       line-color: @color_gauge_0064;
     }
 
-    [gauge=88],
-    [gauge>88][gauge<127] {
+    [gaugeint=88],
+    [gaugeint>88][gaugeint<127] {
       line-color: @color_gauge_0089;
     }
     
-    [gauge=127],
-    [gauge>127][gauge<184] {
+    [gaugeint=127],
+    [gaugeint>127][gaugeint<184] {
       line-color: @color_gauge_0127;
     }
 
-    [gauge=184],
-    [gauge>184][gauge<190] {
+    [gaugeint=184],
+    [gaugeint>184][gaugeint<190] {
       line-color: @color_gauge_0184;
     }
 
-    [gauge=190],
-    [gauge>190][gauge<260] {
+    [gaugeint=190],
+    [gaugeint>190][gaugeint<260] {
       line-color: @color_gauge_0190;
     }
 
-    [gauge=260],
-    [gauge>260][gauge<380] {
+    [gaugeint=260],
+    [gaugeint>260][gaugeint<380] {
       line-color: @color_gauge_0260;
     }
     

@@ -206,10 +206,7 @@
         line-width: 1.5;
       }
     }
-
-    /* default color for unknown gauge value */
-    line-color: @color_gauge_unknown;
-
+    
     #railway_dual_gauge_line {
       line-dasharray: @dual-gauge-dashes;
     }
@@ -218,8 +215,44 @@
       line-dasharray: @multi-gauge-dashes;
     }
     
-    /* tracks with numeric gauge value */
+    /* color for unknown low numeric gauge values */
 
+    [gaugeint>0][gaugeint<63] {
+      line-color: @color_gauge_unknown;
+    }
+
+    /* colors for numeric gauge values */
+
+    [gaugeint=63],
+    [gaugeint>63][gaugeint<88] {
+      line-color: @color_gauge_0064;
+    }
+
+    [gaugeint=88],
+    [gaugeint>88][gaugeint<127] {
+      line-color: @color_gauge_0089;
+    }
+    
+    [gaugeint=127],
+    [gaugeint>127][gaugeint<184] {
+      line-color: @color_gauge_0127;
+    }
+
+    [gaugeint=184],
+    [gaugeint>184][gaugeint<190] {
+      line-color: @color_gauge_0184;
+    }
+
+    [gaugeint=190],
+    [gaugeint>190][gaugeint<260] {
+      line-color: @color_gauge_0190;
+    }
+
+    [gaugeint=260],
+    [gaugeint>260][gaugeint<380] {
+      line-color: @color_gauge_0260;
+    }
+    
     [gaugeint=380],
     [gaugeint>380][gaugeint<500] {
       line-color: @color_gauge_0381;
@@ -430,38 +463,12 @@
       line-color: @color_gauge_2000;
     }
 
-    /* miniature tracks */
+    /* color for unknown high numeric gauge values */
 
-    [gaugeint=63],
-    [gaugeint>63][gaugeint<88] {
-      line-color: @color_gauge_0064;
-    }
-
-    [gaugeint=88],
-    [gaugeint>88][gaugeint<127] {
-      line-color: @color_gauge_0089;
-    }
-    
-    [gaugeint=127],
-    [gaugeint>127][gaugeint<184] {
-      line-color: @color_gauge_0127;
+    [gaugeint>=3000] {
+      line-color: @color_gauge_unknown;
     }
 
-    [gaugeint=184],
-    [gaugeint>184][gaugeint<190] {
-      line-color: @color_gauge_0184;
-    }
-
-    [gaugeint=190],
-    [gaugeint>190][gaugeint<260] {
-      line-color: @color_gauge_0190;
-    }
-
-    [gaugeint=260],
-    [gaugeint>260][gaugeint<380] {
-      line-color: @color_gauge_0260;
-    }
-    
     /* miniature tracks with inaccurate gauge value */
 
     ["railway"="miniature"]["gauge"="narrow"],

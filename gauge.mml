@@ -64,6 +64,7 @@ Layer:
                  WHEN railway IN ('preserved', 'construction') THEN 400
                  ELSE 50
             END AS rank,
+            railway_to_int(gauge) AS gaugeint,
             gauge
           FROM
             (SELECT
@@ -95,6 +96,7 @@ Layer:
             NULL AS preserved_railway, 
             NULL AS preserved_usage,
             NULL AS preserved_service,
+            railway_to_int(gauge) AS gaugeint,
             gauge
           FROM
             (SELECT
@@ -128,6 +130,7 @@ Layer:
                  WHEN railway = 'rail' AND usage = 'branch' THEN 1000
                  ELSE 50
             END AS rank,
+            railway_to_int(gauge) AS gaugeint,
             gauge
           FROM
             (SELECT
@@ -172,6 +175,7 @@ Layer:
                  WHEN railway IN ('preserved', 'construction') THEN 400
                  ELSE 50
             END AS rank,
+            railway_to_int(gauge) AS gaugeint,
             gauge
           FROM
             (SELECT
@@ -223,6 +227,7 @@ Layer:
                  WHEN railway IN ('preserved', 'construction') THEN 400
                  ELSE 50
             END AS rank,
+            railway_to_int(gauge) AS gaugeint,
             gauge
           FROM
             (SELECT
@@ -275,6 +280,7 @@ Layer:
                  WHEN railway IN ('preserved', 'construction') THEN 400
                  ELSE 50
             END AS rank,
+            railway_to_int(gauge) AS gaugeint,
             gauge
           FROM
             (SELECT

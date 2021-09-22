@@ -1,11 +1,14 @@
 @text-halo-color: white;
 @text-halo-radius: 1;
 
-@construction-dashes: 5,5;
+@construction-dashes: 6,6;
+@dual-construction-dashes: 3,9;
+@multi-construction-dashes: 0,2,2,8;
+
 @proposed-dashes: 4,8;
 
-@dual-gauge-dashes: 8,8;
-@multi-gauge-dashes: 4,12;
+@dual-gauge-dashes: 9,9;
+@multi-gauge-dashes: 0,6,6,6;
 
 @color_gauge_0064: #006060;
 @color_gauge_0089: #008080;
@@ -207,11 +210,23 @@
       }
     }
     
-    #railway_dual_gauge_line {
+    #railway_line_fill["railway"="construction"] {
+      line-dasharray: @construction-dashes;
+    }
+    
+    #railway_dual_gauge_line["railway"="construction"] {
+      line-dasharray: @dual-construction-dashes;
+    }
+    
+    #railway_multi_gauge_line["railway"="construction"] {
+      line-dasharray: @multi-construction-dashes;
+    }
+    
+    #railway_dual_gauge_line["railway"!="construction"] {
       line-dasharray: @dual-gauge-dashes;
     }
     
-    #railway_multi_gauge_line {
+    #railway_multi_gauge_line["railway"!="construction"] {
       line-dasharray: @multi-gauge-dashes;
     }
     

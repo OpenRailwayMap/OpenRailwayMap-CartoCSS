@@ -560,5 +560,8 @@
     text-min-distance: 30;
     text-halo-radius: @text-halo-radius;
     text-halo-fill: @text-halo-color;
+    ["gauge"=null]["construction_gauge"!=null] {
+      text-face-name: @oblique-fonts;
+    }
   }
 }

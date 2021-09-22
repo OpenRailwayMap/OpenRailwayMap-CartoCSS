@@ -354,7 +354,8 @@ Layer:
             END AS rank,
             layer,
             COALESCE(tags->'gauge', tags->'construction:gauge') AS label,
-            tags->'gauge' AS gauge
+            tags->'gauge' AS gauge,
+            tags->'construction:gauge' AS construction_gauge
           FROM openrailwaymap_osm_line
           WHERE
             railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')

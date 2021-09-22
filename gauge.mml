@@ -71,7 +71,7 @@ Layer:
                 way, railway, usage, service,
                 construction,
                 tags->'construction:railway' AS construction_railway,
-                railway_desired_value_from_list(1, tags->'gauge') AS gauge,
+                railway_desired_value_from_list(1, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge,
                 layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'monorail', 'miniature')
@@ -187,7 +187,7 @@ Layer:
                 tags->'preserved:railway' AS preserved_railway,
                 tags->'preserved:usage' AS preserved_usage,
                 tags->'preserved:service' AS preserved_service,
-                railway_desired_value_from_list(1, tags->'gauge') AS gauge,
+                railway_desired_value_from_list(1, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge,
                 layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
@@ -239,11 +239,11 @@ Layer:
                 tags->'preserved:railway' AS preserved_railway,
                 tags->'preserved:usage' AS preserved_usage,
                 tags->'preserved:service' AS preserved_service,
-                railway_desired_value_from_list(2, tags->'gauge') AS gauge,
+                railway_desired_value_from_list(2, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge,
                 layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
-                AND railway_desired_value_from_list(2, tags->'gauge') IS NOT NULL
+                AND railway_desired_value_from_list(2, COALESCE(tags->'gauge', tags->'construction:gauge')) IS NOT NULL
             ) AS r
           ORDER BY
             layer,
@@ -292,11 +292,11 @@ Layer:
                 tags->'preserved:railway' AS preserved_railway,
                 tags->'preserved:usage' AS preserved_usage,
                 tags->'preserved:service' AS preserved_service,
-                railway_desired_value_from_list(3, tags->'gauge') AS gauge,
+                railway_desired_value_from_list(3, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge,
                 layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
-                AND railway_desired_value_from_list(3, tags->'gauge') IS NOT NULL
+                AND railway_desired_value_from_list(3, COALESCE(tags->'gauge', tags->'construction:gauge')) IS NOT NULL
             ) AS r
           ORDER BY
             layer,
@@ -319,7 +319,7 @@ Layer:
                  ELSE 50
             END AS rank,
             layer,
-            COALESCE(tags->'gauge', railway) AS label,
+            tags->'gauge' AS label,
             tags->'gauge' AS gauge
           FROM openrailwaymap_osm_line
           WHERE
@@ -353,7 +353,7 @@ Layer:
                  ELSE 50
             END AS rank,
             layer,
-            COALESCE(tags->'gauge', railway) AS label,
+            COALESCE(tags->'gauge', tags->'construction:gauge') AS label,
             tags->'gauge' AS gauge
           FROM openrailwaymap_osm_line
           WHERE

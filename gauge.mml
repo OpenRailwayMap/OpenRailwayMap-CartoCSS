@@ -320,7 +320,8 @@ Layer:
             END AS rank,
             layer,
             railway_gauge_label(tags->'gauge') AS label,
-            tags->'gauge' AS gauge
+            tags->'gauge' AS gauge,
+            NULL AS construction_gauge
           FROM openrailwaymap_osm_line
           WHERE
             railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL

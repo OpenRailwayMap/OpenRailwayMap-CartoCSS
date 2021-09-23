@@ -466,6 +466,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Get label for gauge
+CREATE OR REPLACE FUNCTION railway_gauge_label(gauge TEXT) RETURNS TEXT AS $$
+BEGIN
+  IF gauge IS NOT NULL AND gauge ~ '^[0-9;]+$' THEN
+    RETURN regex_replace(gauge, ';', ' | ');
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Get the desired value from listed values (e.g. gauge)
 CREATE OR REPLACE FUNCTION railway_desired_value_from_list(desired_nr INTEGER, listed_values TEXT) RETURNS TEXT AS $$
 DECLARE

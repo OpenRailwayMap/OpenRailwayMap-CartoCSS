@@ -1,0 +1,734 @@
+width: 100
+height: 25
+background: "transparent"
+features:
+  - name: No information
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: null
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: Speed provided for one direction only
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: null
+      "maxspeed:forward": 100
+      "railway:preferred_direction": "forward"
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 1–10 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 10
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 11–20 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 20
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 21–30 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 30
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 31–40 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 40
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 41–50 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 50
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 51–60 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 60
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 61–70 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 70
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 71–80 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 80
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 81–90 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 90
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 91–100 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 100
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 101–110 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 110
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 111–120 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 120
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 121–130 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 130
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 131–140 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 140
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 141–150 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 150
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 151–160 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 160
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 161–170 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 170
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+
+  - name: 171–180 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 180
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 181–190 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 190
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 191–200 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 200
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 201–210 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 210
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 211–220 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 220
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 221–230 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 230
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 231–240 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 240
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 241–250 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 250
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 251–260 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 260
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 261–270 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 270
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 271–280 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 280
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 281–290 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 290
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 291–300 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 300
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 301–320 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 320
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 321–340 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 340
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 341–360 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 340
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 361–380 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 380
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: 381–400 km/h
+    min_zoom: 0
+    type: linestring
+    tags:
+      railway: "rail"
+      usage: "main"
+      maxspeed: 400
+      length_pixels: 1000
+    properties:
+      group: "Speed limits on tracks"
+    layers:
+      - "railway_line_casing"
+      - "railway_line_low"
+      - "railway_line_med"
+      - "railway_line_fill"
+      - "railway_line_text"
+
+  - name: Lf 6 Geschwindigkeitsankündesignal
+    min_zoom: 14
+    type: point
+    tags:
+      railway: "signal"
+      railway:signal:direction: "forward"
+      feature: "DE-ESO:lf6"
+      signal_speed_limit_distant_form: "sign"
+      signal_speed_limit_distant_speed: "60"
+    properties:
+      group: "Speed signals"
+    layers:
+      - "railway_signals"
+
+  - name: Lf 7 Geschwindigkeitssignal
+    min_zoom: 14
+    type: point
+    tags:
+      railway: "signal"
+      railway:signal:direction: "forward"
+      feature: "DE-ESO:lf7"
+      signal_speed_limit_form: "sign"
+      signal_speed_limit_speed: "60"
+    properties:
+      group: "Speed signals"
+    layers:
+      - "railway_signals"
+
+  - name: Zs 3v Geschwindigkeitsvoranzeiger (Tafel)
+    min_zoom: 17
+    type: point
+    tags:
+      railway: "signal"
+      railway:signal:direction: "forward"
+      feature: "DE-ESO:zs3v"
+      signal_speed_limit_distant_form: "sign"
+      signal_speed_limit_distant_speed: "30"
+    properties:
+      group: "Speed signals"
+    layers:
+      - "railway_signals"
+
+  - name: Zs 3v Geschwindigkeitsvoranzeiger (Lichtsignal)
+    min_zoom: 17
+    type: point
+    tags:
+      railway: "signal"
+      railway:signal:direction: "forward"
+      feature: "DE-ESO:zs3v"
+      signal_speed_limit_distant_form: "light"
+      signal_speed_limit_distant_speed: "30"
+    properties:
+      group: "Speed signals"
+    layers:
+      - "railway_signals"
+
+  - name: Zs 3 Geschwindigkeitsanzeiger (Tafel)
+    min_zoom: 17
+    type: point
+    tags:
+      railway: "signal"
+      railway:signal:direction: "forward"
+      feature: "DE-ESO:zs3"
+      signal_speed_limit_form: "sign"
+      signal_speed_limit_speed: "30"
+    properties:
+      group: "Speed signals"
+    layers:
+      - "railway_signals"
+
+  - name: Zs 3 Geschwindigkeitsanzeiger (Lichtsignal)
+    min_zoom: 17
+    type: point
+    tags:
+      railway: "signal"
+      railway:signal:direction: "forward"
+      feature: "DE-ESO:zs3"
+      signal_speed_limit_form: "light"
+      signal_speed_limit_speed: "30"
+    properties:
+      group: "Speed signals"
+    layers:
+      - "railway_signals"
+
+  - name: Zs 10 Endesignal
+    min_zoom: 17
+    type: point
+    tags:
+      railway: "signal"
+      railway:signal:direction: "forward"
+      feature: "DE-ESO:db:zs10"
+      signal_speed_limit_form: "sign"
+      signal_speed_limit_speed: "none"
+    properties:
+      group: "Speed signals"
+    layers:
+      - "railway_signals"
+
+# This list has to contain all fields which are queried by the Mapnik style but not set above.
+extra_tags: []

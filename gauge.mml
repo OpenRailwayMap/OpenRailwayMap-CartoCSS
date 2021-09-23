@@ -319,7 +319,7 @@ Layer:
                  ELSE 50
             END AS rank,
             layer,
-            tags->'gauge' AS label,
+            railway_gauge_label(tags->'gauge') AS label,
             tags->'gauge' AS gauge
           FROM openrailwaymap_osm_line
           WHERE
@@ -353,7 +353,7 @@ Layer:
                  ELSE 50
             END AS rank,
             layer,
-            COALESCE(tags->'gauge', tags->'construction:gauge') AS label,
+            railway_gauge_label(COALESCE(tags->'gauge', tags->'construction:gauge')) AS label,
             tags->'gauge' AS gauge,
             tags->'construction:gauge' AS construction_gauge
           FROM openrailwaymap_osm_line

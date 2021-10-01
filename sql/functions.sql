@@ -470,7 +470,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION railway_gauge_label(gauge TEXT) RETURNS TEXT AS $$
 BEGIN
   IF gauge IS NOT NULL AND gauge ~ '^[0-9;]+$' THEN
-    RETURN regex_replace(gauge, ';', ' | ');
+    RETURN regexp_replace(gauge, ';', ' | ');
   END IF;
   RETURN NULL;
 END;

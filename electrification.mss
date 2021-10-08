@@ -17,10 +17,10 @@
 @color_lt15kv_ac: #97FF2F;
 @color_gte15kv_lt25kv_ac: #F1F100;
 @color_gte25kv_ac: #FF9F19;
-@color_15kv_1667hz: #00FF00;
-@color_15kv_167hz: #00CB66;
-@color_25kv_50: #FF0000;
-@color_25kv_60: #C00000;
+@color_15kv_16_67hz: #00FF00;
+@color_15kv_16_7hz: #00CB66;
+@color_25kv_50hz: #FF0000;
+@color_25kv_60hz: #C00000;
 @color_12kv_25hz: #CCCC00;
 @color_12_5kv_60hz: #999900;
 @color_20kv_50hz: #FFCC66;
@@ -173,8 +173,12 @@
       }
     }
 
-    [frequency!=0][voltage<15000] {
-       line-color: #97FF2F;
+    [frequency!=0][voltage<12000],
+    [frequency!=0][frequency!=25][voltage=12000],
+    [frequency!=0][voltage>12000][voltage<12500],
+    [frequency!=0][frequency!=60][voltage=12500],
+    [frequency!=0][voltage>12500][voltage<15000] {
+       line-color: @color_lt15kv_ac;
     }
 
     [frequency!=0][frequency!=16.67][frequency!=16.7][voltage=15000],
@@ -234,11 +238,11 @@
     }
 
     [frequency=16.67][voltage=15000] {
-       line-color: #00FF00;
+       line-color: @color_15kv_16_67hz;
     }
 
     [frequency=16.7][voltage=15000] {
-       line-color: #00CB66;
+       line-color: @color_15kv_16_7hz;
     }
 
     [frequency=50][voltage=20000] {
@@ -250,11 +254,11 @@
     }
 
     [frequency=50][voltage=25000] {
-       line-color: #FF0000;
+       line-color: @color_25kv_50hz;
     }
 
     [frequency=60][voltage=25000] {
-       line-color: #C00000;
+       line-color: @color_25kv_60hz;
     }
   }
 }

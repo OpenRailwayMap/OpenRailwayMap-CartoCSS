@@ -177,7 +177,7 @@
        line-color: #97FF2F;
     }
 
-    [frequency!=0][voltage>=15000][voltage<20000],
+    [frequency!=0][frequency!=16.67][frequency!=16.7][voltage>=15000][voltage<20000],
     [frequency!=0][frequency!=50][frequency!=60][voltage=20000],
     [frequency!=0][voltage>20000][voltage<25000] {
        line-color: #F1F100;

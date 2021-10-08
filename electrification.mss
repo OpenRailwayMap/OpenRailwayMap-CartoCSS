@@ -16,9 +16,9 @@
 @color_3kv_dc: #0000FF;
 @color_lt15kv_ac: #97FF2F;
 @color_gte15kv_lt25kv_ac: #F1F100;
+@color_gte25kv_ac: #FF9F19;
 @color_15kv_1667hz: #00FF00;
 @color_15kv_167hz: #00CB66;
-@color_gt25kv_ac: #FF9F19;
 @color_25kv_50: #FF0000;
 @color_25kv_60: #C00000;
 @color_12kv_25hz: #CCCC00;
@@ -184,8 +184,9 @@
        line-color: @color_gte15kv_lt25kv_ac;
     }
 
-    [frequency!=0][frequency!=50][frequency!=60][voltage>=25000] {
-       line-color: #FF9F19;
+    [frequency!=0][frequency!=50][frequency!=60][voltage=25000],
+    [frequency!=0][voltage>25000] {
+       line-color: @color_gte25kv_ac;
     }
 
     [frequency=0]["voltage"<750] {

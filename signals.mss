@@ -511,6 +511,27 @@ Format details:
     }
   }
 
+  /***********************************************************************/
+  /* DE Signalhaltmelder Zugleitbetrieb                                  */
+  /* repeats DE-ESO:hp0 of the entrance main signal to the halt position */
+  /***********************************************************************/
+  ["feature"="DE-DB:signalhaltmelder"]["main_repeated_form"="light"] {
+    marker-file: url('symbols/de/zlb-signalhaltmelder-light.svg');
+    marker-width: 16;
+    marker-height: 10;
+    marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 11;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+  }
+
   /***************************/
   /* DE main entry sign Ne 1 */
   /* AT Trapeztafel          */

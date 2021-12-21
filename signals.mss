@@ -651,10 +651,12 @@ Format details:
     }
   }
 
-  /***********************/
-  /* DE ETCS stop marker */
-  /***********************/
-  ["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"] {
+  /*******************************************/
+  /* DE ETCS stop marker                     */
+  /* NL ETCS stopplaatsmarkering 227b (pijl) */
+  /*******************************************/
+  ["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"],
+  ["feature"="NL:227b"]["train_protection_form"="sign"]["train_protection_type"="block_marker"]["shape"="arrow"] {
     marker-file: url('symbols/etcs-stop-marker-arrow-left.svg');
     marker-width: 16;
     marker-height: 16;
@@ -671,6 +673,25 @@ Format details:
     }
   }
 
+  /***********************************************/
+  /* NL ETCS stopplaatsmarkering 227b (driehoek) */
+  /***********************************************/
+  ["feature"="NL:227b"]["train_protection_form"="sign"]["train_protection_type"="block_marker"]["shape"="triangle"] {
+      marker-file: url('symbols/etcs-stop-marker-triangle-left.svg');
+      marker-width: 16;
+      marker-height: 16;
+      marker-allow-overlap: true;
+
+      ::text {
+        text-name: [ref];
+        text-dy: 12;
+        text-fill: @signal-text-fill;
+        text-halo-radius: @signal-text-halo-radius;
+        text-halo-fill: @signal-text-halo-fill;
+        text-face-name: @bold-fonts;
+        text-size: 10;
+      }
+    }
 
   /****************************/
   /* AT distant light signals */

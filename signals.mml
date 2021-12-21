@@ -387,7 +387,8 @@ Layer:
             tags->'railway:signal:crossing:distant:type' AS crossing_distant_type,
             tags->'railway:signal:crossing:type' AS crossing_type,
             tags->'railway:signal:ring:type' AS ring_type,
-            tags->'railway:signal:whistle:type' AS whistle_type
+            tags->'railway:signal:whistle:type' AS whistle_type,
+            tags->'railway:signal:train_protection:shape' AS shape
           FROM openrailwaymap_osm_signals
           WHERE
             (railway IN ('signal', 'buffer_stop') AND "signal_direction" IS NOT NULL)
@@ -411,7 +412,7 @@ Layer:
               WHEN railway_has_key(tags, 'railway:signal:whistle') THEN 500
               ELSE 0
             END) ASC NULLS FIRST
-        ) AS railway_signals 
+        ) AS railway_signals
     properties:
       minzoom: 14
   - id: signal_boxes_text

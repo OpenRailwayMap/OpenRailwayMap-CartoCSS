@@ -388,7 +388,7 @@ Layer:
             tags->'railway:signal:crossing:type' AS crossing_type,
             tags->'railway:signal:ring:type' AS ring_type,
             tags->'railway:signal:whistle:type' AS whistle_type,
-            tags->'railway:signal:train_protection_shape' AS shape
+            tags->'railway:signal:train_protection:shape' AS train_protection_shape
           FROM openrailwaymap_osm_signals
           WHERE
             (railway IN ('signal', 'buffer_stop') AND "signal_direction" IS NOT NULL)

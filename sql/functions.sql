@@ -359,7 +359,7 @@ CREATE OR REPLACE FUNCTION railway_electrification_state(railway TEXT, electrifi
   proposed_electrified TEXT, ignore_future_states BOOLEAN) RETURNS TEXT AS $$
 DECLARE
   state TEXT;
-  valid_values TEXT[] := ARRAY['contact_line', 'yes', 'rail', 'ground-level_power_supply', 'contact_line;rail', 'rail;contact_line'];
+  valid_values TEXT[] := ARRAY['contact_line', 'yes', 'rail', 'ground-level_power_supply', '4th_rail', 'contact_line;rail', 'rail;contact_line'];
 BEGIN
   state := NULL;
   IF electrified = ANY(valid_values) THEN

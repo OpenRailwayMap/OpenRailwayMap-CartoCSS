@@ -13,7 +13,7 @@
   line-width: 1;
 }
 
-#signal_boxes_point[zoom>=13] {
+#signal_boxes_point[zoom>=11] {
   /* render a circle, therefore marker-file is not set */
   marker-fill: @signal_box_color;
   marker-line-width: 1;

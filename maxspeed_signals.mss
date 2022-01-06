@@ -19,10 +19,14 @@
     
     /* German speed signals (Zs 3v) as signs */
     ["feature"="DE-ESO:zs3v"]["signal_speed_limit_distant_form"="sign"] {
+      ["signal_speed_limit_distant_speed"=null],
       ["signal_speed_limit_distant_speed"=~"^(1[0-6]|[1-9])0$"] {
-        marker-allow-overlap: true;
         marker-width: 22;
         marker-height: 19;
+        marker-allow-overlap: true;
+      }
+      ["signal_speed_limit_distant_speed"=null] {
+        marker-file: url('symbols/de/zs3v-empty-sign-down.svg');
       }
       ["signal_speed_limit_distant_speed"="10"] {
         marker-file: url('symbols/de/zs3v-10-sign-down.svg');
@@ -73,10 +77,16 @@
 
     /* German speed signals (Zs 3v) as light signals */
     ["feature"="DE-ESO:zs3v"]["signal_speed_limit_distant_form"="light"] {
+      ["signal_speed_limit_distant_speed"=null],
+      ["signal_speed_limit_distant_speed"="^off;\?$"], 
       ["signal_speed_limit_distant_speed"=~"^(1[0-2]|[2-9])0$"] {
         marker-allow-overlap: true;
         marker-width: 14;
         marker-height: 19;
+      }
+      ["signal_speed_limit_distant_speed"=null],
+      ["signal_speed_limit_distant_speed"="^off;\?$"] {
+        marker-file: url('symbols/de/zs2v-unknown.svg'); /* for light signals: empty Zs3v "looks" exactly like empty Zs2v*/
       }
       ["signal_speed_limit_distant_speed"="20"] {
         marker-file: url('symbols/de/zs3v-20-light.svg');
@@ -191,12 +201,16 @@
       }
     }
     
-    /* German speed signals (Zs 3) as signs*/
+    /* German speed signals (Zs 3) as signs */
     ["feature"="DE-ESO:zs3"]["signal_speed_limit_form"="sign"] {
-      ["signal_speed_limit_speed"=~"^(1[0-6]|[1-9])0$"] {
+      ["signal_speed_limit_speed"=~"^(1[0-6]|[1-9])0$"],
+      ["signal_speed_limit_speed"=null] {
         marker-allow-overlap: true;
         marker-width: 22;
         marker-height: 19;
+      }
+      ["signal_speed_limit_speed"=null] {
+        marker-file: url('symbols/de/zs3-empty-sign-up.svg');
       }
       ["signal_speed_limit_speed"="10"] {
         marker-file: url('symbols/de/zs3-10-sign-up.svg');
@@ -248,12 +262,18 @@
       }
     }
 
-    /* German speed signals (Zs 3) as light signals*/
+    /* German speed signals (Zs 3) as light signals */
     ["feature"="DE-ESO:zs3"]["signal_speed_limit_form"="light"] {
+      ["signal_speed_limit_speed"=null],
+      ["signal_speed_limit_speed"="^off;\?$"],
       ["signal_speed_limit_speed"=~"^(1[0-2]|[2-9])0$"] {
         marker-width: 14;
         marker-height: 19;
         marker-allow-overlap: true;
+      }
+      ["signal_speed_limit_speed"=null],
+      ["signal_speed_limit_speed"="^off;\?$"] {
+        marker-file: url('symbols/de/zs2-unknown.svg'); /* for light signals: empty Zs3 "looks" exactly like empty Zs2 */
       }
       ["signal_speed_limit_speed"="20"] {
         marker-file: url('symbols/de/zs3-20-light.svg');

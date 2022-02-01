@@ -651,10 +651,12 @@ Format details:
     }
   }
 
-  /***********************/
-  /* DE ETCS stop marker */
-  /***********************/
-  ["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"] {
+  /************************************/
+  /* DE ETCS stop marker              */
+  /* NL ETCS stopplaatsmarkering 227b */
+  /************************************/
+  ["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"],
+  ["feature"="NL:227b"]["train_protection_form"="sign"]["train_protection_type"="block_marker"] {
     marker-file: url('symbols/etcs-stop-marker-arrow-left.svg');
     marker-width: 16;
     marker-height: 16;
@@ -669,8 +671,12 @@ Format details:
       text-face-name: @bold-fonts;
       text-size: 10;
     }
-  }
 
+    /* triangle-shaped stop marker */
+    ["feature"="NL:227b"]["train_protection_shape"="triangle"] {
+      marker-file: url('symbols/etcs-stop-marker-triangle-left.svg');
+    }
+  }
 
   /****************************/
   /* AT distant light signals */

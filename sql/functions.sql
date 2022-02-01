@@ -359,7 +359,7 @@ CREATE OR REPLACE FUNCTION railway_electrification_state(railway TEXT, electrifi
   proposed_electrified TEXT, ignore_future_states BOOLEAN) RETURNS TEXT AS $$
 DECLARE
   state TEXT;
-  valid_values TEXT[] := ARRAY['contact_line', 'yes', 'rail', 'ground-level_power_supply', 'contact_line;rail', 'rail;contact_line'];
+  valid_values TEXT[] := ARRAY['contact_line', 'yes', 'rail', 'ground-level_power_supply', '4th_rail', 'contact_line;rail', 'rail;contact_line'];
 BEGIN
   state := NULL;
   IF electrified = ANY(valid_values) THEN
@@ -463,5 +463,31 @@ BEGIN
     RETURN volt_text || ' ' || freq || 'Hz';
   END IF;
   RETURN volt_text;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Get label for gauge
+CREATE OR REPLACE FUNCTION railway_gauge_label(gauge TEXT) RETURNS TEXT AS $$
+BEGIN
+  IF gauge IS NOT NULL AND gauge ~ '^[0-9;]+$' THEN
+    RETURN regexp_replace(gauge, ';', ' | ');
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Get the desired value from listed values (e.g. gauge)
+CREATE OR REPLACE FUNCTION railway_desired_value_from_list(desired_nr INTEGER, listed_values TEXT) RETURNS TEXT AS $$
+DECLARE
+  value_array TEXT[];
+BEGIN
+  IF listed_values IS NULL OR listed_values = '' OR desired_nr <= 0 THEN
+    RETURN NULL;
+  END IF;
+  value_array := regexp_split_to_array(listed_values, ';');
+  IF desired_nr > array_length(value_array, 1) THEN
+    RETURN NULL;
+  END IF;
+  RETURN value_array[desired_nr];
 END;
 $$ LANGUAGE plpgsql;

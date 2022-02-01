@@ -4,5 +4,6 @@ standard.xml
 maxspeed.xml
 signals.xml
 electrification.xml
+gauge.xml
 *.mapcss
 *.d

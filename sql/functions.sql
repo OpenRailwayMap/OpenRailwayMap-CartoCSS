@@ -362,18 +362,27 @@ DECLARE
   valid_values TEXT[] := ARRAY['contact_line', 'yes', 'rail', 'ground-level_power_supply', '4th_rail', 'contact_line;rail', 'rail;contact_line'];
 BEGIN
   state := NULL;
+  IF NOT ignore_future_states AND construction_electrified = ANY(valid_values) THEN
+    RETURN 'construction';
+  END IF;    
+  IF NOT ignore_future_states AND railway = 'construction' AND construction_electrified = 'no' THEN
+    return 'no';
+  ELSIF NOT ignore_future_states AND railway = 'construction' THEN
+    return NULL;  
+  END IF;
+
+
+  IF NOT ignore_future_states AND proposed_electrified = ANY(valid_values) THEN
+    RETURN 'proposed';
+  END IF;  
   IF electrified = ANY(valid_values) THEN
     return 'present';
   END IF;
   IF electrified = 'no' THEN
     state := 'no';
   END IF;
-  IF NOT ignore_future_states AND construction_electrified = ANY(valid_values) THEN
-    RETURN 'construction';
-  END IF;
-  IF NOT ignore_future_states AND proposed_electrified = ANY(valid_values) THEN
-    RETURN 'proposed';
-  END IF;
+
+	
   IF state = 'no' AND deelectrified = ANY(valid_values) THEN
     RETURN 'deelectrified';
   END IF;

@@ -523,7 +523,7 @@ Layer:
                 tags->'proposed:railway' AS proposed_railway,
                 tags, tunnel, bridge,
                 ref,
-                CASE 
+                CASE
                   WHEN railway = 'abandoned' THEN
                     railway_label_name(COALESCE(tags->'abandoned:name',name), tags, tunnel, bridge)
                   WHEN railway = 'razed' THEN
@@ -649,7 +649,7 @@ Layer:
                 name, ref,
                 tags->'railway:track_ref' AS track_ref,
                 tunnel, bridge,
-                CASE 
+                CASE
                   WHEN railway = 'abandoned' THEN
                     railway_label_name(COALESCE(tags->'abandoned:name',name), tags, tunnel, bridge)
                   WHEN railway = 'razed' THEN

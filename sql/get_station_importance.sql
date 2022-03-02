@@ -125,7 +125,7 @@ CREATE OR REPLACE VIEW station_nodes_platforms_rel_count AS
 -- Final table with station nodes and the number of route relations
 -- needs about 3 to 4 minutes for whole Germany
 -- or about 20 to 30 minutes for the whole planet
-CREATE MATERIALIZED VIEW stations_with_route_counts AS
+CREATE MATERIALIZED VIEW IF NOT EXISTS stations_with_route_counts AS
   SELECT DISTINCT ON (osm_id, name, tags, railway) osm_id, name, tags, railway, route_count, way
     FROM (
       SELECT osm_id, name, tags, railway, ARRAY_LENGTH(ARRAY_AGG(DISTINCT route_id), 1) AS route_count, way

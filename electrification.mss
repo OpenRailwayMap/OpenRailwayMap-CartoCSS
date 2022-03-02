@@ -22,6 +22,8 @@
 @color_25kv_50: #FF0000;
 @color_25kv_60: #C00000;
 
+@construct_elec_unknown: darkgrey;
+
 /**
   * Railway tracks with electrification under construction or proposed electrification
   * are rendered with a second symbolizer called proposed_construction.
@@ -151,13 +153,9 @@
     ["state"="no"],
     ["state"="proposed"][zoom < 9],
     ["state"="construction"][zoom < 9] {
-       line-color: black;
+       line-color: @color_no;
     }
     
-    ["state"=null]["railway"="construction"]
-    {
-    	line-color: darkgrey;
-    }
 
     ["state"="deelectrified"],
     ["state"="abandoned"] {
@@ -173,6 +171,14 @@
       ["state"="proposed"] {
         line-dasharray: @proposed-dashes;
       }
+    }
+    /* When this layer runs, if the line is under construction
+     * and doesn't have an explicit electrified=no/construction:electrified=no
+     * render a light grey/dark grey mix until a voltage color overrides */
+    #electrification_future {
+      ["railway"="construction"]["state"!="no"] {
+       line-color: @construct_elec_unknown;
+       }
     }
 
     [frequency=0]["voltage"<750] {

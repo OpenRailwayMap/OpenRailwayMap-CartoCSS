@@ -98,8 +98,8 @@ Layer:
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
-            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs, kvb, tvm,
-            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs, kvb, tvm) AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage,
@@ -109,10 +109,10 @@ Layer:
                 tags->'railway:atb-eg' AS atb_eg,
                 tags->'railway:atb-ng' AS atb_ng,
                 tags->'railway:atb-vv' AS atb_vv,
-                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
-                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs,
                 tags->'railway:kvb' AS kvb,
-                tags->'railway:tvm' AS tvm
+                tags->'railway:tvm' AS tvm,
+                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
+                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
@@ -137,8 +137,8 @@ Layer:
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
-            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs, kvb, tvm,
-            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs, kvb, tvm) AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage,
@@ -148,10 +148,10 @@ Layer:
                 tags->'railway:atb-eg' AS atb_eg,
                 tags->'railway:atb-ng' AS atb_ng,
                 tags->'railway:atb-vv' AS atb_vv,
-                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
-                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs,
                 tags->'railway:kvb' AS kvb,
-                tags->'railway:tvm' AS tvm
+                tags->'railway:tvm' AS tvm,
+                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
+                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs
               FROM openrailwaymap_osm_line
               WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
             ) AS r
@@ -176,8 +176,8 @@ Layer:
             construction_usage, construction_service,
             preserved_railway, preserved_service,
             preserved_usage,
-            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs, kvb, tvm,
-            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, etcs, construction_etcs, kvb, tvm) AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage, service,
@@ -194,10 +194,10 @@ Layer:
                 tags->'railway:atb-eg' AS atb_eg,
                 tags->'railway:atb-ng' AS atb_ng,
                 tags->'railway:atb-vv' AS atb_vv,
-                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
-                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs,
                 tags->'railway:kvb' AS kvb,
                 tags->'railway:tvm' AS tvm,
+                railway_etcs_null_no(tags->'railway:etcs') AS etcs,
+                railway_etcs_null_no(tags->'construction:railway:etcs') AS construction_etcs,
                 layer
               FROM openrailwaymap_osm_line
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')

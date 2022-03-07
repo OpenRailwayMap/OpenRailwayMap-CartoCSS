@@ -22,8 +22,6 @@
 @color_25kv_50: #FF0000;
 @color_25kv_60: #C00000;
 
-@construct_elec_unknown: darkgrey;
-
 /**
   * Railway tracks with electrification under construction or proposed electrification
   * are rendered with a second symbolizer called proposed_construction.
@@ -149,13 +147,17 @@
   [zoom>=13]["railway"="light_rail"]["service"!=null],
   [zoom>=11]["railway"="tram"]["service"=null],
   [zoom>=13]["railway"="tram"]["service"!=null] {
+  
+    #railway_line_fill["railway"="construction"] {
+       line-dasharray: @construction-dashes;
+    }       
+  
 
     ["state"="no"],
-    ["state"="proposed"][zoom < 9],
-    ["state"="construction"][zoom < 9] {
-       line-color: @color_no;
+    ["state"="proposed_future"][zoom < 9],
+    ["state"="construction_future"][zoom < 9] {
+       line-color: black;
     }
-    
 
     ["state"="deelectrified"],
     ["state"="abandoned"] {
@@ -163,22 +165,13 @@
     }
 
     #electrification_future {
-      ["state"="construction"],
-      ["railway"="construction"] {
+      ["state"="construction_future"] {
         line-dasharray: @construction-dashes;
       }
 
-      ["state"="proposed"] {
+      ["state"="proposed_future"] {
         line-dasharray: @proposed-dashes;
       }
-    }
-    /* When this layer runs, if the line is under construction
-     * and doesn't have an explicit electrified=no/construction:electrified=no
-     * render a light grey/dark grey mix until a voltage color overrides */
-    #electrification_future {
-      ["railway"="construction"]["state"!="no"] {
-       line-color: @construct_elec_unknown;
-       }
     }
 
     [frequency=0]["voltage"<750] {
@@ -221,7 +214,7 @@
        line-color: #97FF2F;
     }
 
-    [frequency!=null][frequency!=0][voltage>=15000][voltage<25000] {
+    [frequency=null][frequency!=0][voltage>=15000][voltage<25000] {
        line-color: #F1F100;
     }
 
@@ -233,7 +226,7 @@
        line-color: #00CB66;
     }
 
-    [frequency!=null][frequency!=0][voltage>25000] {
+    [frequency=null][frequency!=0][voltage>=25000] {
        line-color: #FF9F19;
     }
 

@@ -335,7 +335,7 @@ Layer:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            way, railway, station,
+            way, railway, station, monorail,
             CASE WHEN railway = 'station' AND station = 'light_rail' THEN 450
                  WHEN railway = 'station' AND station = 'subway' THEN 400
                  WHEN railway = 'station' THEN 800
@@ -357,6 +357,7 @@ Layer:
                 railway,
                 route_count,
                 tags->'station' AS station,
+                tags->'monorail' AS monorail,
                 tags->'railway:ref' AS label
               FROM stations_with_route_counts
               WHERE railway IN ('station', 'halt', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site')
@@ -374,7 +375,7 @@ Layer:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            way, railway, station,
+            way, railway, station, monorail,
             CASE WHEN railway = 'station' AND station = 'light_rail' THEN 450
                  WHEN railway = 'station' AND station = 'subway' THEN 400
                  WHEN railway = 'station' THEN 800
@@ -401,6 +402,7 @@ Layer:
                   ELSE route_count::int
                 END AS route_count,
                 tags->'station' AS station,
+                tags->'monorail' AS monorail,
                 COALESCE(tags->'short_name', name) AS label
               FROM stations_with_route_counts
               WHERE railway IN ('station', 'halt', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site', 'tram_stop')

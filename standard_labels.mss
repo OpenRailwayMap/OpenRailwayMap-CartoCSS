@@ -40,11 +40,11 @@
 
 #railway_text_stations_med[zoom>=6][zoom<=10],
 #railway_text_stations_high[zoom>=11] {
-  [railway = 'station'][station != 'light_rail'][station != 'subway'][station != 'funicular'][station != 'monorail'][zoom <= 9],
+  [railway = 'station'][station != 'light_rail'][station != 'subway'][station != 'funicular'][station != 'monorail'][monorail != 'yes'][zoom <= 9],
   [railway = 'tram_stop'][zoom >= 14],
-  [railway = 'station'][station != 'funicular'][station != 'monorail'][zoom >= 10],
+  [railway = 'station'][station != 'funicular'][station != 'monorail'][monorail != 'yes'][zoom >= 10],
   [railway = 'halt'][station != 'funicular'][station != 'monorail'][zoom >= 10],
-  [railway != 'tram_stop'][station != 'funicular'][station != 'monorail'][zoom >= 11] {
+  [railway != 'tram_stop'][station != 'funicular'][station != 'monorail'][monorail != 'yes'][zoom >= 11] {
     text-name: '[label]';
     text-face-name: @bold-fonts;
     text-size: @text-station-size;

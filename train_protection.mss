@@ -9,6 +9,7 @@
 @atb_color: #ff8c00;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
+@ptc_color: #d877b8;
 
 /* Casing of railway lines under construction should be dahsed as well. */
 #railway_line_casing[zoom>=9]["railway"="construction"]::casing {
@@ -67,6 +68,9 @@
     }
     ["construction_etcs"!="no"] {
       line-color: @etcs_construction_color;
+    }
+    ["ptc"!="no"] {
+      line-color: @ptc_color;
     }
 
     ["railway"="construction"] {

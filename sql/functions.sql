@@ -315,11 +315,15 @@ CREATE OR REPLACE FUNCTION railway_train_protection_rank(
   atb_ng TEXT,
   atb_vv TEXT,
   etcs TEXT,
-  construction_etcs TEXT) RETURNS INTEGER AS $$
+  construction_etcs TEXT,
+  ptc TEXT) RETURNS INTEGER AS $$
 BEGIN
   IF etcs <> 'no' THEN
     RETURN 10;
   END IF;
+  IF ptc <> 'no' THEN
+    RETURN 10;
+  END IF;  
   IF construction_etcs <> 'no' THEN
     RETURN 9;
   END IF;

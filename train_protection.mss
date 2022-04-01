@@ -10,6 +10,7 @@
 @scmt_color: #dd11ff;
 @kvb_color: #66cc33;
 @tvm_color: #009966;
+@ptc_color: #d877b8;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
 
@@ -90,6 +91,9 @@
     }
     ["construction_etcs"!="no"] {
       line-color: @etcs_construction_color;
+    }
+    ["ptc"!="no"] {
+      line-color: @ptc_color;
     }
 
     ["railway"="construction"] {

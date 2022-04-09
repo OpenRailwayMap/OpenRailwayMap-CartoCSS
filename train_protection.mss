@@ -7,6 +7,8 @@
 @pzb_color: #ffb900;
 @lzb_color: red;
 @atb_color: #ff8c00;
+@kvb_color: #b2ff33;
+@tvm_color: #78ff00;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
 
@@ -47,7 +49,8 @@
   [zoom>=11]["railway"="tram"]["service"=null],
   [zoom>=13]["railway"="tram"] {
     ["pzb"="no"]["lzb"="no"]["etcs"="no"],
-    ["atb"="no"]["etcs"="no"] {
+    ["atb"="no"]["etcs"="no"],
+    ["kvb"="no"]["tvm"="no"]["etcs"="no"] {
       line-color: @no_train_protection_color;
     }
     ["pzb"="yes"] {
@@ -61,6 +64,12 @@
     ["atb_ng"="yes"],
     ["atb_vv"="yes"] {
       line-color: @atb_color;
+    }
+    ["kvb"="yes"] {
+      line-color: @kvb_color;
+    }
+    ["tvm"="yes"] {
+      line-color: @tvm_color;
     }
     ["etcs"!="no"] {
       line-color: @etcs_color;

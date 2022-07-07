@@ -7,6 +7,8 @@
 @pzb_color: #ffb900;
 @lzb_color: red;
 @atb_color: #ff8c00;
+@ebicab_700_color: green;
+@ebicab_900_color: #00cc00;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
 
@@ -61,6 +63,12 @@
     ["atb_ng"="yes"],
     ["atb_vv"="yes"] {
       line-color: @atb_color;
+    }
+    ["ebicab"="700"] {
+      line-color: @ebicab_700_color;
+    }
+    ["ebicab"="900"] {
+      line-color: @ebicab_900_color;
     }
     ["etcs"!="no"] {
       line-color: @etcs_color;

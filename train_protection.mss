@@ -7,6 +7,7 @@
 @pzb_color: #ffb900;
 @lzb_color: red;
 @atb_color: #ff8c00;
+@scmt_color: #dd11ff;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
 
@@ -61,6 +62,9 @@
     ["atb_ng"="yes"],
     ["atb_vv"="yes"] {
       line-color: @atb_color;
+    }
+    ["scmt"="yes"] {
+      line-color: @scmt_color;
     }
     ["etcs"!="no"] {
       line-color: @etcs_color;

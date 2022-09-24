@@ -24,7 +24,7 @@
     </rdf:RDF>
   </metadata>
   <path
-     style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+     style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none"
      d="m 57.673463,100.30687 34.166015,0 -17.082031,-33.00503 c -1.835058,2.96293 -12.992908,25.92001 -17.083984,33.00503 z"
      id="path4424" />
   <g
@@ -36,5 +36,5 @@
   <path
      id="path4414"
      d="M 91.848141,96.22985 146.25177,2 111.18204,2 88.699171,40.941468 74.857931,15.56003 61.016691,40.941468 38.533821,2 3.4641013,2 57.867721,96.22985 74.857931,65.23959 Z"
-     style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#e0732f;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+     style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#e0732f;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none" />
 </svg>

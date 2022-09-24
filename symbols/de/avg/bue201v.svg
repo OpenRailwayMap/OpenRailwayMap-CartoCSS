@@ -78,7 +78,7 @@
        x="0.0091729611"
        y="998.09937" />
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none"
        d="m 3.7311142,1001.7252 3.5964173,13.4218 0.091954,0 1.6841181,0 0.09025,0 3.5964174,-13.4218 -1.726688,0 -2.8028902,10.3209 -2.8011871,-10.3209 -1.7283919,0 z"
        id="path4201"
        inkscape:connector-curvature="0" />

@@ -70,7 +70,7 @@
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        transform="matrix(0,1,-1,0,0,0)" />
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#fdf075;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#fdf075;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none"
        d="m 3.2880861,1041.1122 1.7109375,6.3828 2.1289063,0 0.8730469,-3.2558 0.8710937,3.2558 2.1289065,0 1.710937,-6.3828 -2.107422,0 -0.6874997,2.5039 -0.5976563,-2.2363 -2.6386719,0 -0.5976561,2.2363 -0.6875,-2.5039 z"
        id="path4275"
        inkscape:connector-curvature="0"

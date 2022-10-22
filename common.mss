@@ -175,7 +175,7 @@
   [zoom>=10]["railway"="construction"]["construction_railway"="subway"]["service"=null],
   [zoom>=10]["railway"="construction"]["construction_railway"="light_rail"]["service"=null],
   [zoom>=11]["railway"="construction"]["construction_railway"="tram"]["service"=null],
-  [zoom>=13]["railway"="construction"],
+  [zoom>=13]["railway"="construction"]["construction_railway"=null],
   [zoom>=10]["railway"="subway"]["service"=null],
   [zoom>=13]["railway"="subway"],
   [zoom>=10]["railway"="light_rail"]["service"=null],

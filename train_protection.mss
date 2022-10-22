@@ -12,8 +12,14 @@
 @etcs_construction_color: #87CEFA;
 
 /* Casing of railway lines under construction should be dahsed as well. */
-#railway_line_casing[zoom>=9]["railway"="construction"]::casing {
-  ["railway"="construction"] {
+#railway_line_casing::casing {
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
+  [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="subway"]["service"=null],
+  [zoom>=10]["railway"="construction"]["construction_railway"="light_rail"]["service"=null],
+  [zoom>=11]["railway"="construction"]["construction_railway"="tram"]["service"=null],
+  [zoom>=13]["railway"="construction"]["construction_railway"="narrow_gauge"],
+  [zoom>=13]["railway"="construction"]["construction_railway"=null] {
     line-dasharray: @construction_dashes;
   }
 }

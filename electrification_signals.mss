@@ -49,6 +49,12 @@
           marker-height: @de-el-size-with-arrow;
         }
 
+        ["electricity_turn_direction"="through"] {
+          marker-file: url("symbols/de/el6-through.svg");
+          marker-width: @de-el-size;
+          marker-height: @de-el-size-with-arrow;
+        }
+
         ["electricity_turn_direction"="left"] {
           marker-file: url("symbols/de/el6-left.svg");
           marker-width: @de-el-size;

@@ -7,10 +7,34 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    width="58.731579"
    height="119.59329"
-   id="svg2984">
+   id="svg2984"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="sv-sv0.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="876"
+     inkscape:window-height="480"
+     id="namedview23850"
+     showgrid="false"
+     inkscape:zoom="1.9733548"
+     inkscape:cx="29.365789"
+     inkscape:cy="59.796646"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2984" />
   <defs
      id="defs2986">
     <filter
@@ -50,7 +74,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -129,12 +153,14 @@
      id="layer3" />
   <path
      d="m 2705.0531,894.29816 a 34.9916,34.9916 0 1 1 -69.9832,0 34.9916,34.9916 0 1 1 69.9832,0 z"
-     transform="matrix(0.24769741,0,0,0.24769741,-646.66838,-161.92912)"
+     transform="matrix(0.24769741,0,0,0.24769741,-646.66838,-199.92912)"
      id="path3797"
-     style="fill:#fdca05;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3016)" />
+     style="display:inline;fill:#fdca05;fill-opacity:1;stroke:none;filter:url(#filter3016)"
+     inkscape:connector-curvature="0" />
   <path
      d="m 2705.0531,894.29816 a 34.9916,34.9916 0 1 1 -69.9832,0 34.9916,34.9916 0 1 1 69.9832,0 z"
-     transform="matrix(0.24769741,0,0,0.24769741,-616.12234,-161.92912)"
+     transform="matrix(0.24769741,0,0,0.24769741,-616.12234,-199.92912)"
      id="path4108"
-     style="fill:#fdca05;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3016)" />
+     style="display:inline;fill:#fdca05;fill-opacity:1;stroke:none;filter:url(#filter3016)"
+     inkscape:connector-curvature="0" />
 </svg>

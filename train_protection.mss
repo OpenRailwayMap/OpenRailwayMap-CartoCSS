@@ -10,11 +10,11 @@
 @scmt_color: #dd11ff;
 @kvb_color: #66cc33;
 @tvm_color: #009966;
-@ptc_color: #d877b8;
+@ptc_color: #cc0033;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
 
-/* Casing of railway lines under construction should be dahsed as well. */
+/* Casing of railway lines under construction should be dashed as well. */
 #railway_line_casing::casing {
   [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="main"]["service"=null],
   [zoom>=9]["railway"="construction"]["construction_railway"="rail"]["usage"="branch"]["service"=null],

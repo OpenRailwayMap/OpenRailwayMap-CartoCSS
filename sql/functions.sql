@@ -295,7 +295,7 @@ $$ LANGUAGE plpgsql;
 
 
 -- Set a value to 'no' if it is null or 0.
-CREATE OR REPLACE FUNCTION railway_etcs_null_no(field TEXT) RETURNS
+CREATE OR REPLACE FUNCTION railway_null_or_zero_to_no(field TEXT) RETURNS
 TEXT AS $$
 BEGIN
   IF field = '0' THEN

@@ -6,6 +6,7 @@
 @no_train_protection_color: black;
 @pzb_color: #ffb900;
 @lzb_color: red;
+@zsi127_color: #5c1ccb;
 @atb_color: #ff8c00;
 @atc_color: #6600cc;
 @scmt_color: #dd11ff;
@@ -99,6 +100,9 @@
     }
     ["ptc"!="no"] {
       line-color: @ptc_color;
+    }
+    ["zsi127"="yes"] {
+      line-color: @zsi127_color;
     }
 
     ["railway"="construction"] {

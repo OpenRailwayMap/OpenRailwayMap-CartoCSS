@@ -319,6 +319,7 @@ CREATE OR REPLACE FUNCTION railway_train_protection_rank(
   tvm TEXT,
   scmt TEXT,
   ptc TEXT,
+  zsi127 TEXT,
   etcs TEXT,
   construction_etcs TEXT) RETURNS INTEGER AS $$
 BEGIN
@@ -346,13 +347,16 @@ BEGIN
   IF COALESCE(atb, atb_eg, atb_ng, atb_vv) = 'yes' THEN
     RETURN 4;
   END IF;
+  IF zsi127 = 'yes' THEN
+    RETURN 3;
+  END IF;
   IF lzb = 'yes' THEN
     RETURN 3;
   END IF;
   IF pzb = 'yes' THEN
     RETURN 2;
   END IF;
-  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (scmt = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') THEN
+  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (scmt = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') THEN
     RETURN 1;
   END IF;
   RETURN 0;

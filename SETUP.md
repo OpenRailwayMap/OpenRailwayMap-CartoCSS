@@ -200,4 +200,4 @@ This setup only requires Docker and Docker Compose to be installed, but and requ
 - Download a `*.osm.pbf` file with the OSM data. Run `docker compose up import` which will import the data, run the post-import database setup. This step also creates a file `.env` with environment variables that you can use to tune the import.
 - Run `docker compose up kosmtik` to start Kosmtik and view the map style. Edit the `command` argument in `docker-compose.yml` in order to render a different style (default `standard.mml`).
 
-Make changes to the OpenRailwayMap style or assets, and Kosmtik will auto-reload the changes.
+Go to http://127.0.0.1:6789 to view the OpenRailwayMap. Make changes to the OpenRailwayMap style or assets, and Kosmtik will auto-reload the changes.

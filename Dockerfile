@@ -30,4 +30,4 @@ RUN mkdir -p /openrailwaymap
 WORKDIR /openrailwaymap
 
 USER 1000
-CMD sh docker-startup.sh kosmtik
+ENTRYPOINT ["sh", "docker-startup.sh", "kosmtik"]

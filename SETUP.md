@@ -189,3 +189,15 @@ Your development work flow would be the following:
 * edit the .mml or .mss files
 * call `carto $STYLE.mml > $STYLE.xml`
 * render map images of the location and zoom you would like to see: `nik4 -c $CENTER_LONGITUDE $CENTER_LATITUDE -z $ZOOM_LEVEL -x 2048 2048 $STYLE.xml output.png`
+
+## Docker
+
+Use the Docker setup to get a development environment up and running quickly.
+
+This setup only requires Docker and Docker Compose to be installed, but and requires no other dependencies. This setup should also work on Windows systems (the containers will run in a virtual machine).
+
+- Run `docker compose up db` to start the Postgres database.
+- Download a `*.osm.pbf` file with the OSM data. Run `docker compose up import` which will import the data, run the post-import database setup. This step also creates a file `.env` with environment variables that you can use to tune the import.
+- Run the Kosmtik to view the map style.
+
+Make changes to the OpenRailwayMap style or assets, and Kosmtik will auto-reload the changes.

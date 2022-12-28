@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # This script is used to start the import of kosmtik containers for the Docker development environment.
-# You can read details about that in DOCKER.md
+# You can read details about that in SETUP.md
 
 # Testing if database is ready
 i=1
@@ -57,12 +57,6 @@ EOF
   psql -d gis -f sql/osm_carto_views.sql && \
   psql -d gis -f sql/functions.sql && \
   psql -d gis -f sql/get_station_importance.sql
-
-  # Downloading and importing needed shapefiles
-  #scripts/get-external-data.py $EXTERNAL_DATA_SCRIPT_FLAGS
-
-  # Download fonts
-  #scripts/get-fonts.sh
   ;;
 
 kosmtik)
@@ -72,8 +66,10 @@ kosmtik)
   fi
   export KOSMTIK_CONFIGPATH=".kosmtik-config.yml"
 
+  # Second argument is the kosmtik options
+  shift
   # Starting Kosmtik
-  kosmtik serve signals.mml --host 0.0.0.0
+  exec kosmtik serve --host 0.0.0.0 "$@"
   # It needs Ctrl+C to be interrupted
   ;;
 

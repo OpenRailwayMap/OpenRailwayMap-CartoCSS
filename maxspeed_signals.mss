@@ -881,5 +881,14 @@
       marker-width: 11;
       marker-height: 16;
     }
+
+    /*****************************************/
+    /* NL speed limit light (no main signal) */
+    /*****************************************/
+    ["feature"="NL"]["signal_speed_limit_form"="light"] {
+      marker-width: 16;
+      marker-height: 16;
+      marker-file: url('symbols/nl/speed_limit_light.png');
+    }
   }
 }

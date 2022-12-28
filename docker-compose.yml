@@ -16,7 +16,8 @@ services:
       - PGHOST=db
       - PGUSER=postgres
     command:
-      - signals.mml
+      # Edit this argument to render a different style
+      - standard.mml
   db:
     image: db:v1
     build:

@@ -1,0 +1,44 @@
+version: '2'
+services:
+  kosmtik:
+    image: kosmtik:v1
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/openrailwaymap
+    depends_on:
+      - db
+    ports:
+      - "127.0.0.1:6789:6789"
+    environment:
+      - PGHOST=db
+      - PGUSER=postgres
+  db:
+    image: db:v1
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PG_WORK_MEM
+      - PG_MAINTENANCE_WORK_MEM
+  import:
+    image: import:v1
+    build:
+      context: .
+      dockerfile: Dockerfile.import
+    volumes:
+      - .:/openrailwaymap
+    depends_on:
+      - db
+    environment:
+      - PGHOST=db
+      - PGUSER=postgres
+      - PG_WORK_MEM
+      - PG_MAINTENANCE_WORK_MEM
+      - OSM2PGSQL_CACHE
+      - OSM2PGSQL_NUMPROC
+      - OSM2PGSQL_DATAFILE
+      - EXTERNAL_DATA_SCRIPT_FLAGS

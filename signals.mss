@@ -243,8 +243,8 @@ Format details:
   /*********************************************/
   /* DE wrong road signal Zs 6(DB) /Zs 7(DR)  */
   /*********************************************/
-  /* sign */
-  [zoom>=17]["wrong_road"="DE-ESO:zs6"]["wrong_road_form"="sign"] {
+  /* sign DB version */
+  [zoom>=17]["wrong_road"="DE-ESO:db:zs6"]["wrong_road_form"="sign"] {
     marker-file: url('symbols/de/zs6-sign.svg');
     marker-width: 12;
     marker-height: 16;

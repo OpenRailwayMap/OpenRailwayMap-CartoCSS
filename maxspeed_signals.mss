@@ -127,7 +127,7 @@
     }
 
     /* Austrian speed signals (Geschwindigkeitsvoranzeiger) as signs */
-    ["feature"="AT-V2:geschwindigkeitvorsanzeiger"]["signal_speed_limit_distant_form"="sign"] {
+    ["feature"="AT-V2:geschwindigkeitsvoranzeiger"]["signal_speed_limit_distant_form"="sign"] {
       ["signal_speed_limit_distant_speed"=~"^(10|[1-9])0$"] {
         marker-allow-overlap: true;
         marker-width: 22;
@@ -166,7 +166,7 @@
     }
 
     /* Austrian speed signals (Geschwindigkeitsvoranzeiger) as light signals */
-    ["feature"="AT-V2:geschwindigkeitvorsanzeiger"]["signal_speed_limit_distant_form"="light"] {
+    ["feature"="AT-V2:geschwindigkeitsvoranzeiger"]["signal_speed_limit_distant_form"="light"] {
       ["signal_speed_limit_distant_speed"=~"^(1[0-2]|[3-9])0$"] {
         marker-allow-overlap: true;
         marker-width: 14;

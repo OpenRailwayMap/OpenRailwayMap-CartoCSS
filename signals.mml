@@ -98,8 +98,8 @@ Layer:
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
-            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, scmt, ptc, etcs, construction_etcs,
-            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, scmt, ptc, etcs, construction_etcs) AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, ptc, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, ptc, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage,
@@ -109,6 +109,7 @@ Layer:
                 tags->'railway:atb-eg' AS atb_eg,
                 tags->'railway:atb-ng' AS atb_ng,
                 tags->'railway:atb-vv' AS atb_vv,
+                tags->'railway:atc' AS atc,
                 tags->'railway:kvb' AS kvb,
                 tags->'railway:tvm' AS tvm,
                 tags->'railway:scmt' AS scmt,
@@ -139,8 +140,8 @@ Layer:
             NULL AS construction_usage, NULL AS construction_service,
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
-            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, scmt, ptc, etcs, construction_etcs,
-            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, scmt, ptc, etcs, construction_etcs) AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, ptc, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, ptc, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage,
@@ -150,6 +151,7 @@ Layer:
                 tags->'railway:atb-eg' AS atb_eg,
                 tags->'railway:atb-ng' AS atb_ng,
                 tags->'railway:atb-vv' AS atb_vv,
+                tags->'railway:atc' AS atc,
                 tags->'railway:kvb' AS kvb,
                 tags->'railway:tvm' AS tvm,
                 tags->'railway:scmt' AS scmt,
@@ -180,8 +182,8 @@ Layer:
             construction_usage, construction_service,
             preserved_railway, preserved_service,
             preserved_usage,
-            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, scmt, ptc, etcs, construction_etcs,
-            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, kvb, tvm, scmt, ptc, etcs, construction_etcs) AS rank
+            pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, ptc, etcs, construction_etcs,
+            railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, ptc, etcs, construction_etcs) AS rank
           FROM
             (SELECT
                 way, railway, usage, service,
@@ -198,6 +200,7 @@ Layer:
                 tags->'railway:atb-eg' AS atb_eg,
                 tags->'railway:atb-ng' AS atb_ng,
                 tags->'railway:atb-vv' AS atb_vv,
+                tags->'railway:atc' AS atc,
                 tags->'railway:kvb' AS kvb,
                 tags->'railway:tvm' AS tvm,
                 tags->'railway:scmt' AS scmt,

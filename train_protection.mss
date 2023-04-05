@@ -6,7 +6,7 @@
 @no_train_protection_color: black;
 @pzb_color: #ffb900;
 @lzb_color: red;
-@zsi127_color: #5c1ccb;
+@zsi127_color: #884400;
 @atb_color: #ff8c00;
 @atc_color: #6600cc;
 @scmt_color: #dd11ff;

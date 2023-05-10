@@ -59,11 +59,7 @@
   [zoom>=13]["railway"="light_rail"],
   [zoom>=11]["railway"="tram"]["service"=null],
   [zoom>=13]["railway"="tram"] {
-    ["pzb"="no"]["lzb"="no"]["etcs"="no"]["construction_etcs"="no"],
-    ["atb"="no"]["etcs"="no"]["construction_etcs"="no"],
-    ["atc"="no"]["etcs"="no"]["construction_etcs"="no"],
-    ["kvb"="no"]["tvm"="no"]["etcs"="no"]["construction_etcs"="no"],
-    ["scmt"="no"]["etcs"="no"]["construction_etcs"="no"] {
+    ["rank"=1] {  /* shortcut: SQL functions set rank=1 for 'no protection' */
       line-color: @no_train_protection_color;
     }
     ["pzb"="yes"] {
@@ -104,7 +100,6 @@
     ["zsi127"="yes"] {
       line-color: @zsi127_color;
     }
-
     ["railway"="construction"] {
       line-dasharray: @construction_dashes;
     }

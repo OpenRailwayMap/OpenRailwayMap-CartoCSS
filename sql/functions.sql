@@ -307,6 +307,7 @@ $$ LANGUAGE plpgsql;
 
 
 -- Get rank by train protection a track is equipped with
+-- Other code expects 1 for no protection, 0 for default/unknown
 CREATE OR REPLACE FUNCTION railway_train_protection_rank(
   pzb TEXT,
   lzb TEXT,

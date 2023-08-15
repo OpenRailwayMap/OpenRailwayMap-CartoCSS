@@ -318,6 +318,7 @@ CREATE OR REPLACE FUNCTION railway_train_protection_rank(
   kvb TEXT,
   tvm TEXT,
   scmt TEXT,
+  asfa TEXT,
   ptc TEXT,
   zsi127 TEXT,
   etcs TEXT,
@@ -331,6 +332,9 @@ BEGIN
   END IF;  
   IF construction_etcs <> 'no' THEN
     RETURN 9;
+  END IF;
+  IF asfa = 'yes' THEN
+    RETURN 8;
   END IF;
   IF scmt = 'yes' THEN
     RETURN 7;
@@ -356,7 +360,7 @@ BEGIN
   IF pzb = 'yes' THEN
     RETURN 2;
   END IF;
-  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (scmt = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') THEN
+  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (scmt = 'no' AND etcs = 'no') OR (asfa = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') THEN
     RETURN 1;
   END IF;
   RETURN 0;

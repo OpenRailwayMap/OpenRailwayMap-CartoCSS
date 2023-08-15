@@ -10,6 +10,7 @@
 @atb_color: #ff8c00;
 @atc_color: #6600cc;
 @scmt_color: #dd11ff;
+@asfa_color: #ff9092;
 @kvb_color: #66cc33;
 @tvm_color: #009966;
 @ptc_color: #cc0033;
@@ -83,6 +84,9 @@
     }
     ["scmt"="yes"] {
       line-color: @scmt_color;
+    }
+    ["asfa"="yes"] {
+      line-color: @asfa_color;
     }
     ["kvb"="yes"] {
       line-color: @kvb_color;

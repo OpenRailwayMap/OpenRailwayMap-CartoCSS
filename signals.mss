@@ -516,9 +516,8 @@ Format details:
   /* repeats DE-ESO:hp0 of the entrance main signal to the halt position */
   /***********************************************************************/
   ["feature"="DE-DB:signalhaltmelder"]["main_repeated_form"="light"] {
-    marker-file: url('symbols/de/zlb-signalhaltmelder-light.svg');
-    marker-width: 16;
-    marker-height: 10;
+    marker-file: url('symbols/de/zlb-haltmelder-light.svg');
+    marker-width: 10;
     marker-allow-overlap: true;
 
     ::text {

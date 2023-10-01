@@ -515,7 +515,7 @@ Format details:
   /* DE Signalhaltmelder Zugleitbetrieb                                  */
   /* repeats DE-ESO:hp0 of the entrance main signal to the halt position */
   /***********************************************************************/
-  ["feature"="DE-DB:signalhaltmelder"]["main_repeated_form"="light"] {
+  [zoom>=17]["feature"="DE-DB:signalhaltmelder"]["main_repeated_form"="light"] {
     marker-file: url('symbols/de/zlb-haltmelder-light.svg');
     marker-width: 10;
     marker-allow-overlap: true;

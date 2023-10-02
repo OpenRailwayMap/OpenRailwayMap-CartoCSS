@@ -284,6 +284,7 @@ Layer:
               tags->'railway:signal:main',
               tags->'railway:signal:distant',
               tags->'railway:signal:train_protection',
+              tags->'railway:signal:main_repeated',
               tags->'railway:signal:minor',
               tags->'railway:signal:passing',
               tags->'railway:signal:shunting',
@@ -301,6 +302,7 @@ Layer:
             tags->'railway:signal:main:deactivated' AS main_deactivated,
             tags->'railway:signal:distant:deactivated' AS distant_deactivated,
             tags->'railway:signal:train_protection:deactivated' AS train_protection_deactivated,
+            tags->'railway:signal:main_repeated:deactivated' AS main_repeated_deactivated,
             tags->'railway:signal:minor:deactivated' AS minor_deactivated,
             tags->'railway:signal:passing:deactivated' AS passing_deactivated,
             tags->'railway:signal:shunting:deactivated' AS shunting_deactivated,
@@ -315,6 +317,7 @@ Layer:
             tags->'railway:signal:main:form' AS main_form,
             tags->'railway:signal:distant:form' AS distant_form,
             tags->'railway:signal:train_protection:form' AS train_protection_form,
+            tags->'railway:signal:main_repeated:form' AS main_repeated_form,
             tags->'railway:signal:minor:form' AS minor_form,
             tags->'railway:signal:passing:form' AS passing_form,
             tags->'railway:signal:shunting:form' AS shunting_form,
@@ -421,6 +424,7 @@ Layer:
               WHEN railway_has_key(tags, 'railway:signal:combined') THEN 10000
               WHEN railway_has_key(tags, 'railway:signal:distant') THEN 9000
               WHEN railway_has_key(tags, 'railway:signal:train_protection') THEN 8500
+              WHEN railway_has_key(tags, 'railway:signal:main_repeated') THEN 8000
               WHEN railway_has_key(tags, 'railway:signal:minor') THEN 4000
               WHEN railway_has_key(tags, 'railway:signal:passing') THEN 3500
               WHEN railway_has_key(tags, 'railway:signal:shunting') THEN 3000

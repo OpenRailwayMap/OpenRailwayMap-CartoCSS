@@ -47,6 +47,7 @@
   ["feature"="AT-V2:kreuztafel"]["distant_form"="sign"]["distant_deactivated"="yes"],
   ["feature"="DE-ESO:db:ne2"]["distant_form"="sign"]["distant_deactivated"="yes"],
   ["feature"="DE-ESO:hp"]["main_form"="semaphore"]["main_deactivated"="yes"],
+  ["feature"="DE-DB:signalhaltmelder"]["main_repeated_form"="light"]["main_repeated_deactivated"="yes"],
   ["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"]["main_deactivated"="yes"],
   ["feature"="DE-ESO:hp"]["main_form"="light"]["main_deactivated"="yes"],
   ["feature"="AT-V2:hauptsignal"]["main_form"="light"]["main_deactivated"="yes"],

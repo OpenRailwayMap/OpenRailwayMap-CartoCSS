@@ -68,7 +68,7 @@
 /**
   * Railway tracks with dual gauge or multiple gauge are rendered with a second symbolizer
   * called railway_dual_gauge_line and a third symbolizer called railway_multi_gauge_line.
-  * It adds dashed lines on top of existing lines (e.g. a red dashed line 
+  * It adds dashed lines on top of existing lines (e.g. a red dashed line
   * on a black line, for the dual gauge 1435mm/1524mm).
   *
   * Common rules in common.mss are defined for the ::fill and ::casing symbolizers only.
@@ -211,27 +211,27 @@
         line-width: 1.5;
       }
     }
-    
+
     #railway_line_fill["railway"="construction"] {
       line-dasharray: @construction-dashes;
     }
-    
+
     #railway_dual_gauge_line["railway"="construction"] {
       line-dasharray: @dual-construction-dashes;
     }
-    
+
     #railway_multi_gauge_line["railway"="construction"] {
       line-dasharray: @multi-construction-dashes;
     }
-    
+
     #railway_dual_gauge_line["railway"!="construction"] {
       line-dasharray: @dual-gauge-dashes;
     }
-    
+
     #railway_multi_gauge_line["railway"!="construction"] {
       line-dasharray: @multi-gauge-dashes;
     }
-    
+
     /* color for unknown low numeric gauge values */
 
     [gaugeint>0][gaugeint<63] {
@@ -247,7 +247,7 @@
     [gaugeint>=88][gaugeint<127] {
       line-color: @color_gauge_0089;
     }
-    
+
     [gaugeint>=127][gaugeint<184] {
       line-color: @color_gauge_0127;
     }
@@ -263,7 +263,7 @@
     [gaugeint>=260][gaugeint<380] {
       line-color: @color_gauge_0260;
     }
-    
+
     [gaugeint>=380][gaugeint<500] {
       line-color: @color_gauge_0381;
     }
@@ -303,11 +303,11 @@
     [gaugeint>=785][gaugeint<800] {
       line-color: @color_gauge_0785;
     }
-    
+
     [gaugeint>=800][gaugeint<891] {
       line-color: @color_gauge_0800;
     }
-    
+
     [gaugeint>=891][gaugeint<900] {
       line-color: @color_gauge_0891;
     }
@@ -484,7 +484,7 @@
     ["railway"="subway"]["gauge"="monorail"],
     ["railway"="tram"]["gauge"="monorail"] {
       line-color: @color_gauge_monorail;
-    }    
+    }
   }
 }
 

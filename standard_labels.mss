@@ -91,7 +91,7 @@
   text-min-distance: 30;
   text-spacing: 200;
   text-min-padding: 10;
-} 
+}
 
 #railway_text_med[zoom>=8][zoom<=14],
 #railway_text_high[zoom>=15][zoom<=16],

@@ -78,7 +78,7 @@
     /* German speed signals (Zs 3v) as light signals */
     ["feature"="DE-ESO:zs3v"]["signal_speed_limit_distant_form"="light"] {
       ["signal_speed_limit_distant_speed"=null],
-      ["signal_speed_limit_distant_speed"="^off;\?$"], 
+      ["signal_speed_limit_distant_speed"="^off;\?$"],
       ["signal_speed_limit_distant_speed"=~"^(1[0-2]|[2-9])0$"] {
         marker-allow-overlap: true;
         marker-width: 14;
@@ -392,7 +392,7 @@
       }
     }
   }
-  
+
   [zoom>=14] {
     /* West German branch line speed signals (Lf 4 DS 301) */
     ["feature"="DE-ESO:db:lf4"]["signal_speed_limit_distant_form"="sign"] {
@@ -698,7 +698,7 @@
       }
     }
   }
-  
+
   [zoom>=14] {
     /* East German line speed signal "Eckentafel" (Lf 5) */
     ["feature"="DE-ESO:dr:lf5"]["signal_speed_limit_form"="sign"] {
@@ -874,7 +874,7 @@
         marker-file: url('symbols/at/geschwindigkeitstafel-160-sign.svg');
       }
     }
- 
+
     ["feature"="DE-HHA:l4"]["signal_speed_limit_form"="sign"] {
       marker-allow-overlap: true;
       marker-file: url('symbols/de/hha/l4.svg');

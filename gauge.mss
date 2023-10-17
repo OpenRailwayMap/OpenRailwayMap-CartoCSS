@@ -408,11 +408,11 @@
       line-color: @color_gauge_1600;
     }
 
-    [gaugeint>=1668][gaugeint<1676] {
+    [gaugeint>=1668][gaugeint<1672] {
       line-color: @color_gauge_1668;
     }
 
-    [gaugeint>=1676][gaugeint<1700] {
+    [gaugeint>=1672][gaugeint<1700] {
       line-color: @color_gauge_1676;
     }
 

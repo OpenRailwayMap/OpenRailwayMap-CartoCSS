@@ -1,13 +1,29 @@
-FROM ubuntu:focal
+FROM debian:12-slim
 
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Style dependencies
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    ca-certificates curl gnupg postgresql-client python3 python3-distutils \
-    fonts-hanazono fonts-noto-cjk fonts-noto-hinted fonts-noto-unhinted \
-    mapnik-utils nodejs npm ttf-unifont unzip git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        ca-certificates \
+        curl \
+        gnupg \
+        postgresql-client \
+        python3 \
+        python3-distutils \
+        fonts-hanazono \
+        fonts-noto-cjk \
+        fonts-noto-hinted \
+        fonts-noto-unhinted \
+        mapnik-utils \
+        nodejs \
+        npm \
+        fonts-unifont \
+        unzip \
+        git \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 # Kosmtik with plugins, forcing prefix to /usr because Ubuntu sets
 # npm prefix to /usr/local, which breaks the install

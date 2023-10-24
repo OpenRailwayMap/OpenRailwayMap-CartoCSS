@@ -664,10 +664,13 @@
 
     /* German tram speed limit signals as signs (G 2a) */
     ["feature"="DE-BOStrab:g2a"]["signal_speed_limit_form"="sign"] {
-      ["signal_speed_limit_speed"=~"^([1-3]5|[1-6]0)$"] {
+      ["signal_speed_limit_speed"=~"^([1-3]?5|[1-6]0)$"] {
         marker-allow-overlap: true;
         marker-width: 11;
         marker-height: 16;
+      }
+      ["signal_speed_limit_speed"="5"] {
+        marker-file: url('symbols/de/bostrab/g2a-5.svg');
       }
       ["signal_speed_limit_speed"="10"] {
         marker-file: url('symbols/de/bostrab/g2a-10.svg');

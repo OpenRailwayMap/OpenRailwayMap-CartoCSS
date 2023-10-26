@@ -811,7 +811,7 @@ Format details:
 
     marker-width: 9;
     marker-height: 19;
-    marker-file: url('symbols/nl/distant_light.png');
+    marker-file: url('symbols/nl/distant_light.svg');
   }
 
   /************************************************/
@@ -1314,7 +1314,7 @@ Format details:
 
     marker-width: 9;
     marker-height: 19;
-    marker-file: url('symbols/nl/main_light.png');
+    marker-file: url('symbols/nl/main_light.svg');
   }
 
   /**********************************/

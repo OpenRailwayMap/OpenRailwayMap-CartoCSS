@@ -7,3 +7,7 @@ electrification.xml
 gauge.xml
 *.mapcss
 *.d
+tmp
+.kosmtik-config.yml
+.env
+*.osm.pbf

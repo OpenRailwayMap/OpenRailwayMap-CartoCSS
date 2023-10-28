@@ -294,7 +294,8 @@ Layer:
               tags->'railway:signal:crossing_distant',
               tags->'railway:signal:crossing',
               tags->'railway:signal:ring',
-              tags->'railway:signal:whistle'
+              tags->'railway:signal:whistle',
+              tags->'railway:signal:request'
             ) AS feature,
             tags->'railway:signal:passing:caption' AS passing_caption,
             tags->'railway:signal:stop:caption' AS stop_caption,
@@ -330,6 +331,7 @@ Layer:
             tags->'railway:signal:crossing:form' AS crossing_form,
             tags->'railway:signal:ring:form' AS ring_form,
             tags->'railway:signal:whistle:form' AS whistle_form,
+            tags->'railway:signal:request:form' AS request_form,
             tags->'railway:signal:combined:height' AS combined_height,
             tags->'railway:signal:main:height' AS main_height,
             tags->'railway:signal:distant:height' AS distant_height,
@@ -358,6 +360,7 @@ Layer:
             tags->'railway:signal:crossing:states' AS crossing_states,
             tags->'railway:signal:ring:states' AS ring_states,
             tags->'railway:signal:whistle:states' AS whistle_states,
+            tags->'railway:signal:request:states' AS request_states,
             tags->'railway:signal:combined:repeated' AS combined_repeated,
             tags->'railway:signal:main:repeated' AS main_repeated,
             tags->'railway:signal:distant:repeated' AS distant_repeated,

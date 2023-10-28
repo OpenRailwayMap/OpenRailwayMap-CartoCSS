@@ -1216,6 +1216,13 @@ Format details:
     ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-BOStrab:f1(;.*)?$"],
     ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-AVG:f1(;.*)?$"] {
       marker-file: url('symbols/de/bostrab/f1.svg');
+
+      /* can display St 9 */
+      ["request_form"="light"]["request_states"=~"^(.*;)?DE-VBK:st9(;.*)?$"] {
+        marker-width: 10;
+        marker-height: 30;
+        marker-file: url('symbols/de/bostrab/f1-st9.svg');
+      }
     }
 
     /************************************/
@@ -1224,7 +1231,13 @@ Format details:
     /************************************/
     ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-BOStrab:f2(;.*)?$"],
     ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-AVG:f2(;.*)?$"] {
-      marker-file: url('symbols/de/bostrab/f2.svg');
+
+      /* can display St 9 */
+      ["request_form"="light"]["request_states"=~"^(.*;)?DE-VBK:st9(;.*)?$"] {
+        marker-width: 10;
+        marker-height: 30;
+        marker-file: url('symbols/de/bostrab/f2-st9.svg');
+      }
     }
 
     /************************************/
@@ -1234,6 +1247,14 @@ Format details:
     ["feature"="DE-BOStrab:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-BOStrab:f3(;.*)?$"],
     ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-AVG:f3(;.*)?$"] {
       marker-file: url('symbols/de/bostrab/f3.svg');
+
+      /* can display St 9 */
+      ["request_form"="light"]["request_states"=~"^(.*;)?DE-VBK:st9(;.*)?$"] {
+        marker-width: 10;
+        marker-height: 30;
+        marker-file: url('symbols/de/bostrab/f3-st9.svg');
+      }
+    }
     }
   }
 

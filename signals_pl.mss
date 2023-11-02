@@ -82,4 +82,167 @@
       marker-allow-overlap: true;
     }
   }
+
+  /*******************************************************/
+  /* PL main, combined and distant light signals */
+  /*******************************************************/
+  ["feature"="PL-PKP:s"] {
+    ["combined_form"="light"]::text {
+      text-name: [ref];
+      text-dy: 18;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    ["main_form"="light"]::text {
+      text-name: [ref];
+      text-dy: 10;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    } 
+
+    ["main_form"="light"]["combined_form"=null] {
+      marker-file: url('symbols/pl/s1-main.svg');
+      marker-width: 10;
+      marker-height: 15;
+      marker-allow-overlap: true;
+
+      /* can display S2 */
+      ["main_states"=~"^(.*;)?PL-PKP:s2(;.*)?$"] {
+        marker-file: url('symbols/pl/s2-main.svg');
+      }
+    }
+
+    ["combined_form"="light"]["main_form"=null] {
+      marker-file: url('symbols/pl/s1.svg');
+      marker-width: 10;
+      marker-height: 30;
+      marker-allow-overlap: true;
+
+      /* can display S2 */
+      ["combined_states"=~"^(.*;)?PL-PKP:s2(;.*)?$"] {
+        marker-file: url('symbols/pl/s2.svg');
+      }
+
+      /* can display S5 */
+      ["combined_states"=~"^(.*;)?PL-PKP:s5(;.*)?$"] {
+        marker-file: url('symbols/pl/s5.svg');
+      }
+
+      /* can display S9 */
+      ["combined_states"=~"^(.*;)?PL-PKP:s9(;.*)?$"] {
+        marker-file: url('symbols/pl/s9.svg');
+      }
+
+      /* cannot display S13 */
+      ["combined_states"=~"^(.*;)?PL-PKP:s13(;.*)?$"] {
+        marker-file: url('symbols/pl/s13.svg');
+      }
+
+      /* cannot display S13a */
+      ["combined_states"=~"^(.*;)?PL-PKP:s13a(;.*)?$"] {
+        marker-file: url('symbols/pl/s13a.svg');
+        marker-height: 34;
+      }
+
+      /* can display S6 */
+      ["combined_states"=~"^(.*;)?PL-PKP:s6(;.*)?$"] {
+        marker-file: url('symbols/pl/s6.svg');
+      }
+
+      /* can display S10a */
+      ["combined_states"=~"^(.*;)?PL-PKP:s10a(;.*)?$"] {
+        marker-file: url('symbols/pl/s10a.svg');
+        marker-height: 34;
+      }
+
+      /* can display S10 */
+      ["combined_states"=~"^(.*;)?PL-PKP:s10(;.*)?$"] {
+        marker-file: url('symbols/pl/s10.svg');
+        marker-height: 34;
+      }
+    }
+  }
+
+  /*******************************************************/
+  /* PL main, combined light signal repeaters */
+  /*******************************************************/
+  ["feature"="PL-PKP:sp"] {
+    ["distant_form"="light"] {
+      marker-file: url('symbols/pl/sp1.svg');
+      marker-width: 10;
+      marker-height: 20;
+      marker-allow-overlap: true;
+    }
+
+    ["distant_form"="light"]::text {
+      text-name: [ref];
+      text-dy: 13;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    /* can display Sp2 */
+    ["distant_states"=~"^(.*;)?PL-PKP:sp2(;.*)?$"] {
+      marker-file: url('symbols/pl/sp2.svg');
+    }
+  }
+
+  /*******************************************************/
+  /* PL distant light signals                            */
+  /*******************************************************/
+  ["feature"="PL-PKP:os"] {
+    ["distant_form"="light"] {
+      marker-file: url('symbols/pl/os1.svg');
+      marker-width: 10;
+      marker-height: 15;
+      marker-allow-overlap: true;
+    }
+
+    ["distant_form"="light"]::text {
+      text-name: [ref];
+      text-dy: 10;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    /* can display Os2 */
+    ["distant_states"=~"^(.*;)?PL-PKP:os2(;.*)?$"] {
+      marker-file: url('symbols/pl/os2.svg');
+    }
+  }
+
+  /*******************************************************/
+  /* PL shunting signals */
+  /*******************************************************/
+  [zoom>=17]["feature"="PL-PKP:ms"] {
+    ["shunting_form"="light"] {
+      marker-file: url('symbols/pl/ms1.svg');
+      marker-width: 10;
+      marker-height: 15;
+      marker-allow-overlap: true;
+    }
+
+    ["shunting_form"="light"]::text {
+      text-name: [ref];
+      text-dy: 10;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+  }
 }

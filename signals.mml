@@ -40,6 +40,7 @@ Stylesheet:
   - signals_at.mss
   - signals_de.mss
   - signals_fi.mss
+  - signals_pl.mss
   - signals_deactivated.mss
   - signal_boxes.mss
   - train_protection.mss

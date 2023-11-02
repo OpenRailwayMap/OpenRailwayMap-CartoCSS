@@ -633,8 +633,12 @@ Format details:
   /* DE distant semaphore signals type Vr which                                   */
   /*  - have no railway:signal:states=* tag                                       */
   /*  - OR have railway:signal:states=* tag that does neither include Vr1 nor Vr2 */
+  /*                                                                              */
+  /* PL distant semaphore signals type On/Od/Ot                                   */
   /********************************************************************************/
-  ["feature"="DE-ESO:vr"]["distant_form"="semaphore"] {
+  ["feature"="DE-ESO:vr"]["distant_form"="semaphore"],
+  ["feature"="PL-PKP:od"]["distant_form"="semaphore"],
+  ["feature"="PL-PKP:ot"]["distant_form"="semaphore"] {
     marker-file: url('symbols/de/vr0-semaphore.svg');
     marker-width: 12;
     marker-height: 26;
@@ -650,20 +654,33 @@ Format details:
       text-size: 10;
     }
 
-    /* can display Vr 1 */
+    /* DE: can display Vr 1                                          */
     /* This rule is overwritten if the signal can show Vr 2 as well. */
-    ["distant_states"=~"^(.*;)?DE-ESO:vr1(;.*)?$"] {
+    /* PL: can display Od2/Ot2  (expect clear)                       */
+    ["distant_states"=~"^(.*;)?DE-ESO:vr1(;.*)?$"],
+    ["distant_states"=~"^(.*;)?PL-PKP:od2(;.*)?$"],
+    ["distant_states"=~"^(.*;)?PL-PKP:ot2(;.*)?$"] {
       marker-file: url('symbols/de/vr1-semaphore.svg');
       marker-width: 12;
       marker-height: 19;
       marker-allow-overlap: true;
     }
 
-    /* can display Vr 2 */
-    ["distant_states"=~"^(.*;)?DE-ESO:vr2(;.*)?$"] {
+    /* DE: can display Vr 2                       */
+    /* PL: can display Ot3  (expect clear slowly) */
+    ["distant_states"=~"^(.*;)?DE-ESO:vr2(;.*)?$"],
+    ["distant_states"=~"^(.*;)?PL-PKP:ot3(;.*)?$"] {
       marker-file: url('symbols/de/vr2-semaphore.svg');
       marker-width: 12;
       marker-height: 26;
+      marker-allow-overlap: true;
+    }
+
+    /* PL: can display On (warning shield) */
+    ["distant_states"=~"^(.*;)?PL-PKP:on(;.*)?$"] {
+      marker-file: url('symbols/at/vorsignal-vorsicht.svg');
+      marker-width: 11;
+      marker-height: 11;
       marker-allow-overlap: true;
     }
   }

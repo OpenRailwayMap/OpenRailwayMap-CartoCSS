@@ -908,9 +908,11 @@ Format details:
   /******************************************/
   /* DE main semaphore signals type Hp      */
   /* AT main semaphore signal "Hauptsignal" */
+  /* PL main semaphore signal               */
   /******************************************/
   ["feature"="DE-ESO:hp"]["main_form"="semaphore"],
-  ["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"] {
+  ["feature"="AT-V2:hauptsignal"]["main_form"="semaphore"],
+  ["feature"="PL-PKP:sr"]["main_form"="semaphore"] {
     marker-file: url('symbols/de/hp0-semaphore.svg');
     marker-width: 16;
     marker-height: 16;
@@ -928,8 +930,10 @@ Format details:
 
     /* DE: can display Hp 1                           */
     /* AT: can display "Frei" (proceed at full speed) */
+    /* PL: can display Sr2 (clear)                    */
     ["feature"="DE-ESO:hp"]["main_states"=~"^(.*;)?DE-ESO:hp1(;.*)?$"],
-    ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei(;.*)?$"] {
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei(;.*)?$"],
+    ["feature"="PL-PKP:sr"]["main_states"=~"^(.*;)?PL-PKP:sr2(;.*)?$"] {
       marker-file: url('symbols/de/hp1-semaphore.svg');
       marker-width: 12;
       marker-height: 19;
@@ -938,9 +942,11 @@ Format details:
     /* DE: can display Hp 2                                              */
     /* AT: can display "Frei mit 40" (proceed at 40 kph)                 */
     /* AT: can display "Frei mit 20" (proceed at 20 kph) -- narrow gauge */
+    /* PL: can display Sr3 (clear slowly)                                */
     ["feature"="DE-ESO:hp"]["main_states"=~"^(.*;)?DE-ESO:hp2(;.*)?$"],
     ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei_mit_40(;.*)?$"],
-    ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei_mit_20(;.*)?$"] {
+    ["feature"="AT-V2:hauptsignal"]["main_states"=~"^(.*;)?AT-V2:frei_mit_20(;.*)?$"],
+    ["feature"="PL-PKP:sr"]["main_states"=~"^(.*;)?PL-PKP:sr3(;.*)?$"] {
       marker-file: url('symbols/de/hp2-semaphore.svg');
       marker-width: 12;
       marker-height: 20;

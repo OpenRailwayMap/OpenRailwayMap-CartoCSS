@@ -1235,6 +1235,14 @@ Format details:
     ["feature"="DE-AVG:f"]["main_form"="light"]["main_states"=~"^(.*;)?DE-AVG:f3(;.*)?$"] {
       marker-file: url('symbols/de/bostrab/f3.svg');
     }
+
+    /************************************/
+    /* DE tram main signal "Fahrsignal" */
+    /* can show F 5 (permissive)        */
+    /************************************/
+    ["main_states"=~"^(.*;)?(DE-BOStrab|DE-AVG):f5(;.*)?$"] {
+      marker-file: url('symbols/de/bostrab/f5.svg');
+    }
   }
 
   /****************************************/

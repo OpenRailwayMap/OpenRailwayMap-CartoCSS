@@ -35,6 +35,16 @@ Format details:
   }
 
   /*********************************/
+  /* DE crossing distant sign Bü 3 */
+  /*********************************/
+  [zoom>=15]["feature"="DE-ESO:bü3"] {
+    marker-file: url('symbols/de/bue3.svg');
+    marker-width: 5.5;
+    marker-height: 26;
+    marker-allow-overlap: true;
+  }
+
+  /*********************************/
   /* DE whistle sign Bü 4 (DS 301) */
   /*********************************/
   ["feature"="DE-ESO:db:bü4"] {

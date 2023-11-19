@@ -44,7 +44,7 @@ Format details:
     marker-allow-overlap: true;
 
     /* for trains not stopping at a halt */
-    ["ring_only_transit"="yes"] {
+    ["whistle_only_transit"="yes"] {
       marker-file: url('symbols/de/bue4-ds-only-transit.svg');
       marker-width: 12;
       marker-height: 21;
@@ -61,7 +61,7 @@ Format details:
     marker-allow-overlap: true;
 
     /* DE whistle sign Pf 1 (DV 301) for trains not stopping at a halt */
-    ["ring_only_transit"="yes"] {
+    ["whistle_only_transit"="yes"] {
       marker-file: url('symbols/de/pf1-dv-only-transit.svg');
       marker-width: 12;
       marker-height: 21;

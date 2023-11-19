@@ -382,7 +382,7 @@ Layer:
             tags->'railway:signal:stop:shortened' AS stop_shortened,
             tags->'railway:signal:stop_demand:shortened' AS stop_demand_shortened,
             tags->'railway:signal:station:distant:shortened' AS station_distant_shortened,
-            tags->'railway:signal:crossing:distant:shortened' AS crossing_distant_shortened,
+            tags->'railway:signal:crossing_distant:shortened' AS crossing_distant_shortened,
             tags->'railway:signal:crossing:shortened' AS crossing_shortened,
             tags->'railway:signal:ring:shortened' AS ring_shortened,
             tags->'railway:signal:whistle:shortened' AS whistle_shortened,

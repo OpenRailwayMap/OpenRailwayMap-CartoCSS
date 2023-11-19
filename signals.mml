@@ -295,7 +295,8 @@ Layer:
               tags->'railway:signal:crossing',
               tags->'railway:signal:ring',
               tags->'railway:signal:whistle',
-              tags->'railway:signal:resetting_switch'
+              tags->'railway:signal:resetting_switch',
+              tags->'railway:signal:resetting_switch_distant'
             ) AS feature,
             tags->'railway:signal:passing:caption' AS passing_caption,
             tags->'railway:signal:stop:caption' AS stop_caption,
@@ -416,7 +417,8 @@ Layer:
             tags->'railway:signal:ring:type' AS ring_type,
             tags->'railway:signal:whistle:type' AS whistle_type,
             tags->'railway:signal:train_protection:shape' AS train_protection_shape,
-            tags->'railway:signal:resetting_switch:form' AS resetting_switch_form
+            tags->'railway:signal:resetting_switch:form' AS resetting_switch_form,
+            tags->'railway:signal:resetting_switch_distant:form' AS resetting_switch_distant_form
           FROM openrailwaymap_osm_signals
           WHERE
             (railway IN ('signal', 'buffer_stop') AND "signal_direction" IS NOT NULL)

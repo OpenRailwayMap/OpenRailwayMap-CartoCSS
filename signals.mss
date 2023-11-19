@@ -704,6 +704,16 @@ Format details:
     }
   }
 
+  /***********************************/
+  /* DE Ne13 resetting switch signal */
+  /***********************************/
+  [zoom>=17]["feature"="DE-ESO:ne13"]["resetting_switch_form"="light"] {
+    marker-file: url('symbols/de/ne13a.svg');
+    marker-width: 12;
+    marker-height: 8;
+    marker-allow-overlap: true;
+  }
+
   /************************************/
   /* DE ETCS stop marker              */
   /* NL ETCS stopplaatsmarkering 227b */

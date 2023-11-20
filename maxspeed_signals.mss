@@ -1,7 +1,7 @@
 #railway_signals {
   [zoom>=17] {
   /* German speed signals (Zs 10) */
-    ["feature"="DE-ESO:db:zs10"]["signal_speed_limit_speed"="none"] {
+    ["feature"="DE-ESO:db:zs10"]["signal_speed_limit_speed"=null] {
       ["signal_speed_limit_form"="sign"] {
         marker-allow-overlap: true;
         marker-file: url('symbols/de/zs10-sign.svg');

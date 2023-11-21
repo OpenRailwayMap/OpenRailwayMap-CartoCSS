@@ -60,48 +60,43 @@
   [zoom>=13]["railway"="light_rail"],
   [zoom>=11]["railway"="tram"]["service"=null],
   [zoom>=13]["railway"="tram"] {
-    ["rank"=1] {  /* shortcut: SQL functions set rank=1 for 'no protection' */
+    ["train_protection_rendered"="none"] {
       line-color: @no_train_protection_color;
     }
-    ["pzb"="yes"] {
-      line-color: @pzb_color;
-    }
-    ["lzb"="yes"] {
-      line-color: @lzb_color;
-    }
-    ["atb"="yes"],
-    ["atb_eg"="yes"],
-    ["atb_ng"="yes"],
-    ["atb_vv"="yes"] {
-      line-color: @atb_color;
-    }
-    ["atc"="yes"] {
-      line-color: @atc_color;
-    }
-    ["scmt"="yes"] {
-      line-color: @scmt_color;
-    }
-    ["asfa"="yes"] {
-      line-color: @asfa_color;
-    }
-    ["kvb"="yes"] {
-      line-color: @kvb_color;
-    }
-    ["tvm"="yes"],
-    ["tvm"="430"],
-    ["tvm"="300"] {
-      line-color: @tvm_color;
-    }
-    ["etcs"!="no"] {
+    ["train_protection_rendered"="etcs"] {
       line-color: @etcs_color;
     }
-    ["construction_etcs"!="no"] {
+    ["train_protection_rendered"="etcs_construction"] {
       line-color: @etcs_construction_color;
+    } 
+    ["train_protection_rendered"="scmt"] {
+      line-color: @scmt_color;
+    } 
+    ["train_protection_rendered"="pzb"] {
+      line-color: @pzb_color;
     }
-    ["ptc"!="no"] {
+    ["train_protection_rendered"="lzb"] {
+      line-color: @lzb_color;
+    }
+    ["train_protection_rendered"="atb"] {
+      line-color: @atb_color;
+    }
+    ["train_protection_rendered"="atc"] {
+      line-color: @atc_color;
+    }
+    ["train_protection_rendered"="asfa"] {
+      line-color: @asfa_color;
+    }
+    ["train_protection_rendered"="kvb"] {
+      line-color: @kvb_color;
+    }
+    ["train_protection_rendered"="tvm"] {
+      line-color: @tvm_color;
+    }
+    ["train_protection_rendered"="ptc"] {
       line-color: @ptc_color;
     }
-    ["zsi127"="yes"] {
+    ["train_protection_rendered"="zsi127"] {
       line-color: @zsi127_color;
     }
     ["railway"="construction"] {

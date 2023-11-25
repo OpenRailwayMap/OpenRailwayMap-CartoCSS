@@ -294,7 +294,9 @@ Layer:
               tags->'railway:signal:crossing_distant',
               tags->'railway:signal:crossing',
               tags->'railway:signal:ring',
-              tags->'railway:signal:whistle'
+              tags->'railway:signal:whistle',
+              tags->'railway:signal:departure',
+              tags->'railway:signal:main_repeated'
             ) AS feature,
             tags->'railway:signal:passing:caption' AS passing_caption,
             tags->'railway:signal:stop:caption' AS stop_caption,
@@ -315,6 +317,7 @@ Layer:
             tags->'railway:signal:crossing:deactivated' AS crossing_deactivated,
             tags->'railway:signal:ring:deactivated' AS ring_deactivated,
             tags->'railway:signal:whistle:deactivated' AS whistle_deactivated,
+            tags->'railway:signal:departure:deactivated' AS departure_deactivated,
             tags->'railway:signal:combined:form' AS combined_form,
             tags->'railway:signal:main:form' AS main_form,
             tags->'railway:signal:distant:form' AS distant_form,
@@ -330,6 +333,7 @@ Layer:
             tags->'railway:signal:crossing:form' AS crossing_form,
             tags->'railway:signal:ring:form' AS ring_form,
             tags->'railway:signal:whistle:form' AS whistle_form,
+            tags->'railway:signal:departure:form' AS departure_form,
             tags->'railway:signal:combined:height' AS combined_height,
             tags->'railway:signal:main:height' AS main_height,
             tags->'railway:signal:distant:height' AS distant_height,
@@ -344,6 +348,7 @@ Layer:
             tags->'railway:signal:crossing:height' AS crossing_height,
             tags->'railway:signal:ring:height' AS ring_height,
             tags->'railway:signal:whistle:height' AS whistle_height,
+            tags->'railway:signal:departure:height' AS departure_height,
             tags->'railway:signal:combined:states' AS combined_states,
             tags->'railway:signal:main:states' AS main_states,
             tags->'railway:signal:distant:states' AS distant_states,
@@ -358,6 +363,8 @@ Layer:
             tags->'railway:signal:crossing:states' AS crossing_states,
             tags->'railway:signal:ring:states' AS ring_states,
             tags->'railway:signal:whistle:states' AS whistle_states,
+            tags->'railway:signal:departure:states' AS departure_states,
+            tags->'railway:signal:main_repeated:states' AS main_repeated_states,
             tags->'railway:signal:combined:repeated' AS combined_repeated,
             tags->'railway:signal:main:repeated' AS main_repeated,
             tags->'railway:signal:distant:repeated' AS distant_repeated,
@@ -372,6 +379,7 @@ Layer:
             tags->'railway:signal:crossing:repeated' AS crossing_repeated,
             tags->'railway:signal:ring:repeated' AS ring_repeated,
             tags->'railway:signal:whistle:repeated' AS whistle_repeated,
+            tags->'railway:signal:departure:repeated' AS departure_repeated,
             tags->'railway:signal:combined:shortened' AS combined_shortened,
             tags->'railway:signal:main:shortened' AS main_shortened,
             tags->'railway:signal:distant:shortened' AS distant_shortened,
@@ -386,6 +394,7 @@ Layer:
             tags->'railway:signal:crossing:shortened' AS crossing_shortened,
             tags->'railway:signal:ring:shortened' AS ring_shortened,
             tags->'railway:signal:whistle:shortened' AS whistle_shortened,
+            tags->'railway:signal:departure:shortened' AS departure_shortened,
             tags->'railway:signal:combined:only_transit' AS combined_only_transit,
             tags->'railway:signal:main:only_transit' AS main_only_transit,
             tags->'railway:signal:distant:only_transit' AS distant_only_transit,
@@ -400,6 +409,7 @@ Layer:
             tags->'railway:signal:crossing:only_transit' AS crossing_only_transit,
             tags->'railway:signal:ring:only_transit' AS ring_only_transit,
             tags->'railway:signal:whistle:only_transit' AS whistle_only_transit,
+            tags->'railway:signal:departure:only_transit' AS departure_only_transit,
             tags->'railway:signal:combined:type' AS combined_type,
             tags->'railway:signal:main:type' AS main_type,
             tags->'railway:signal:distant:type' AS distant_type,
@@ -414,6 +424,7 @@ Layer:
             tags->'railway:signal:crossing:type' AS crossing_type,
             tags->'railway:signal:ring:type' AS ring_type,
             tags->'railway:signal:whistle:type' AS whistle_type,
+            tags->'railway:signal:departure:type' AS departure_type,
             tags->'railway:signal:train_protection:shape' AS train_protection_shape
           FROM openrailwaymap_osm_signals
           WHERE
@@ -422,6 +433,7 @@ Layer:
           ORDER BY
             -- distant signals are less important, signals for slower speeds are more important
             (CASE
+              WHEN railway_has_key(tags, 'railway:signal:departure') THEN 15000
               WHEN railway_has_key(tags, 'railway:signal:main') THEN 10000
               WHEN railway_has_key(tags, 'railway:signal:combined') THEN 10000
               WHEN railway_has_key(tags, 'railway:signal:distant') THEN 9000

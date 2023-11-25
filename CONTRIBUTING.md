@@ -20,9 +20,10 @@ Each country (sometimes each company) has their own signalling system. We welcom
 other systems than those already supported by the style. New signals must be documented
 on the OSM wiki and be actively used.
 
-## Map key
+## Legend
 
-The map key still makes use of the
+The legend at the OpenRailwayMap website explains users what the colors and
+symbols on the map mean. It still makes use of the
 [old MapCSS styles](https://github.com/OpenRailwayMap/OpenRailwayMap/tree/master/styles)
 in the main repository. The `.mapcss` files are the style, the `.json` files
 are the definition of the map key.

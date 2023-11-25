@@ -34,45 +34,6 @@
      inkscape:current-layer="layer1"
      inkscape:showpageshadow="2"
      inkscape:deskcolor="#d1d1d1" />
-  <defs
-     id="defs2">
-    <filter
-       style="color-interpolation-filters:sRGB;"
-       inkscape:label="Drop Shadow"
-       id="filter15575"
-       x="-0.10102624"
-       y="-0.10102624"
-       width="1.2020525"
-       height="1.2020525">
-      <feFlood
-         flood-opacity="0.498039"
-         flood-color="rgb(233,233,233)"
-         result="flood"
-         id="feFlood15565" />
-      <feComposite
-         in="flood"
-         in2="SourceGraphic"
-         operator="in"
-         result="composite1"
-         id="feComposite15567" />
-      <feGaussianBlur
-         in="composite1"
-         stdDeviation="1"
-         result="blur"
-         id="feGaussianBlur15569" />
-      <feOffset
-         dx="0"
-         dy="0"
-         result="offset"
-         id="feOffset15571" />
-      <feComposite
-         in="SourceGraphic"
-         in2="offset"
-         operator="over"
-         result="composite2"
-         id="feComposite15573" />
-    </filter>
-  </defs>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
@@ -121,7 +82,7 @@
          style="stroke:#000000;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <circle
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke;filter:url(#filter15575)"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
        id="path11933"
        cx="15.532098"
        cy="15.430702"

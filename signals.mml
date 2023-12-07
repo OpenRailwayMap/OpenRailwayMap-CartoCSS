@@ -99,7 +99,6 @@ Layer:
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
             train_protection, pzb, lzb, zsi127, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, etcs, construction_etcs,
-            railway_train_protection_rank(train_protection, pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, zsi127, etcs, construction_etcs) AS rank,
             railway_train_protection_rendered(train_protection, pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, zsi127, etcs, construction_etcs) AS train_protection_rendered
           FROM
             (SELECT
@@ -123,7 +122,7 @@ Layer:
               WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
             ) AS r
           ORDER BY
-            rank NULLS LAST
+            train_protection_rendered NULLS LAST
         ) AS openrailwaymap_line_low
     properties:
       maxzoom: 7
@@ -144,7 +143,6 @@ Layer:
             NULL AS preserved_railway, NULL AS preserved_service,
             NULL AS preserved_usage,
             train_protection, pzb, lzb, zsi127, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, etcs, construction_etcs,
-            railway_train_protection_rank(train_protection, pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, zsi127, etcs, construction_etcs) AS rank,
             railway_train_protection_rendered(train_protection, pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, zsi127, etcs, construction_etcs) AS train_protection_rendered
           FROM
             (SELECT
@@ -168,7 +166,7 @@ Layer:
               WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
             ) AS r
           ORDER BY
-            rank NULLS LAST
+            train_protection_rendered NULLS LAST
         ) AS railway_line_med
     properties:
       minzoom: 8
@@ -189,7 +187,6 @@ Layer:
             preserved_railway, preserved_service,
             preserved_usage,
             train_protection, pzb, lzb, zsi127, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, etcs, construction_etcs,
-            railway_train_protection_rank(train_protection, pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, zsi127, etcs, construction_etcs) AS rank,
             railway_train_protection_rendered(train_protection, pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, asfa, ptc, zsi127, etcs, construction_etcs) AS train_protection_rendered
           FROM
             (SELECT
@@ -221,8 +218,7 @@ Layer:
               WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
             ) AS r
           ORDER BY
-            layer,
-            rank NULLS LAST
+            layer, train_protection_rendered NULLS LAST
         ) AS railway_line_fill
     properties:
       minzoom: 9

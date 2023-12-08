@@ -329,6 +329,9 @@ BEGIN
   IF etcs <> 'no' THEN
     RETURN 'etcs';
   END IF;
+  IF POSITION('CTCS' IN train_protection) > 0 THEN
+    RETURN 'ctcs';
+  END IF;
   IF ptc <> 'no' THEN
     RETURN 'ptc';
   END IF;
@@ -339,11 +342,14 @@ BEGIN
   IF POSITION('SCMT' IN train_protection) > 0 THEN
     RETURN 'scmt';
   END IF;
-  IF asfa = 'yes' THEN
-    RETURN 'asfa';
-  END IF;
+  IF POSITION('TVM' IN train_protection) > 0 THEN
+    RETURN 'tvm';
+  END IF; 
   IF tvm = 'yes' OR tvm = '430' OR tvm = '300' THEN
     RETURN 'tvm';
+  END IF;
+  IF asfa = 'yes' THEN
+    RETURN 'asfa';
   END IF;
   IF kvb = 'yes' THEN
     RETURN 'kvb';
@@ -354,7 +360,7 @@ BEGIN
   IF COALESCE(atb, atb_eg, atb_ng, atb_vv) = 'yes' THEN
     RETURN 'atb';
   END IF;
- IF lzb = 'yes' THEN
+  IF lzb = 'yes' THEN
     RETURN 'lzb';
   END IF;
   IF pzb = 'yes' THEN
@@ -365,6 +371,9 @@ BEGIN
     RETURN 'zsi127';
   END IF;
   /* No system. */
+  IF train_protection = 'none' THEN
+    RETURN 'none';
+  END IF;
   IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (asfa = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') THEN
     RETURN 'none';
   END IF;

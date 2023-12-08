@@ -11,9 +11,10 @@
 @atc_color: #6600cc;
 @scmt_color: #dd11ff;
 @asfa_color: #ff9092;
-@kvb_color: #66cc33;
+@kvb_color: #88cc00;
 @tvm_color: #009966;
-@ptc_color: #cc0033;
+@ptc_color: #44cc66;
+@ctcs_color: #ee0000;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
 
@@ -69,6 +70,9 @@
     ["train_protection_rendered"="etcs_construction"] {
       line-color: @etcs_construction_color;
     } 
+    ["train_protection_rendered"="ctcs"] {
+      line-color: @ctcs_color;
+    }
     ["train_protection_rendered"="scmt"] {
       line-color: @scmt_color;
     } 

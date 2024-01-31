@@ -710,7 +710,7 @@ Format details:
   /************************************/
   ["feature"="DE-ESO:ne14"]["train_protection_form"="sign"]["train_protection_type"="block_marker"],
   ["feature"="NL:227b"]["train_protection_form"="sign"]["train_protection_type"="block_marker"] {
-    marker-file: url('symbols/etcs-stop-marker-arrow-left.svg');
+    marker-file: url('symbols/general/etcs-stop-marker-arrow-left.svg');
     marker-width: 16;
     marker-height: 16;
     marker-allow-overlap: true;
@@ -727,7 +727,7 @@ Format details:
 
     /* triangle-shaped stop marker */
     ["feature"="NL:227b"]["train_protection_shape"="triangle"] {
-      marker-file: url('symbols/etcs-stop-marker-triangle-left.svg');
+      marker-file: url('symbols/general/etcs-stop-marker-triangle-left.svg');
     }
   }
 
@@ -1381,9 +1381,6 @@ Format details:
       text-size: 10;
     }
 
-    marker-width: 9;
-    marker-height: 19;
-    marker-file: url('symbols/nl/main_light.svg');
     ["feature"="NL"] {
       marker-width: 9;
       marker-height: 19;

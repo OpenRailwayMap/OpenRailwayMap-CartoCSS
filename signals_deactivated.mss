@@ -65,7 +65,7 @@
   ["feature"="DE-ESO:ks"]["main_form"="light"]["main_deactivated"="yes"],
   ["feature"="DE-ESO:ks"]["distant_form"="light"]["distant_deactivated"="yes"],
   ["feature"="DE-ESO:ks"]["combined_form"="light"]["combined_deactivated"="yes"] {
-    marker-file: url('symbols/signal-deactivated.svg');
+    marker-file: url('symbols/general/signal-deactivated.svg');
     marker-width: 9;
     marker-height: 9;
     marker-allow-overlap: true;

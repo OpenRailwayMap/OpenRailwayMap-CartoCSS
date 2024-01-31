@@ -1,5 +1,5 @@
 /** Grey color and line width for railway tracks in use.
-  * To be overriden by colouring for speed limits, train protection or electrification.
+  * To be overridden by colouring for speed limits, train protection or electrification.
   */
 @railway_fill_color: grey;
 @railway_casing_color: white;

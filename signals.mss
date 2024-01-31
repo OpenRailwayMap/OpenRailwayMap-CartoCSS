@@ -731,6 +731,26 @@ Format details:
     }
   }
 
+  /*****************************/
+  /* NL ATB-codewisselsein 330 */
+  /*****************************/
+  ["feature"="NL:330"]["train_protection_form"="light"] {
+    marker-file: url('symbols/nl/atb-codewissel.svg');
+    marker-width: 15;
+    marker-height: 20;
+    marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+  }
+
   /****************************/
   /* AT distant light signals */
   /****************************/
@@ -1348,7 +1368,9 @@ Format details:
   /*************************/
   /* NL main light signals */
   /*************************/
-  ["feature"="NL"]["main_form"="light"] {
+  ["feature"="NL"]["main_form"="light"],
+  ["feature"="NL:276"]["main_form"="light"],
+  ["feature"="NL:277"]["main_form"="light"] {
     ::text {
       text-name: [ref];
       text-dy: 12;
@@ -1362,6 +1384,39 @@ Format details:
     marker-width: 9;
     marker-height: 19;
     marker-file: url('symbols/nl/main_light.svg');
+    ["feature"="NL"] {
+      marker-width: 9;
+      marker-height: 19;
+      marker-file: url('symbols/nl/main_light.svg');
+
+      ["shunting_form"="light"] {
+        marker-file: url('symbols/nl/main_light_shunting.svg');
+      }
+
+      ["main_height"="dwarf"] {
+        marker-width: 15;
+        marker-height: 12;
+        marker-file: url('symbols/nl/main_light_dwarf.svg');
+
+        ["shunting_form"="light"] {
+          marker-width: 15;
+          marker-height: 15;
+          marker-file: url('symbols/nl/main_light_dwarf_shunting.svg');
+        }
+      }
+    }
+
+    ["feature"="NL:276"] {
+      marker-width: 15;
+      marker-height: 20;
+      marker-file: url('symbols/nl/L.svg');
+    }
+
+    ["feature"="NL:277"] {
+      marker-width: 15;
+      marker-height: 20;
+      marker-file: url('symbols/nl/H.svg');
+    }
   }
 
   /**********************************/
@@ -1401,5 +1456,24 @@ Format details:
     marker-width: 9;
     marker-height: 18;
     marker-file: url('symbols/nl/departure.svg');
+  }
+
+  /****************************/
+  /* NL humping light signals */
+  /****************************/
+  ["feature"="NL:270"]["humping_form"="light"] {
+    ::text {
+      text-name: [ref];
+      text-dy: 12;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+
+    marker-width: 15;
+    marker-height: 20;
+    marker-file: url('symbols/nl/270c.svg');
   }
 }

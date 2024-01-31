@@ -296,7 +296,8 @@ Layer:
               tags->'railway:signal:ring',
               tags->'railway:signal:whistle',
               tags->'railway:signal:departure',
-              tags->'railway:signal:main_repeated'
+              tags->'railway:signal:main_repeated',
+              tags->'railway:signal:humping'
             ) AS feature,
             tags->'railway:signal:passing:caption' AS passing_caption,
             tags->'railway:signal:stop:caption' AS stop_caption,
@@ -334,6 +335,7 @@ Layer:
             tags->'railway:signal:ring:form' AS ring_form,
             tags->'railway:signal:whistle:form' AS whistle_form,
             tags->'railway:signal:departure:form' AS departure_form,
+            tags->'railway:signal:humping:form' AS humping_form,
             tags->'railway:signal:combined:height' AS combined_height,
             tags->'railway:signal:main:height' AS main_height,
             tags->'railway:signal:distant:height' AS distant_height,
@@ -365,6 +367,7 @@ Layer:
             tags->'railway:signal:whistle:states' AS whistle_states,
             tags->'railway:signal:departure:states' AS departure_states,
             tags->'railway:signal:main_repeated:states' AS main_repeated_states,
+            tags->'railway:signal:humping:states' AS humping_states,
             tags->'railway:signal:combined:repeated' AS combined_repeated,
             tags->'railway:signal:main:repeated' AS main_repeated,
             tags->'railway:signal:distant:repeated' AS distant_repeated,

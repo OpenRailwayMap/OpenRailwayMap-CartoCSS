@@ -23,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.db
+    ports:
+      - '5432:5432'
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - PG_WORK_MEM
@@ -45,3 +47,16 @@ services:
       - OSM2PGSQL_NUMPROC
       - OSM2PGSQL_DATAFILE
       - EXTERNAL_DATA_SCRIPT_FLAGS
+  martin:
+    image: ghcr.io/maplibre/martin
+    command:
+      [ '--config', '/config/configuration.yml', '--sprite', '/symbols/nl_simple', '--sprite', '/symbols/de', '--sprite', '/symbols/at', '--sprite', '/symbols/fi', '--sprite', '/symbols/general', '--font', '/config/fonts' ]
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./martin:/config
+      - ./symbols:/symbols
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres@db:5432/gis

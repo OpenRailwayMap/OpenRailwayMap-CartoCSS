@@ -39,6 +39,7 @@ EOF
     export OSM2PGSQL_DATAFILE=${OSM2PGSQL_DATAFILE:-data.osm.pbf}
   fi
 
+  rm -f filtered.osm.pbf
   osmium tags-filter \
     -o filtered.osm.pbf \
     "$OSM2PGSQL_DATAFILE" \

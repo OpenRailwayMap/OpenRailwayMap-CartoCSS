@@ -147,17 +147,38 @@ postgres:
         feature: string
         departure_form: string
         main_form: string
+        main_repeated_form: string
         main_repeated_states: string
         speed_limit_form: string
         speed_limit_states: string
         main_height: string
+        main_states: string
+        station_distant_form: string
+        stop_demand_form: string
+        stop_form: string
+        minor_form: string
+        minor_height: string
+        minor_states: string
+        passing_form: string
+        passing_type: string
+        ring_only_transit: string
         shunting_form: string
         distant_form: string
+        distant_repeated: string
+        distant_shortened: string
         humping_form: string
         train_protection_shape: string
         train_protection_form: string
         train_protection_type: string
         deactivated: string
+        combined_form: string
+        combined_shortened: string
+        crossing_distant_shortened: string
+        crossing_form: string
+        crossing_repeated: string
+        crossing_shortened: string
+        wrong_road: string
+        wrong_road_form: string
 
     signal_boxes_point:
       schema: public
@@ -182,47 +203,6 @@ postgres:
       properties:
         ref: string
         name: string
-
-    prorail_lichtseinen:
-      schema: public
-      table: prorail_lichtseinen
-      srid: 3857
-      geometry_column: wkb_geometry
-      # id_column: ogc_fid
-      #minzoom: 0
-
-      # An integer specifying the maximum zoom level. MUST be >= minzoom
-      #maxzoom: 30
-
-      # The maximum extent of available map tiles. Bounds MUST define an area
-      # covered by all zoom levels. The bounds are represented in WGS:84
-      # latitude and longitude values, in the order left, bottom, right, top.
-      # Values may be integers or floating point numbers.
-      # bounds: [-180.0, -90.0, 180.0, 90.0]
-
-      # Tile extent in tile coordinate space
-      # extent: 4096
-
-      # Buffer distance in tile coordinate space to optionally clip geometries
-      # buffer: 64
-
-      # Boolean to control if geometries should be clipped or encoded as is
-      # clip_geom: true
-
-      # Geometry type
-      geometry_type: GEOMETRY
-
-      # List of columns, that should be encoded as tile properties (required)
-      properties:
-        naam: string
-
-  # Associative arrays of function sources
-  functions:
-    function_zxy_query:
-      schema: public
-      function: function_zxy_query
-      # minzoom: 0
-      # maxzoom: 30
 
 fonts:
   - /config/fonts

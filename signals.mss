@@ -416,7 +416,7 @@ Format details:
       marker-width: 12;
       marker-height: 11;
       marker-allow-overlap: true;
-  }
+    }
 
     ["minor_form"="semaphore"]["minor_height"="normal"],
     ["minor_form"="semaphore"]["minor_height"=null] {

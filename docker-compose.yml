@@ -17,7 +17,8 @@ services:
       - PGUSER=postgres
     command:
       # Edit this argument to render a different style
-      - standard.mml
+      - signals.mml
+
   db:
     image: db:v1
     build:
@@ -29,6 +30,7 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - PG_WORK_MEM
       - PG_MAINTENANCE_WORK_MEM
+
   import:
     image: import:v1
     build:
@@ -47,10 +49,29 @@ services:
       - OSM2PGSQL_NUMPROC
       - OSM2PGSQL_DATAFILE
       - EXTERNAL_DATA_SCRIPT_FLAGS
+
+  martin-cp:
+    image: ghcr.io/maplibre/martin
+    entrypoint: []
+    command: [
+      'sh',
+      '-c',
+      # --min-zoom 8 --max-zoom 9
+      # railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text
+      'martin-cp --config /config/configuration.yml --min-zoom 0 --max-zoom 14 "--bbox=3,50,7,54" --source railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text --output-file /tiles/tiles.mbtiles --on-duplicate override'
+    ]
+    volumes:
+      - ./martin:/config
+      - ./tiles:/tiles
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres@db:5432/gis
+
   martin:
     image: ghcr.io/maplibre/martin
     command:
-      [ '--config', '/config/configuration.yml', '--sprite', '/symbols/nl_simple', '--sprite', '/symbols/de', '--sprite', '/symbols/at', '--sprite', '/symbols/fi', '--sprite', '/symbols/general', '--font', '/config/fonts' ]
+      [ '--config', '/config/configuration.yml', '--sprite', '/symbols/nl', '--sprite', '/symbols/de', '--sprite', '/symbols/at', '--sprite', '/symbols/fi', '--sprite', '/symbols/general', '--sprite', '/symbols/flex', '--font', '/config/fonts' ]
     ports:
       - '3000:3000'
     volumes:
@@ -60,3 +81,24 @@ services:
       - db
     environment:
       - DATABASE_URL=postgresql://postgres@db:5432/gis
+
+  martin-static:
+    image: ghcr.io/maplibre/martin
+    command:
+      [ '/tiles', '--sprite', '/symbols/nl', '--sprite', '/symbols/de', '--sprite', '/symbols/at', '--sprite', '/symbols/fi', '--sprite', '/symbols/general', '--sprite', '/symbols/flex', '--font', '/config/fonts' ]
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./martin:/config
+      - ./symbols:/symbols
+      - ./tiles:/tiles
+
+  martin-proxy:
+    image: nginx
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./proxy/proxy.conf:/etc/nginx/conf.d/proxy.conf
+      - ./proxy/index.html:/etc/nginx/public/index.html
+      - ./proxy/js:/etc/nginx/public/js
+      - ./proxy/css:/etc/nginx/public/css

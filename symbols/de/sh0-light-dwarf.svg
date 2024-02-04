@@ -1,51 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   width="179.42291"
-   height="114.8891"
-   id="svg2">
-  <defs
-     id="defs4">
-    <filter
-       color-interpolation-filters="sRGB"
-       id="filter2986">
-      <feGaussianBlur
-         id="feGaussianBlur2988"
-         stdDeviation="3" />
-    </filter>
-  </defs>
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <path
-     d="M 3.2653597,44.426077 44.470306,3.3070601 C 47.278791,0.64497283 50.563907,0.0602382 53.989479,0.0602382 L 128.63798,0 c 2.68796,0 4.86208,1.940443 6.35886,3.4372207 l 40.63903,40.7163213 c 2.28684,2.291196 3.78704,5.28469 3.78704,8.521864 l 0,56.370414 c 0,3.23718 -2.6061,5.84328 -5.84327,5.84328 l -167.736365,0 C 2.6061007,114.8891 0,112.283 0,109.04582 L 0,52.675406 c 0,-3.237174 0.93446315,-6.00295 3.2653597,-8.249329 z"
-     id="rect3844"
-     style="fill:#000000;fill-opacity:1;stroke:none" />
-  <g
-     transform="translate(-3.7496372,-861.51225)"
-     id="layer1" />
-  <g
-     transform="translate(-3.7496372,-861.51225)"
-     id="layer3" />
-  <path
-     d="m 140.97352,34.286277 a 9.9679403,9.9679403 0 1 1 -19.93588,0 9.9679403,9.9679403 0 1 1 19.93588,0 z"
-     transform="matrix(1.9,0,0,1.9,-128.1282,-30.857649)"
-     id="path3849"
-     style="fill:#ff0000;fill-opacity:1;stroke:none;filter:url(#filter2986)" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12.493642" height="8" viewBox="0 0 12.493642 8">
+<defs>
+<image id="source-8" x="0" y="0" width="13" height="8" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAICAYAAAAiJnXPAAAABmJLR0QA/wD/AP+gvaeTAAAANUlEQVQYlWNgoDb4z8BQ9Z+B4eF/BoYgUjTd+s/A8P8/A8MaUjR5/WdgWPafgUGPHJcOJQAA9wcOSEN5WDgAAAAASUVORK5CYII="/>
+</defs>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 0.226562 3.09375 L 3.097656 0.230469 C 3.292969 0.0429688 3.519531 0.00390625 3.757812 0.00390625 L 8.957031 0 C 9.144531 0 9.296875 0.136719 9.398438 0.238281 L 12.230469 3.074219 C 12.390625 3.234375 12.492188 3.441406 12.492188 3.667969 L 12.492188 7.59375 C 12.492188 7.820312 12.3125 8 12.085938 8 L 0.40625 8 C 0.179688 8 0 7.820312 0 7.59375 L 0 3.667969 C 0 3.441406 0.0664062 3.25 0.226562 3.09375 Z M 0.226562 3.09375 "/>
+<use xlink:href="#source-8"/>
 </svg>

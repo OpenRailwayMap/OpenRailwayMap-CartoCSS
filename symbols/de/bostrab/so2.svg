@@ -1,81 +1,51 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="14.035714"
-   height="14.225517"
-   viewBox="0 0 14.035714 14.225517"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="So2.svg">
-  <defs
-     id="defs4" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="7.9195959"
-     inkscape:cx="2.8380895"
-     inkscape:cy="11.506374"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     units="px"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(15.714286,-1037.4225)">
-    <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4136"
-       width="14.035714"
-       height="14.225517"
-       x="-15.714286"
-       y="1037.4225" />
-    <path
-       style="opacity:0.95999995;fill:#ff0300;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 13.605469 0 L 0 13.583984 L 0 14.224609 L 0.68554688 14.224609 L 14.035156 0.89453125 L 14.035156 0 L 13.605469 0 z "
-       transform="translate(-15.714286,1037.4225)"
-       id="rect4338" />
-    <circle
-       style="opacity:0.95999995;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path4243"
-       cx="-8.6964283"
-       cy="1048.6201"
-       r="1.4732143" />
-    <circle
-       r="1.4732143"
-       cy="1040.4504"
-       cx="-8.6964283"
-       id="circle4245"
-       style="opacity:0.95999995;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11.839891" height="12" viewBox="0 0 11.839891 12">
+<defs>
+<filter id="filter-remove-color" x="0%" y="0%" width="100%" height="100%">
+<feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+</filter>
+<mask id="mask-0">
+<g filter="url(#filter-remove-color)">
+<rect x="-1.183989" y="-1.2" width="14.207869" height="14.4" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-0">
+<rect x="0" y="0" width="12" height="12"/>
+</clipPath>
+<g id="source-5" clip-path="url(#clip-0)">
+<path fill-rule="nonzero" fill="rgb(100%, 1.176471%, 0%)" fill-opacity="1" d="M 11.476562 0 L 0 11.457031 L 0 12 L 0.578125 12 L 11.839844 0.753906 L 11.839844 0 Z M 11.476562 0 "/>
+</g>
+<mask id="mask-1">
+<g filter="url(#filter-remove-color)">
+<rect x="-1.183989" y="-1.2" width="14.207869" height="14.4" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-1">
+<rect x="0" y="0" width="12" height="12"/>
+</clipPath>
+<g id="source-8" clip-path="url(#clip-1)">
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 7.164062 9.445312 C 7.164062 10.132812 6.605469 10.6875 5.921875 10.6875 C 5.234375 10.6875 4.675781 10.132812 4.675781 9.445312 C 4.675781 8.757812 5.234375 8.203125 5.921875 8.203125 C 6.605469 8.203125 7.164062 8.757812 7.164062 9.445312 Z M 7.164062 9.445312 "/>
+</g>
+<mask id="mask-2">
+<g filter="url(#filter-remove-color)">
+<rect x="-1.183989" y="-1.2" width="14.207869" height="14.4" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-2">
+<rect x="0" y="0" width="12" height="12"/>
+</clipPath>
+<g id="source-11" clip-path="url(#clip-2)">
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 7.164062 2.554688 C 7.164062 3.242188 6.605469 3.796875 5.921875 3.796875 C 5.234375 3.796875 4.675781 3.242188 4.675781 2.554688 C 4.675781 1.867188 5.234375 1.3125 5.921875 1.3125 C 6.605469 1.3125 7.164062 1.867188 7.164062 2.554688 Z M 7.164062 2.554688 "/>
+</g>
+</defs>
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" d="M 0 0 L 11.839844 0 L 11.839844 12 L 0 12 Z M 0 0 "/>
+<g mask="url(#mask-0)">
+<use xlink:href="#source-5"/>
+</g>
+<g mask="url(#mask-1)">
+<use xlink:href="#source-8"/>
+</g>
+<g mask="url(#mask-2)">
+<use xlink:href="#source-11"/>
+</g>
 </svg>

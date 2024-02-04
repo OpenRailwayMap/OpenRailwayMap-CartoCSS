@@ -1,73 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   width="301.16409"
-   height="648.26862"
-   id="svg3045">
-  <metadata
-     id="metadata3051">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs3049">
-    <filter
-       color-interpolation-filters="sRGB"
-       id="filter3005">
-      <feGaussianBlur
-         id="feGaussianBlur3007"
-         stdDeviation="3" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       id="filter3042">
-      <feGaussianBlur
-         id="feGaussianBlur3044"
-         stdDeviation="3" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       id="filter3016">
-      <feGaussianBlur
-         stdDeviation="3"
-         id="feGaussianBlur3018" />
-    </filter>
-  </defs>
-  <g
-     transform="translate(0,-1653.0109)"
-     id="layer1">
-    <path
-       d="m 0,1693.8467 40.8358,-40.8358 223.9589,0.638 36.3694,40.1978 0,607.4328 -301.1641,0 z"
-       id="rect2982"
-       style="fill:#000000;fill-opacity:1;stroke:none" />
-  </g>
-  <g
-     transform="translate(-124.19231,-1653.0109)"
-     id="layer3"
-     style="fill:#fff03c;fill-opacity:1;display:inline">
-    <path
-       d="m 2705.0531,894.29816 a 34.9916,34.9916 0 1 1 -69.9832,0 34.9916,34.9916 0 1 1 69.9832,0 z"
-       transform="matrix(1.765267,0,0,1.765267,-4504.0257,184.80226)"
-       id="path3756"
-       style="fill:#fff03c;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3042)" />
-  </g>
-  <path
-     d="m 2705.0531,894.29816 a 34.9916,34.9916 0 1 1 -69.9832,0 34.9916,34.9916 0 1 1 69.9832,0 z"
-     transform="matrix(1.765267,0,0,1.765267,-4628.2177,-1023.8011)"
-     id="path3797"
-     style="fill:#fff03c;fill-opacity:1;stroke:none;display:inline;filter:url(#filter3016)" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="7.433069" height="16" viewBox="0 0 7.433069 16">
+<defs>
+<image id="source-8" x="0" y="0" width="8" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAQCAYAAAArij59AAAABmJLR0QA/wD/AP+gvaeTAAAAXklEQVQokWNgIAAY/z+25GTgZZ7KwMggwvCXIYdR6MgjZAUsDHwswQz//ycy/GdgYGBmvMvAwFCIrICJ4S/jRQYGhh8MDAz/GRgYTmK15/9XW8n/n2zUCLlnFNAUAADhghRJT+7IlgAAAABJRU5ErkJggg=="/>
+<image id="source-14" x="0" y="0" width="8" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAQCAYAAAArij59AAAABmJLR0QA/wD/AP+gvaeTAAAAWElEQVQokWNgGAWDBTD+f+HGzcDxbTYDA6MwAwNjBqPAofvICpgYOL8FMTAwRDIw/HdjYPyXj24CEwMT41kGBoavDAwM/xj+Mx7Gas//z7ai/99byWOTAwDVKxN0FPCcqQAAAABJRU5ErkJggg=="/>
+</defs>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 0 1.007812 L 1.007812 0 L 6.535156 0.015625 L 7.433594 1.007812 L 7.433594 16 L 0 16 Z M 0 1.007812 "/>
+<use xlink:href="#source-8"/>
+<use xlink:href="#source-14"/>
 </svg>

@@ -454,6 +454,39 @@ CREATE OR REPLACE VIEW railway_signals AS
     width,
     deactivated,
     CASE
+
+      -- AT --
+
+      -- AT shunting light signals (Verschubverbot)
+      WHEN feature = 'AT-V2:verschubsignal' AND shunting_form = 'light' THEN 'at:verschubverbot-aufgehoben'
+
+      -- AT minor light signals (Sperrsignale) as sign
+      WHEN feature = 'AT-V2:weiterfahrt_verboten' AND minor_form = 'sign' THEN 'at:weiterfahrt-verboten'
+
+      -- AT minor light signals (Sperrsignale) as semaphore signals
+      WHEN feature = 'AT-V2:sperrsignal' AND minor_form = 'semaphore' THEN 'at:weiterfahrt-erlaubt'
+
+      -- AT distant light signals
+      WHEN feature = 'AT-V2:vorsignal' AND distant_form = 'light' THEN
+        CASE
+          WHEN distant_states ~ '^(.*;)?AT-V2:hauptsignal_frei_mit_60(;.*)?$' THEN 'at:vorsignal-hauptsignal-frei-mit-60'
+          WHEN distant_states ~ '^(.*;)?AT-V2:hauptsignal_frei_mit_(2|4)0(;.*)?$' THEN 'at:vorsignal-hauptsignal-frei-mit-40'
+          WHEN distant_states ~ '^(.*;)?AT-V2:hauptsignal_frei(;.*)?$' THEN 'at:vorsignal-hauptsignal-frei'
+          ELSE 'at:vorsignal-vorsicht'
+        END
+
+      -- AT distant semaphore signals
+      WHEN feature = 'AT-V2:vorsignal' AND distant_form = 'semaphore' THEN 'at:vorsicht-semaphore'
+
+      -- AT main light signals
+      WHEN feature = 'AT-V2:hauptsignal' AND main_form = 'light' THEN
+        CASE
+          WHEN main_states ~ '^(.*;)?AT-V2:frei_mit_60(;.*)?$' THEN 'at:hauptsignal-frei-mit-60'
+          WHEN main_states ~ '^(.*;)?AT-V2:frei_mit_(2|4)0(;.*)?$' THEN 'at:hauptsignal-frei-mit-40'
+          WHEN main_states ~ '^(.*;)?AT-V2:frei(;.*)?$' THEN 'at:hauptsignal-frei'
+          ELSE 'at:hauptsignal-halt'
+        END
+
       -- DE --
 
       -- DE crossing distant sign Bü 2
@@ -627,7 +660,7 @@ CREATE OR REPLACE VIEW railway_signals AS
       -- AT main semaphore signal "Hauptsignal"
       WHEN feature IN ('DE-ESO:hp', 'AT-V2:hauptsignal') AND main_form = 'semaphore' THEN
         CASE
-          WHEN main_states ~ '^(.*;)?(DE-ESO:hp2|AT-V2:frei_mit_40|AT-V2:frei_mit_20)(;.*)?$' THEN 'de:hp2-semaphore'
+          WHEN main_states ~ '^(.*;)?(DE-ESO:hp2|AT-V2:frei_mit_(4|2)0)(;.*)?$' THEN 'de:hp2-semaphore'
           WHEN main_states ~ '^(.*;)?(DE-ESO:hp1|AT-V2:frei)(;.*)?$' THEN 'de:hp1-semaphore'
           ELSE 'de:hp0-semaphore'
         END
@@ -644,15 +677,15 @@ CREATE OR REPLACE VIEW railway_signals AS
       WHEN feature = 'DE-ESO:hl' AND main_form = 'light' THEN
         CASE
           WHEN main_form IS NULL AND distant_form = 'light' AND combined_form IS NULL THEN 'de:hl1-distant'
-          WHEN main_form = 'light' AND distant_form = 'light' AND combined_form IS NULL THEN
+          WHEN main_form = 'light' AND distant_form IS NULL AND combined_form IS NULL THEN
             CASE
-              WHEN combined_states ~ '^(.*;)?DE-ESO:hl2(;.*)?$' THEN 'de:hl2'
-              WHEN combined_states ~ '^(.*;)?DE-ESO:hl3b(;.*)?$' THEN 'de:hl3b'
-              WHEN combined_states ~ '^(.*;)?DE-ESO:hl3a(;.*)?$' THEN 'de:hl3a'
-              WHEN combined_states ~ '^(.*;)?DE-ESO:hl1(;.*)?$' THEN 'de:hl1'
+              WHEN main_states ~ '^(.*;)?DE-ESO:hl2(;.*)?$' THEN 'de:hl2'
+              WHEN main_states ~ '^(.*;)?DE-ESO:hl3b(;.*)?$' THEN 'de:hl3b'
+              WHEN main_states ~ '^(.*;)?DE-ESO:hl3a(;.*)?$' THEN 'de:hl3a'
+              WHEN main_states ~ '^(.*;)?DE-ESO:hl1(;.*)?$' THEN 'de:hl1'
               ELSE 'de:hl0'
             END
-          WHEN main_form = 'light' AND distant_form = 'light' AND combined_form IS NULL THEN
+          WHEN main_form IS NULL AND distant_form IS NULL AND combined_form = 'light' THEN
             CASE
               WHEN combined_states ~ '^(.*;)?DE-ESO:hl11(;.*)?$' THEN 'de:hl11'
               WHEN combined_states ~ '^(.*;)?DE-ESO:hl12b(;.*)?$' THEN 'de:hl12b'
@@ -674,9 +707,9 @@ CREATE OR REPLACE VIEW railway_signals AS
       -- DE tram main signal "Fahrsignal"
       WHEN feature IN ('DE-AVG:f', 'DE-BOStrab:f') AND main_form = 'light' THEN
         CASE
-          WHEN combined_states ~ '^(.*;)?DE-BOStrab:f3(;.*)?$' THEN 'de:bostrab/f3'
-          WHEN combined_states ~ '^(.*;)?DE-BOStrab:f2(;.*)?$' THEN 'de:bostrab/f2'
-          WHEN combined_states ~ '^(.*;)?DE-BOStrab:f1(;.*)?$' THEN 'de:bostrab/f1'
+          WHEN main_states ~ '^(.*;)?DE-BOStrab:f3(;.*)?$' THEN 'de:bostrab/f3'
+          WHEN main_states ~ '^(.*;)?DE-BOStrab:f2(;.*)?$' THEN 'de:bostrab/f2'
+          WHEN main_states ~ '^(.*;)?DE-BOStrab:f1(;.*)?$' THEN 'de:bostrab/f1'
           ELSE 'de:bostrab/f0'
         END
 
@@ -755,8 +788,6 @@ CREATE OR REPLACE VIEW railway_signals AS
           WHEN feature = 'NL:227b' AND train_protection_shape = 'triangle' THEN 'general:etcs-stop-marker-arrow-left'
           ELSE 'general:etcs-stop-marker-triangle-left'
         END
-
-      -- AT --
 
       -- FI --
 

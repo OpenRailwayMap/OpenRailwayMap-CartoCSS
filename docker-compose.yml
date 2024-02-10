@@ -58,7 +58,9 @@ services:
       '-c',
       # --min-zoom 8 --max-zoom 9
       # railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text
-      'martin-cp --config /config/configuration.yml --min-zoom 0 --max-zoom 14 "--bbox=3,50,7,54" --source railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text --output-file /tiles/tiles.mbtiles --on-duplicate override'
+      # NL: --bbox=3,50,7,54
+      # FI: --bbox=21,60,30,65
+      'martin-cp --config /config/configuration.yml --min-zoom 0 --max-zoom 14 "--bbox=21,60,30,65" --source railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text --output-file /tiles/tiles.mbtiles --on-duplicate override'
     ]
     volumes:
       - ./martin:/config

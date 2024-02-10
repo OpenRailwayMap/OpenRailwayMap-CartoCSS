@@ -25,26 +25,6 @@
 
 <script src="js/maplibre-gl-3.6.js"></script>
 <script>
-  let center = [6.8788, 52.2309];
-  let zoom = 14;
-  try {
-    const localZoom = localStorage.getItem('zoom')
-    if (localZoom) {
-      zoom = parseFloat(localZoom);
-    }
-  } catch (e) {
-    console.error('Error while parsing local storage zoom level', e)
-  }
-  try {
-    const localCenter = localStorage.getItem('center')
-    if (localCenter) {
-      center = JSON.parse(localCenter);
-    }
-  } catch (e) {
-    console.error('Error while parsing local storage center', e)
-  }
-
-
   const railwayLineWidth = ['step', ['zoom'],
     ['case',
       ['all',
@@ -398,8 +378,8 @@
   });
 
   const style = {
-    center,
-    zoom,
+    center: [6.8788, 52.2309], // default
+    zoom: 14, // default
     glyphs: "http://localhost:8000/font/{fontstack}/{range}",
     metadata: {},
     name: 'OpenRailwayMap',
@@ -751,20 +731,7 @@
   const map = new maplibregl.Map({
     container: 'map',
     style,
-  });
-
-  const onMoveZoom = () => {
-    localStorage.setItem('zoom', map.getZoom());
-    localStorage.setItem('center', JSON.stringify([map.getCenter().lng, map.getCenter().lat]));
-  };
-  // const onMissingImage = (q) => {
-  //   console.info(q);
-  //   return map.getImage('general:unknown');
-  // }
-  map.on('load', () => {
-    map.on('moveend', onMoveZoom)
-    map.on('zoomend', onMoveZoom)
-    // map.on('styleimagemissing', onMissingImage)
+    hash: true,
   });
 </script>
 </body>

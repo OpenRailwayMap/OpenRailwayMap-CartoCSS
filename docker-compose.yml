@@ -71,14 +71,8 @@ services:
       - DATABASE_URL=postgresql://postgres@db:5432/gis
 
   martin:
-    image: ghcr.io/maplibre/martin
-    command:
-      [ '--config', '/config/configuration.yml', '--sprite', '/symbols/nl', '--sprite', '/symbols/de', '--sprite', '/symbols/at', '--sprite', '/symbols/fi', '--sprite', '/symbols/general', '--sprite', '/symbols/flex', '--font', '/config/fonts' ]
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./martin:/config
-      - ./symbols:/symbols
+    build:
+      dockerfile: martin.Dockerfile
     depends_on:
       - db
     environment:
@@ -96,11 +90,7 @@ services:
       - ./tiles:/tiles
 
   martin-proxy:
-    image: nginx
+    build:
+      dockerfile: proxy.Dockerfile
     ports:
       - '8000:8000'
-    volumes:
-      - ./proxy/proxy.conf:/etc/nginx/conf.d/proxy.conf
-      - ./proxy/index.html:/etc/nginx/public/index.html
-      - ./proxy/js:/etc/nginx/public/js
-      - ./proxy/css:/etc/nginx/public/css

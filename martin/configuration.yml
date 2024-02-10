@@ -144,41 +144,11 @@ postgres:
       properties:
         railway: string
         ref: string
+        ref_multiline: string
+        height: integer
+        width: integer
         feature: string
-        departure_form: string
-        main_form: string
-        main_repeated_form: string
-        main_repeated_states: string
-        speed_limit_form: string
-        speed_limit_states: string
-        main_height: string
-        main_states: string
-        station_distant_form: string
-        stop_demand_form: string
-        stop_form: string
-        minor_form: string
-        minor_height: string
-        minor_states: string
-        passing_form: string
-        passing_type: string
-        ring_only_transit: string
-        shunting_form: string
-        distant_form: string
-        distant_repeated: string
-        distant_shortened: string
-        humping_form: string
-        train_protection_shape: string
-        train_protection_form: string
-        train_protection_type: string
         deactivated: string
-        combined_form: string
-        combined_shortened: string
-        crossing_distant_shortened: string
-        crossing_form: string
-        crossing_repeated: string
-        crossing_shortened: string
-        wrong_road: string
-        wrong_road_form: string
 
     signal_boxes_point:
       schema: public

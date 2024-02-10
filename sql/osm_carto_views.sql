@@ -739,6 +739,48 @@ CREATE OR REPLACE VIEW railway_signals AS
         END
 
 
+      -- FI --
+
+      -- FI crossing signal To
+      WHEN feature = 'FI:To' AND crossing_form = 'light' THEN 'fi:to1'
+
+      -- FI shunting light signals type Ro (new)
+      WHEN feature = 'FI:Ro' AND shunting_form = 'light' AND shunting_states ~ '^(.*;)?FI:Ro0(;.*)?$' THEN 'fi:ro0-new'
+
+      -- FI minor light signals type Lo at moveable bridges
+      WHEN feature = 'FI:Lo' AND minor_form = 'light' AND shunting_states ~ '^(.*;)?FI:Lo0(;.*)?$' THEN 'fi:lo0'
+
+      -- FI distant light signals
+      WHEN feature = 'FI:Eo' AND distant_form = 'light' AND distant_repeated != 'yes' THEN
+        CASE
+          WHEN distant_states ~ '^(.*;)?FI:Eo2(;.*)?$' THEN 'fi:eo2-new'
+          WHEN distant_states ~ '^(.*;)?FI:Eo1(;.*)?$' THEN 'fi:eo1-new'
+          ELSE 'fi:eo0-new'
+        END
+      WHEN feature = 'FI:Eo-v' AND distant_form = 'light' AND distant_repeated != 'yes' THEN
+        CASE
+          WHEN distant_states ~ '^(.*;)?FI:Eo1(;.*)?$' THEN 'fi:eo1-old'
+          ELSE 'fi:eo0-old'
+        END
+
+      -- FI main light signals
+      WHEN feature = 'FI:Po' AND main_form = 'light' THEN
+        CASE
+          WHEN main_states ~ '^(.*;)?FI:Po2(;.*)?$' THEN 'fi:po2-new'
+          WHEN main_states ~ '^(.*;)?FI:Po1(;.*)?$' THEN 'fi:po1-new'
+          ELSE 'fi:po0-new'
+        END
+      WHEN feature = 'FI:Po-v' AND main_form = 'light' THEN
+        CASE
+          WHEN main_states ~ '^(.*;)?FI:Po2(;.*)?$' THEN 'fi:po2-old'
+          WHEN main_states ~ '^(.*;)?FI:Po1(;.*)?$' THEN 'fi:po1-old'
+          ELSE 'fi:po0-old'
+        END
+
+      -- FI combined block signal type So
+      WHEN feature = 'FI:So' AND combined_form = 'light' AND combined_states ~ '^(.*;)?FI:Po1(;.*)?$' AND combined_states ~ '^(.*;)?FI:Eo1(;.*)?$' THEN 'fi:eo1-po1-combined-block'
+
+
       -- NL --
 
       -- NL departure signals
@@ -788,8 +830,6 @@ CREATE OR REPLACE VIEW railway_signals AS
           WHEN feature = 'NL:227b' AND train_protection_shape = 'triangle' THEN 'general:etcs-stop-marker-arrow-left'
           ELSE 'general:etcs-stop-marker-triangle-left'
         END
-
-      -- FI --
 
       ELSE ''
     END as feature

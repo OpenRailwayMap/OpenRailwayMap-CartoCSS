@@ -39,9 +39,8 @@ EOF
     export OSM2PGSQL_DATAFILE=${OSM2PGSQL_DATAFILE:-data.osm.pbf}
   fi
 
-  rm -f filtered.osm.pbf
   osmium tags-filter \
-    -o filtered.osm.pbf \
+    --output /tmp/filtered.osm.pbf \
     "$OSM2PGSQL_DATAFILE" \
     nwr/railway \
     nwr/disused:railway \
@@ -68,7 +67,7 @@ EOF
     --multi-geometry \
     --cache $OSM2PGSQL_CACHE \
     --number-processes $OSM2PGSQL_NUMPROC \
-    filtered.osm.pbf
+    /tmp/filtered.osm.pbf
 
   # Post processing imported data
   psql -d gis -f sql/osm_carto_views.sql && \

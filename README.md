@@ -22,6 +22,16 @@ There are a couple of smaller and larger differences to the MapCSS style:
 
 See [SETUP.md](SETUP.md) for details.
 
+## Architecture
+
+- maplibre GL JS: visualization raster + vector map tiles 
+- martin for vector tiles, mbtiles for tlies packaging
+- postgres + postgis + osm2psql
+- docker for building/packaging and development environment
+- fly.io deployment 
+
+all self contained in one repository
+
 ## License
 
 Copyright ⓒ 2024 Hidde Wieringa

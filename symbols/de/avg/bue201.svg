@@ -1,117 +1,56 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="16"
-   height="46.102783"
-   viewBox="0 0 16 46.102785"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="Bue201.svg">
-  <defs
-     id="defs4" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="11.201649"
-     inkscape:cy="20.401125"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     units="px"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0" />
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-1020.3622)">
-    <rect
-       style="opacity:1;fill:#838383;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4136"
-       width="16"
-       height="32"
-       x="0"
-       y="1020.3622" />
-    <circle
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4138"
-       cx="8"
-       cy="1044.3622"
-       r="7" />
-    <circle
-       r="7"
-       cy="-8"
-       cx="1028.3622"
-       id="circle4207"
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       transform="matrix(0,1,-1,0,0,0)" />
-    <rect
-       style="opacity:0.95999995;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4202"
-       width="13.384521"
-       height="13.384521"
-       x="1.6515158"
-       y="1052.5804" />
-    <path
-       style="fill:#000000;fill-opacity:1;stroke:none"
-       d="m 3.4290839,1056.4774 0,5.873 2.751953,0 0.002,0 c 2.044885,0 2.259199,-2.1605 1.015625,-2.9355 1.243574,-0.7751 1.02926,-2.9375 -1.015625,-2.9375 l -0.002,0 z m 2.876953,0.6855 c 1.411775,0 1.257427,1.9277 0,1.9277 l -2.212884,0 0,-1.9257 2.212891,0 z m -2.212891,2.5762 c 0.779295,0 1.429705,0 2.209,0 1.257427,0 1.415659,1.9258 0.0039,1.9258 l -2.212891,0 z"
-       id="rect3931"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccscsccccccccccscc" />
-    <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none"
-       d="m 8.9525209,1056.4776 0,3.7569 c 0,1.0077 0.690489,2.1161 2.1796871,2.1161 1.489199,0 2.179688,-1.1084 2.179688,-2.1161 l 0,-3.7569 -0.859375,0 0,3.4983 c 0,1.2022 -0.671284,1.4524 -1.320313,1.4582 -0.649028,-0.01 -1.3203121,-0.256 -1.3203121,-1.4582 l 0,-3.4983 z"
-       id="path4215"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cscsccscscc" />
-    <path
-       inkscape:connector-curvature="0"
-       style="opacity:0.95999995;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 10.038403,1055.1056 0.7513,0 0,0.7513 -0.7513,0 z"
-       id="rect4220" />
-    <g
-       id="g4225"
-       transform="translate(20.622908,-19.353553)">
-      <path
-         inkscape:connector-curvature="0"
-         style="opacity:0.95999995;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         d="m -9.1481944,1074.4592 0.7513008,0 0,0.7513 -0.7513008,0 z"
-         id="path4223" />
-    </g>
-    <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4140"
-       width="2.0535715"
-       height="10.267858"
-       x="7.1428571"
-       y="1039.4158" />
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="5.205759" height="15" viewBox="0 0 5.205759 15">
+<defs>
+<filter id="filter-remove-color" x="0%" y="0%" width="100%" height="100%">
+<feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+</filter>
+<mask id="mask-0">
+<g filter="url(#filter-remove-color)">
+<rect x="-0.520576" y="-1.5" width="6.246911" height="18" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-0">
+<rect x="0" y="0" width="6" height="15"/>
+</clipPath>
+<g id="source-5" clip-path="url(#clip-0)">
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="4" d="M 1.656819 1052.586107 L 15.031428 1052.586107 L 15.031428 1065.960717 L 1.656819 1065.960717 Z M 1.656819 1052.586107 " transform="matrix(0.32536, 0, 0, 0.32536, 0, -331.985006)"/>
+</g>
+<mask id="mask-1">
+<g filter="url(#filter-remove-color)">
+<rect x="-0.520576" y="-1.5" width="6.246911" height="18" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-1">
+<rect x="0" y="0" width="6" height="15"/>
+</clipPath>
+<g id="source-8" clip-path="url(#clip-1)">
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 3.265625 11.304688 L 3.511719 11.304688 L 3.511719 11.546875 L 3.265625 11.546875 Z M 3.265625 11.304688 "/>
+</g>
+<mask id="mask-2">
+<g filter="url(#filter-remove-color)">
+<rect x="-0.520576" y="-1.5" width="6.246911" height="18" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-2">
+<rect x="0" y="0" width="6" height="15"/>
+</clipPath>
+<g id="source-11" clip-path="url(#clip-2)">
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 3.734375 11.304688 L 3.976562 11.304688 L 3.976562 11.546875 L 3.734375 11.546875 Z M 3.734375 11.304688 "/>
+</g>
+</defs>
+<path fill-rule="nonzero" fill="rgb(51.372552%, 51.372552%, 51.372552%)" fill-opacity="1" d="M 0 0 L 5.207031 0 L 5.207031 10.410156 L 0 10.410156 Z M 0 0 "/>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 4.878906 7.808594 C 4.878906 9.066406 3.859375 10.085938 2.601562 10.085938 C 1.34375 10.085938 0.324219 9.066406 0.324219 7.808594 C 0.324219 6.550781 1.34375 5.53125 2.601562 5.53125 C 3.859375 5.53125 4.878906 6.550781 4.878906 7.808594 Z M 4.878906 7.808594 "/>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 2.601562 4.878906 C 1.34375 4.878906 0.324219 3.859375 0.324219 2.601562 C 0.324219 1.34375 1.34375 0.324219 2.601562 0.324219 C 3.859375 0.324219 4.878906 1.34375 4.878906 2.601562 C 4.878906 3.859375 3.859375 4.878906 2.601562 4.878906 Z M 2.601562 4.878906 "/>
+<g mask="url(#mask-0)">
+<use xlink:href="#source-5"/>
+</g>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 1.117188 11.75 L 1.117188 13.660156 L 2.011719 13.660156 C 2.675781 13.660156 2.746094 12.957031 2.34375 12.707031 C 2.746094 12.453125 2.675781 11.75 2.011719 11.75 Z M 2.050781 11.972656 C 2.511719 11.972656 2.460938 12.601562 2.050781 12.601562 L 1.332031 12.601562 L 1.332031 11.972656 Z M 1.332031 12.8125 C 1.585938 12.8125 1.796875 12.8125 2.050781 12.8125 C 2.460938 12.8125 2.511719 13.4375 2.050781 13.4375 L 1.332031 13.4375 Z M 1.332031 12.8125 "/>
+<path fill-rule="evenodd" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 2.914062 11.75 L 2.914062 12.972656 C 2.914062 13.300781 3.136719 13.660156 3.621094 13.660156 C 4.105469 13.660156 4.332031 13.300781 4.332031 12.972656 L 4.332031 11.75 L 4.050781 11.75 L 4.050781 12.890625 C 4.050781 13.28125 3.832031 13.359375 3.621094 13.363281 C 3.410156 13.359375 3.191406 13.28125 3.191406 12.890625 L 3.191406 11.75 Z M 2.914062 11.75 "/>
+<g mask="url(#mask-1)">
+<use xlink:href="#source-8"/>
+</g>
+<g mask="url(#mask-2)">
+<use xlink:href="#source-11"/>
+</g>
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" d="M 2.324219 6.199219 L 2.992188 6.199219 L 2.992188 9.539062 L 2.324219 9.539062 Z M 2.324219 6.199219 "/>
 </svg>

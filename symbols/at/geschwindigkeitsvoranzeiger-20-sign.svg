@@ -1,62 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1.1"
-   id="Ebene_1"
-   x="0px"
-   y="0px"
-   width="470"
-   height="409"
-   viewBox="0 0 470 409"
-   enable-background="new 0 0 600 600"
-   xml:space="preserve"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="geschwindigkeitsvoranzeiger-sign-20.svg"><metadata
-     id="metadata25"><rdf:RDF><cc:Work
-         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
-     id="defs23" /><sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="480"
-     id="namedview21"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:zoom="0.49666667"
-     inkscape:cx="374.5331"
-     inkscape:cy="558.35388"
-     inkscape:current-layer="Ebene_1" /><polygon
-     points="527,129 292,538 57,129 "
-     id="polygon7"
-     style="fill:#f39200"
-     transform="translate(-57,-129)" /><g
-     id="g11"
-     transform="translate(-57,-129)"><polygon
-       id="polygon13"
-       points="293.5,502 88,146 499,146 " /><path
-       inkscape:connector-curvature="0"
-       id="path15"
-       d="m 293.5,503 -0.433,-0.75 -205.933,-356.75 412.732,0 -0.434,0.75 L 293.5,503 Z M 88.866,146.5 293.5,501 498.134,146.5 l -409.268,0 z" /></g><path
-     stroke-miterlimit="10"
-     d="m 301.424,215.847 0,22.808 -127.75,0 c -0.177,-5.712 0.746,-11.206 2.769,-16.479 3.25,-8.701 8.458,-17.271 15.623,-25.708 7.163,-8.438 17.512,-18.193 31.047,-29.268 21.006,-17.225 35.2,-30.87 42.583,-40.935 7.383,-10.063 11.074,-19.578 11.074,-28.542 0,-9.404 -3.361,-17.336 -10.085,-23.796 -6.724,-6.46 -15.491,-9.69 -26.302,-9.69 -11.426,0 -20.566,3.428 -27.422,10.283 -6.856,6.855 -10.329,16.348 -10.415,28.477 l -24.39,-2.505 c 1.668,-18.193 7.954,-32.057 18.853,-41.594 10.897,-9.536 25.531,-14.304 43.901,-14.304 18.544,0 33.223,5.142 44.033,15.425 10.81,10.283 16.217,23.028 16.217,38.232 0,7.735 -1.582,15.338 -4.746,22.808 -3.164,7.471 -8.417,15.338 -15.755,23.599 -7.34,8.262 -19.534,19.601 -36.585,34.014 -14.238,11.954 -23.38,20.062 -27.422,24.324 -4.043,4.264 -7.383,8.548 -10.02,12.854 l 94.792,0 z"
-     id="path19"
-     inkscape:connector-curvature="0"
-     style="fill:#f39200;stroke:none;stroke-width:2;stroke-miterlimit:10" /></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17.237164" height="15" viewBox="0 0 17.237164 15">
+<path fill-rule="nonzero" fill="rgb(95.294118%, 57.254905%, 0%)" fill-opacity="1" d="M 17.238281 0 L 8.617188 15 L 0 0 Z M 17.238281 0 "/>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 8.671875 13.679688 L 1.136719 0.625 L 16.210938 0.625 Z M 8.671875 13.679688 "/>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 8.671875 13.714844 L 8.65625 13.6875 L 1.105469 0.605469 L 16.242188 0.605469 L 16.226562 0.632812 Z M 1.167969 0.640625 L 8.671875 13.644531 L 16.179688 0.640625 Z M 1.167969 0.640625 "/>
+<path fill-rule="nonzero" fill="rgb(95.294118%, 57.254905%, 0%)" fill-opacity="1" d="M 11.054688 7.917969 L 11.054688 8.753906 L 6.371094 8.753906 C 6.363281 8.542969 6.398438 8.339844 6.472656 8.148438 C 6.589844 7.828125 6.78125 7.515625 7.042969 7.207031 C 7.308594 6.894531 7.6875 6.539062 8.183594 6.132812 C 8.953125 5.5 9.472656 5 9.746094 4.628906 C 10.015625 4.261719 10.152344 3.914062 10.152344 3.582031 C 10.152344 3.238281 10.027344 2.949219 9.78125 2.710938 C 9.535156 2.472656 9.210938 2.355469 8.816406 2.355469 C 8.398438 2.355469 8.0625 2.480469 7.808594 2.734375 C 7.558594 2.984375 7.429688 3.332031 7.429688 3.777344 L 6.535156 3.683594 C 6.59375 3.019531 6.824219 2.511719 7.226562 2.160156 C 7.625 1.808594 8.160156 1.636719 8.835938 1.636719 C 9.515625 1.636719 10.054688 1.824219 10.449219 2.203125 C 10.847656 2.578125 11.046875 3.046875 11.046875 3.601562 C 11.046875 3.886719 10.988281 4.164062 10.871094 4.441406 C 10.753906 4.714844 10.5625 5.003906 10.292969 5.304688 C 10.023438 5.609375 9.578125 6.023438 8.953125 6.554688 C 8.429688 6.992188 8.09375 7.289062 7.945312 7.445312 C 7.796875 7.601562 7.675781 7.757812 7.578125 7.917969 Z M 11.054688 7.917969 "/>
+</svg>

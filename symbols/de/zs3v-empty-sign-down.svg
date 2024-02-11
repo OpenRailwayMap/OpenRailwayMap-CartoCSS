@@ -1,86 +1,37 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="280.82001"
-   height="245.25999"
-   id="svg2984"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="zs3v-empty-sign-down.svg"
-   inkscape:export-filename="/home/michael/Entwicklung/OpenRailwayMap/styles/icons/de/zs3v-empty-sign-down-44.png"
-   inkscape:export-xdpi="14.1"
-   inkscape:export-ydpi="14.1">
-  <defs
-     id="defs2986" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.70000001"
-     inkscape:cx="208.7708"
-     inkscape:cy="196.47288"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer3"
-     showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="716"
-     inkscape:window-x="0"
-     inkscape:window-y="30"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata2989">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-807.10217)" />
-  <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Schild+Rahmen"
-     transform="translate(0,-807.10217)">
-    <path
-       style="color:#000000;fill:#000000;fill-opacity:1;stroke:#e6f445;stroke-width:14.25825405;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible"
-       d="m 273.00267,814.23195 -265.873543,0 133.368523,231.00115 133.18552,-230.68383"
-       id="path3047"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer3"
-     inkscape:label="Ziffer"
-     transform="translate(0,-807.10217)">
-    <path
-       style="opacity:0.95999995;fill:#e6f445;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 141.72839,840.96649 c -22.46105,-2.4e-4 -40.66937,18.2081 -40.66913,40.66914 l 14.8108,0 c 3.2e-4,-14.28059 11.57775,-25.85678 25.85833,-25.85556 14.27949,3.2e-4 25.85523,11.57607 25.85556,25.85556 0,9.43598 -5.78015,18.28068 -12.10249,21.93088 -17.26504,9.96799 -20.34429,27.24503 -20.34429,35.06872 l 0,8.95168 14.81356,0 0,-8.95168 c 5e-5,-7.7007 2.72428,-16.43552 13.88112,-23.06922 11.15684,-6.63372 18.54342,-19.76762 18.5629,-33.93038 2.3e-4,-22.45996 -18.2064,-40.66784 -40.66636,-40.66914 z"
-       id="path4185"
-       inkscape:connector-curvature="0" />
-    <path
-       style="opacity:0.95999995;fill:#e6f445;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 135.13717,957.6633 0,15.36677 14.81356,0 0,-15.36677 -14.81356,0 z"
-       id="path4135"
-       inkscape:connector-curvature="0" />
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17.174836" height="15" viewBox="0 0 17.174836 15">
+<defs>
+<filter id="filter-remove-color" x="0%" y="0%" width="100%" height="100%">
+<feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+</filter>
+<mask id="mask-0">
+<g filter="url(#filter-remove-color)">
+<rect x="-1.717484" y="-1.5" width="20.609803" height="18" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-0">
+<rect x="0" y="0" width="18" height="15"/>
+</clipPath>
+<g id="source-5" clip-path="url(#clip-0)">
+<path fill-rule="nonzero" fill="rgb(90.196079%, 95.686275%, 27.058825%)" fill-opacity="1" d="M 8.667969 2.070312 C 7.292969 2.070312 6.179688 3.183594 6.179688 4.558594 L 7.085938 4.558594 C 7.085938 3.683594 7.792969 2.976562 8.667969 2.976562 C 9.542969 2.976562 10.25 3.683594 10.25 4.558594 C 10.25 5.136719 9.894531 5.675781 9.507812 5.898438 C 8.453125 6.507812 8.265625 7.566406 8.265625 8.042969 L 8.265625 8.59375 L 9.171875 8.59375 L 9.171875 8.042969 C 9.171875 7.574219 9.335938 7.039062 10.019531 6.632812 C 10.703125 6.226562 11.152344 5.425781 11.15625 4.558594 C 11.15625 3.183594 10.042969 2.070312 8.667969 2.070312 Z M 8.667969 2.070312 "/>
+</g>
+<mask id="mask-1">
+<g filter="url(#filter-remove-color)">
+<rect x="-1.717484" y="-1.5" width="20.609803" height="18" fill="rgb(0%, 0%, 0%)" fill-opacity="0.96"/>
+</g>
+</mask>
+<clipPath id="clip-1">
+<rect x="0" y="0" width="18" height="15"/>
+</clipPath>
+<g id="source-8" clip-path="url(#clip-1)">
+<path fill-rule="nonzero" fill="rgb(90.196079%, 95.686275%, 27.058825%)" fill-opacity="1" d="M 8.265625 9.207031 L 8.265625 10.148438 L 9.171875 10.148438 L 9.171875 9.207031 Z M 8.265625 9.207031 "/>
+</g>
+</defs>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" stroke-width="14.258254" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(90.196079%, 95.686275%, 27.058825%)" stroke-opacity="1" stroke-miterlimit="4" d="M 272.979483 814.255589 L 7.153417 814.255589 L 140.513539 1045.208751 L 273.682051 814.574938 " transform="matrix(0.0611596, 0, 0, 0.0611596, 0, -49.362036)"/>
+<g mask="url(#mask-0)">
+<use xlink:href="#source-5" transform="matrix(1, 0, 0, 1, 0, 0)"/>
+</g>
+<g mask="url(#mask-1)">
+<use xlink:href="#source-8" transform="matrix(1, 0, 0, 1, 0, 0)"/>
+</g>
 </svg>

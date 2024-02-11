@@ -1,17 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="280px" height="246px" viewBox="0 0 280 246" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <title>Slice 1</title>
-    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
-    <defs>
-        <path id="path-1" d="M7.129127,7.12978 L140.49765,238.13093 L273.68317,7.4471 L7.129127,7.12978 Z"></path>
-    </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="path3047">
-            <use stroke="#E6F445" stroke-width="14.258254" stroke-linecap="round" stroke-linejoin="round" fill="#000000" fill-rule="evenodd" sketch:type="MSShapeGroup" xlink:href="#path-1"></use>
-            <use stroke="none" fill="none" xlink:href="#path-1"></use>
-            <use stroke="none" fill="none" xlink:href="#path-1"></use>
-        </g>
-        <path d="M111.283346,31 L97,45.9293402 L97,69.3925352 L111.071972,54.2614078 L111.071972,143.999996 L126.277423,143.999996 L126.277423,31 L111.283346,31 L111.283346,31 Z" id="rect4089" fill="#E6F445" sketch:type="MSShapeGroup"></path>
-        <path d="M159.283347,31 L145,45.9293402 L145,69.3925352 L159.071972,54.2614078 L159.071972,143.999996 L174.277424,143.999996 L174.277424,31 L159.283347,31 L159.283347,31 Z" id="rect4089" fill="#E6F445" sketch:type="MSShapeGroup"></path>
-    </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17.073171" height="15" viewBox="0 0 17.073171 15">
+<path fill-rule="evenodd" fill="rgb(0%, 0%, 0%)" fill-opacity="1" stroke-width="14.258254" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(90.196079%, 95.686275%, 27.058825%)" stroke-opacity="1" stroke-miterlimit="4" d="M 7.110937 7.110938 L 140.489062 238.120313 L 273.675 7.43125 Z M 7.110937 7.110938 " transform="matrix(0.0609756, 0, 0, 0.0609756, 0, 0)"/>
+<path fill-rule="evenodd" fill="rgb(90.196079%, 95.686275%, 27.058825%)" fill-opacity="1" d="M 6.785156 1.890625 L 5.914062 2.800781 L 5.914062 4.230469 L 6.773438 3.308594 L 6.773438 8.78125 L 7.699219 8.78125 L 7.699219 1.890625 Z M 6.785156 1.890625 "/>
+<path fill-rule="evenodd" fill="rgb(90.196079%, 95.686275%, 27.058825%)" fill-opacity="1" d="M 9.710938 1.890625 L 8.839844 2.800781 L 8.839844 4.230469 L 9.699219 3.308594 L 9.699219 8.78125 L 10.625 8.78125 L 10.625 1.890625 Z M 9.710938 1.890625 "/>
 </svg>

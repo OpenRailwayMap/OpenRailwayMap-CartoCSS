@@ -813,7 +813,7 @@ CREATE OR REPLACE VIEW railway_signals AS
           WHEN distant_form = 'light' AND speed_limit_form = 'light' THEN 'nl:distant_light_speed_limit'
 
           -- NL main light
-          WHEN main_form = 'light' THEN 'nl:distant_light_speed_limit'
+          WHEN main_form = 'light' THEN 'nl:main_light'
           WHEN speed_limit_form = 'light' THEN 'nl:speed_limit_light'
           ELSE ''
         END

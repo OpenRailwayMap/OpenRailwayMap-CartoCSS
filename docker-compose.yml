@@ -79,18 +79,16 @@ services:
       - DATABASE_URL=postgresql://postgres@db:5432/gis
 
   martin-static:
-    image: ghcr.io/maplibre/martin
-    command:
-      [ '/tiles', '--sprite', '/symbols/nl', '--sprite', '/symbols/de', '--sprite', '/symbols/at', '--sprite', '/symbols/fi', '--sprite', '/symbols/general', '--sprite', '/symbols/flex', '--font', '/config/fonts' ]
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./martin:/config
-      - ./symbols:/symbols
-      - ./tiles:/tiles
+    build:
+      dockerfile: martin-static.Dockerfile
 
   martin-proxy:
     build:
       dockerfile: proxy.Dockerfile
     ports:
       - '8000:8000'
+    environment:
+      PROXY_UPSTREAM: martin:3000
+      PUBLIC_PROTOCOL: http
+      PUBLIC_HOST: localhost:8000
+      NGINX_RESOLVER: '127.0.0.11 ipv6=off'

@@ -1,12 +1,18 @@
+resolver ${NGINX_RESOLVER};
+
 proxy_cache_path /var/cache/nginx/
                  levels=1:2
                  max_size=10g
                  use_temp_path=off
-                 keys_zone=cache:100m;
+                 keys_zone=cache:50m;
 
 server {
   listen 8000 default_server;
   server_name localhost;
+
+  location = / {
+    root /etc/nginx/public;
+  }
 
   location = /index.html {
     root /etc/nginx/public;
@@ -29,21 +35,24 @@ server {
   }
 
   location / {
-    proxy_pass http://martin-static:3000;
+    rewrite ^/tiles$ /railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text last;
+
+    proxy_pass http://${PROXY_UPSTREAM};
     proxy_http_version 1.1;
     proxy_cache cache;
     proxy_cache_valid 10m;
     proxy_cache_lock on;
     proxy_cache_revalidate on;
-    proxy_cache_valid 200 204 302 1m; # 1h
-    proxy_cache_valid 404 1m;
+    proxy_cache_valid 200 204 302 1d;
+    proxy_cache_valid 404 10m;
     proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
     proxy_set_header X-Rewrite-URL $uri;
-    proxy_set_header X-Forwarded-Host $host:$server_port;
-    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host ${PUBLIC_HOST};
+    proxy_set_header X-Forwarded-Proto ${PUBLIC_PROTOCOL};
     proxy_redirect off;
 
     add_header X-Cache-Status $upstream_cache_status;
-    # add_header Cache-Control "public, max-age=600";
+    # add_header Cache-Control "public, max-age=8182, stale-while-revalidate=604800, stale-if-error=604800";
+    add_header Cache-Control "public, max-age=0";
   }
 }

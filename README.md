@@ -24,10 +24,13 @@ See [SETUP.md](SETUP.md) for details.
 
 ## License
 
-Copyright (C) 2017–2019 Michael Reichert
+Copyright ⓒ 2024 Hidde Wieringa
 
-The [original map style](https://github.com/OpenRailwayMap/OpenRailwayMap/tree/master/styles)
-is Copyright (C) 2012 Alexander Matheisen
+The [original map style (CartoCSS)](https://github.com/OpenRailwayMap/OpenRailwayMap-CartoCSS/)
+is copyright ⓒ 2017–2019 Michael Reichert
+
+The [original map style (MapCSS)](https://github.com/OpenRailwayMap/OpenRailwayMap/tree/master/styles)
+is Copyright ⓒ 2012 Alexander Matheisen
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

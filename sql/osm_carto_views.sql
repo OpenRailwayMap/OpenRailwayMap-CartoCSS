@@ -74,156 +74,51 @@ CREATE OR REPLACE VIEW openrailwaymap_osm_signals AS
     tags AS tags
   FROM planet_osm_point;
 
-CREATE OR REPLACE VIEW railway_line_casing AS
+CREATE OR REPLACE VIEW railway_line AS
   SELECT
-    way, railway, usage, service,
-    disused, construction,
-    disused_railway,
-    construction_railway,
-    CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
-          WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
-          WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
-          WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
-          WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
-          WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
-          WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
-          WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
-          WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
-          WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
-          WHEN railway IN ('preserved', 'construction') THEN 400
-          WHEN railway = 'disused' THEN 300
-          ELSE 50
-    END AS rank
-  FROM
-    (SELECT
-        way, railway, usage, service,
-        tags->'disused' AS disused, construction,
-        tags->'disused:railway' AS disused_railway,
-        tags->'construction:railway' AS construction_railway,
-        layer
-      FROM openrailwaymap_osm_line
-      WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction')
-    ) AS r
-  ORDER by layer, rank NULLS LAST;
-
-CREATE OR REPLACE VIEW railway_line_low AS
-  SELECT
-    way, railway, usage,
-    NULL AS service,
-    NULL AS disused, NULL AS construction,
-    NULL AS disused_railway,
-    NULL AS construction_railway,
-    NULL AS disused_usage, NULL AS disused_service,
-    NULL AS construction_usage, NULL AS construction_service,
-    NULL AS preserved_railway, NULL AS preserved_service,
-    NULL AS preserved_usage,
-    pzb, lzb, zsi127, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, asfa, ptc, etcs, construction_etcs,
-    railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, asfa, ptc, zsi127, etcs, construction_etcs) AS rank
-  FROM
-    (SELECT
-        way, railway, usage,
-        tags->'railway:pzb' AS pzb,
-        railway_null_to_no(tags->'railway:lzb') AS lzb,
-        tags->'railway:zsi127' as zsi127,
-        tags->'railway:atb' AS atb,
-        tags->'railway:atb-eg' AS atb_eg,
-        tags->'railway:atb-ng' AS atb_ng,
-        tags->'railway:atb-vv' AS atb_vv,
-        tags->'railway:atc' AS atc,
-        tags->'railway:kvb' AS kvb,
-        tags->'railway:tvm' AS tvm,
-        tags->'railway:scmt' AS scmt,
-        tags->'railway:asfa' AS asfa,
-        railway_null_or_zero_to_no(tags->'railway:ptc') AS ptc,
-        railway_null_or_zero_to_no(tags->'railway:etcs') AS etcs,
-        railway_null_or_zero_to_no(tags->'construction:railway:etcs') AS construction_etcs
-      FROM openrailwaymap_osm_line
-      WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
-    ) AS r
-  ORDER BY
-    rank NULLS LAST;
-
-CREATE OR REPLACE VIEW railway_line_med AS
-  SELECT
-    way, railway, usage,
-    NULL AS service,
-    NULL AS disused, NULL AS construction,
-    NULL AS disused_railway,
-    NULL AS construction_railway,
-    NULL AS disused_usage, NULL AS disused_service,
-    NULL AS construction_usage, NULL AS construction_service,
-    NULL AS preserved_railway, NULL AS preserved_service,
-    NULL AS preserved_usage,
-    pzb, lzb, zsi127, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, asfa, ptc, etcs, construction_etcs,
-    railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, asfa, ptc, zsi127, etcs, construction_etcs) AS rank
-  FROM
-    (SELECT
-        way, railway, usage,
-        tags->'railway:pzb' AS pzb,
-        railway_null_to_no(tags->'railway:lzb') AS lzb,
-        tags->'railway:zsi127' AS zsi127,
-        tags->'railway:atb' AS atb,
-        tags->'railway:atb-eg' AS atb_eg,
-        tags->'railway:atb-ng' AS atb_ng,
-        tags->'railway:atb-vv' AS atb_vv,
-        tags->'railway:atc' AS atc,
-        tags->'railway:kvb' AS kvb,
-        tags->'railway:tvm' AS tvm,
-        tags->'railway:scmt' AS scmt,
-        tags->'railway:asfa' AS asfa,
-        railway_null_or_zero_to_no(tags->'railway:ptc') AS ptc,
-        railway_null_or_zero_to_no(tags->'railway:etcs') AS etcs,
-        railway_null_or_zero_to_no(tags->'construction:railway:etcs') AS construction_etcs
-      FROM openrailwaymap_osm_line
-      WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
-    ) AS r
-  ORDER BY
-    rank NULLS LAST;
-
-CREATE OR REPLACE VIEW railway_line_fill AS
-  SELECT
-    way, railway, usage, service,
-    disused, construction,
-    disused_railway,
-    construction_railway,
-    disused_usage, disused_service,
-    construction_usage, construction_service,
-    preserved_railway, preserved_service,
-    preserved_usage,
-    pzb, lzb, zsi127, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, asfa, ptc, etcs, construction_etcs,
-    railway_train_protection_rank(pzb, lzb, atb, atb_eg, atb_ng, atb_vv, atc, kvb, tvm, scmt, asfa, ptc, zsi127, etcs, construction_etcs) AS rank
-  FROM
-    (SELECT
-        way, railway, usage, service,
-        tags->'disused' AS disused, construction,
-        tags->'disused:railway' AS disused_railway,
-        tags->'construction:railway' AS construction_railway,
-        tags->'disused:usage' AS disused_usage, tags->'disused:service' AS disused_service,
-        tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
-        tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
-        tags->'preserved:usage' AS preserved_usage,
-        tags->'railway:pzb' AS pzb,
-        railway_null_to_no(tags->'railway:lzb') AS lzb,
-        tags->'railway:zsi127' AS zsi127,
-        tags->'railway:atb' AS atb,
-        tags->'railway:atb-eg' AS atb_eg,
-        tags->'railway:atb-ng' AS atb_ng,
-        tags->'railway:atb-vv' AS atb_vv,
-        tags->'railway:atc' AS atc,
-        tags->'railway:kvb' AS kvb,
-        tags->'railway:tvm' AS tvm,
-        tags->'railway:scmt' AS scmt,
-        tags->'railway:asfa' AS asfa,
-        railway_null_or_zero_to_no(tags->'railway:ptc') AS ptc,
-        railway_null_or_zero_to_no(tags->'railway:etcs') AS etcs,
-        railway_null_or_zero_to_no(tags->'construction:railway:etcs') AS construction_etcs,
-        layer
-      FROM openrailwaymap_osm_line
-      WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'construction', 'preserved')
-    ) AS r
-  ORDER BY
+    way,
+    railway,
+    usage,
+    service,
     layer,
-    rank NULLS LAST;
+    tags->'construction:railway' AS construction_railway,
+    railway_train_protection_rank(
+      tags->'railway:pzb',
+      railway_null_to_no(tags->'railway:lzb'),
+      tags->'railway:atb',
+      tags->'railway:atb-eg',
+      tags->'railway:atb-ng',
+      tags->'railway:atb-vv',
+      tags->'railway:atc',
+      tags->'railway:kvb',
+      tags->'railway:tvm',
+      tags->'railway:scmt',
+      tags->'railway:asfa',
+      railway_null_or_zero_to_no(tags->'railway:ptc'),
+      tags->'railway:zsi127',
+      railway_null_or_zero_to_no(tags->'railway:etcs'),
+      railway_null_or_zero_to_no(tags->'construction:railway:etcs')
+    ) as rank,
+    CASE
+      WHEN railway_null_or_zero_to_no(tags->'railway:etcs') != 'no' THEN 'etcs'
+      WHEN railway_null_or_zero_to_no(tags->'railway:ptc') != 'no' THEN 'ptc'
+      WHEN railway_null_or_zero_to_no(tags->'construction:railway:etcs') != 'no' THEN 'construction_etcs'
+      WHEN tags->'railway:asfa' = 'yes' THEN 'asfa'
+      WHEN tags->'railway:scmt' = 'yes' THEN 'scmt'
+      WHEN railway_null_or_zero_to_no(tags->'railway:tvm') != 'no' THEN 'tvm'
+      WHEN tags->'railway:kvb' = 'yes' THEN 'kvb'
+      WHEN tags->'railway:atc' = 'yes' THEN 'atc'
+      WHEN COALESCE(tags->'railway:atb', tags->'railway:atb-eg', tags->'railway:atb-ng', tags->'railway:atb-vv') = 'yes' THEN 'atb'
+      WHEN tags->'railway:zsi127' = 'yes' THEN 'zsi127'
+      WHEN tags->'railway:lzb' = 'yes' THEN 'lzb'
+      WHEN tags->'railway:pzb' = 'yes' THEN 'pzb'
+      WHEN (tags->'railway:pzb' = 'no' AND tags->'railway:lzb' = 'no' AND tags->'railway:etcs' = 'no') OR (tags->'railway:atb' = 'no' AND tags->'railway:etcs' = 'no') OR (tags->'railway:atc' = 'no' AND tags->'railway:etcs' = 'no') OR (tags->'railway:scmt' = 'no' AND tags->'railway:etcs' = 'no') OR (tags->'railway:asfa' = 'no' AND tags->'railway:etcs' = 'no') OR (tags->'railway:kvb' = 'no' AND tags->'railway:tvm' = 'no' AND tags->'railway:etcs' = 'no') OR (tags->'railway:zsi127' = 'no') THEN 'other'
+    END as train_protection
+    FROM openrailwaymap_osm_line
+    WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'disused', 'preserved', 'construction')
+    ORDER BY
+      COALESCE(layer, 0),
+      rank NULLS LAST;
 
 CREATE OR REPLACE VIEW signal_boxes_point AS
   SELECT
@@ -233,14 +128,6 @@ CREATE OR REPLACE VIEW signal_boxes_point AS
         way
       FROM openrailwaymap_osm_point
       WHERE railway = 'signal_box'
---     UNION ALL
---     -- include small signal box polygons as well
---     SELECT
---         ST_PointOnSurface(way) AS way
---       FROM openrailwaymap_osm_polygon
---       WHERE
---         railway = 'signal_box'
---         AND way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) < 24::real
   ) AS boxes;
 
 CREATE OR REPLACE VIEW signal_boxes_polygon AS
@@ -249,7 +136,6 @@ CREATE OR REPLACE VIEW signal_boxes_polygon AS
   FROM openrailwaymap_osm_polygon
   WHERE
     railway = 'signal_box'
-    --AND way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) >= 24
 ;
 
 CREATE OR REPLACE VIEW railway_signals AS
@@ -258,12 +144,6 @@ CREATE OR REPLACE VIEW railway_signals AS
       way,
       railway,
       ref,
-      array_to_string(ref_multiline, E'\n') AS ref_multiline,
-      array_length(ref_multiline, 1) AS height,
-      (
-        SELECT MAX(char_length(ref_ml))
-        FROM unnest(ref_multiline) AS u(ref_ml)
-      ) AS width,
       COALESCE(
           tags->'railway:signal:combined',
           tags->'railway:signal:main',
@@ -305,7 +185,7 @@ CREATE OR REPLACE VIEW railway_signals AS
           tags->'railway:signal:main_repeated:deactivated',
           tags->'railway:signal:humping:deactivated',
           tags->'railway:signal:speed_limit:deactivated'
-      ) AS deactivated,
+      ) = 'yes' AS deactivated,
       tags->'railway:signal:passing:caption' AS passing_caption,
       tags->'railway:signal:stop:caption' AS stop_caption,
       tags->'railway:signal:combined:deactivated' AS combined_deactivated,
@@ -449,9 +329,6 @@ CREATE OR REPLACE VIEW railway_signals AS
     way,
     railway,
     ref,
-    ref_multiline,
-    height,
-    width,
     deactivated,
     CASE
 
@@ -837,7 +714,6 @@ CREATE OR REPLACE VIEW railway_signals AS
   ORDER BY
     -- distant signals are less important, signals for slower speeds are more important
     (CASE
-      WHEN railway_has_key(tags, 'railway:signal:departure') THEN 15000
       WHEN railway_has_key(tags, 'railway:signal:main') THEN 10000
       WHEN railway_has_key(tags, 'railway:signal:combined') THEN 10000
       WHEN railway_has_key(tags, 'railway:signal:distant') THEN 9000
@@ -853,37 +729,24 @@ CREATE OR REPLACE VIEW railway_signals AS
       WHEN railway_has_key(tags, 'railway:signal:crossing_distant') THEN 500
       WHEN railway_has_key(tags, 'railway:signal:ring') THEN 500
       WHEN railway_has_key(tags, 'railway:signal:whistle') THEN 500
+      WHEN railway_has_key(tags, 'railway:signal:departure') THEN 400
       ELSE 0
     END) ASC NULLS FIRST;
 
 CREATE OR REPLACE VIEW signal_boxes_text AS
-  SELECT
-    way,
-    ref,
-    name,
---     is_point,
-    way_area
-  FROM (
-    SELECT
-        way,
-        tags->'railway:ref' AS ref,
-        name,
---         1::int AS is_point,
-        0::real AS way_area
-      FROM openrailwaymap_osm_point
-      WHERE railway = 'signal_box'
-    UNION ALL
-    SELECT
+    (SELECT
         ST_PointOnSurface(way) AS way,
         tags->'railway:ref' AS ref,
-        -- (way_area/NULLIF(POW(!scale_denominator!*0.001*0.28, 2),0))::text AS ref,
-        name,
---         CASE
---           WHEN way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) < 24::real THEN 1::int
---           ELSE 0::int
---         END AS is_point,
-        way_area
+        name
       FROM openrailwaymap_osm_polygon
       WHERE railway = 'signal_box'
-  ) AS pointpolygons
-  ORDER BY way_area DESC NULLS LAST;
+    ORDER BY way_area DESC NULLS LAST)
+
+    UNION ALL
+
+    (SELECT
+        way,
+        tags->'railway:ref' AS ref,
+        name
+      FROM openrailwaymap_osm_point
+      WHERE railway = 'signal_box');

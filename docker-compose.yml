@@ -56,11 +56,11 @@ services:
     command: [
       'sh',
       '-c',
-      # --min-zoom 8 --max-zoom 9
-      # railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text
-      # NL: --bbox=3,50,7,54
-      # FI: --bbox=21,60,30,65
-      'martin-cp --config /config/configuration.yml --min-zoom 0 --max-zoom 14 "--bbox=21,60,30,65" --source railway_line_casing,railway_line_low,railway_line_med,railway_line_fill,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text --output-file /tiles/tiles.mbtiles --on-duplicate override'
+      # AT: --bbox=9.52678,46.36851,17.16273,48.90201
+      # DE: --bbox=5.864417,47.26543,15.05078,55.14777
+      # FI: --bbox=19.02427,59.28783,31.6159,70.09959
+      # NL: --bbox=2.99,50.74753,7.230455,54.01786
+      'martin-cp --config /config/configuration.yml --mbtiles-type normalized --min-zoom 0 --max-zoom 14 "--bbox=2.99,50.74753,7.230455,54.01786" --source railway_line,railway_signals,signal_boxes_point,signal_boxes_polygon,signal_boxes_text --output-file /tiles/tiles.mbtiles --on-duplicate override'
     ]
     volumes:
       - ./martin:/config

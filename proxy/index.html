@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16x16.png">
 
+  <link rel="stylesheet" href="css/bootstrap-4.0.0.css">
   <link rel="stylesheet" href="css/maplibre-gl-3.6.css">
   <style>
       html,
@@ -17,18 +18,135 @@
           margin: 0;
       }
 
-      #map {
+      #map-container {
           width: 100vw;
           height: 100vh;
+      }
+      #map {
+          position: relative;
+          width: 100%;
+          height: 100%;
+      }
+
+      .search-container {
+          position: absolute;
+          z-index: 100;
+          padding: .5rem;
+          padding-right: 3rem;
+          background: transparent;
+          width: 400px;
+      }
+      .search-container input[type=search] {
+          padding: 6px;
+          font-family: sans-serif;
+          width: 14rem;
+      }
+      .search-container .input-group-append {
+          background-color: white;
+      }
+      #search-results {
+          display: none;
+          background-color: white;
+          padding: .3rem 0;
+          max-height: 300px;
+          overflow-y: auto;
+          border-bottom-left-radius: 2px;
+          border-bottom-right-radius: 2px;
+          box-shadow: 0 0 0 2px rgba(0,0,0,.1);
+      }
+      #search-results .result {
+          border-bottom: 1px solid #eee;
+          padding: 0 .5rem;
+          cursor: pointer;
+      }
+      #search-results .result:nth-child(2n) {
+          background: #f8f8f8;
+      }
+      #search-results .result:hover, #search-results .result:nth-child(2n):hover {
+          background: #eee;
+      }
+      .search-container .search-icon {
+          position: absolute;
+          top: 12px;
+          right: 14px;
+          z-index: 30;
+          cursor: pointer;
+      }
+      .search-container #cancel-icon {
+          display: none;
       }
   </style>
   <title>OpenRailwayMap</title>
 </head>
 
 <body>
-<div id="map"></div>
+<div id="map-container">
+  <div class="search-container">
+    <div class="input-group">
+      <input type="search" id="search" class="form-control" placeholder="Search..." autocomplete="no">
+      <svg role="presentation" onclick="searchFor(search.value)" id="search-icon" class='search-icon' viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="#57ae00" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+        <circle cx="14" cy="14" r="12" />
+        <path d="M23 23 L30 30" />
+      </svg>
+      <svg role="presentation" onclick="hideSearchResults()" id="cancel-icon" class="search-icon" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="#ae0000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path d="M4 4 L28 28" />
+        <path d="M4 28 L28 4" />
+      </svg>
+    </div>
+    <div id="search-results"></div>
+  </div>
+  <div id="map"></div>
+</div>
 
 <script src="js/maplibre-gl-3.6.js"></script>
+<script>
+  const search = document.getElementById('search');
+  const searchResults = document.getElementById('search-results');
+  const searchIcon = document.getElementById('search-icon');
+  const cancelIcon = document.getElementById('cancel-icon');
+  function searchFor(term) {
+    if (!term || term.length < 3) {
+      hideSearchResults();
+    } else {
+      // or ref=...
+      fetch(`https://api.openrailwaymap.org/v2/facility?name=${term}`)
+        .then(result => result.json())
+        .then(result => {
+          console.info('result', result, result.body)
+          showSearchResults(result)
+        })
+        .catch(error => {
+          hideSearchResults();
+          console.error(error);
+        });
+    }
+  }
+  function showSearchResults(results) {
+    let content = '';
+    if (results.length === 0) {
+      content += `<div class="result" onclick="hideSearchResults()"><i>No results</i></div>`
+    } else {
+      results.forEach(result => {
+        content += `<div class="result" onclick="hideSearchResults(); map.panTo([${result.latitude}, ${result.longitude}])">${result.name}</div>`
+      })
+    }
+    searchResults.innerHTML = content;
+    searchResults.style.display = 'block';
+    cancelIcon.style.display = 'block';
+    searchIcon.style.display = 'none';
+  }
+  function hideSearchResults() {
+    searchResults.style.display = 'none';
+    cancelIcon.style.display = 'none';
+    searchIcon.style.display = 'block';
+  }
+
+  search.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      searchFor(event.target.value);
+    }
+  });
+</script>
 <script>
   const railwayLineWidth = ['step', ['zoom'],
     ['case',
@@ -685,7 +803,32 @@
     container: 'map',
     style,
     hash: true,
+    maxZoom: 18,
+    minPitch: 0,
+    maxPitch: 0,
   });
+
+  map.on('load', () => {
+    map.addControl(new maplibregl.NavigationControl({
+      showCompass: false,
+      visualizePitch: false,
+    }));
+    map.addControl(
+      new maplibregl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showAccuracyCircle: false,
+        showUserLocation: true,
+      })
+    );
+    map.addControl(new maplibregl.FullscreenControl());
+    map.addControl(new maplibregl.ScaleControl({
+      maxWidth: 150,
+      unit: 'metric',
+    }), 'bottom-right');
+  })
 </script>
 </body>
 

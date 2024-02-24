@@ -692,19 +692,23 @@ Format details:
   /* DE block marker ("Blockkennzeichen) */
   /***************************************/
   ["feature"="DE-ESO:blockkennzeichen"] {
-    [zoom<16],
-    [zoom>=16][zoom<17][height > 1],
-    [zoom>=16][zoom<17][width > 2],
-    [zoom>=17][height > 2],
-    [zoom>=17][width > 4] {
       marker-file: url('symbols/de/blockkennzeichen.svg');
       marker-allow-overlap: true;
       marker-width: 14;
       marker-height: 14;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 10;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
     }
 
-    [zoom>=16][height <= 1][width <= 2],
-    [zoom>=17][height <= 2][width <= 4] {
+    [zoom=16][height<=1][width<=2],
+    [zoom>=17][height<=2][width<=4] {
       shield-file: url('symbols/flex/de/blockkennzeichen-[width]x[height].svg');
       shield-name: [ref_multiline];
       shield-fill: black;

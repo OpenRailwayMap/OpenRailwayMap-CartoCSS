@@ -18,7 +18,10 @@ make our test renderings.
 
 Each country (sometimes each company) has their own signalling system. We welcome
 other systems than those already supported by the style. New signals must be documented
-on the OSM wiki and be actively used.
+on the OSM wiki and be actively used. The wiki page should be linked from
+[OpenRailwayMap/Tagging/Signal](https://wiki.openstreetmap.org/wiki/OpenRailwayMap/Tagging/Signal)
+and follow the established naming conventions (usually `OpenRailwayMap/Tagging_in_<country>`).
+An English translation of the documentation is recommended but not a requirement.
 
 ## Legend
 
@@ -57,7 +60,7 @@ Please mind the following recommendations when you add new icons:
 Icons for speed signals should be provided in all existing variants if the speed signal
 displays a number. If the signal shows a 5 for 50 kph, we want to render the icon with a 5,
 not 9. Do not worry if you do not know all variants of that icon. Just add some variants,
-the other ones can be add in the future.
+the other ones can be added in the future.
 
 ## Other remarks
 

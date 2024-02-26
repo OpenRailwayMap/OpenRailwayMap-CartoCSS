@@ -65,3 +65,16 @@ the other ones can be added in the future.
 ## Other remarks
 
 Please do not mix pure formatting changes with other changes. Diffs are read by humans. ;-)
+
+# Deployment new map styles
+
+Deployment is managed with Ansible in the
+[server-admin](https://github.com/OpenRailwayMap/server-admin) repository. You
+can find the currently deployed Git commit ID of the map style repository
+there. You do not have to update this, it will be done by the administrators of
+the server.
+
+Please mind that rerendering of existing map tiles has to be started
+manually and can take a couple of days because serving tiles quickly is more
+important than updating existing tiles. Use the context menu of the
+[debug map](https://tiles.openrailwaymap.org/) to check when a tile was rendered.

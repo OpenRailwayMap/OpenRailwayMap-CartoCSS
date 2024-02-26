@@ -14,7 +14,6 @@
 @kvb_color: #66cc33;
 @tvm_color: #009966;
 @ptc_color: #cc0033;
-@ctcs_color: orange;
 @etcs_color: blue;
 @etcs_construction_color: #87CEFA;
 
@@ -101,9 +100,6 @@
     }
     ["ptc"!="no"] {
       line-color: @ptc_color;
-    }
-    ["ctcs"!="no"] {
-      line-color: @ctcs_color;
     }
     ["zsi127"="yes"] {
       line-color: @zsi127_color;

@@ -322,7 +322,6 @@ CREATE OR REPLACE FUNCTION railway_train_protection_rank(
   asfa TEXT,
   ptc TEXT,
   zsi127 TEXT,
-  ctcs TEXT,
   etcs TEXT,
   construction_etcs TEXT) RETURNS INTEGER AS $$
 BEGIN
@@ -330,9 +329,6 @@ BEGIN
     RETURN 10;
   END IF;
   IF ptc <> 'no' THEN
-    RETURN 10;
-  END IF;
-  IF ctcs <> 'no' THEN
     RETURN 10;
   END IF;  
   IF construction_etcs <> 'no' THEN
@@ -365,7 +361,7 @@ BEGIN
   IF pzb = 'yes' THEN
     RETURN 2;
   END IF;
-  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (scmt = 'no' AND etcs = 'no') OR (asfa = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') OR (ctcs = 'no') THEN
+  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (scmt = 'no' AND etcs = 'no') OR (asfa = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') THEN
     RETURN 1;
   END IF;
   RETURN 0;

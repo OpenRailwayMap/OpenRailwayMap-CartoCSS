@@ -35,6 +35,167 @@ postgres:
 
   # Associative arrays of table sources
   tables:
+
+    # --- Standard --- #
+
+    railway_line_low:
+      schema: public
+      table: railway_line_low
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        highspeed: string
+        tunnel: boolean
+        bridge: boolean
+
+    railway_line_med:
+      schema: public
+      table: railway_line_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        highspeed: string
+        tunnel: boolean
+        bridge: boolean
+
+    railway_turntables:
+      schema: public
+      table: railway_turntables
+      srid: 3857
+      geometry_column: way
+      geometry_type: POLYGON
+      properties:
+        railway: string
+
+    railway_line_fill:
+      schema: public
+      table: railway_line_fill
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        highspeed: string
+        tunnel: boolean
+        bridge: boolean
+
+    railway_text_stations_med:
+      schema: public
+      table: railway_text_stations_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        railway: string
+        station: string
+        label: string
+
+    railway_text_stations_high:
+      schema: public
+      table: railway_text_stations_high
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        railway: string
+        station: string
+        label: string
+
+    railway_symbols:
+      schema: public
+      table: railway_symbols
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        railway: string
+        man_made: string
+
+    railway_text_med:
+      schema: public
+      table: railway_text_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        label: string
+
+    railway_text_high:
+      schema: public
+      table: railway_text_high
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        label: string
+
+    railway_text_km_med:
+      schema: public
+      table: railway_text_km_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        railway: string
+        pos: string
+
+    railway_text_km_high:
+      schema: public
+      table: railway_text_km_high
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        railway: string
+        pos: string
+
+    railway_switch_ref:
+      schema: public
+      table: railway_switch_ref
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        railway: string
+        ref: string
+        railway_local_operated: string
+
+    railway_text_detail:
+      schema: public
+      table: railway_text_detail
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        usage: string
+        service: string
+        label: string
+        track_ref: string
+
+    # --- Signalling --- #
+
     railway_line:
       schema: public
       table: railway_line
@@ -43,11 +204,11 @@ postgres:
       geometry_type: LINESTRING
       properties:
         railway: string
+        feature: string
         usage: string
         service: string
         layer: number
         rank: number
-        construction_railway: string
         train_protection: string
 
     railway_signals:

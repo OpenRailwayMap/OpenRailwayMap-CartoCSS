@@ -223,26 +223,12 @@ postgres:
         feature: string
         deactivated: boolean
 
-    signal_boxes_point:
+    signal_boxes:
       schema: public
-      table: signal_boxes_point
+      table: signal_boxes
       srid: 3857
       geometry_column: way
-      geometry_type: POINT
-
-    signal_boxes_polygon:
-      schema: public
-      table: signal_boxes_polygon
-      srid: 3857
-      geometry_column: way
-      geometry_type: POLYGON
-
-    signal_boxes_text:
-      schema: public
-      table: signal_boxes_text
-      srid: 3857
-      geometry_column: way
-      geometry_type: POINT
+      geometry_type: GEOMETRY
       properties:
         ref: string
         name: string

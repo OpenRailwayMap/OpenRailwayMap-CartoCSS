@@ -452,23 +452,23 @@ CREATE OR REPLACE VIEW railway_line AS
       COALESCE(layer, 0),
       rank NULLS LAST;
 
-CREATE OR REPLACE VIEW signal_boxes_point AS
-  SELECT
-    way
-  FROM (
-    SELECT
-        way
-      FROM openrailwaymap_osm_point
-      WHERE railway = 'signal_box'
-  ) AS boxes;
+CREATE OR REPLACE VIEW signal_boxes AS
+  (SELECT
+     way,
+     tags->'railway:ref' AS ref,
+     name
+   FROM openrailwaymap_osm_polygon
+   WHERE railway = 'signal_box'
+   ORDER BY way_area DESC NULLS LAST)
 
-CREATE OR REPLACE VIEW signal_boxes_polygon AS
-  SELECT
-    way
-  FROM openrailwaymap_osm_polygon
-  WHERE
-    railway = 'signal_box'
-;
+  UNION ALL
+
+  (SELECT
+     way,
+     tags->'railway:ref' AS ref,
+     name
+   FROM openrailwaymap_osm_point
+   WHERE railway = 'signal_box');
 
 CREATE OR REPLACE VIEW railway_signals AS
   WITH pre_signals AS (
@@ -1064,21 +1064,3 @@ CREATE OR REPLACE VIEW railway_signals AS
       WHEN railway_has_key(tags, 'railway:signal:departure') THEN 400
       ELSE 0
     END) ASC NULLS FIRST;
-
-CREATE OR REPLACE VIEW signal_boxes_text AS
-    (SELECT
-        ST_PointOnSurface(way) AS way,
-        tags->'railway:ref' AS ref,
-        name
-      FROM openrailwaymap_osm_polygon
-      WHERE railway = 'signal_box'
-    ORDER BY way_area DESC NULLS LAST)
-
-    UNION ALL
-
-    (SELECT
-        way,
-        tags->'railway:ref' AS ref,
-        name
-      FROM openrailwaymap_osm_point
-      WHERE railway = 'signal_box');

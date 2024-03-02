@@ -2,20 +2,8 @@ cache_size_mb: 0
 
 # Database configuration. This can also be a list of PG configs.
 postgres:
-  # Database connection string. You can use env vars too, for example:
-  #   $DATABASE_URL
-  #   ${DATABASE_URL:-postgresql://postgres@localhost/db}
+  # Database connection string
   connection_string: ${DATABASE_URL}
-
-  # # Same as PGSSLCERT for psql
-  # ssl_cert: './postgresql.crt'
-  # # Same as PGSSLKEY for psql
-  # ssl_key: './postgresql.key'
-  # # Same as PGSSLROOTCERT for psql
-  # ssl_root_cert: './root.crt'
-
-  # #  If a spatial table has SRID 0, then this SRID will be used as a fallback
-  # default_srid: 4326
 
   # # Maximum Postgres connections pool size [default: 20]
   # pool_size: 20
@@ -27,20 +15,20 @@ postgres:
   # # 'calc' - compute table geometry bounds on startup.
   # # 'quick' - same as 'calc', but the calculation will be aborted if it takes more than 5 seconds.
   # # 'skip' - do not compute table geometry bounds on startup.
-  # auto_bounds: skip
+  auto_bounds: skip
 
   # # Enable automatic discovery of tables and functions.
   # # You may set this to `false` to disable.
-  # auto_publish: false
+  auto_publish: false
 
   # Associative arrays of table sources
   tables:
 
     # --- Standard --- #
 
-    railway_line_low:
+    standard_railway_line_med:
       schema: public
-      table: railway_line_low
+      table: standard_railway_line_med
       srid: 3857
       geometry_column: way
       geometry_type: LINESTRING
@@ -53,33 +41,18 @@ postgres:
         tunnel: boolean
         bridge: boolean
 
-    railway_line_med:
+    standard_railway_turntables:
       schema: public
-      table: railway_line_med
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        usage: string
-        service: string
-        highspeed: string
-        tunnel: boolean
-        bridge: boolean
-
-    railway_turntables:
-      schema: public
-      table: railway_turntables
+      table: standard_railway_turntables
       srid: 3857
       geometry_column: way
       geometry_type: POLYGON
       properties:
         railway: string
 
-    railway_line_fill:
+    standard_railway_line_fill:
       schema: public
-      table: railway_line_fill
+      table: standard_railway_line_fill
       srid: 3857
       geometry_column: way
       geometry_type: LINESTRING
@@ -92,9 +65,9 @@ postgres:
         tunnel: boolean
         bridge: boolean
 
-    railway_text_stations_med:
+    standard_railway_text_stations:
       schema: public
-      table: railway_text_stations_med
+      table: standard_railway_text_stations
       srid: 3857
       geometry_column: way
       geometry_type: POINT
@@ -103,20 +76,9 @@ postgres:
         station: string
         label: string
 
-    railway_text_stations_high:
+    standard_railway_symbols:
       schema: public
-      table: railway_text_stations_high
-      srid: 3857
-      geometry_column: way
-      geometry_type: POINT
-      properties:
-        railway: string
-        station: string
-        label: string
-
-    railway_symbols:
-      schema: public
-      table: railway_symbols
+      table: standard_railway_symbols
       srid: 3857
       geometry_column: way
       geometry_type: POINT
@@ -124,9 +86,9 @@ postgres:
         railway: string
         man_made: string
 
-    railway_text_med:
+    standard_railway_text:
       schema: public
-      table: railway_text_med
+      table: standard_railway_text
       srid: 3857
       geometry_column: way
       geometry_type: LINESTRING
@@ -135,44 +97,24 @@ postgres:
         feature: string
         usage: string
         service: string
+        ref: string
+        track_ref: string
         label: string
 
-    railway_text_high:
+    standard_railway_text_km:
       schema: public
-      table: railway_text_high
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        usage: string
-        service: string
-        label: string
-
-    railway_text_km_med:
-      schema: public
-      table: railway_text_km_med
+      table: standard_railway_text_km
       srid: 3857
       geometry_column: way
       geometry_type: POINT
       properties:
         railway: string
         pos: string
+        zero: boolean
 
-    railway_text_km_high:
+    standard_railway_switch_ref:
       schema: public
-      table: railway_text_km_high
-      srid: 3857
-      geometry_column: way
-      geometry_type: POINT
-      properties:
-        railway: string
-        pos: string
-
-    railway_switch_ref:
-      schema: public
-      table: railway_switch_ref
+      table: standard_railway_switch_ref
       srid: 3857
       geometry_column: way
       geometry_type: POINT
@@ -181,24 +123,74 @@ postgres:
         ref: string
         railway_local_operated: string
 
-    railway_text_detail:
+    # --- Speed --- #
+
+    speed_railway_line_casing:
       schema: public
-      table: railway_text_detail
+      table: speed_railway_line_casing
       srid: 3857
       geometry_column: way
       geometry_type: LINESTRING
       properties:
         railway: string
+        feature: string
+        usage: string
+        service: string
+
+    speed_railway_line_med:
+      schema: public
+      table: speed_railway_line_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        maxspeed: number
+
+    speed_railway_line_fill:
+      schema: public
+      table: speed_railway_line_fill
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        maxspeed: number
+
+    speed_railway_signals:
+      schema: public
+      table: speed_railway_signals
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        feature: string
+        type: string
+
+    speed_railway_line_text:
+      schema: public
+      table: speed_railway_line_text
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
         usage: string
         service: string
         label: string
-        track_ref: string
 
-    # --- Signalling --- #
+    # --- Signals --- #
 
-    railway_line:
+    signals_railway_line:
       schema: public
-      table: railway_line
+      table: signals_railway_line
       srid: 3857
       geometry_column: way
       geometry_type: LINESTRING
@@ -211,9 +203,9 @@ postgres:
         rank: number
         train_protection: string
 
-    railway_signals:
+    signals_railway_signals:
       schema: public
-      table: railway_signals
+      table: signals_railway_signals
       srid: 3857
       geometry_column: way
       geometry_type: POINT
@@ -223,9 +215,9 @@ postgres:
         feature: string
         deactivated: boolean
 
-    signal_boxes:
+    signals_signal_boxes:
       schema: public
-      table: signal_boxes
+      table: signals_signal_boxes
       srid: 3857
       geometry_column: way
       geometry_type: GEOMETRY

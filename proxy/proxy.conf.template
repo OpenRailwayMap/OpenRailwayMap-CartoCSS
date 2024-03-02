@@ -39,7 +39,7 @@ server {
   }
 
   location / {
-    # rewrite ^/standard$ /railway_line_low,railway_line_med,railway_turntables,railway_line_fill,railway_text_stations_med,railway_text_stations_high,railway_symbols,railway_text_med,railway_text_high,railway_text_km_med,railway_text_km_high,railway_switch_ref,railway_text_detail last;
+    # rewrite ^/standard$ /railway_line_med,railway_turntables,railway_line_fill,railway_text_stations,railway_symbols,railway_text,railway_text_km,railway_switch_ref last;
     # rewrite ^/signals$ /railway_line,railway_signals,signal_boxes last;
 
     proxy_pass http://${PROXY_UPSTREAM};

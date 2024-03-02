@@ -172,6 +172,7 @@
 <script>
   const knownStyles = {
     standard: 'Infrastructure',
+    speed: 'Speed',
     signals: 'Train protection',
   };
   function hashToObject(hash) {
@@ -611,6 +612,90 @@
     'line-width': railwayLineWidth,
     'line-dasharray': dashArray,
   });
+  const speedCasingPaint = {
+    'line-color': 'white',
+    'line-width': railwayLineWidth,
+    'line-gap-width': 2,
+  };
+  const speedLayout = {
+    'line-join': 'round',
+  };
+  maxspeed_fill_color_10 = '#0100CB';
+  maxspeed_fill_color_20 = '#001ECB';
+  maxspeed_fill_color_30 = '#003DCB';
+  maxspeed_fill_color_40 = '#005BCB';
+  maxspeed_fill_color_50 = '#007ACB';
+  maxspeed_fill_color_60 = '#0098CB';
+  maxspeed_fill_color_70 = '#00B7CB';
+  maxspeed_fill_color_80 = '#00CBC1';
+  maxspeed_fill_color_90 = '#00CBA2';
+  maxspeed_fill_color_100 = '#00CB84';
+  maxspeed_fill_color_110 = '#00CB66';
+  maxspeed_fill_color_120 = '#00CB47';
+  maxspeed_fill_color_130 = '#00CB29';
+  maxspeed_fill_color_140 = '#00CB0A';
+  maxspeed_fill_color_150 = '#14CB00';
+  maxspeed_fill_color_160 = '#33CB00';
+  maxspeed_fill_color_170 = '#51CB00';
+  maxspeed_fill_color_180 = '#70CB00';
+  maxspeed_fill_color_190 = '#8ECB00';
+  maxspeed_fill_color_200 = '#ADCB00';
+  maxspeed_fill_color_210 = '#CBCB00';
+  maxspeed_fill_color_220 = '#CBAD00';
+  maxspeed_fill_color_230 = '#CB8E00';
+  maxspeed_fill_color_240 = '#CB7000';
+  maxspeed_fill_color_250 = '#CB5100';
+  maxspeed_fill_color_260 = '#CB3300';
+  maxspeed_fill_color_270 = '#CB1400';
+  maxspeed_fill_color_280 = '#CB0007';
+  maxspeed_fill_color_290 = '#CB0025';
+  maxspeed_fill_color_300 = '#CB0044';
+  maxspeed_fill_color_320 = '#CB0062';
+  maxspeed_fill_color_340 = '#CB0081';
+  maxspeed_fill_color_360 = '#CB009F';
+  maxspeed_fill_color_380 = '#CB00BD';
+
+  const speedFillPaint = {
+    'line-color': ['case',
+      ['==', ['get', 'maxspeed'], null], 'gray',
+      ['<=', ['get', 'maxspeed'], 10], maxspeed_fill_color_10,
+      ['<=', ['get', 'maxspeed'], 20], maxspeed_fill_color_20,
+      ['<=', ['get', 'maxspeed'], 30], maxspeed_fill_color_30,
+      ['<=', ['get', 'maxspeed'], 40], maxspeed_fill_color_40,
+      ['<=', ['get', 'maxspeed'], 50], maxspeed_fill_color_50,
+      ['<=', ['get', 'maxspeed'], 60], maxspeed_fill_color_60,
+      ['<=', ['get', 'maxspeed'], 70], maxspeed_fill_color_70,
+      ['<=', ['get', 'maxspeed'], 80], maxspeed_fill_color_80,
+      ['<=', ['get', 'maxspeed'], 90], maxspeed_fill_color_90,
+      ['<=', ['get', 'maxspeed'], 100], maxspeed_fill_color_100,
+      ['<=', ['get', 'maxspeed'], 110], maxspeed_fill_color_110,
+      ['<=', ['get', 'maxspeed'], 120], maxspeed_fill_color_120,
+      ['<=', ['get', 'maxspeed'], 130], maxspeed_fill_color_130,
+      ['<=', ['get', 'maxspeed'], 140], maxspeed_fill_color_140,
+      ['<=', ['get', 'maxspeed'], 150], maxspeed_fill_color_150,
+      ['<=', ['get', 'maxspeed'], 160], maxspeed_fill_color_160,
+      ['<=', ['get', 'maxspeed'], 170], maxspeed_fill_color_170,
+      ['<=', ['get', 'maxspeed'], 180], maxspeed_fill_color_180,
+      ['<=', ['get', 'maxspeed'], 190], maxspeed_fill_color_190,
+      ['<=', ['get', 'maxspeed'], 200], maxspeed_fill_color_200,
+      ['<=', ['get', 'maxspeed'], 210], maxspeed_fill_color_210,
+      ['<=', ['get', 'maxspeed'], 220], maxspeed_fill_color_220,
+      ['<=', ['get', 'maxspeed'], 230], maxspeed_fill_color_230,
+      ['<=', ['get', 'maxspeed'], 240], maxspeed_fill_color_240,
+      ['<=', ['get', 'maxspeed'], 250], maxspeed_fill_color_250,
+      ['<=', ['get', 'maxspeed'], 260], maxspeed_fill_color_260,
+      ['<=', ['get', 'maxspeed'], 270], maxspeed_fill_color_270,
+      ['<=', ['get', 'maxspeed'], 280], maxspeed_fill_color_280,
+      ['<=', ['get', 'maxspeed'], 290], maxspeed_fill_color_290,
+      ['<=', ['get', 'maxspeed'], 300], maxspeed_fill_color_300,
+      ['<=', ['get', 'maxspeed'], 320], maxspeed_fill_color_320,
+      ['<=', ['get', 'maxspeed'], 340], maxspeed_fill_color_340,
+      ['<=', ['get', 'maxspeed'], 360], maxspeed_fill_color_360,
+      ['>', ['get', 'maxspeed'], 360], maxspeed_fill_color_380,
+      'gray',
+    ],
+    'line-width': railwayLineWidth,
+  };
 
   const attribution = '<a href="https://github.com/hiddewie/OpenRailwayMap-vector" target="_blank">&copy; OpenRailwayMap contributors</a>';
 
@@ -627,7 +712,15 @@
       openstreetmap,
       openrailwaymap: {
         type: 'vector',
-          url: `${location.origin}/standard`,
+        url: `${location.origin}/standard`,
+        attribution,
+      },
+    },
+    speed: {
+      openstreetmap,
+      openrailwaymap: {
+        type: 'vector',
+        url: `${location.origin}/speed`,
         attribution,
       },
     },
@@ -666,7 +759,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['get', 'bridge'],
           ['!=', ['get', 'railway'], 'construction'],
@@ -685,7 +778,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['get', 'tunnel'],
           ['!=', ['get', 'railway'], 'construction'],
@@ -707,7 +800,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['!', ['get', 'bridge']],
           ['!', ['get', 'tunnel']],
@@ -730,7 +823,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'construction'],
         layout: {
           'line-join': 'round',
@@ -747,7 +840,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'proposed'],
         layout: {
           'line-join': 'round',
@@ -764,7 +857,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'abandoned'],
         layout: {
           'line-join': 'round',
@@ -781,7 +874,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'razed'],
         layout: {
           'line-join': 'round',
@@ -798,7 +891,7 @@
         type: 'line',
         maxzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_med',
+        'source-layer': 'standard_railway_line_med',
         layout: {
           'line-join': 'round',
         },
@@ -813,7 +906,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['get', 'bridge'],
           ['!=', ['get', 'railway'], 'construction'],
@@ -835,7 +928,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['get', 'tunnel'],
           ['!=', ['get', 'railway'], 'construction'],
@@ -853,7 +946,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['get', 'tunnel'],
           ['!=', ['get', 'railway'], 'construction'],
@@ -874,7 +967,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'construction'],
         layout: {
           'line-join': 'round',
@@ -886,7 +979,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'proposed'],
         layout: {
           'line-join': 'round',
@@ -898,7 +991,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'abandoned'],
         layout: {
           'line-join': 'round',
@@ -910,7 +1003,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['==', ['get', 'railway'], 'razed'],
         layout: {
           'line-join': 'round',
@@ -922,7 +1015,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['!', ['get', 'bridge']],
           ['!', ['get', 'tunnel']],
@@ -941,7 +1034,7 @@
         type: 'line',
         maxzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_med',
+        'source-layer': 'standard_railway_line_med',
         layout: {
           'line-join': 'round',
         },
@@ -952,7 +1045,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line_fill',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['all',
           ['get', 'bridge'],
           ['!=', ['get', 'railway'], 'construction'],
@@ -970,7 +1063,7 @@
         type: 'fill',
         minzoom: 11,
         source: 'openrailwaymap',
-        'source-layer': 'railway_turntables',
+        'source-layer': 'standard_railway_turntables',
         paint: {
           'fill-color': turntable_fill,
         }
@@ -980,7 +1073,7 @@
         type: 'line',
         minzoom: 16,
         source: 'openrailwaymap',
-        'source-layer': 'railway_turntables',
+        'source-layer': 'standard_railway_turntables',
         paint: {
           'line-color': turntable_casing,
           'line-width': turntable_casing_width,
@@ -991,7 +1084,7 @@
         type: 'symbol',
         minzoom: 13,
         source: 'openrailwaymap',
-        'source-layer': 'railway_symbols',
+        'source-layer': 'standard_railway_symbols',
         filter: ['==', ['get', 'railway'], 'tram_stop'],
         layout: {
           'icon-overlap': 'always',
@@ -1003,7 +1096,7 @@
         type: 'symbol',
         minzoom: 6,
         source: 'openrailwaymap',
-        'source-layer': 'railway_text_stations',
+        'source-layer': 'standard_railway_text_stations',
         filter: ['step', ['zoom'],
           ['all',
             ['==', ['get', 'railway'], 'station'],
@@ -1064,7 +1157,7 @@
         type: 'symbol',
         minzoom: 11,
         source: 'openrailwaymap',
-        'source-layer': 'railway_symbols',
+        'source-layer': 'standard_railway_symbols',
         filter: ['==', ['get', 'railway'], 'border'],
         layout: {
           'icon-image': 'general/border',
@@ -1075,7 +1168,7 @@
         type: 'symbol',
         minzoom: 13,
         source: 'openrailwaymap',
-        'source-layer': 'railway_symbols',
+        'source-layer': 'standard_railway_symbols',
         filter: ['any',
           ['==', ['get', 'railway'], 'owner_change'],
           ['==', ['get', 'railway'], 'radio'],
@@ -1099,7 +1192,7 @@
         type: 'symbol',
         minzoom: 14,
         source: 'openrailwaymap',
-        'source-layer': 'railway_symbols',
+        'source-layer': 'standard_railway_symbols',
         filter: ['any',
           ['==', ['get', 'railway'], 'crossing'],
           ['==', ['get', 'railway'], 'level_crossing'],
@@ -1118,7 +1211,7 @@
         type: 'symbol',
         minzoom: 17,
         source: 'openrailwaymap',
-        'source-layer': 'railway_symbols',
+        'source-layer': 'standard_railway_symbols',
         filter: ['==', ['get', 'railway'], 'phone'],
         layout: {
           'symbol-z-order': 'source',
@@ -1130,7 +1223,7 @@
         type: 'symbol',
         minzoom: 8,
         source: 'openrailwaymap',
-        'source-layer': 'railway_text',
+        'source-layer': 'standard_railway_text',
         filter: ['step', ['zoom'],
           ['all',
             ['!=', ['get', 'ref'], null],
@@ -1382,7 +1475,7 @@
         paint: {
           'text-color': '#585858',
           'text-halo-color': 'white',
-          'text-halo-width': 1,
+          'text-halo-width': 2,
         },
         layout: {
           'symbol-z-order': 'source',
@@ -1404,7 +1497,7 @@
         type: 'symbol',
         minzoom: 11,
         source: 'openrailwaymap',
-        'source-layer': 'railway_text_km',
+        'source-layer': 'standard_railway_text_km',
         filter: ['step', ['zoom'],
           ['get', 'zero'],
           14,
@@ -1427,7 +1520,7 @@
         type: 'symbol',
         minzoom: 16,
         source: 'openrailwaymap',
-        'source-layer': 'railway_switch_ref',
+        'source-layer': 'standard_railway_switch_ref',
         paint: {
           'text-halo-color': ['case',
             ['==', ['get', 'railway_local_operated'], 'yes'], 'yellow',
@@ -1448,7 +1541,7 @@
         type: 'symbol',
         minzoom: 17,
         source: 'openrailwaymap',
-        'source-layer': 'railway_text',
+        'source-layer': 'standard_railway_text',
         filter: ['!=', ['get', 'track_ref'], null],
         paint: {
           'text-color': 'white',
@@ -1467,6 +1560,140 @@
       },
     ],
 
+    speed: [
+      backgroundColor,
+      backgroundMap,
+      {
+        id: 'speed_railway_line_low_casing',
+        type: 'line',
+        source: 'openrailwaymap',
+        maxzoom: 7,
+        'source-layer': 'speed_railway_line_med',
+        filter: ['==', ['get', 'usage'], 'main'],
+        paint: speedCasingPaint,
+        layout: speedLayout,
+      },
+      {
+        id: 'speed_railway_line_med_casing',
+        type: 'line',
+        source: 'openrailwaymap',
+        minzoom: 7,
+        maxzoom: 9,
+        'source-layer': 'speed_railway_line_med',
+        paint: speedCasingPaint,
+        layout: speedLayout,
+      },
+      {
+        id: 'speed_railway_line_casing',
+        type: 'line',
+        source: 'openrailwaymap',
+        minzoom: 9,
+        'source-layer': 'speed_railway_line_casing',
+        paint: speedCasingPaint,
+        layout: speedLayout,
+      },
+      {
+        id: 'speed_railway_line_low_fill',
+        type: 'line',
+        source: 'openrailwaymap',
+        maxzoom: 7,
+        'source-layer': 'speed_railway_line_med',
+        filter: ['==', ['get', 'usage'], 'main'],
+        paint: speedFillPaint,
+        layout: speedLayout,
+      },
+      {
+        id: 'speed_railway_line_med_fill',
+        type: 'line',
+        source: 'openrailwaymap',
+        minzoom: 7,
+        maxzoom: 9,
+        'source-layer': 'speed_railway_line_med',
+        paint: speedFillPaint,
+        layout: speedLayout,
+      },
+      {
+        id: 'speed_railway_line_fill',
+        type: 'line',
+        source: 'openrailwaymap',
+        minzoom: 9,
+        'source-layer': 'speed_railway_line_fill',
+        paint: speedFillPaint,
+        layout: speedLayout,
+      },
+      {
+        id: 'speed_railway_signals',
+        type: 'symbol',
+        source: 'openrailwaymap',
+        minzoom: 14,
+        'source-layer': 'speed_railway_signals',
+        filter: ['step', ['zoom'],
+          ['all',
+            ['!=', ['get', 'feature'], null],
+            ['==', ['get', 'type'], 'line'],
+          ],
+          15,
+          ['all',
+            ['!=', ['get', 'feature'], null],
+            ['any',
+              ['==', ['get', 'type'], 'line'],
+              ['==', ['get', 'type'], 'tram'],
+            ]
+          ],
+          17,
+          ['!=', ['get', 'feature'], null],
+        ],
+        paint: {
+          // TODO https://github.com/maplibre/martin/issues/1075
+          // 'icon-halo-color': 'rgba(255, 255, 255, 1)',
+          // 'icon-halo-blur': 0,
+          // 'icon-halo-width': 2.0,
+        },
+        layout: {
+          'symbol-z-order': 'source',
+          'icon-overlap': 'always',
+          'icon-image': ['image', ['get', 'feature']],
+        }
+      },
+      {
+        id: 'speed_railway_line_text',
+        type: 'symbol',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'speed_railway_line_text',
+        filter: ['step', ['zoom'],
+          ['==', ['get', 'feature'], 'rail'],
+          11,
+          ['any',
+            ['==', ['get', 'feature'], 'rail'],
+            ['==', ['get', 'feature'], 'narrow_gauge'],
+          ],
+          12,
+          ['any',
+            ['==', ['get', 'feature'], 'rail'],
+            ['==', ['get', 'feature'], 'narrow_gauge'],
+            ['==', ['get', 'feature'], 'light_rail'],
+            ['==', ['get', 'feature'], 'subway'],
+          ],
+          13,
+          true,
+        ],
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1.5,
+        },
+        layout: {
+          'symbol-z-order': 'source',
+          'symbol-placement': 'line',
+          'text-field': '{label}',
+          'text-font': ['Noto Sans Bold'],
+          'text-size': 11,
+          'text-padding': 30,
+          'symbol-spacing': 100,
+        },
+      },
+    ],
+
     signals: [
       backgroundColor,
       backgroundMap,
@@ -1475,7 +1702,7 @@
         type: 'line',
         source: 'openrailwaymap',
         maxzoom: 8,
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['all',
           ['==', ['get', 'railway'], 'rail'],
           ['==', ['get', 'usage'], 'main'],
@@ -1489,7 +1716,7 @@
         type: 'line',
         maxzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['all',
           ['==', ['get', 'railway'], 'rail'],
           ['any',
@@ -1506,7 +1733,7 @@
         type: 'line',
         source: 'openrailwaymap',
         minzoom: 9,
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['==', ['get', 'railway'], 'construction'],
         paint: trainProtectionCasingPaint([2, 2]),
         layout: trainProtectionLayout,
@@ -1516,7 +1743,7 @@
         type: 'line',
         source: 'openrailwaymap',
         minzoom: 9,
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['!=', ['get', 'railway'], 'construction'],
         paint: trainProtectionCasingPaint([1]),
         layout: trainProtectionLayout,
@@ -1526,7 +1753,7 @@
         type: 'line',
         source: 'openrailwaymap',
         maxzoom: 8,
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['all',
           ['==', ['get', 'railway'], 'rail'],
           ['==', ['get', 'usage'], 'main'],
@@ -1541,7 +1768,7 @@
         minzoom: 8,
         maxzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['all',
           ['==', ['get', 'railway'], 'rail'],
           ['any',
@@ -1558,7 +1785,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['==', ['get', 'railway'], 'construction'],
         paint: trainProtectionFillPaint([2, 2]),
         layout: trainProtectionLayout,
@@ -1568,7 +1795,7 @@
         type: 'line',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'railway_line',
+        'source-layer': 'signals_railway_line',
         filter: ['!=', ['get', 'railway'], 'construction'],
         paint: trainProtectionFillPaint([1]),
         layout: trainProtectionLayout,
@@ -1578,7 +1805,7 @@
         type: 'circle',
         minzoom: 11,
         source: 'openrailwaymap',
-        'source-layer': 'signal_boxes',
+        'source-layer': 'signals_signal_boxes',
         filter: ['==', ["geometry-type"], 'Point'],
         paint: {
           'circle-color': '#008206',
@@ -1596,7 +1823,7 @@
         type: 'fill',
         minzoom: 13,
         source: 'openrailwaymap',
-        'source-layer': 'signal_boxes',
+        'source-layer': 'signals_signal_boxes',
         filter: ['any',
           ['==', ["geometry-type"], 'Polygon'],
           ['==', ["geometry-type"], 'MultiPolygon'],
@@ -1611,7 +1838,7 @@
         type: 'line',
         minzoom: 13,
         source: 'openrailwaymap',
-        'source-layer': 'signal_boxes',
+        'source-layer': 'signals_signal_boxes',
         filter: ['any',
           ['==', ["geometry-type"], 'Polygon'],
           ['==', ["geometry-type"], 'MultiPolygon'],
@@ -1626,7 +1853,7 @@
         type: 'circle',
         minzoom: 12,
         source: 'openrailwaymap',
-        'source-layer': 'railway_signals',
+        'source-layer': 'signals_railway_signals',
         paint: {
           'circle-radius': 2.2,
         },
@@ -1636,7 +1863,7 @@
         type: 'symbol',
         minzoom: 14,
         source: 'openrailwaymap',
-        'source-layer': 'railway_signals',
+        'source-layer': 'signals_railway_signals',
         paint: {
           // TODO https://github.com/maplibre/martin/issues/1075
           // 'icon-halo-color': 'rgba(255, 255, 255, 1)',
@@ -1676,7 +1903,7 @@
         type: 'symbol',
         minzoom: 14,
         source: 'openrailwaymap',
-        'source-layer': 'railway_signals',
+        'source-layer': 'signals_railway_signals',
         filter: ['get', 'deactivated'],
         layout: {
           'symbol-z-order': 'source',
@@ -1690,7 +1917,7 @@
         minzoom: 13,
         maxzoom: 16,
         source: 'openrailwaymap',
-        'source-layer': 'signal_boxes',
+        'source-layer': 'signals_signal_boxes',
         paint: {
           'text-color': '#404040',
           'text-halo-color': '#bfffb3',
@@ -1707,7 +1934,7 @@
         type: 'symbol',
         minzoom: 16,
         source: 'openrailwaymap',
-        'source-layer': 'signal_boxes',
+        'source-layer': 'signals_signal_boxes',
         paint: {
           'text-color': '#404040',
           'text-halo-color': '#bfffb3',

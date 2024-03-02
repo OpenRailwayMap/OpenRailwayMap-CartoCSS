@@ -9,6 +9,7 @@ jobs:
   deploy-proxy:
     name: Deploy proxy
     runs-on: ubuntu-latest
+    environment: proxy-production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +27,7 @@ jobs:
   deploy-tiles:
     name: Deploy tiles
     runs-on: ubuntu-latest
+    environment: tiles-production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,6 +56,7 @@ jobs:
       - name: Print tiles summary
         run: |
           docker run --rm -v $PWD:/code --entrypoint mbtiles ghcr.io/maplibre/martin summary /code/tiles/standard.mbtiles
+          docker run --rm -v $PWD:/code --entrypoint mbtiles ghcr.io/maplibre/martin summary /code/tiles/speed.mbtiles
           docker run --rm -v $PWD:/code --entrypoint mbtiles ghcr.io/maplibre/martin summary /code/tiles/signals.mbtiles
 
       - name: Deploy

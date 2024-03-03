@@ -23,4 +23,4 @@ ADD setup/openstreetmap-carto.style setup
 RUN mkdir -p /openrailwaymap
 WORKDIR /openrailwaymap
 
-CMD ["sh", "docker-startup.sh", "import"]
+CMD ["docker-startup.sh"]

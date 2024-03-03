@@ -631,7 +631,7 @@
   const speedCasingPaint = {
     'line-color': 'white',
     'line-width': railwayLineWidth,
-    'line-gap-width': 2,
+    'line-gap-width': 1,
   };
   const speedLayout = {
     'line-join': 'round',
@@ -1547,7 +1547,7 @@
         type: 'symbol',
         minzoom: 8,
         source: 'openrailwaymap',
-        'source-layer': 'standard_railway_text',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['step', ['zoom'],
           ['all',
             ['!=', ['get', 'ref'], null],
@@ -1865,7 +1865,7 @@
         type: 'symbol',
         minzoom: 17,
         source: 'openrailwaymap',
-        'source-layer': 'standard_railway_text',
+        'source-layer': 'standard_railway_line_fill',
         filter: ['!=', ['get', 'track_ref'], null],
         paint: {
           'text-color': 'white',
@@ -1984,7 +1984,8 @@
         type: 'symbol',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'speed_railway_line_text',
+        'source-layer': 'speed_railway_line_fill',
+        // TODO zoom filters do not match line zoom levels
         filter: ['step', ['zoom'],
           ['==', ['get', 'feature'], 'rail'],
           11,
@@ -2366,7 +2367,7 @@
         minzoom: 8,
         maxzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'electrification_railway_text_med',
+        'source-layer': 'electrification_railway_line_med',
         filter: ['all',
           ['==', ['get', 'railway'], 'rail'],
           ['any',
@@ -2395,7 +2396,7 @@
         type: 'symbol',
         minzoom: 9,
         source: 'openrailwaymap',
-        'source-layer': 'electrification_railway_text_high',
+        'source-layer': 'electrification_railway_line',
         filter: ['step', ['zoom'],
           ['all',
             ['==', ['get', 'railway'], 'rail'],

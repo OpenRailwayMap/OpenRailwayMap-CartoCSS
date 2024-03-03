@@ -40,6 +40,7 @@ postgres:
         highspeed: string
         tunnel: boolean
         bridge: boolean
+        label: string
 
     standard_railway_turntables:
       schema: public
@@ -64,6 +65,9 @@ postgres:
         highspeed: string
         tunnel: boolean
         bridge: boolean
+        ref: string
+        track_ref: string
+        label: string
 
     standard_railway_text_stations:
       schema: public
@@ -85,21 +89,6 @@ postgres:
       properties:
         railway: string
         man_made: string
-
-    standard_railway_text:
-      schema: public
-      table: standard_railway_text
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        usage: string
-        service: string
-        ref: string
-        track_ref: string
-        label: string
 
     standard_railway_text_km:
       schema: public
@@ -162,6 +151,7 @@ postgres:
         usage: string
         service: string
         maxspeed: number
+        label: string
 
     speed_railway_signals:
       schema: public
@@ -172,19 +162,6 @@ postgres:
       properties:
         feature: string
         type: string
-
-    speed_railway_line_text:
-      schema: public
-      table: speed_railway_line_text
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        usage: string
-        service: string
-        label: string
 
     # --- Signals --- #
 
@@ -241,6 +218,7 @@ postgres:
         service: string
         frequency: number
         voltage: number
+        label: string
 
     electrification_railway_line:
       schema: public
@@ -256,6 +234,7 @@ postgres:
         service: string
         frequency: number
         voltage: number
+        label: string
 
     electrification_future:
       schema: public
@@ -280,34 +259,6 @@ postgres:
       geometry_type: POINT
       properties:
         feature: string
-
-    electrification_railway_text_med:
-      schema: public
-      table: electrification_railway_text_med
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        state: string
-        usage: string
-        service: string
-        label: string
-
-    electrification_railway_text_high:
-      schema: public
-      table: electrification_railway_text_high
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        state: string
-        usage: string
-        service: string
-        label: string
 
     # --- Gauge --- #
 

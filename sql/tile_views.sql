@@ -1506,3 +1506,261 @@ CREATE OR REPLACE VIEW electrification_railway_text_high AS
       OR proposed_electrified IS NOT NULL
     )
   ORDER by layer, rank NULLS LAST;
+
+--- Gauge ---
+
+CREATE OR REPLACE VIEW gauge_railway_line_low AS
+  SELECT
+    way, railway, usage,
+    railway as feature,
+    NULL AS service,
+    NULL AS construction,
+    NULL AS construction_railway,
+    NULL AS construction_usage,
+    NULL AS construction_service,
+    NULL AS preserved_railway,
+    NULL AS preserved_usage,
+    NULL AS preserved_service,
+    railway_to_int(gauge) AS gaugeint,
+    gauge
+  FROM
+    (SELECT
+       way, railway, usage,
+       railway_desired_value_from_list(1, tags->'gauge') AS gauge,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway = 'rail' AND usage = 'main' AND service IS NULL
+    ) AS r
+  ORDER BY layer NULLS LAST;
+
+CREATE OR REPLACE VIEW gauge_railway_line_med AS
+  SELECT
+    way, railway, usage,
+    railway as feature,
+    NULL AS service,
+    NULL AS construction,
+    NULL AS construction_railway,
+    NULL AS construction_usage,
+    NULL AS construction_service,
+    NULL AS preserved_railway,
+    NULL AS preserved_usage,
+    NULL AS preserved_service,
+    CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+         ELSE 50
+      END AS rank,
+    railway_to_int(gauge) AS gaugeint,
+    gauge
+  FROM
+    (SELECT
+       way, railway, usage,
+       railway_desired_value_from_list(1, tags->'gauge') AS gauge,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
+    ) AS r
+  ORDER BY
+    layer,
+    rank NULLS LAST;
+
+CREATE OR REPLACE VIEW gauge_railway_line AS
+  SELECT
+    way, railway, usage, service,
+    CASE
+      WHEN railway = 'construction' THEN construction_railway
+      WHEN railway = 'preserved' THEN preserved_railway
+      ELSE railway
+    END as feature,
+    construction,
+    construction_railway,
+    construction_usage,
+    construction_service,
+    preserved_railway,
+    preserved_usage,
+    preserved_service,
+    CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+         WHEN railway IN ('preserved', 'construction') THEN 400
+         ELSE 50
+      END AS rank,
+    railway_to_int(gauge) AS gaugeint,
+    gauge
+  FROM
+    (SELECT
+       way, railway, usage, service,
+       construction,
+       tags->'construction:railway' AS construction_railway,
+       tags->'construction:usage' AS construction_usage,
+       tags->'construction:service' AS construction_service,
+       tags->'preserved:railway' AS preserved_railway,
+       tags->'preserved:usage' AS preserved_usage,
+       tags->'preserved:service' AS preserved_service,
+       railway_desired_value_from_list(1, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
+    ) AS r
+  ORDER BY
+    layer,
+    rank NULLS LAST;
+
+CREATE OR REPLACE VIEW gauge_railway_dual_gauge_line AS
+  SELECT
+    way, railway, usage, service,
+    CASE
+      WHEN railway = 'construction' THEN construction_railway
+      WHEN railway = 'preserved' THEN preserved_railway
+      ELSE railway
+    END as feature,
+    construction,
+    construction_railway,
+    construction_usage,
+    construction_service,
+    preserved_railway,
+    preserved_usage,
+    preserved_service,
+    CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+         WHEN railway IN ('preserved', 'construction') THEN 400
+         ELSE 50
+      END AS rank,
+    railway_to_int(gauge) AS gaugeint,
+    gauge
+  FROM
+    (SELECT
+       way, railway, usage, service,
+       construction,
+       tags->'construction:railway' AS construction_railway,
+       tags->'construction:usage' AS construction_usage,
+       tags->'construction:service' AS construction_service,
+       tags->'preserved:railway' AS preserved_railway,
+       tags->'preserved:usage' AS preserved_usage,
+       tags->'preserved:service' AS preserved_service,
+       railway_desired_value_from_list(2, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
+       AND railway_desired_value_from_list(2, COALESCE(tags->'gauge', tags->'construction:gauge')) IS NOT NULL
+    ) AS r
+  ORDER BY
+    layer,
+    rank NULLS LAST;
+
+CREATE OR REPLACE VIEW gauge_railway_multi_gauge_line AS
+  SELECT
+    way, railway, usage, service,
+    CASE
+      WHEN railway = 'construction' THEN construction_railway
+      WHEN railway = 'preserved' THEN preserved_railway
+      ELSE railway
+    END as feature,
+    construction,
+    construction_railway,
+    construction_usage,
+    construction_service,
+    preserved_railway,
+    preserved_usage,
+    preserved_service,
+    CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+         WHEN railway IN ('preserved', 'construction') THEN 400
+         ELSE 50
+      END AS rank,
+    railway_to_int(gauge) AS gaugeint,
+    gauge
+  FROM
+    (SELECT
+       way, railway, usage, service,
+       construction,
+       tags->'construction:railway' AS construction_railway,
+       tags->'construction:usage' AS construction_usage,
+       tags->'construction:service' AS construction_service,
+       tags->'preserved:railway' AS preserved_railway,
+       tags->'preserved:usage' AS preserved_usage,
+       tags->'preserved:service' AS preserved_service,
+       railway_desired_value_from_list(3, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
+       AND railway_desired_value_from_list(3, COALESCE(tags->'gauge', tags->'construction:gauge')) IS NOT NULL
+    ) AS r
+  ORDER BY
+    layer,
+    rank NULLS LAST;
+
+CREATE OR REPLACE VIEW gauge_railway_text_med AS
+  SELECT
+    way, railway, usage, service,
+    CASE
+      WHEN railway = 'construction' THEN tags->'construction:railway'
+      ELSE railway
+    END as feature,
+    construction,
+    tags->'construction:railway' AS construction_railway,
+    CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+         ELSE 50
+      END AS rank,
+    layer,
+    railway_gauge_label(tags->'gauge') AS label,
+    tags->'gauge' AS gauge,
+    NULL AS construction_gauge
+  FROM openrailwaymap_osm_line
+  WHERE
+    railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
+  ORDER by layer, rank NULLS LAST;
+
+CREATE OR REPLACE VIEW gauge_railway_text_high AS
+  SELECT
+    way, railway, usage, service,
+    CASE
+      WHEN railway = 'construction' THEN tags->'construction:railway'
+      ELSE railway
+    END as feature,
+    construction,
+    tags->'construction:railway' AS construction_railway,
+    CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+         WHEN railway IN ('preserved', 'construction') THEN 400
+         ELSE 50
+      END AS rank,
+    layer,
+    railway_gauge_label(COALESCE(tags->'gauge', tags->'construction:gauge')) AS label,
+    tags->'gauge' AS gauge,
+    tags->'construction:gauge' AS construction_gauge
+  FROM openrailwaymap_osm_line
+  WHERE
+    railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
+  ORDER by layer, rank NULLS LAST;

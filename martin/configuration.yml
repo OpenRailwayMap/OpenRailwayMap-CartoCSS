@@ -309,5 +309,103 @@ postgres:
         service: string
         label: string
 
+    # --- Gauge --- #
+
+    gauge_railway_line_low:
+      schema: public
+      table: gauge_railway_line_low
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        gauge: string
+        gaugeint: number
+
+    gauge_railway_line_med:
+      schema: public
+      table: gauge_railway_line_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        gauge: string
+        gaugeint: number
+
+    gauge_railway_line:
+      schema: public
+      table: gauge_railway_line
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        gauge: string
+        gaugeint: number
+
+    gauge_railway_dual_gauge_line:
+      schema: public
+      table: gauge_railway_dual_gauge_line
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        gauge: string
+        gaugeint: number
+
+    gauge_railway_multi_gauge_line:
+      schema: public
+      table: gauge_railway_multi_gauge_line
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        gauge: string
+        gaugeint: number
+
+    gauge_railway_text_med:
+      schema: public
+      table: gauge_railway_text_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        label: string
+
+    gauge_railway_text_high:
+      schema: public
+      table: gauge_railway_text_high
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        usage: string
+        service: string
+        label: string
+
 fonts:
   - /config/fonts

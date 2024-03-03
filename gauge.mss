@@ -234,220 +234,67 @@
 
     /* color for unknown low numeric gauge values */
 
-    [gaugeint>0][gaugeint<63] {
-      line-color: @color_gauge_unknown;
-    }
-
+    [gaugeint>0][gaugeint<63] { line-color: @color_gauge_unknown; }
     /* colors for numeric gauge values */
 
-    [gaugeint>=63][gaugeint<88] {
-      line-color: @color_gauge_0064;
-    }
-
-    [gaugeint>=88][gaugeint<127] {
-      line-color: @color_gauge_0089;
-    }
-
-    [gaugeint>=127][gaugeint<184] {
-      line-color: @color_gauge_0127;
-    }
-
-    [gaugeint>=184][gaugeint<190] {
-      line-color: @color_gauge_0184;
-    }
-
-    [gaugeint>=190][gaugeint<260] {
-      line-color: @color_gauge_0190;
-    }
-
-    [gaugeint>=260][gaugeint<380] {
-      line-color: @color_gauge_0260;
-    }
-
-    [gaugeint>=380][gaugeint<500] {
-      line-color: @color_gauge_0381;
-    }
-
-    [gaugeint>=500][gaugeint<597] {
-      line-color: @color_gauge_0500;
-    }
-
-    [gaugeint>=597][gaugeint<600] {
-      line-color: @color_gauge_0597;
-    }
-
-    [gaugeint>=600][gaugeint<609] {
-      line-color: @color_gauge_0600;
-    }
-
-    [gaugeint>=609][gaugeint<700] {
-      line-color: @color_gauge_0610;
-    }
-
-    [gaugeint>=700][gaugeint<750] {
-      line-color: @color_gauge_0700;
-    }
-
-    [gaugeint>=750][gaugeint<760] {
-      line-color: @color_gauge_0750;
-    }
-
-    [gaugeint>=760][gaugeint<762] {
-      line-color: @color_gauge_0760;
-    }
-
-    [gaugeint>=762][gaugeint<785] {
-      line-color: @color_gauge_0762;
-    }
-
-    [gaugeint>=785][gaugeint<800] {
-      line-color: @color_gauge_0785;
-    }
-
-    [gaugeint>=800][gaugeint<891] {
-      line-color: @color_gauge_0800;
-    }
-
-    [gaugeint>=891][gaugeint<900] {
-      line-color: @color_gauge_0891;
-    }
-
-    [gaugeint>=900][gaugeint<914] {
-      line-color: @color_gauge_0900;
-    }
-
-    [gaugeint>=914][gaugeint<950] {
-      line-color: @color_gauge_0914;
-    }
-
-    [gaugeint>=950][gaugeint<1000] {
-      line-color: @color_gauge_0950;
-    }
-
-    [gaugeint>=1000][gaugeint<1009] {
-      line-color: @color_gauge_1000;
-    }
-
-    [gaugeint>=1009][gaugeint<1050] {
-      line-color: @color_gauge_1009;
-    }
-
-    [gaugeint>=1050][gaugeint<1066] {
-      line-color: @color_gauge_1050;
-    }
-
-    [gaugeint>=1066][gaugeint<1100] {
-      line-color: @color_gauge_1067;
-    }
-
-    [gaugeint>=1100][gaugeint<1200] {
-      line-color: @color_gauge_1100;
-    }
-
-    [gaugeint>=1200][gaugeint<1372] {
-      line-color: @color_gauge_1200;
-    }
-
-    [gaugeint>=1372][gaugeint<1422] {
-      line-color: @color_gauge_1372;
-    }
-
-    [gaugeint>=1422][gaugeint<1432] {
-      line-color: @color_gauge_1422;
-    }
-
-    [gaugeint>=1432][gaugeint<1435] {
-      line-color: @color_gauge_1432;
-    }
-
-    [gaugeint>=1435][gaugeint<1440] {
-      line-color: @color_gauge_1435;
-    }
-
-    [gaugeint>=1440][gaugeint<1445] {
-      line-color: @color_gauge_1440;
-    }
-
-    [gaugeint>=1445][gaugeint<1450] {
-      line-color: @color_gauge_1445;
-    }
-
-    [gaugeint>=1450][gaugeint<1458] {
-      line-color: @color_gauge_1450;
-    }
-
-    [gaugeint>=1458][gaugeint<1495] {
-      line-color: @color_gauge_1458;
-    }
-
-    [gaugeint>=1495][gaugeint<1520] {
-      line-color: @color_gauge_1495;
-    }
-
-    [gaugeint>=1520][gaugeint<1522] {
-      line-color: @color_gauge_1520;
-    }
-
-    [gaugeint>=1522][gaugeint<1524] {
-      line-color: @color_gauge_1522;
-    }
-
-    [gaugeint>=1524][gaugeint<1581] {
-      line-color: @color_gauge_1524;
-    }
-
-    [gaugeint>=1581][gaugeint<1588] {
-      line-color: @color_gauge_1581;
-    }
-
-    [gaugeint>=1588][gaugeint<1600] {
-      line-color: @color_gauge_1588;
-    }
-
-    [gaugeint>=1600][gaugeint<1668] {
-      line-color: @color_gauge_1600;
-    }
-
-    [gaugeint>=1668][gaugeint<1672] {
-      line-color: @color_gauge_1668;
-    }
-
-    [gaugeint>=1672][gaugeint<1700] {
-      line-color: @color_gauge_1676;
-    }
-
-    [gaugeint>=1700][gaugeint<1800] {
-      line-color: @color_gauge_1700;
-    }
-
-    [gaugeint>=1800][gaugeint<1880] {
-      line-color: @color_gauge_1800;
-    }
-
-    [gaugeint>=1880][gaugeint<2000] {
-      line-color: @color_gauge_1880;
-    }
-
-    [gaugeint>=2000][gaugeint<3000] {
-      line-color: @color_gauge_2000;
-    }
-
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 88, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 63]], color_gauge_0064,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 127, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 88]], color_gauge_0089,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 184, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 127]], color_gauge_0127,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 190, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 184]], color_gauge_0184,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 260, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 190]], color_gauge_0190,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 380, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 260]], color_gauge_0260,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 500, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 380]], color_gauge_0381,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 597, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 500]], color_gauge_0500,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 600, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 597]], color_gauge_0597,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 609, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 600]], color_gauge_0600,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 700, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 609]], color_gauge_0610,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 750, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 700]], color_gauge_0700,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 760, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 750]], color_gauge_0750,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 762, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 760]], color_gauge_0760,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 785, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 762]], color_gauge_0762,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 800, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 785]], color_gauge_0785,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 891, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 800]], color_gauge_0800,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 900, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 891]], color_gauge_0891,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 914, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 900]], color_gauge_0900,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 950, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 914]], color_gauge_0914,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1000, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 950]], color_gauge_0950,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1009, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1000]], color_gauge_1000,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1050, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1009]], color_gauge_1009,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1066, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1050]], color_gauge_1050,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1100, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1066]], color_gauge_1067,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1200, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1100]], color_gauge_1100,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1372, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1200]], color_gauge_1200,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1422, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1372]], color_gauge_1372,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1432, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1422]], color_gauge_1422,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1435, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1432]], color_gauge_1432,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1440, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1435]], color_gauge_1435,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1445, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1440]], color_gauge_1440,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1450, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1445]], color_gauge_1445,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1458, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1450]], color_gauge_1450,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1495, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1458]], color_gauge_1458,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1520, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1495]], color_gauge_1495,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1522, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1520]], color_gauge_1520,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1524, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1522]], color_gauge_1522,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1581, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1524]], color_gauge_1524,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1588, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1581]], color_gauge_1581,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1600, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1588]], color_gauge_1588,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1668, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1600]], color_gauge_1600,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1672, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1668]], color_gauge_1668,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1700, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1672]], color_gauge_1676,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1800, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1700]], color_gauge_1700,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 1880, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1800]], color_gauge_1800,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 2000, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 1880]], color_gauge_1880,
+    ['all', ['!=', ['get', 'gaugeint'], null], ['>', 3000, ['get', 'gaugeint']], ['>=', ['get', 'gaugeint'], 2000]], color_gauge_2000,
     /* color for unknown high numeric gauge values */
 
-    [gaugeint>=3000] {
-      line-color: @color_gauge_unknown;
-    }
-
+    [gaugeint>=3000] { line-color: @color_gauge_unknown; }
     /* miniature tracks with inaccurate gauge value */
 
     ["railway"="miniature"]["gauge"="narrow"],
     ["railway"="miniature"]["gauge"="broad"],
     ["railway"="miniature"]["gauge"="standard"],
     ["railway"="miniature"]["gauge"="unknown"],
-    ["railway"="miniature"]["gauge"=null] {
-      line-color: @color_gauge_miniature;
-    }
-
+    ["railway"="miniature"]["gauge"=null] { line-color: @color_gauge_miniature; }
     /* other tracks with inaccurate gauge value */
 
     ["railway"="narrow_gauge"]["gauge"="narrow"],
@@ -458,34 +305,22 @@
     ["railway"="rail"]["gauge"="narrow"],
     ["railway"="light_rail"]["gauge"="narrow"],
     ["railway"="subway"]["gauge"="narrow"],
-    ["railway"="tram"]["gauge"="narrow"] {
-      line-color: @color_gauge_narrow;
-    }
-
+    ["railway"="tram"]["gauge"="narrow"] { line-color: @color_gauge_narrow; }
     ["railway"="rail"]["gauge"="broad"],
     ["railway"="light_rail"]["gauge"="broad"],
     ["railway"="subway"]["gauge"="broad"],
-    ["railway"="tram"]["gauge"="broad"] {
-      line-color: @color_gauge_broad;
-    }
-
+    ["railway"="tram"]["gauge"="broad"] { line-color: @color_gauge_broad; }
     ["railway"="rail"]["gauge"="standard"],
     ["railway"="light_rail"]["gauge"="standard"],
     ["railway"="subway"]["gauge"="standard"],
-    ["railway"="tram"]["gauge"="standard"] {
-      line-color: @color_gauge_standard;
-    }
-
+    ["railway"="tram"]["gauge"="standard"] { line-color: @color_gauge_standard; }
     /* monorails or tracks with monorail gauge value */
 
     ["railway"="monorail"],
     ["railway"="rail"]["gauge"="monorail"],
     ["railway"="light_rail"]["gauge"="monorail"],
     ["railway"="subway"]["gauge"="monorail"],
-    ["railway"="tram"]["gauge"="monorail"] {
-      line-color: @color_gauge_monorail;
-    }
-  }
+    ["railway"="tram"]["gauge"="monorail"] { line-color: @color_gauge_monorail; }  }
 }
 
 #railway_text_med[zoom=8],

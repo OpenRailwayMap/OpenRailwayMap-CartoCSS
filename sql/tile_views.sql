@@ -1242,3 +1242,267 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       WHEN railway_has_key(tags, 'railway:signal:departure') THEN 400
       ELSE 0
     END) ASC NULLS FIRST;
+
+--- Electrification ---
+
+CREATE OR REPLACE VIEW electrification_railway_line_med AS
+  SELECT
+    way, railway, usage,
+    railway as feature,
+    NULL AS service,
+    NULL AS construction,
+    NULL AS construction_railway,
+    NULL AS construction_usage, NULL AS construction_service,
+    NULL AS preserved_railway, NULL AS preserved_service,
+    NULL AS preserved_usage,
+    CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+         ELSE 50
+      END AS rank,
+    electrification_state AS state,
+    electrification_state_without_future AS state_now,
+    railway_voltage_for_state(electrification_state, voltage, construction_voltage, proposed_voltage) AS merged_voltage,
+    railway_frequency_for_state(electrification_state, frequency, construction_frequency, proposed_frequency) AS merged_frequency,
+    railway_to_int(voltage) AS voltage,
+    railway_to_float(frequency) AS frequency
+  FROM
+    (SELECT
+       way, railway, usage,
+       railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS electrification_state,
+       railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, NULL, NULL, TRUE) AS electrification_state_without_future,
+       frequency AS frequency,
+       voltage AS voltage,
+       construction_frequency AS construction_frequency,
+       construction_voltage AS construction_voltage,
+       proposed_frequency AS proposed_frequency,
+       proposed_voltage AS proposed_voltage,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
+    ) AS r
+  ORDER BY
+    layer,
+    rank NULLS LAST;
+
+CREATE OR REPLACE VIEW electrification_railway_line AS
+  SELECT
+    way, railway, usage, service,
+    CASE
+      WHEN railway = 'construction' THEN construction_railway
+      ELSE railway
+    END as feature,
+    construction,
+    construction_railway,
+    construction_usage, construction_service,
+    preserved_railway, preserved_service,
+    preserved_usage,
+    CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+         WHEN railway IN ('preserved', 'construction') THEN 400
+         ELSE 50
+      END AS rank,
+    electrification_state_without_future AS state,
+    railway_voltage_for_state(electrification_state_without_future, voltage, construction_voltage, proposed_voltage) AS voltage,
+    railway_frequency_for_state(electrification_state_without_future, frequency, construction_frequency, proposed_frequency) AS frequency
+  FROM
+    (SELECT
+       way, railway, usage, service,
+       construction,
+       tags->'construction:railway' AS construction_railway,
+       tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
+       tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
+       tags->'preserved:usage' AS preserved_usage,
+       railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS electrification_state,
+       railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, NULL, NULL, TRUE) AS electrification_state_without_future,
+       frequency AS frequency,
+       voltage AS voltage,
+       construction_frequency AS construction_frequency,
+       construction_voltage AS construction_voltage,
+       proposed_frequency AS proposed_frequency,
+       proposed_voltage AS proposed_voltage,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved')
+    ) AS r
+  ORDER BY
+    layer,
+    rank NULLS LAST;
+
+CREATE OR REPLACE VIEW electrification_future AS
+  SELECT
+    way, railway, usage, service,
+    CASE
+      WHEN railway = 'construction' THEN construction_railway
+      ELSE railway
+    END as feature,
+    construction,
+    construction_railway,
+    construction_usage, construction_service,
+    preserved_railway, preserved_service,
+    preserved_usage,
+    CASE WHEN railway = 'rail' AND usage IN ('tourism', 'military', 'test') AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+         WHEN railway IN ('preserved', 'construction') THEN 400
+         ELSE 50
+      END AS rank,
+    electrification_state AS state,
+    railway_voltage_for_state(electrification_state, voltage, construction_voltage, proposed_voltage) AS voltage,
+    railway_frequency_for_state(electrification_state, frequency, construction_frequency, proposed_frequency) AS frequency
+  FROM
+    (SELECT
+       way, railway, usage, service,
+       construction,
+       tags->'construction:railway' AS construction_railway,
+       tags->'construction:usage' AS construction_usage, tags->'construction:service' AS construction_service,
+       tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
+       tags->'preserved:usage' AS preserved_usage,
+       railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS electrification_state,
+       frequency AS frequency,
+       voltage AS voltage,
+       construction_frequency AS construction_frequency,
+       construction_voltage AS construction_voltage,
+       proposed_frequency AS proposed_frequency,
+       proposed_voltage AS proposed_voltage,
+       layer
+     FROM openrailwaymap_osm_line
+     WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved')
+    ) AS r
+  ORDER BY
+    layer,
+    rank NULLS LAST;
+
+CREATE OR REPLACE VIEW electrification_signals AS
+  SELECT
+    way,
+    CASE
+
+      -- DE pantograph down advance El 3
+      -- AT Ankündigung Stromabnehmer tief
+      WHEN electricity_type = 'pantograph_down_advance' AND electricity_form = 'sign' AND signal_electricity IN ('DE-ESO:el3', 'AT-V2:andkündigung_stromabnehmer_tief') THEN 'de/el3'
+
+      -- DE power off advance sign El 1v
+      -- AT Ankündigung Hauptschalter aus
+      WHEN electricity_type = 'power_off_advance' AND electricity_form = 'sign' AND signal_electricity IN ('DE-ESO:el1v', 'AT-V2:ankündigung_hauptschalter_aus') THEN 'de/el1v'
+
+      -- DE end of catenary sign El 6
+      -- AT Halt für Fahrzeuge mit angehobenem Stromabnehmer
+      WHEN electricity_type = 'end_of_catenary' AND electricity_form = 'sign' AND signal_electricity IN ('DE-ESO:el6', 'AT-V2:halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer') THEN
+        CASE
+          WHEN electricity_turn_direction = 'left' THEN 'de/el6-left'
+          WHEN electricity_turn_direction = 'through' THEN 'de/el6-through'
+          WHEN electricity_turn_direction = 'right' THEN 'de/el6-right'
+          ELSE 'de/el6'
+        END
+
+      -- DE power on sign El 2
+      -- AT Hauptschalter ein
+      WHEN electricity_type = 'power_on' AND electricity_form = 'sign' AND signal_electricity IN ('DE-ESO:el2', 'AT-V2:hauptschalter_ein') THEN 'de/el2'
+
+      -- DE pantograph up El 5
+      -- AT Stromabnehmer hoch
+      WHEN electricity_type = 'pantograph_up' AND electricity_form = 'sign' AND signal_electricity IN ('DE-ESO:el5', 'AT-V2:stromabnehmer_hoch') THEN 'de/el5'
+
+      -- DE power off sign El 1
+      -- AT Hauptschalter aus
+      WHEN electricity_type = 'power_off' AND electricity_form = 'sign' AND signal_electricity IN ('DE-ESO:el1', 'AT-V2:hauptschalter_aus') THEN 'de/el1'
+
+      -- DE pantograph down El 4
+      -- AT Stromabnehmer tief
+      WHEN electricity_type = 'pantograph_down' AND electricity_form = 'sign' AND signal_electricity IN ('DE-ESO:el4', 'AT-V2:stromabnehmer_tief') THEN 'de/el4'
+
+      -- DE tram power off shortly signal (St 7)
+      WHEN electricity_type = 'power_off_shortly' AND electricity_form = 'sign' AND signal_electricity IN ('DE-BOStrab:st7', 'DE-AVG:st7') THEN 'de/bostrab/st7'
+
+    END as feature
+  FROM (
+    SELECT
+      way,
+      tags->'railway:signal:electricity' AS signal_electricity,
+      tags->'railway:signal:electricity:form' AS electricity_form,
+      tags->'railway:signal:electricity:turn_direction' AS electricity_turn_direction,
+      tags->'railway:signal:electricity:type' AS electricity_type
+    FROM openrailwaymap_osm_signals
+    WHERE
+      railway = 'signal'
+      AND signal_direction IS NOT NULL
+      AND tags ? 'railway:signal:electricity'
+  ) as signals;
+
+CREATE OR REPLACE VIEW electrification_railway_text_med AS
+  SELECT
+    way, railway, usage, service,
+    construction,
+    CASE
+      WHEN railway = 'construction' THEN tags->'construction:railway'
+      ELSE railway
+    END as feature,
+    tags->'construction:railway' AS construction_railway,
+    CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' THEN 1000
+         ELSE 50
+      END AS rank,
+    layer,
+    railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
+    railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS state
+  FROM openrailwaymap_osm_line
+  WHERE
+    railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
+    AND (
+    electrified IS NOT NULL
+      OR deelectrified IS NOT NULL
+      OR construction_electrified IS NOT NULL
+      OR proposed_electrified IS NOT NULL
+    )
+  ORDER by layer, rank NULLS LAST;
+
+CREATE OR REPLACE VIEW electrification_railway_text_high AS
+  SELECT
+    way, railway, usage, service,
+    construction,
+    tags->'construction:railway' AS construction_railway,
+    CASE
+      WHEN railway = 'construction' THEN tags->'construction:railway'
+      ELSE railway
+    END as feature,
+    CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
+         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
+         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
+         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
+         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
+         WHEN railway IN ('preserved', 'construction') THEN 400
+         ELSE 50
+      END AS rank,
+    layer,
+    railway_electrification_label(electrified, deelectrified, construction_electrified, proposed_electrified, voltage, frequency, construction_voltage, construction_frequency, proposed_voltage, proposed_frequency) AS label,
+    railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS state
+  FROM openrailwaymap_osm_line
+  WHERE
+    railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved')
+    AND (
+    electrified IS NOT NULL
+      OR deelectrified IS NOT NULL
+      OR construction_electrified IS NOT NULL
+      OR proposed_electrified IS NOT NULL
+    )
+  ORDER by layer, rank NULLS LAST;

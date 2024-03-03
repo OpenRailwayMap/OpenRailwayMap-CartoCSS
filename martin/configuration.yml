@@ -225,5 +225,89 @@ postgres:
         ref: string
         name: string
 
+    # --- Electrification --- #
+
+    electrification_railway_line_med:
+      schema: public
+      table: electrification_railway_line_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        state: string
+        usage: string
+        service: string
+        frequency: number
+        voltage: number
+
+    electrification_railway_line:
+      schema: public
+      table: electrification_railway_line
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        state: string
+        usage: string
+        service: string
+        frequency: number
+        voltage: number
+
+    electrification_future:
+      schema: public
+      table: electrification_future
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        state: string
+        usage: string
+        service: string
+        frequency: number
+        voltage: number
+
+    electrification_signals:
+      schema: public
+      table: electrification_signals
+      srid: 3857
+      geometry_column: way
+      geometry_type: POINT
+      properties:
+        feature: string
+
+    electrification_railway_text_med:
+      schema: public
+      table: electrification_railway_text_med
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        state: string
+        usage: string
+        service: string
+        label: string
+
+    electrification_railway_text_high:
+      schema: public
+      table: electrification_railway_text_high
+      srid: 3857
+      geometry_column: way
+      geometry_type: LINESTRING
+      properties:
+        railway: string
+        feature: string
+        state: string
+        usage: string
+        service: string
+        label: string
+
 fonts:
   - /config/fonts

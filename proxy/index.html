@@ -175,6 +175,7 @@
     speed: 'Speed',
     signals: 'Train protection',
     electrification: 'Electrification',
+    gauge: 'Gauge',
   };
   function hashToObject(hash) {
     if (!hash) {
@@ -285,6 +286,7 @@
           ['any',
             ['==', ['get', 'railway'], 'subway'],
             ['==', ['get', 'railway'], 'light_rail'],
+            ['==', ['get', 'railway'], 'monorail'],
           ],
           ['==', ['get', 'service'], null],
         ],
@@ -292,6 +294,7 @@
           ['any',
             ['==', ['get', 'feature'], 'subway'],
             ['==', ['get', 'feature'], 'light_rail'],
+            ['==', ['get', 'feature'], 'monorail'],
           ],
           ['==', ['get', 'service'], null],
         ],
@@ -353,6 +356,8 @@
             ['==', ['get', 'feature'], 'subway'],
             ['==', ['get', 'feature'], 'light_rail'],
             ['==', ['get', 'feature'], 'tram'],
+            ['==', ['get', 'feature'], 'monorail'],
+            ['==', ['get', 'feature'], 'miniature'],
           ],
           ['==', ['get', 'service'], null],
         ],
@@ -361,6 +366,8 @@
             ['==', ['get', 'feature'], 'subway'],
             ['==', ['get', 'feature'], 'light_rail'],
             ['==', ['get', 'feature'], 'tram'],
+            ['==', ['get', 'feature'], 'monorail'],
+            ['==', ['get', 'feature'], 'miniature'],
           ],
           ['==', ['get', 'service'], null],
         ],
@@ -425,6 +432,8 @@
             ['==', ['get', 'feature'], 'subway'],
             ['==', ['get', 'feature'], 'light_rail'],
             ['==', ['get', 'feature'], 'tram'],
+            ['==', ['get', 'feature'], 'monorail'],
+            ['==', ['get', 'feature'], 'miniature'],
           ],
           ['==', ['get', 'service'], null],
         ],
@@ -433,6 +442,8 @@
             ['==', ['get', 'feature'], 'subway'],
             ['==', ['get', 'feature'], 'light_rail'],
             ['==', ['get', 'feature'], 'tram'],
+            ['==', ['get', 'feature'], 'monorail'],
+            ['==', ['get', 'feature'], 'miniature'],
           ],
           ['==', ['get', 'service'], null],
         ],
@@ -500,6 +511,8 @@
             ['==', ['get', 'feature'], 'light_rail'],
             ['==', ['get', 'feature'], 'tram'],
             ['==', ['get', 'feature'], 'narrow_gauge'],
+            ['==', ['get', 'feature'], 'monorail'],
+            ['==', ['get', 'feature'], 'miniature'],
           ],
           ['==', ['get', 'service'], null],
         ],
@@ -507,6 +520,8 @@
           ['==', ['get', 'feature'], 'subway'],
           ['==', ['get', 'feature'], 'light_rail'],
           ['==', ['get', 'feature'], 'tram'],
+          ['==', ['get', 'feature'], 'monorail'],
+          ['==', ['get', 'feature'], 'miniature'],
         ],
       ],
       ['case',
@@ -792,6 +807,204 @@
     'line-join': 'round',
   };
 
+  const gauge_construction_dashes = [3, 3];
+  const dual_construction_dashes = [1.5, 4.5];
+  const multi_construction_dashes = [0, 1, 1, 4];
+
+  const gauge_proposed_dashes = [2, 4];
+
+  const gauge_dual_gauge_dashes = [4.5, 4.5];
+  const gauge_multi_gauge_dashes = [0, 3, 3, 3];
+
+  const color_gauge_0064 = '#006060';
+  const color_gauge_0089 = '#008080';
+  const color_gauge_0127 = '#00A0A0';
+  const color_gauge_0184 = '#00C0C0';
+  const color_gauge_0190 = '#00E0E0';
+  const color_gauge_0260 = '#00FFFF';
+  const color_gauge_0381 = '#80FFFF';
+  const color_gauge_0500 = '#A0FFFF';
+  const color_gauge_0597 = '#C0FFFF';
+  const color_gauge_0600 = '#E0FFFF';
+  const color_gauge_0610 = '#FFE0FF';
+  const color_gauge_0700 = '#FFC0FF';
+  const color_gauge_0750 = '#FFA0FF';
+  const color_gauge_0760 = '#FF80FF';
+  const color_gauge_0762 = '#FF60FF';
+  const color_gauge_0785 = '#FF40FF';
+  const color_gauge_0800 = '#FF00FF';
+  const color_gauge_0891 = '#E000FF';
+  const color_gauge_0900 = '#C000FF';
+  const color_gauge_0914 = '#A000FF';
+  const color_gauge_0950 = '#8000FF';
+  const color_gauge_1000 = '#6000FF';
+  const color_gauge_1009 = '#4000FF';
+  const color_gauge_1050 = '#0000FF';
+  const color_gauge_1067 = '#0000E0';
+  const color_gauge_1100 = '#0000C0';
+  const color_gauge_1200 = '#0000A0';
+  const color_gauge_1372 = '#000080';
+  const color_gauge_1422 = '#000060';
+  const color_gauge_1432 = '#000040';
+  const color_gauge_1435 = '#000000';
+  const color_gauge_1440 = '#400000';
+  const color_gauge_1445 = '#600000';
+  const color_gauge_1450 = '#700000';
+  const color_gauge_1458 = '#800000';
+  const color_gauge_1495 = '#A00000';
+  const color_gauge_1520 = '#C00000';
+  const color_gauge_1522 = '#E00000';
+  const color_gauge_1524 = '#FF0000';
+  const color_gauge_1581 = '#FF6000';
+  const color_gauge_1588 = '#FF8000';
+  const color_gauge_1600 = '#FFA000';
+  const color_gauge_1668 = '#FFC000';
+  const color_gauge_1676 = '#FFE000';
+  const color_gauge_1700 = '#FFFF00';
+  const color_gauge_1800 = '#E0FF00';
+  const color_gauge_1880 = '#C0FF00';
+  const color_gauge_2000 = '#A0FF00';
+  const color_gauge_miniature = '#80C0C0';
+  const color_gauge_monorail = '#C0C080';
+  const color_gauge_broad = '#FFC0C0';
+  const color_gauge_narrow = '#C0C0FF';
+  const color_gauge_standard = '#808080';
+  const color_gauge_unknown = '#C0C0C0';
+
+  const gaugeCasingPaint = {
+    'line-color': 'white',
+    'line-width': railwayLineWidth,
+    'line-gap-width': 0.75,
+  };
+
+  const gaugeFillPaint = (gaugeProperty, gaugeIntProperty, dashArray) => ({
+    'line-color': ['case',
+      // monorails or tracks with monorail gauge value
+      ['any',
+        ['==', ['get', 'railway'], 'monorail'],
+        ['all',
+          ['==', ['get', gaugeProperty], 'monorail'],
+          ['any',
+            ['==', ['get', 'railway'], 'rail'],
+            ['==', ['get', 'railway'], 'light_rail'],
+            ['==', ['get', 'railway'], 'subway'],
+            ['==', ['get', 'railway'], 'tram'],
+          ],
+        ],
+      ], color_gauge_monorail,
+      // other tracks with inaccurate gauge value
+      ['all',
+        ['==', ['get', gaugeProperty], 'standard'],
+        ['any',
+          ['==', ['get', 'railway'], 'rail'],
+          ['==', ['get', 'railway'], 'light_rail'],
+          ['==', ['get', 'railway'], 'subway'],
+          ['==', ['get', 'railway'], 'tram'],
+        ],
+      ], color_gauge_standard,
+      ['all',
+        ['==', ['get', gaugeProperty], 'broad'],
+        ['any',
+          ['==', ['get', 'railway'], 'rail'],
+          ['==', ['get', 'railway'], 'light_rail'],
+          ['==', ['get', 'railway'], 'subway'],
+          ['==', ['get', 'railway'], 'tram'],
+        ],
+      ], color_gauge_broad,
+      ['any',
+        ['all',
+          ['==', ['get', gaugeProperty], 'narrow'],
+          ['any',
+            ['==', ['get', 'railway'], 'rail'],
+            ['==', ['get', 'railway'], 'light_rail'],
+            ['==', ['get', 'railway'], 'subway'],
+            ['==', ['get', 'railway'], 'tram'],
+          ],
+        ],
+        ['all',
+          ['==', ['get', 'railway'], 'narrow_gauge'],
+          ['any',
+            ['==', ['get', gaugeProperty], 'narrow'],
+            ['==', ['get', gaugeProperty], 'broad'],
+            ['==', ['get', gaugeProperty], 'standard'],
+            ['==', ['get', gaugeProperty], 'unknown'],
+            ['==', ['get', gaugeProperty], null],
+          ],
+        ],
+      ], color_gauge_narrow,
+      // miniature tracks with inaccurate gauge value
+      ['all',
+        ['==', ['get', 'railway'], 'miniature'],
+        ['any',
+          ['==', ['get', gaugeProperty], 'narrow'],
+          ['==', ['get', gaugeProperty], 'broad'],
+          ['==', ['get', gaugeProperty], 'standard'],
+          ['==', ['get', gaugeProperty], 'unknown'],
+          ['==', ['get', gaugeProperty], null],
+        ],
+      ], color_gauge_miniature,
+      // unknown high numeric gauge values
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>=', ['get', gaugeIntProperty], 3000]], color_gauge_unknown,
+      // colors for numeric gauge values
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 88, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 63]], color_gauge_0064,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 127, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 88]], color_gauge_0089,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 184, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 127]], color_gauge_0127,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 190, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 184]], color_gauge_0184,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 260, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 190]], color_gauge_0190,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 380, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 260]], color_gauge_0260,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 500, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 380]], color_gauge_0381,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 597, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 500]], color_gauge_0500,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 600, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 597]], color_gauge_0597,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 609, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 600]], color_gauge_0600,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 700, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 609]], color_gauge_0610,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 750, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 700]], color_gauge_0700,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 760, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 750]], color_gauge_0750,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 762, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 760]], color_gauge_0760,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 785, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 762]], color_gauge_0762,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 800, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 785]], color_gauge_0785,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 891, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 800]], color_gauge_0800,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 900, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 891]], color_gauge_0891,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 914, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 900]], color_gauge_0900,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 950, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 914]], color_gauge_0914,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1000, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 950]], color_gauge_0950,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1009, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1000]], color_gauge_1000,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1050, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1009]], color_gauge_1009,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1066, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1050]], color_gauge_1050,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1100, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1066]], color_gauge_1067,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1200, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1100]], color_gauge_1100,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1372, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1200]], color_gauge_1200,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1422, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1372]], color_gauge_1372,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1432, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1422]], color_gauge_1422,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1435, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1432]], color_gauge_1432,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1440, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1435]], color_gauge_1435,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1445, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1440]], color_gauge_1440,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1450, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1445]], color_gauge_1445,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1458, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1450]], color_gauge_1450,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1495, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1458]], color_gauge_1458,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1520, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1495]], color_gauge_1495,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1522, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1520]], color_gauge_1520,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1524, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1522]], color_gauge_1522,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1581, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1524]], color_gauge_1524,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1588, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1581]], color_gauge_1581,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1600, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1588]], color_gauge_1588,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1668, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1600]], color_gauge_1600,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1672, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1668]], color_gauge_1668,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1700, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1672]], color_gauge_1676,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1800, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1700]], color_gauge_1700,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 1880, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1800]], color_gauge_1800,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 2000, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 1880]], color_gauge_1880,
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 3000, ['get', gaugeIntProperty]], ['>=', ['get', gaugeIntProperty], 2000]], color_gauge_2000,
+      // color for unknown low numeric gauge values
+      ['all', ['!=', ['get', gaugeIntProperty], null], ['>', 63, ['get', gaugeIntProperty]], ['>', ['get', gaugeIntProperty], 0]], color_gauge_unknown,
+      'gray',
+    ],
+    'line-width': railwayLineWidth,
+    'line-dasharray': dashArray,
+  });
+  const gaugeLayout = {
+    'line-join': 'round',
+  };
+
   const attribution = '<a href="https://github.com/hiddewie/OpenRailwayMap-vector" target="_blank">&copy; OpenRailwayMap contributors</a>';
 
   const openstreetmap = {
@@ -832,6 +1045,14 @@
       openrailwaymap: {
         type: 'vector',
         url: `${location.origin}/electrification`,
+        attribution,
+      },
+    },
+    gauge: {
+      openstreetmap,
+      openrailwaymap: {
+        type: 'vector',
+        url: `${location.origin}/gauge`,
         attribution,
       },
     },
@@ -2185,6 +2406,315 @@
         minzoom: 9,
         source: 'openrailwaymap',
         'source-layer': 'electrification_railway_text_high',
+        filter: ['step', ['zoom'],
+          ['all',
+            ['==', ['get', 'railway'], 'rail'],
+            ['any',
+              ['==', ['get', 'usage'], 'main'],
+              ['==', ['get', 'usage'], 'branch'],
+            ],
+            ['==', ['get', 'service'], null],
+          ],
+          10,
+          ['all',
+            ['==', ['get', 'railway'], 'rail'],
+            ['any',
+              ['==', ['get', 'usage'], 'main'],
+              ['==', ['get', 'usage'], 'branch'],
+              ['==', ['get', 'usage'], 'industrial'],
+            ],
+            ['==', ['get', 'service'], null],
+          ],
+          11,
+          ['any',
+            ['all',
+              ['==', ['get', 'railway'], 'rail'],
+              ['any',
+                ['==', ['get', 'usage'], 'main'],
+                ['==', ['get', 'usage'], 'branch'],
+              ],
+              ['==', ['get', 'service'], null],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'rail'],
+              ['==', ['get', 'usage'], 'industrial'],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'rail'],
+              ['==', ['get', 'usage'], null],
+              ['any',
+                ['==', ['get', 'service'], 'siding'],
+                ['==', ['get', 'service'], 'crossover'],
+                ['==', ['get', 'service'], 'spur'],
+              ],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'narrow_gauge'],
+              ['any',
+                ['==', ['get', 'service'], null],
+                ['==', ['get', 'service'], 'siding'],
+                ['==', ['get', 'service'], 'crossover'],
+                ['==', ['get', 'service'], 'spur'],
+              ],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'construction'],
+              ['==', ['get', 'feature'], 'rail'],
+              ['any',
+                ['==', ['get', 'usage'], 'main'],
+                ['==', ['get', 'usage'], 'branch'],
+              ],
+              ['==', ['get', 'service'], null],
+            ],
+          ],
+          12,
+          ['any',
+            ['all',
+              ['==', ['get', 'railway'], 'rail'],
+              ['any',
+                ['==', ['get', 'usage'], 'main'],
+                ['==', ['get', 'usage'], 'branch'],
+              ],
+              ['==', ['get', 'service'], null],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'rail'],
+              ['==', ['get', 'usage'], 'industrial'],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'rail'],
+              ['==', ['get', 'usage'], null],
+              ['any',
+                ['==', ['get', 'service'], 'siding'],
+                ['==', ['get', 'service'], 'crossover'],
+                ['==', ['get', 'service'], 'spur'],
+                ['==', ['get', 'service'], 'yard'],
+              ],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'narrow_gauge'],
+              ['any',
+                ['==', ['get', 'service'], null],
+                ['==', ['get', 'service'], 'siding'],
+                ['==', ['get', 'service'], 'crossover'],
+                ['==', ['get', 'service'], 'spur'],
+                ['==', ['get', 'service'], 'yard'],
+              ],
+            ],
+            ['all',
+              ['==', ['get', 'railway'], 'construction'],
+              ['==', ['get', 'feature'], 'rail'],
+              ['any',
+                ['==', ['get', 'usage'], 'main'],
+                ['==', ['get', 'usage'], 'branch'],
+                ['==', ['get', 'usage'], 'subway'],
+                ['==', ['get', 'usage'], 'light_rail'],
+              ],
+              ['==', ['get', 'service'], null],
+            ],
+            ['all',
+              ['any',
+                ['==', ['get', 'railway'], 'subway'],
+                ['==', ['get', 'railway'], 'light_rail'],
+              ],
+              ['==', ['get', 'service'], null],
+            ],
+          ],
+          13,
+          true,
+        ],
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1.5,
+        },
+        layout: {
+          'symbol-z-order': 'source',
+          'symbol-placement': 'line',
+          'text-field': '{label}',
+          // TODO not present: oblique font
+          'text-font': ['Noto Sans Bold'],
+          'text-size': 11,
+          'text-padding': 30,
+          'symbol-spacing': 100,
+        },
+      },
+    ],
+
+    gauge: [
+      backgroundColor,
+      backgroundMap,
+      {
+        id: 'gauge_railway_line_low_casing',
+        type: 'line',
+        maxzoom: 8,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line_med',
+        filter: ['==', ['get', 'usage'], 'main'],
+        paint: gaugeCasingPaint,
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_line_med_casing',
+        type: 'line',
+        minzoom: 8,
+        maxzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line_med',
+        paint: gaugeCasingPaint,
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_line_casing',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['!=', ['get', 'railway'], 'construction'],
+        paint: gaugeCasingPaint,
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_line_casing_construction',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['==', ['get', 'railway'], 'construction'],
+        paint: {
+          'line-color': 'white',
+          'line-width': railwayLineWidth,
+          'line-gap-width': 0.75,
+          'line-dasharray': gauge_construction_dashes,
+        },
+      },
+      {
+        id: 'gauge_railway_line_low_fill',
+        type: 'line',
+        maxzoom: 8,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line_med',
+        filter: ['==', ['get', 'usage'], 'main'],
+        paint: gaugeFillPaint('gauge0', 'gaugeint0', [1]),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_line_med_fill',
+        type: 'line',
+        minzoom: 8,
+        maxzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line_med',
+        paint: gaugeFillPaint('gauge0', 'gaugeint0', [1]),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_line_fill',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['!=', ['get', 'railway'], 'construction'],
+        paint: gaugeFillPaint('gauge0', 'gaugeint0', [1]),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_line_fill_construction',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['==', ['get', 'railway'], 'construction'],
+        paint: gaugeFillPaint('gauge0', 'gaugeint0', gauge_construction_dashes),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_dual_gauge_line',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['all',
+          ['!=', ['get', 'gauge1'], null],
+          ['!=', ['get', 'railway'], 'construction'],
+        ],
+        paint: gaugeFillPaint('gauge1', 'gaugeint1', gauge_dual_gauge_dashes),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_dual_gauge_line_construction',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['all',
+          ['!=', ['get', 'gauge1'], null],
+          ['==', ['get', 'railway'], 'construction'],
+        ],
+        paint: gaugeFillPaint('gauge1', 'gaugeint1', dual_construction_dashes),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_multi_gauge_line',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['all',
+          ['!=', ['get', 'gauge2'], null],
+          ['!=', ['get', 'railway'], 'construction'],
+        ],
+        paint: gaugeFillPaint('gauge2', 'gaugeint2', gauge_multi_gauge_dashes),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_multi_gauge_line_construction',
+        type: 'line',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
+        filter: ['all',
+          ['!=', ['get', 'gauge2'], null],
+          ['==', ['get', 'railway'], 'construction'],
+        ],
+        paint: gaugeFillPaint('gauge2', 'gaugeint2', multi_construction_dashes),
+        layout: gaugeLayout,
+      },
+      {
+        id: 'gauge_railway_text_med',
+        type: 'symbol',
+        minzoom: 8,
+        maxzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line_med',
+        filter: ['all',
+          ['==', ['get', 'railway'], 'rail'],
+          ['any',
+            ['==', ['get', 'usage'], 'main'],
+            ['==', ['get', 'usage'], 'branch'],
+          ],
+          ['==', ['get', 'service'], null],
+        ],
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1.5,
+        },
+        layout: {
+          'symbol-z-order': 'source',
+          'symbol-placement': 'line',
+          'text-field': '{label}',
+          // TODO under construction: oblique font
+          'text-font': ['Noto Sans Bold'],
+          'text-size': 11,
+          'text-padding': 30,
+          'symbol-spacing': 100,
+        },
+      },
+      {
+        id: 'gauge_railway_text_high',
+        type: 'symbol',
+        minzoom: 9,
+        source: 'openrailwaymap',
+        'source-layer': 'gauge_railway_line',
         filter: ['step', ['zoom'],
           ['all',
             ['==', ['get', 'railway'], 'rail'],

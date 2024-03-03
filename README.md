@@ -1,46 +1,62 @@
-# OpenRailwayMap CartoCSS Map Styles
+# OpenRailwayMap Vector Map Styles
 
-This is a port of the OpenRailwayMap Infrastructure map style from
-MapCSS to CartoCSS to be able to use Mapnik to render maps.
+This repository contains the visualization of railway infrastructure, speed limits, train protection, electrification and railway gauges using vector-based tiles and a web-based user interface. 
 
-## Differences to the MapCSS Style
-
-There are a couple of smaller and larger differences to the MapCSS style:
-
-* The rendering of station labels is more sophisticated because Osm2pgsql.
-  Stations are ranked by their importance. The importance is defined by the
-  number of route relations a station and its platforms and stop position nodes
-  belong to. Matching from stops and platforms to stations is based on names
-  and spatial proximity. Stop area relations (`type=public_transport`
-  + `public_transport=stop_area` are not used). The matching is sensitive to
-  differences in spelling.
-* Icons (radio towers, level crossings) have a higher priority than most labels.
-* The map style uses the Noto Sans font.
-* Railway lines have a white halo to improve visibility on colourful background maps.
-
-## Setup Notes
-
-See [SETUP.md](SETUP.md) for details.
+Documentation can be found on the [OpenStreetMap Wiki](https://wiki.openstreetmap.org/wiki/OpenRailwayMap).
 
 ## Architecture
 
-- maplibre GL JS: visualization raster + vector map tiles 
-- martin for vector tiles, mbtiles for tlies packaging
-- postgres + postgis + osm2psql
-- docker for building/packaging and development environment
-- fly.io deployment 
+This repository aims to contain all code, configuration and tooling for the OpenRailwayMap.
 
-all self contained in one repository
+- Data is provided by [OpenStreetMap](https://www.openstreetmap.org/about).
+- Data is stored in a [PostgreSQL](https://www.postgresql.org/) database, augmented by [PostGIS](https://postgis.net/) for spatial features.
+- Data is imported from the OpenStreetMap data files to PostgreSQL using [Osm2pgsql](https://osm2pgsql.org/).
+- Vector tiles are rendered from the database with [Martin](https://martin.maplibre.org/) (part of the [MapLibre initiative](https://maplibre.org/)) in the MBtiles format.
+- The user interface uses [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) to visualize the map content.
+- The style is specified using the [MapLibre Style Specification](https://maplibre.org/maplibre-style-spec/).
+- [Docker](https://www.docker.com/) is used to package the software and data for local development and deployment.
+- Deployment is done using [`fly.io`](https://fly.io/).
+
+## Changes from the CartoCSS style
+
+A number of changes have been made from the [upstream `OpenRailwayMap-CartoCSS` project](https://github.com/OpenRailwayMap/OpenRailwayMap-CartoCSS):
+- The raster tiles have been replaced with vector tiles.
+- MapCSS and Mapnik have been replaced with the MapLibre Style Specification and Martin.
+- Database views have been collapsed into single views to minimize data transfer.
+- Visualization of additional signalling has been added.
+- Fixes have been made for non-functional visualization rules.
+
+Upstream changes will be merged into this project.
+
+## Contributing
+
+Contributions are welcome!
+
+There are multiple ways to contribute to this project:
+- Improving the code and/or tooling.
+- Providing more details for visualization on the map, for the infrastructure, speed limit, train protection, electrification or gauge layer.
+- Providing icons for visualizing features on the map.
+- Providing translations for currently supported or new languages.
+- Providing user interface improvements.
+- Providing technical or user documentation.
+
+View the [contribution documentation](CONTRIBUTING.md) for details.
+
+## Local development and deployment
+
+To run the OpenRailwayMap locally, you can import OpenStreetMap data and run the tile and web server locally.
+
+View the [setup documentation](SETUP.md) for details.
 
 ## License
 
-Copyright ⓒ 2024 Hidde Wieringa
+Copyright © 2024 Hidde Wieringa
 
 The [original map style (CartoCSS)](https://github.com/OpenRailwayMap/OpenRailwayMap-CartoCSS/)
-is copyright ⓒ 2017–2019 Michael Reichert
+is copyright © 2017–2019 Michael Reichert
 
 The [original map style (MapCSS)](https://github.com/OpenRailwayMap/OpenRailwayMap/tree/master/styles)
-is Copyright ⓒ 2012 Alexander Matheisen
+is Copyright © 2012 Alexander Matheisen
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

@@ -64,7 +64,7 @@ services:
        martin-cp --config /config/configuration.yml --mbtiles-type flat --min-zoom "$$MIN_ZOOM" --max-zoom "$$MAX_ZOOM" "--bbox=$$BBOX" --source speed_railway_line_casing,speed_railway_line_med,speed_railway_line_fill,speed_railway_signals,speed_railway_line_text --output-file /tiles/speed.mbtiles --on-duplicate override && 
        martin-cp --config /config/configuration.yml --mbtiles-type flat --min-zoom "$$MIN_ZOOM" --max-zoom "$$MAX_ZOOM" "--bbox=$$BBOX" --source signals_railway_line,signals_railway_signals,signals_signal_boxes --output-file /tiles/signals.mbtiles --on-duplicate override &&
        martin-cp --config /config/configuration.yml --mbtiles-type flat --min-zoom "$$MIN_ZOOM" --max-zoom "$$MAX_ZOOM" "--bbox=$$BBOX" --source electrification_railway_line_med,electrification_railway_line,electrification_future,electrification_signals,electrification_railway_text_med,electrification_railway_text_high --output-file /tiles/electrification.mbtiles --on-duplicate override &&
-       martin-cp --config /config/configuration.yml --mbtiles-type flat --min-zoom "$$MIN_ZOOM" --max-zoom "$$MAX_ZOOM" "--bbox=$$BBOX" --source gauge_railway_line_low,gauge_railway_line_med,gauge_railway_line,railway_dual_gauge_line,railway_multi_gauge_line,gauge_railway_text_med,gauge_railway_text_high --output-file /tiles/gauge.mbtiles --on-duplicate override'
+       martin-cp --config /config/configuration.yml --mbtiles-type flat --min-zoom "$$MIN_ZOOM" --max-zoom "$$MAX_ZOOM" "--bbox=$$BBOX" --source gauge_railway_line_low,gauge_railway_line_med,gauge_railway_line,gauge_railway_text_med,gauge_railway_text_high --output-file /tiles/gauge.mbtiles --on-duplicate override'
     ]
     volumes:
       - ./martin:/config

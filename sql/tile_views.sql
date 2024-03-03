@@ -1550,11 +1550,13 @@ CREATE OR REPLACE VIEW gauge_railway_line_med AS
          ELSE 50
       END AS rank,
     railway_to_int(gauge) AS gaugeint0,
-    gauge as gauge0
+    gauge as gauge0,
+    label
   FROM
     (SELECT
        way, railway, usage,
        railway_desired_value_from_list(1, tags->'gauge') AS gauge,
+       railway_gauge_label(COALESCE(tags->'gauge', tags->'construction:gauge')) AS label,
        layer
      FROM openrailwaymap_osm_line
      WHERE railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
@@ -1596,7 +1598,8 @@ CREATE OR REPLACE VIEW gauge_railway_line AS
     railway_to_int(gauge1) AS gaugeint1,
     gauge1,
     railway_to_int(gauge2) AS gaugeint2,
-    gauge2
+    gauge2,
+    label
   FROM
     (SELECT
        way, railway, usage, service,
@@ -1610,6 +1613,7 @@ CREATE OR REPLACE VIEW gauge_railway_line AS
        railway_desired_value_from_list(1, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge0,
        railway_desired_value_from_list(2, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge1,
        railway_desired_value_from_list(3, COALESCE(tags->'gauge', tags->'construction:gauge')) AS gauge2,
+       railway_gauge_label(tags->'gauge') AS label,
        layer
      FROM openrailwaymap_osm_line
      WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
@@ -1617,56 +1621,3 @@ CREATE OR REPLACE VIEW gauge_railway_line AS
   ORDER BY
     layer,
     rank NULLS LAST;
-
-CREATE OR REPLACE VIEW gauge_railway_text_med AS
-  SELECT
-    way, railway, usage, service,
-    CASE
-      WHEN railway = 'construction' THEN tags->'construction:railway'
-      ELSE railway
-    END as feature,
-    construction,
-    tags->'construction:railway' AS construction_railway,
-    CASE WHEN railway = 'rail' AND usage = 'main' THEN 1100
-         WHEN railway = 'rail' AND usage = 'branch' THEN 1000
-         ELSE 50
-      END AS rank,
-    layer,
-    railway_gauge_label(tags->'gauge') AS label,
-    tags->'gauge' AS gauge,
-    NULL AS construction_gauge
-  FROM openrailwaymap_osm_line
-  WHERE
-    railway = 'rail' AND usage IN ('main', 'branch') AND service IS NULL
-  ORDER by layer, rank NULLS LAST;
-
-CREATE OR REPLACE VIEW gauge_railway_text_high AS
-  SELECT
-    way, railway, usage, service,
-    CASE
-      WHEN railway = 'construction' THEN tags->'construction:railway'
-      ELSE railway
-    END as feature,
-    construction,
-    tags->'construction:railway' AS construction_railway,
-    CASE WHEN railway = 'rail' AND usage IN ('usage', 'military', 'test') AND service IS NULL THEN 400
-         WHEN railway = 'rail' AND usage IS NULL AND service IS NULL THEN 400
-         WHEN railway = 'rail' AND usage IS NULL AND service = 'siding' THEN 870
-         WHEN railway = 'rail' AND usage IS NULL AND service = 'yard' THEN 860
-         WHEN railway = 'rail' AND usage IS NULL AND service = 'spur' THEN 880
-         WHEN railway = 'rail' AND usage IS NULL AND service = 'crossover' THEN 300
-         WHEN railway = 'rail' AND usage = 'main' AND service IS NULL THEN 1100
-         WHEN railway = 'rail' AND usage = 'branch' AND service IS NULL THEN 1000
-         WHEN railway = 'rail' AND usage = 'industrial' AND service IS NULL THEN 850
-         WHEN railway = 'rail' AND usage = 'industrial' AND service IN ('siding', 'spur', 'yard', 'crossover') THEN 850
-         WHEN railway IN ('preserved', 'construction') THEN 400
-         ELSE 50
-      END AS rank,
-    layer,
-    railway_gauge_label(COALESCE(tags->'gauge', tags->'construction:gauge')) AS label,
-    tags->'gauge' AS gauge,
-    tags->'construction:gauge' AS construction_gauge
-  FROM openrailwaymap_osm_line
-  WHERE
-    railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved', 'monorail', 'miniature')
-  ORDER by layer, rank NULLS LAST;

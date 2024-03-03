@@ -338,6 +338,7 @@ postgres:
         service: string
         gauge0: string
         gaugeint0: number
+        label: string
 
     gauge_railway_line:
       schema: public
@@ -356,31 +357,6 @@ postgres:
         gaugeint1: number
         gauge2: string
         gaugeint2: number
-
-    gauge_railway_text_med:
-      schema: public
-      table: gauge_railway_text_med
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        usage: string
-        service: string
-        label: string
-
-    gauge_railway_text_high:
-      schema: public
-      table: gauge_railway_text_high
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        usage: string
-        service: string
         label: string
 
 fonts:

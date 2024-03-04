@@ -79,6 +79,7 @@ postgres:
         railway: string
         station: string
         label: string
+        name: string
 
     standard_railway_symbols:
       schema: public

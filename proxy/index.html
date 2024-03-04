@@ -1459,7 +1459,11 @@
         },
         layout: {
           'symbol-z-order': 'source',
-          'text-field': '{label}',
+          'text-field': ['step', ['zoom'],
+            ['get', 'label'],
+            10,
+            ['get', 'name'],
+          ],
           // TODO light rail / subway oblique font
           'text-font': ['Noto Sans Bold'],
           // TODO text-variable-anchor-offset

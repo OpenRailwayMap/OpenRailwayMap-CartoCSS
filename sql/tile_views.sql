@@ -126,14 +126,16 @@ CREATE OR REPLACE VIEW standard_railway_text_stations AS
       WHEN railway = 'crossover' THEN 700
       ELSE 50
     END AS rank,
-    label
+    label,
+    name
   FROM
     (SELECT
        way,
        railway,
        route_count,
        tags->'station' AS station,
-       tags->'railway:ref' AS label
+       tags->'railway:ref' AS label,
+       COALESCE(tags->'short_name', name) AS name
      FROM stations_with_route_counts
      WHERE railway IN ('station', 'halt', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site')
        AND (name IS NOT NULL OR tags ? 'short_name')

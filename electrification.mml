@@ -217,7 +217,7 @@ Layer:
                 tags->'preserved:railway' AS preserved_railway, tags->'preserved:service' AS preserved_service,
                 tags->'preserved:usage' AS preserved_usage,
                 railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, proposed_electrified, FALSE) AS electrification_state,
-                railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, NULL, NULL, TRUE) AS electrification_state_without_future,
+                railway_electrification_state(railway, electrified, deelectrified, abandoned_electrified, construction_electrified, NULL, TRUE) AS electrification_state_without_future,
                 frequency AS frequency,
                 voltage AS voltage,
                 construction_frequency AS construction_frequency,
@@ -281,7 +281,7 @@ Layer:
                 proposed_voltage AS proposed_voltage,
                 layer
               FROM openrailwaymap_osm_line
-              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge', 'construction', 'preserved')
+              WHERE railway IN ('rail', 'tram', 'light_rail', 'subway', 'narrow_gauge')
             ) AS r
           ORDER BY
             layer,

@@ -153,10 +153,15 @@
   [zoom>=13]["railway"="light_rail"]["service"!=null],
   [zoom>=11]["railway"="tram"]["service"=null],
   [zoom>=13]["railway"="tram"]["service"!=null] {
+  
+    #railway_line_fill["railway"="construction"] {
+       line-dasharray: @construction-dashes;
+    }       
+  
 
     ["state"="no"],
-    ["state"="proposed"][zoom < 9],
-    ["state"="construction"][zoom < 9] {
+    ["state"="proposed_future"][zoom < 9],
+    ["state"="construction_future"][zoom < 9] {
        line-color: black;
     }
 
@@ -166,11 +171,11 @@
     }
 
     #electrification_future {
-      ["state"="construction"] {
+      ["state"="construction_future"] {
         line-dasharray: @construction-dashes;
       }
 
-      ["state"="proposed"] {
+      ["state"="proposed_future"] {
         line-dasharray: @proposed-dashes;
       }
     }

@@ -719,9 +719,9 @@ Format details:
   }
 
   /*******************************************/
-  /* DE Ne12 resetting switch distant signal */
+  /* DE Ne12 resetting switch distant sign   */
   /*******************************************/
-  [zoom>=17]["feature"="DE-ESO:ne12"]["resetting_switch_distant_form"="sign"] {
+  [zoom>=16]["feature"="DE-ESO:ne12"]["resetting_switch_distant_form"="sign"] {
     marker-file: url('symbols/de/ne12.svg');
     marker-width: 5.5;
     marker-height: 26;
@@ -731,7 +731,7 @@ Format details:
   /***********************************/
   /* DE Ne13 resetting switch signal */
   /***********************************/
-  [zoom>=17]["feature"="DE-ESO:ne13"]["resetting_switch_form"="light"] {
+  [zoom>=14]["feature"="DE-ESO:ne13"]["resetting_switch_form"="light"] {
     marker-file: url('symbols/de/ne13a.svg');
     marker-width: 12;
     marker-height: 8;

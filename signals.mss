@@ -145,21 +145,21 @@ Format details:
   /*****************************************************************************/
   [zoom>=15]["feature"="DE-ESO:so16"]["crossing_form"="light"] {
     marker-file: url('symbols/de/bue1-dv.svg');
-    marker-width: 7;
+    marker-width: 8.5;
     marker-height: 16;
     marker-allow-overlap: true;
 
     /* repeaters */
     ["crossing_repeated"="yes"] {
       marker-file: url('symbols/de/bue1-dv-repeated.svg');
-      marker-width: 9;
+      marker-width: 10;
       marker-height: 21;
     }
 
     /* shortened breaking distance */
     ["crossing_shortened"="yes"] {
       marker-file: url('symbols/de/bue1-dv-shortened.svg');
-      marker-width: 9;
+      marker-width: 10;
       marker-height: 21;
     }
   }
@@ -719,9 +719,9 @@ Format details:
   }
 
   /*******************************************/
-  /* DE Ne12 resetting switch distant signal */
+  /* DE Ne12 resetting switch distant sign   */
   /*******************************************/
-  [zoom>=17]["feature"="DE-ESO:ne12"]["resetting_switch_distant_form"="sign"] {
+  [zoom>=16]["feature"="DE-ESO:ne12"]["resetting_switch_distant_form"="sign"] {
     marker-file: url('symbols/de/ne12.svg');
     marker-width: 5.5;
     marker-height: 26;
@@ -731,11 +731,21 @@ Format details:
   /***********************************/
   /* DE Ne13 resetting switch signal */
   /***********************************/
-  [zoom>=17]["feature"="DE-ESO:ne13"]["resetting_switch_form"="light"] {
+  [zoom>=14]["feature"="DE-ESO:ne13"]["resetting_switch_form"="light"] {
     marker-file: url('symbols/de/ne13a.svg');
     marker-width: 12;
     marker-height: 8;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [resetting_switch_caption];
+      text-dy: 6;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
   /************************************/

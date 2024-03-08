@@ -300,6 +300,7 @@ Layer:
             ) AS feature,
             tags->'railway:signal:passing:caption' AS passing_caption,
             tags->'railway:signal:stop:caption' AS stop_caption,
+            tags->'railway:signal:resetting_switch:caption' AS resetting_switch_caption,
             tags->'railway:signal:combined:deactivated' AS combined_deactivated,
             tags->'railway:signal:main:deactivated' AS main_deactivated,
             tags->'railway:signal:distant:deactivated' AS distant_deactivated,

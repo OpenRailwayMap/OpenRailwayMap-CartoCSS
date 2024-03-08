@@ -736,6 +736,16 @@ Format details:
     marker-width: 12;
     marker-height: 8;
     marker-allow-overlap: true;
+
+    ::text {
+      text-name: [resetting_switch_caption];
+      text-dy: 6;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
   }
 
   /************************************/

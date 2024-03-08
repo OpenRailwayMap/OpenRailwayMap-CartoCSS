@@ -145,21 +145,21 @@ Format details:
   /*****************************************************************************/
   [zoom>=15]["feature"="DE-ESO:so16"]["crossing_form"="light"] {
     marker-file: url('symbols/de/bue1-dv.svg');
-    marker-width: 7;
+    marker-width: 8.5;
     marker-height: 16;
     marker-allow-overlap: true;
 
     /* repeaters */
     ["crossing_repeated"="yes"] {
       marker-file: url('symbols/de/bue1-dv-repeated.svg');
-      marker-width: 9;
+      marker-width: 10;
       marker-height: 21;
     }
 
     /* shortened breaking distance */
     ["crossing_shortened"="yes"] {
       marker-file: url('symbols/de/bue1-dv-shortened.svg');
-      marker-width: 9;
+      marker-width: 10;
       marker-height: 21;
     }
   }

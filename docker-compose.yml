@@ -4,7 +4,10 @@ services:
     image: db:v1
     build:
       context: .
-      dockerfile: Dockerfile.db
+      dockerfile: db.Dockerfile
+    command: |
+      postgres 
+      -c shared_preload_libraries='pg_stat_statements'
     ports:
       - '5432:5432'
     volumes:
@@ -20,11 +23,13 @@ services:
     image: import:v1
     build:
       context: .
-      dockerfile: Dockerfile.import
-    volumes:
-      - .:/openrailwaymap
+      dockerfile: import.Dockerfile
+    env_file:
+      - .env
     depends_on:
       - db
+    volumes:
+      - ./data:/data
     environment:
       - PGHOST=db
       - PGUSER=postgres

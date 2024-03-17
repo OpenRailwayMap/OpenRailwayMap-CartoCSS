@@ -118,6 +118,54 @@
         marker-allow-overlap: true;
       }
     }
+
+    /************************************/
+    /* DE begin of isolated overlap     */
+    /************************************/
+    ["electricity_type"="begin_of_isolated_overlap"]["electricity_form"="sign"] {
+      ["signal_electricity"="DE-ESO:streckentrennung"] {
+        marker-file: url("symbols/de/el-begin-isolated-overlap-sign.svg");
+        marker-width: 12;
+        marker-height: 16;
+        marker-allow-overlap: true;
+      }
+    }
+
+    /************************************/
+    /* DE end of isolated overlap       */
+    /************************************/
+    ["electricity_type"="end_of_isolated_overlap"]["electricity_form"="sign"] {
+      ["signal_electricity"="DE-ESO:streckentrennung"] {
+        marker-file: url("symbols/de/el-end-isolated-overlap-sign.svg");
+        marker-width: 12;
+        marker-height: 16;
+        marker-allow-overlap: true;
+      }
+    }
+
+    /************************************/
+    /* AT begin of isolated overlap     */
+    /************************************/
+    ["electricity_type"="begin_of_isolated_overlap"]["electricity_form"="sign"] {
+      ["signal_electricity"="AT-V2:streckentrennung"] {
+        marker-file: url("symbols/at/el-begin-isolated-overlap-sign.svg");
+        marker-width: 12;
+        marker-height: 16;
+        marker-allow-overlap: true;
+      }
+    }
+
+    /************************************/
+    /* AT end of isolated overlap       */
+    /************************************/
+    ["electricity_type"="end_of_isolated_overlap"]["electricity_form"="sign"] {
+      ["signal_electricity"="AT-V2:streckentrennung"] {
+        marker-file: url("symbols/at/el-end-isolated-overlap-sign.svg");
+        marker-width: 12;
+        marker-height: 16;
+        marker-allow-overlap: true;
+      }
+    }
   }
 
   /*******************************************/

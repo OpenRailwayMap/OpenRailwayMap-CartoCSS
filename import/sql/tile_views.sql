@@ -363,36 +363,55 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
         CASE
           -- for light signals: empty Zs3v "looks" exactly like empty Zs2v
           WHEN signal_speed_limit_distant_speed is null OR signal_speed_limit_distant_speed ~ '^off;\?$' THEN 'de/zs2v-unknown'
-          WHEN signal_speed_limit_distant_speed ~ '^(1[0-2]|[2-9])0$' THEN CONCAT('de/zs3v-', signal_speed_limit_distant_speed, '-light')
+          WHEN signal_speed_limit_distant_speed ~ '^([1-9]|1[0-6]|20)0$' THEN CONCAT('de/zs3v-', signal_speed_limit_distant_speed, '-light')
         END
 
       -- German speed signals (Zs 3) as signs
       WHEN feature = 'DE-ESO:zs3' AND signal_speed_limit_form = 'sign' THEN
-        'de/zs3-empty-sign-up'
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'de/zs3-empty-sign-up'
+          WHEN signal_speed_limit_speed ~ '^([1-9]|1[0-6])0$' THEN CONCAT('de/zs3-', signal_speed_limit_speed, '-sign-up')
+        END
 
       -- German speed signals (Zs 3) as light signals
       WHEN feature = 'DE-ESO:zs3' AND signal_speed_limit_form = 'light' THEN
         CASE
           -- for light signals: empty Zs3 "looks" exactly like empty Zs2
           WHEN signal_speed_limit_speed is null OR signal_speed_limit_speed ~ '^off;\?$' THEN 'de/zs2-unknown'
-          WHEN signal_speed_limit_speed ~ '^(1[0-2]|[2-9])0$' THEN CONCAT('de/zs3-', signal_speed_limit_speed, '-light')
+          WHEN signal_speed_limit_speed ~ '^([1-9]|1[0-6]|20)0$' THEN CONCAT('de/zs3-', signal_speed_limit_speed, '-light')
         END
 
       -- West German branch line speed signals (Lf 4 DS 301)
       WHEN feature = 'DE-ESO:db:lf4' AND signal_speed_limit_distant_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed ~ '^([2-8]0|1[05]|0)$' THEN CONCAT('de/lf4-ds301-', signal_speed_limit_distant_speed, '-sign-down')
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/lf4-ds301-empty-sign-down'
+          WHEN signal_speed_limit_distant_speed ~ '^([2-8]0|1?[05])$' THEN CONCAT('de/lf4-ds301-', signal_speed_limit_distant_speed, '-sign-down')
+        END
+
+      WHEN feature = 'DE-ESO:dr:lf4' AND signal_speed_limit_distant_form = 'sign' THEN
+        CASE
+          -- DB and DR variant have the same empty sign
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/lf4-ds301-empty-sign-down'
+          WHEN signal_speed_limit_distant_speed ~ '^(100|[2-8]0|1?[05])$' THEN CONCAT('de/lf4-dr-', signal_speed_limit_distant_speed, '-sign-down')
         END
 
       -- German line speed signals (Lf 6)
       WHEN feature = 'DE-ESO:lf6' AND signal_speed_limit_distant_form = 'sign' THEN
         CASE
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/lf6-empty-sign-down'
           WHEN signal_speed_limit_distant_speed ~ '^((1[0-9]|[1-9])0|5|15)$' THEN CONCAT('de/lf6-', signal_speed_limit_distant_speed, '-sign-down')
+        END
+
+      WHEN feature = 'DE-ESO:lf1' AND signal_speed_limit_distant_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/lf1-empty-sign-down'
+          WHEN signal_speed_limit_distant_speed ~ '^(5|15|[1-9]0|1[0-9]0|200)$' THEN CONCAT('de/lf1-', signal_speed_limit_distant_speed, '-sign-down')
         END
 
       WHEN feature = 'DE-HHA:l1' AND signal_speed_limit_distant_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed ~ '^[3-7]0$' THEN CONCAT('de/hha/l1-', signal_speed_limit_distant_speed, '-sign')
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/hha/l1-empty-sign'
+          WHEN signal_speed_limit_distant_speed ~ '^([3-7]0)$' THEN CONCAT('de/hha/l1-', signal_speed_limit_distant_speed, '-sign')
         END
 
       WHEN feature = 'DE-BOStrab:g3' AND signal_speed_limit_form = 'sign' THEN 'de/bostrab/g3'
@@ -400,18 +419,21 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
       -- German tram distance speed limit signals as signs (G 1a)
       WHEN feature = 'DE-BOStrab:g1a' AND signal_speed_limit_distant_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed ~ '^[1-6]0|[1-3]5$' THEN CONCAT('de/bostrab/g1a-', signal_speed_limit_distant_speed)
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/bostrab/g1a-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^([1-6]0|[1-3]5)$' THEN CONCAT('de/bostrab/g1a-', signal_speed_limit_distant_speed)
         END
 
       -- German tram speed limit signals as signs (G 4)
       WHEN feature = 'DE-BOStrab:g4' AND signal_speed_limit_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed ~ '^[2-7]0$|[23]5$' THEN CONCAT('de/bostrab/g4-', signal_speed_limit_distant_speed)
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/bostrab/g4-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^[(2-7]0$|[23]5)$' THEN CONCAT('de/bostrab/g4-', signal_speed_limit_distant_speed)
         END
 
       -- German tram speed limit signals as signs (G 2a)
       WHEN feature = 'DE-BOStrab:g2a' AND signal_speed_limit_form = 'sign' THEN
         CASE
+          WHEN signal_speed_limit_speed is null THEN 'de/bostrab/g2a-empty'
           WHEN signal_speed_limit_speed ~ '^([1-3]?5|[1-6]0)$' THEN CONCAT('de/bostrab/g2a-', signal_speed_limit_speed)
         END
 
@@ -424,10 +446,25 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
       -- German line speed signals (Lf 7)
       WHEN feature = 'DE-ESO:lf7' AND signal_speed_limit_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_speed ~ '^((1?[1-9]|[12]0)0|5|15)$' THEN CONCAT('de/lf7-', signal_speed_limit_speed, '-sign')
+          WHEN signal_speed_limit_speed is null THEN 'de/lf7-empty-sign'
+          WHEN signal_speed_limit_speed ~ '^(5|15|[1-9]0|1[0-9]0|200)$' THEN CONCAT('de/lf7-', signal_speed_limit_speed, '-sign')
         END
 
       WHEN feature = 'DE-HHA:l4' AND signal_speed_limit_form = 'sign' THEN 'de/hha/l4'
+
+      WHEN feature IN ('DE-ESO:lf2', 'DE-ESO:db:lf2') AND signal_speed_limit_form = 'sign' THEN 'de/lf2-sign'
+
+      WHEN feature = 'DE-ESO:dr:lf1/2' AND signal_speed_limit_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'de/lf1-2-empty-sign'
+          WHEN signal_speed_limit_speed ~ '^(5|[1-9]0|1[0-2]0)$' THEN CONCAT('de/lf1-2-', signal_speed_limit_speed, '-sign')
+        END
+
+      WHEN feature = 'DE-ESO:lf3' AND signal_speed_limit_form = 'sign' THEN 'de/lf3-sign'
+
+      WHEN feature = 'DE-ESO:db:zs10' AND signal_speed_limit_form = 'sign' THEN 'de/zs10-sign'
+
+      WHEN feature = 'DE-ESO:db:zs10' AND signal_speed_limit_form = 'light' THEN 'de/zs10-light'
 
       -- NL --
 

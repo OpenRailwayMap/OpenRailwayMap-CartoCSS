@@ -313,6 +313,7 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
   SELECT
     way,
     CASE
+
       -- AT --
 
       -- Austrian speed signals (Geschwindigkeitsvoranzeiger) as signs
@@ -414,27 +415,47 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
           WHEN signal_speed_limit_distant_speed ~ '^([3-7]0)$' THEN CONCAT('de/hha/l1-', signal_speed_limit_distant_speed, '-sign')
         END
 
-      WHEN feature = 'DE-BOStrab:g3' AND signal_speed_limit_form = 'sign' THEN 'de/bostrab/g3'
-
       -- German tram distance speed limit signals as signs (G 1a)
-      WHEN feature = 'DE-BOStrab:g1a' AND signal_speed_limit_distant_form = 'sign' THEN
+      WHEN feature IN ('DE-BOStrab:g1', 'DE-BOStrab:g1a', 'DE-BSVG:g1a') AND signal_speed_limit_distant_form = 'sign' THEN
         CASE
           WHEN signal_speed_limit_distant_speed is null THEN 'de/bostrab/g1a-empty'
-          WHEN signal_speed_limit_distant_speed ~ '^([1-6]0|[1-3]5)$' THEN CONCAT('de/bostrab/g1a-', signal_speed_limit_distant_speed)
+          WHEN signal_speed_limit_distant_speed ~ '^(5|[1-6][0-5])$' THEN CONCAT('de/bostrab/g1a-', signal_speed_limit_distant_speed)
         END
+
+      -- German tram distance speed limit signals as lights (G 1b)
+      WHEN feature IN ('DE-BOStrab:g1', 'DE-BOStrab:g1b') AND signal_speed_limit_distant_form = 'light' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed is null THEN 'de/bostrab/g1b-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^[1-7]0' THEN CONCAT('de/bostrab/g1b-', signal_speed_limit_distant_speed)
+        END
+
+      -- German tram speed limit signals as signs (G 2a)
+      WHEN feature IN ('DE-BOStrab:g2', 'DE-BOStrab:g2a', 'DE-BSVG:g2a') AND signal_speed_limit_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'de/bostrab/g2a-empty'
+          WHEN signal_speed_limit_speed ~ '^(5|[1-7][05])$' THEN CONCAT('de/bostrab/g2a-', signal_speed_limit_speed)
+        END
+
+      -- German tram speed limit signals as lights (G 2b)
+      WHEN feature IN ('DE-BOStrab:g2', 'DE-BOStrab:g2b') AND signal_speed_limit_form = 'light' THEN
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'de/bostrab/g2b-empty'
+          WHEN signal_speed_limit_speed ~ '^[1-7]0$' THEN CONCAT('de/bostrab/g2b-', signal_speed_limit_speed)
+        END
+
+      WHEN feature = 'DE-BOStrab:g3' AND signal_speed_limit_form = 'sign' THEN 'de/bostrab/g3'
 
       -- German tram speed limit signals as signs (G 4)
       WHEN feature = 'DE-BOStrab:g4' AND signal_speed_limit_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed is null THEN 'de/bostrab/g4-empty'
-          WHEN signal_speed_limit_distant_speed ~ '^[(2-7]0$|[23]5)$' THEN CONCAT('de/bostrab/g4-', signal_speed_limit_distant_speed)
+          WHEN signal_speed_limit_speed is null THEN 'de/bostrab/g4-empty'
+          WHEN signal_speed_limit_speed ~ '^(100|[2-9]0|[235]5)$' THEN CONCAT('de/bostrab/g4-', signal_speed_limit_speed)
         END
 
-      -- German tram speed limit signals as signs (G 2a)
-      WHEN feature = 'DE-BOStrab:g2a' AND signal_speed_limit_form = 'sign' THEN
+      WHEN feature = 'DE-UESTRA:g5' AND signal_speed_limit_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_speed is null THEN 'de/bostrab/g2a-empty'
-          WHEN signal_speed_limit_speed ~ '^([1-3]?5|[1-6]0)$' THEN CONCAT('de/bostrab/g2a-', signal_speed_limit_speed)
+          WHEN signal_speed_limit_speed is null THEN 'de/bostrab/g5-empty'
+          WHEN signal_speed_limit_speed ~ '^5|[1-6][05]$' THEN CONCAT('de/bostrab/g5-', signal_speed_limit_speed)
         END
 
       -- East German line speed signal "Eckentafel" (Lf 5)

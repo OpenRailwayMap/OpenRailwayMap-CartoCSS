@@ -1279,6 +1279,26 @@ Format details:
     }
   }
 
+  /***********************************************************/
+  /* DE BOStrab combined signals - similar to EBO Ks signals */
+  /***********************************************************/
+  [zoom>=15]["feature"="DE-BOStrab:h"] {
+      marker-file: url('symbols/de/ks-combined.svg');
+      marker-width: 10;
+      marker-height: 16;
+      marker-allow-overlap: true;
+
+    ::text {
+      text-name: [ref];
+      text-dy: 16;
+      text-fill: @signal-text-fill;
+      text-halo-radius: @signal-text-halo-radius;
+      text-halo-fill: @signal-text-halo-fill;
+      text-face-name: @bold-fonts;
+      text-size: 10;
+    }
+  }
+
   /****************************************/
   /* DE Hamburger Hochbahn main signal    */
   /****************************************/

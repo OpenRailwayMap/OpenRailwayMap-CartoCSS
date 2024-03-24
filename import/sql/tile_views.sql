@@ -350,6 +350,55 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
           WHEN signal_speed_limit_speed ~ '^(1[0-6]0|[1-9][05])$' THEN CONCAT('at/geschwindigkeitstafel-', signal_speed_limit_speed, '-sign')
         END
 
+      -- CH --
+
+      -- Vorsignal verminderte Geschwindigkeit
+      WHEN feature IN ('CH-FDV:209', 'CH-FDV:210') AND signal_speed_limit_distant_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed IS NULL THEN 'ch/fdv-209-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^([6-9][05]|1[0-1][05])$' THEN CONCAT('ch/fdv-209-', signal_speed_limit_distant_speed)
+        END
+
+      -- Anfangssignal verminderte Geschwindigkeit
+      WHEN feature = 'CH-FDV:211' AND signal_speed_limit_form = 'sign' THEN 'ch/fdv-211'
+
+      -- Endesignal verminderte Geschwindigkeit
+      WHEN feature = 'CH-FDV:212' AND signal_speed_limit_form = 'sign' THEN 'ch/fdv-212'
+
+      -- Vorsignal verminderte Geschwindigkeit für Neigetechnikzüge
+      WHEN feature = 'CH-FDV:213' AND signal_speed_limit_distant_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed IS NULL THEN 'ch/fdv-213-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^1[1-4]0$' THEN CONCAT('ch/fdv-213-', signal_speed_limit_distant_speed)
+        END
+
+      -- Anfangssignal verminderte Geschwindigkeit
+      WHEN feature = 'CH-FDV:214' AND signal_speed_limit_form = 'sign' THEN 'ch/fdv-214'
+
+      -- Endesignal verminderte Geschwindigkeit
+      WHEN feature = 'CH-FDV:215' AND signal_speed_limit_form = 'sign' THEN 'ch/fdv-215'
+
+      -- Merktafel für Änderung der Höchstgeschwindigkeit
+      WHEN feature = 'CH-FDV:217' AND signal_speed_limit_form = 'sign' THEN 'ch/fdv-217'
+
+      -- Geschwindigkeits-Ankündigung
+      WHEN feature IN ('CH-FDV:540', 'CH-FDV:541') AND signal_speed_limit_distant_form = 'light' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed IS NULL THEN 'ch/fdv-540-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^([4-9]|1[0-2])0$' THEN CONCAT('ch/fdv-540-', signal_speed_limit_distant_speed)
+        END
+
+      -- Geschwindigkeits-Ausführung
+      WHEN feature = 'CH-FDV:549' AND signal_speed_limit_form = 'light' THEN
+        CASE
+          -- Same form as CH-FDV:540 and CH-FDV:541
+          WHEN signal_speed_limit_speed IS NULL THEN 'ch/fdv-540-empty'
+          WHEN signal_speed_limit_speed ~ '^([4-9]|1[0-2])0$' THEN CONCAT('ch/fdv-540-', signal_speed_limit_speed)
+        END
+
+      -- Merktafel für Streckengeschwindigkeit beim Signalsystem N
+      WHEN feature = 'CH-FDV:569' AND signal_speed_limit_form = 'sign' THEN 'ch/fdv-569'
+
       -- DE --
 
       -- German speed signals (Zs 3v) as signs

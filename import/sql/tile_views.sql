@@ -492,9 +492,53 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
       -- NL speed limit light (part of main signal)
       WHEN feature = 'NL' AND signal_speed_limit_form = 'light' THEN 'nl/speed_limit_light'
 
+      -- PL --
+
+      -- D6 Tarcza zwolnić bieg
+      WHEN feature = 'PL-PKP:d6' AND signal_speed_limit_distant_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed is null THEN 'pl/d6-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^[1-9]0$' THEN CONCAT('pl/d6-', signal_speed_limit_distant_speed)
+        END
+
+      -- W8 Wskaźnik ograniczenia prędkości
+      WHEN feature = 'PL-PKP:w8' AND signal_speed_limit_distant_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed is null THEN 'pl/w8-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^([1-9]|1[0-9]|20)0$' THEN CONCAT('pl/w8-', signal_speed_limit_distant_speed)
+        END
+
+      -- W9 Wskaźnik odcinka ograniczonej prędkości
+      WHEN feature = 'PL-PKP:w9' AND signal_speed_limit_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'pl/w9-empty'
+          WHEN signal_speed_limit_speed ~ '^([2-9]|1[0-4])0$' THEN CONCAT('pl/w9-', signal_speed_limit_speed)
+        END
+
+      -- W21 Wskaźniki podwyższenia prędkości
+      WHEN feature = 'PL-PKP:w21' AND signal_speed_limit_form = 'light' THEN
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'pl/w21-empty'
+          WHEN signal_speed_limit_speed ~ '^([1-9]|1[0-9]|20)0$' THEN CONCAT('pl/w21-', signal_speed_limit_speed)
+        END
+
+      -- W22 Wskaźnik jazdy pociągu towarowego
+      WHEN feature = 'PL-PKP:w27a' AND signal_speed_limit_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'pl/w27a-empty'
+          WHEN signal_speed_limit_speed ~ '^([1-9]|1[0-9]|20)0$' THEN CONCAT('pl/w27a-', signal_speed_limit_speed)
+        END
+
+      -- W30 Wskaźnik ważenia składu
+      WHEN feature = 'PL-PKP:w30' AND signal_speed_limit_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_speed is null THEN 'pl/w30-empty'
+          WHEN signal_speed_limit_speed ~ '^5$' THEN CONCAT('pl/w30-', signal_speed_limit_speed)
+        END
+
     END as feature,
     CASE
-      WHEN feature IN ('NL', 'DE-HHA:l4', 'AT-V2:geschwindigkeitstafel', 'DE-ESO:lf7', 'DE-ESO:db:lf5', 'DE-ESO:dr:lf5', 'DE-ESO:db:lf4', 'DE-ESO:lf6', 'AT-V2:ankündigungstafel', 'DE-HHA:l1') THEN 'line'
+      WHEN feature IN ('NL', 'DE-HHA:l4', 'AT-V2:geschwindigkeitstafel', 'DE-ESO:lf7', 'DE-ESO:db:lf5', 'DE-ESO:dr:lf5', 'DE-ESO:db:lf4', 'DE-ESO:lf6', 'AT-V2:ankündigungstafel', 'DE-HHA:l1', 'PL-PKP:w21', 'PL-PKP:w27a') THEN 'line'
       WHEN feature IN ('DE-BOStrab:g2a', 'DE-BOStrab:g4', 'DE-BOStrab:g1a', 'DE-BOStrab:g3') THEN 'tram'
     END as type,
     azimuth

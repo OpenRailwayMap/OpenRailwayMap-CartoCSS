@@ -319,36 +319,65 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
       -- Austrian speed signals (Geschwindigkeitsvoranzeiger) as signs
       WHEN feature = 'AT-V2:geschwindigkeitsvoranzeiger' AND signal_speed_limit_distant_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed ~ '^(10|[1-9])0$' THEN CONCAT('at/geschwindigkeitsvoranzeiger-', signal_speed_limit_distant_speed, '-sign')
+          WHEN signal_speed_limit_distant_speed IS NULL THEN 'at/geschwindigkeitsvoranzeiger-empty-sign'
+          WHEN signal_speed_limit_distant_speed ~ '^(1[02]|[1-9])0$' THEN CONCAT('at/geschwindigkeitsvoranzeiger-', signal_speed_limit_distant_speed, '-sign')
         END
 
       -- Austrian speed signals (Geschwindigkeitsvoranzeiger) as light signals
       WHEN feature = 'AT-V2:geschwindigkeitsvoranzeiger' AND signal_speed_limit_distant_form = 'light' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed ~ '^(1[0-2]|[3-9])0$' THEN CONCAT('at/geschwindigkeitsvoranzeiger-', signal_speed_limit_distant_speed, '-light')
+          WHEN signal_speed_limit_distant_speed IS NULL THEN 'at/geschwindigkeitsvoranzeiger-empty-light'
+          WHEN signal_speed_limit_distant_speed ~ '^(1[0-4]|[2-9])0$' THEN CONCAT('at/geschwindigkeitsvoranzeiger-', signal_speed_limit_distant_speed, '-light')
         END
 
       -- Austrian speed signals (Geschwindigkeitsanzeiger)
       WHEN feature = 'AT-V2:geschwindigkeitsanzeiger' AND signal_speed_limit_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_speed ~ '^(1[0-26]|[1-9])0$' THEN CONCAT('at/geschwindigkeitsanzeiger-', signal_speed_limit_speed, '-sign')
+          WHEN signal_speed_limit_speed IS NULL THEN 'at/geschwindigkeitsanzeiger-empty-sign'
+          WHEN signal_speed_limit_speed ~ '^(1[0-6]|[1-9])0$' THEN CONCAT('at/geschwindigkeitsanzeiger-', signal_speed_limit_speed, '-sign')
         END
       WHEN feature = 'AT-V2:geschwindigkeitsanzeiger' AND signal_speed_limit_form = 'light' THEN
         CASE
-          WHEN signal_speed_limit_speed ~ '^(1[02]|[3-9])0$' THEN CONCAT('at/geschwindigkeitsanzeiger-', signal_speed_limit_speed, '-light')
+          WHEN signal_speed_limit_speed IS NULL THEN 'at/geschwindigkeitsanzeiger-empty-light'
+          WHEN signal_speed_limit_speed ~ '^(1[024]|[2-9])0$' THEN CONCAT('at/geschwindigkeitsanzeiger-', signal_speed_limit_speed, '-light')
         END
 
       -- Austrian line speed signals (Ankündigungstafel)
       WHEN feature = 'AT-V2:ankündigungstafel' AND signal_speed_limit_distant_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_distant_speed ~ '^(1[0-26]|[1-9])0$' THEN CONCAT('at/ankuendigungstafel-', signal_speed_limit_distant_speed, '-sign')
+          WHEN signal_speed_limit_distant_speed IS NULL THEN 'at/ankuendigungstafel-empty-sign'
+          WHEN signal_speed_limit_distant_speed ~ '^(1[0-4]0|10|[2-9][05])$' THEN CONCAT('at/ankuendigungstafel-', signal_speed_limit_distant_speed, '-sign')
         END
 
       -- Austrian line speed signals (Geschwindigkeitstafel)
       WHEN feature = 'AT-V2:geschwindigkeitstafel' AND signal_speed_limit_form = 'sign' THEN
         CASE
-          WHEN signal_speed_limit_speed ~ '^(1[0-6]0|[1-9][05])$' THEN CONCAT('at/geschwindigkeitstafel-', signal_speed_limit_speed, '-sign')
+          WHEN signal_speed_limit_speed IS NULL THEN 'at/geschwindigkeitstafel-empty-sign'
+          WHEN signal_speed_limit_speed ~ '^(1[0-6]0|[1-9][05]|5)$' THEN CONCAT('at/geschwindigkeitstafel-', signal_speed_limit_speed, '-sign')
         END
+
+      -- Austrian Salzburger Lokalbahn & Pinzgauer Lokalbahn X40
+      WHEN feature = 'AT-SLB:x40' AND signal_speed_limit_form = 'sign' THEN 'at/x40'
+
+      WHEN feature = 'AT-V2:anfangssignal' AND signal_speed_limit_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_speed IS NULL THEN 'at/anfangssignal-empty'
+          WHEN signal_speed_limit_speed ~ '^[1-6]0$' THEN CONCAT('at/anfangssignal-', signal_speed_limit_speed)
+        END
+
+      WHEN feature = 'AT-V2:ankündigungssignal' AND signal_speed_limit_distant_form = 'sign' THEN
+        CASE
+          WHEN signal_speed_limit_distant_speed IS NULL THEN 'at/ankündigungssignal-empty'
+          WHEN signal_speed_limit_distant_speed ~ '^[1-6]0$' THEN CONCAT('at/ankündigungssignal-', signal_speed_limit_distant_speed)
+        END
+
+      WHEN feature = 'AT-V2:endsignal' AND signal_speed_limit_form = 'sign' THEN 'at/endsignal'
+
+      WHEN feature = 'AT-V2:ankündigung_ek-sicht' AND signal_speed_limit_distant_form = 'sign' THEN 'at/ankündigung-ek-sicht'
+
+      WHEN feature = 'AT-V2:ankündigung_ek-sicht' AND signal_speed_limit_distant_form = 'sign' THEN 'at/ankündigung-ek-sicht'
+
+      WHEN feature = 'AT-V2:ek-sicht_pfeiftafel' AND signal_speed_limit_form = 'sign' THEN 'at/ek-sicht-pfeiftafel'
 
       -- CH --
 

@@ -1019,9 +1019,10 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       -- DE tram main signal "Fahrsignal"
       WHEN feature IN ('DE-AVG:f', 'DE-BOStrab:f') AND main_form = 'light' THEN
         CASE
-          WHEN main_states ~ '^(.*;)?DE-BOStrab:f3(;.*)?$' THEN 'de/bostrab/f3'
-          WHEN main_states ~ '^(.*;)?DE-BOStrab:f2(;.*)?$' THEN 'de/bostrab/f2'
-          WHEN main_states ~ '^(.*;)?DE-BOStrab:f1(;.*)?$' THEN 'de/bostrab/f1'
+          WHEN main_states ~ '^(.*;)?(DE-AVG|DE-BOStrab):f5(;.*)?$' THEN 'de/bostrab/f5'
+          WHEN main_states ~ '^(.*;)?(DE-AVG|DE-BOStrab):f3(;.*)?$' THEN 'de/bostrab/f3'
+          WHEN main_states ~ '^(.*;)?(DE-AVG|DE-BOStrab):f2(;.*)?$' THEN 'de/bostrab/f2'
+          WHEN main_states ~ '^(.*;)?(DE-AVG|DE-BOStrab):f1(;.*)?$' THEN 'de/bostrab/f1'
           ELSE 'de/bostrab/f0'
         END
 

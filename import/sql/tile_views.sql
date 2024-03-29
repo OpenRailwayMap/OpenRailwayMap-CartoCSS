@@ -809,12 +809,15 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
           ELSE 'de/bue4-ds'
         END
 
-      -- DE whistle sign Bü 4 (DS 301)
+      -- DE whistle sign Bü 2
       WHEN feature = 'DE-ESO:bü2' THEN
         CASE
           WHEN  crossing_distant_shortened = 'yes' THEN 'de/bue2-ds-reduced-distance'
           ELSE 'de/bue2-ds'
         END
+
+      -- DE whistle sign Bü 3
+      WHEN feature = 'DE-ESO:bü3' THEN 'de/bue3'
 
       -- DE whistle sign Pf 1 (DV 301)
       WHEN feature = 'DE-ESO:dr:pf1' THEN

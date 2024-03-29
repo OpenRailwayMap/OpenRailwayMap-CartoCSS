@@ -159,6 +159,7 @@ local signals = osm2pgsql.define_table({
     { column = 'electricity_turn_direction', type = 'text'},
     { column = 'electricity_type', type = 'text'},
     { column = 'resetting_switch_form', type = 'text'},
+    { column = 'resetting_switch_distant_form', type = 'text'},
   },
 })
 
@@ -328,7 +329,8 @@ function osm2pgsql.process_node(object)
       tags['railway:signal:main_repeated'] or
       tags['railway:signal:humping'] or
       tags['railway:signal:speed_limit'] or
-      tags['railway:signal:resetting_switch']
+      tags['railway:signal:resetting_switch'] or
+      tags['railway:signal:resetting_switch_distant']
     )
     local rank = (
       (tags['railway:signal:main'] and 10000) or
@@ -348,6 +350,7 @@ function osm2pgsql.process_node(object)
       (tags['railway:signal:whistle'] and 500) or
       (tags['railway:signal:departure'] and 400) or
       (tags['railway:signal:resetting_switch'] and 300) or
+      (tags['railway:signal:resetting_switch_distant'] and 200) or
       0
     )
     local deactivated = (
@@ -427,6 +430,7 @@ function osm2pgsql.process_node(object)
       electricity_turn_direction = tags['railway:signal:electricity:turn_direction'],
       electricity_type = tags['railway:signal:electricity:type'],
       resetting_switch_form = tags['railway:signal:resetting_switch:form'],
+      resetting_switch_distant_form = tags['railway:signal:resetting_switch_distant:form'],
     })
   end
 

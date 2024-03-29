@@ -756,6 +756,7 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       passing_type,
       train_protection_shape,
       resetting_switch_form,
+      resetting_switch_distant_form,
       azimuth
     FROM signals_with_azimuth
     WHERE
@@ -873,6 +874,9 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
 
       -- DE Ne13 resetting switch signal
       WHEN feature = 'DE-ESO:ne13' AND resetting_switch_form = 'light' THEN 'de/ne13a'
+
+      -- DE Ne12 resetting switch distant signal
+      WHEN feature = 'DE-ESO:ne12' AND resetting_switch_distant_form = 'sign' THEN 'de/ne12'
 
       -- DE shunting stop sign Ra 10
       -- AT shunting stop sign "Verschubhalttafel"

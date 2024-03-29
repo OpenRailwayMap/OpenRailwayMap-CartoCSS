@@ -751,6 +751,7 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       crossing_distant_shortened,
       crossing_shortened,
       ring_only_transit,
+      whistle_only_transit,
       train_protection_type,
       passing_type,
       train_protection_shape,
@@ -804,7 +805,7 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       -- DE crossing distant sign Bü 2
       WHEN feature = 'DE-ESO:db:bü4' THEN
         CASE
-          WHEN ring_only_transit = 'yes' THEN 'de/bue4-ds-only-transit'
+          WHEN whistle_only_transit = 'yes' THEN 'de/bue4-ds-only-transit'
           ELSE 'de/bue4-ds'
         END
 
@@ -818,14 +819,14 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       -- DE whistle sign Pf 1 (DV 301)
       WHEN feature = 'DE-ESO:dr:pf1' THEN
         CASE
-          WHEN ring_only_transit = 'yes' THEN 'de/pf1-dv-only-transit'
+          WHEN whistle_only_transit = 'yes' THEN 'de/pf1-dv-only-transit'
           ELSE 'de/pf1-dv'
         END
 
       -- DE ring sign Bü 5
       WHEN feature = 'DE-ESO:bü5' THEN
         CASE
-          WHEN  ring_only_transit = 'yes' THEN 'de/bue5-only-transit'
+          WHEN ring_only_transit = 'yes' THEN 'de/bue5-only-transit'
           ELSE 'de/bue5'
         END
 

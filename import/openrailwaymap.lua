@@ -158,6 +158,7 @@ local signals = osm2pgsql.define_table({
     { column = 'electricity_form', type = 'text'},
     { column = 'electricity_turn_direction', type = 'text'},
     { column = 'electricity_type', type = 'text'},
+    { column = 'resetting_switch_form', type = 'text'},
   },
 })
 
@@ -326,25 +327,27 @@ function osm2pgsql.process_node(object)
       tags['railway:signal:departure'] or
       tags['railway:signal:main_repeated'] or
       tags['railway:signal:humping'] or
-      tags['railway:signal:speed_limit']
+      tags['railway:signal:speed_limit'] or
+      tags['railway:signal:resetting_switch']
     )
     local rank = (
-      (tags['railway:signal:main'] and tags['railway:signal:main'] and 10000) or
-      (tags['railway:signal:combined'] and tags['railway:signal:combined'] and 10000) or
-      (tags['railway:signal:distant'] and tags['railway:signal:distant'] and 9000) or
-      (tags['railway:signal:train_protection'] and tags['railway:signal:train_protection'] and 8500) or
-      (tags['railway:signal:main_repeated'] and tags['railway:signal:main_repeated'] and 8000) or
-      (tags['railway:signal:minor'] and tags['railway:signal:minor'] and 4000) or
-      (tags['railway:signal:passing'] and tags['railway:signal:passing'] and 3500) or
-      (tags['railway:signal:shunting'] and tags['railway:signal:shunting'] and 3000) or
-      (tags['railway:signal:stop'] and tags['railway:signal:stop'] and 1000) or
-      (tags['railway:signal:stop_demand'] and tags['railway:signal:stop_demand'] and 900) or
-      (tags['railway:signal:station_distant'] and tags['railway:signal:station_distant'] and 550) or
-      (tags['railway:signal:crossing'] and tags['railway:signal:crossing'] and 1000) or
-      (tags['railway:signal:crossing_distant'] and tags['railway:signal:crossing_distant'] and 500) or
-      (tags['railway:signal:ring'] and tags['railway:signal:ring'] and 500) or
-      (tags['railway:signal:whistle'] and tags['railway:signal:whistle'] and 500) or
-      (tags['railway:signal:departure'] and tags['railway:signal:departure'] and 400) or
+      (tags['railway:signal:main'] and 10000) or
+      (tags['railway:signal:combined'] and 10000) or
+      (tags['railway:signal:distant'] and 9000) or
+      (tags['railway:signal:train_protection'] and 8500) or
+      (tags['railway:signal:main_repeated'] and 8000) or
+      (tags['railway:signal:minor'] and 4000) or
+      (tags['railway:signal:passing'] and 3500) or
+      (tags['railway:signal:shunting'] and 3000) or
+      (tags['railway:signal:stop'] and 1000) or
+      (tags['railway:signal:stop_demand'] and 900) or
+      (tags['railway:signal:station_distant'] and 550) or
+      (tags['railway:signal:crossing'] and 1000) or
+      (tags['railway:signal:crossing_distant'] and 500) or
+      (tags['railway:signal:ring'] and 500) or
+      (tags['railway:signal:whistle'] and 500) or
+      (tags['railway:signal:departure'] and 400) or
+      (tags['railway:signal:resetting_switch'] and 300) or
       0
     )
     local deactivated = (
@@ -423,6 +426,7 @@ function osm2pgsql.process_node(object)
       electricity_form = tags['railway:signal:electricity:form'],
       electricity_turn_direction = tags['railway:signal:electricity:turn_direction'],
       electricity_type = tags['railway:signal:electricity:type'],
+      resetting_switch_form = tags['railway:signal:resetting_switch:form'],
     })
   end
 

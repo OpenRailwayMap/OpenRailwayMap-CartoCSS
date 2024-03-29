@@ -716,6 +716,9 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       way,
       railway,
       ref,
+      ref_multiline,
+      ref_width,
+      ref_height,
       feature,
       rank,
       deactivated,
@@ -760,13 +763,16 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       azimuth
     FROM signals_with_azimuth
     WHERE
-      (railway IN ('signal', 'buffer_stop') AND signal_direction IS NOT NULL)
-       OR railway = 'derail'
+      ((railway IN ('signal', 'buffer_stop') AND signal_direction IS NOT NULL)
+        OR railway = 'derail')
+      -- TODO investigate signals with null features
+      AND feature IS NOT NULL
   )
   SELECT
     way,
     railway,
     ref,
+    ref_multiline,
     deactivated,
     CASE
 
@@ -884,7 +890,7 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
 
       -- DE wrong road signal Zs 6 (DB) / Zs 7 (DR)
       WHEN wrong_road = 'DE-ESO:db:zs6' AND wrong_road_form = 'sign' THEN 'de/zs6-sign'
-      WHEN wrong_road = 'DE-ESO:db:zs6' AND wrong_road_form = 'light' THEN 'de/zs6-light'
+      WHEN wrong_road = 'DE-ESO:db:zs6' AND wrong_road_form = 'light' THEN 'de/zs6-db-light'
       WHEN wrong_road = 'DE-ESO:db:zs7' AND wrong_road_form = 'light' THEN 'de/zs7-dr-light'
 
       -- DE tram minor stop sign Sh 1
@@ -966,8 +972,11 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
       WHEN feature = 'DE-HHA:v' AND distant_form = 'light' THEN 'de/hha/v1'
 
       -- DE block marker ("Blockkennzeichen")
-      -- TODO adopt flex/de/blockkennzeichen-[width]x[height]
-      WHEN feature = 'DE-ESO:blockkennzeichen' THEN 'de/blockkennzeichen'
+      WHEN feature = 'DE-ESO:blockkennzeichen' THEN
+        CASE
+          WHEN ref_width <= 4 AND ref_height <= 2 THEN CONCAT('de/blockkennzeichen-', ref_width, 'x', ref_height)
+          ELSE 'de/blockkennzeichen'
+        END
 
       -- DE distant signal replacement by sign So 106
       -- AT Kreuztafel
@@ -1160,6 +1169,7 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
     END as feature,
     azimuth
   FROM pre_signals
+  WHERE feature IS NOT NULL AND feature != ''
   ORDER BY rank NULLS FIRST;
 
 --- Electrification ---

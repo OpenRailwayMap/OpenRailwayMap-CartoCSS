@@ -214,6 +214,7 @@ postgres:
       properties:
         railway: string
         ref: string
+        ref_multiline: string
         feature: string
         deactivated: boolean
         azimuth: number

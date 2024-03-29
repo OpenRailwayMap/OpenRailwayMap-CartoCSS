@@ -11,6 +11,14 @@ function dump(o)
    end
 end
 
+function map(tbl, f)
+    local t = {}
+    for k,v in pairs(tbl) do
+        t[k] = f(v)
+    end
+    return t
+end
+
 local railway_line = osm2pgsql.define_table({
   name = 'railway_line',
   ids = { type = 'way', id_column = 'osm_id' },
@@ -111,6 +119,9 @@ local signals = osm2pgsql.define_table({
     { column = 'rank', type = 'smallint' },
     { column = 'deactivated', type = 'boolean' },
     { column = 'ref', type = 'text' },
+    { column = 'ref_multiline', type = 'text' },
+    { column = 'ref_width', type = 'smallint' },
+    { column = 'ref_height', type = 'smallint' },
     { column = 'signal_direction', type = 'text' },
     { column = 'wrong_road', type = 'text' },
     { column = 'wrong_road_form', type = 'text' },
@@ -374,6 +385,12 @@ function osm2pgsql.process_node(object)
       tags['railway:signal:humping:deactivated'] or
       tags['railway:signal:speed_limit:deactivated']
     ) == 'yes'
+    local ref_multiline, newline_count = (tags.ref or ''):gsub(' ', '\n')
+    local ref_height = newline_count + 1
+    local ref_width = 0
+    for part in string.gmatch(tags.ref or '', '[^ ]+') do
+      ref_width = math.max(ref_width, part:len())
+    end
 
     signals:insert({
       way = object:as_point(),
@@ -382,6 +399,9 @@ function osm2pgsql.process_node(object)
       rank = rank,
       deactivated = deactivated,
       ref = tags.ref,
+      ref_multiline = ref_multiline ~= '' and ref_multiline or nil,
+      ref_height = ref_multiline ~= '' and ref_height or nil,
+      ref_width = ref_multiline ~= '' and ref_width or nil,
       signal_direction = tags['railway:signal:direction'],
       wrong_road = tags['railway:signal:wrong_road'],
       wrong_road_form = tags['railway:signal:wrong_road:form'],

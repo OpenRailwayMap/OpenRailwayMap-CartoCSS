@@ -22,6 +22,28 @@ psql -d gis -c 'CREATE EXTENSION IF NOT EXISTS hstore;'
 
 echo "Using osm2psql cache ${OSM2PGSQL_CACHE:-256}MB, ${OSM2PGSQL_NUMPROC:-4} processes and data file ${OSM2PGSQL_DATAFILE:-data.osm.pbf}"
 
+# Filter the data for more efficient import
+# Store the filtered data for future use in the data directory
+OSM2PGSQL_INPUT_FILE="/data/${OSM2PGSQL_DATAFILE:-data.osm.pbf}"
+OSM2PGSQL_FILTERED_FILE="/data/filtered/${OSM2PGSQL_DATAFILE:-data.osm.pbf}"
+echo "Filtering data from $OSM2PGSQL_INPUT_FILE to $OSM2PGSQL_FILTERED_FILE"
+[[ -f "$OSM2PGSQL_FILTERED_FILE" ]] || \
+  osmium tags-filter \
+    -o "$OSM2PGSQL_FILTERED_FILE" \
+    "$OSM2PGSQL_INPUT_FILE" \
+    nwr/railway \
+    nwr/disused:railway \
+    nwr/abandoned:railway \
+    nwr/razed:railway \
+    nwr/construction:railway \
+    nwr/proposed:railway \
+    n/public_transport=stop_position \
+    nwr/public_transport=platform \
+    r/route=train \
+    r/route=tram \
+    r/route=light_rail \
+    r/route=subway
+
 echo "Importing data"
 # Importing data to a database
 osm2pgsql \
@@ -33,7 +55,7 @@ osm2pgsql \
   --style openrailwaymap.lua \
   --cache "${OSM2PGSQL_CACHE:-256}" \
   --number-processes "${OSM2PGSQL_NUMPROC:-4}" \
-  "/data/${OSM2PGSQL_DATAFILE:-data.osm.pbf}"
+  "$OSM2PGSQL_FILTERED_FILE"
 
 echo "Post processing imported data"
 psql -d gis -f sql/functions.sql

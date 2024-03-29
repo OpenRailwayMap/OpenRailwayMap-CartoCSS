@@ -405,7 +405,7 @@ function osm2pgsql.process_node(object)
       crossing_repeated = tags['railway:signal:crossing:repeated'],
       combined_shortened = tags['railway:signal:combined:shortened'],
       distant_shortened = tags['railway:signal:distant:shortened'],
-      crossing_distant_shortened = tags['railway:signal:crossing:distant:shortened'],
+      crossing_distant_shortened = tags['railway:signal:crossing_distant:shortened'],
       crossing_shortened = tags['railway:signal:crossing:shortened'],
       ring_only_transit = tags['railway:signal:ring:only_transit'],
       train_protection_type = tags['railway:signal:train_protection:type'],

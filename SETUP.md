@@ -2,23 +2,24 @@
 
 ## Fetching data
 
-Ensure an OpenStreetMap data file is downloaded, for example from https://download.geofabrik.de/europe.html. The file must be named `data.osm.pbf` or otherwise configured with the environment variable `OSM2PGSQL_DATAFILE`.
+Download an OpenStreetMap data file, for example from https://download.geofabrik.de/europe.html. Store the file as `data/data.osm.pbf` (you can customize the filename with `OSM2PGSQL_DATAFILE`).
 
 ## Development
 
 Import the data:
 ```shell
-docker compose up --build import
+docker compose run --build import import
 ```
+The import process will filter the file before importing it. The filtered file will be stored in the `data/filtered` directory, so future imports of the same data file can reuse the filtered data file.
 
 Start the tile server:
 ```shell
-docker compose up --build --force-recreate martin
+docker compose up --build martin
 ```
 
 Start the web server:
 ```shell
-docker compose up --build --force-recreate martin-proxy
+docker compose up --build martin-proxy
 ```
 
 The OpenRailwayMap is now available on http://localhost:8000.
@@ -27,12 +28,14 @@ The OpenRailwayMap is now available on http://localhost:8000.
 
 Import the data:
 ```shell
-docker compose up --build import
+docker compose run --build import import
 ```
 
 Build the tiles:
 ```shell
-docker compose up --build martin-cp
+for tile in low-med standard speed signals electrification gauge do
+    docker compose up --build martin-cp
+done
 ```
 
 Build and deploy the tile server:

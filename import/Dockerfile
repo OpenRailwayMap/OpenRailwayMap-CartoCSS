@@ -25,7 +25,6 @@ WORKDIR /openrailwaymap
 COPY sql sql
 COPY openrailwaymap.lua openrailwaymap.lua
 COPY docker-startup.sh docker-startup.sh
-COPY replication replication
 
 ENTRYPOINT ["/openrailwaymap/docker-startup.sh"]
 

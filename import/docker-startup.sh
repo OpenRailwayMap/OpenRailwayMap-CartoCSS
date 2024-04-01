@@ -49,12 +49,6 @@ import)
   echo "Initializing replication configuration"
   osm2pgsql-replication init --database gis
 
-  echo "Post processing imported data"
-  psql -d gis -f sql/functions.sql
-  psql -d gis -f sql/get_station_importance.sql
-  psql -d gis -f sql/signals_with_azimuth.sql
-  psql -d gis -f sql/tile_views.sql
-
   ;;
 
 update)
@@ -62,7 +56,6 @@ update)
   echo "Updating data (osm2psql cache ${OSM2PGSQL_CACHE:-256}MB, ${OSM2PGSQL_NUMPROC:-4} processes)"
   osm2pgsql-replication update \
     --database gis \
-    --post-processing ./replication/post-process-update.sh \
     -- \
     --slim \
     --output flex \
@@ -80,6 +73,16 @@ update)
   ;;
 
 esac
+
+echo "Post processing imported data"
+psql -d gis -f sql/functions.sql
+psql -d gis -f sql/get_station_importance.sql
+psql -d gis -f sql/signals_with_azimuth.sql
+psql -d gis -f sql/tile_views.sql
+
+echo "Updating materialized views"
+psql -d gis -f sql/update_signals_with_azimuth.sql
+psql -d gis -f sql/update_station_importance.sql
 
 echo "Vacuuming database"
 psql -d gis -c "VACUUM FULL;"

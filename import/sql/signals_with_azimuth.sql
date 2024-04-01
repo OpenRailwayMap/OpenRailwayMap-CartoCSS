@@ -1,5 +1,4 @@
 -- Table with signals including their azimuth based on the direction of the signal and the railway line
-DROP MATERIALIZED VIEW signals_with_azimuth CASCADE;
 CREATE MATERIALIZED VIEW IF NOT EXISTS signals_with_azimuth AS
   SELECT
     s.*,

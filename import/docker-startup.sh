@@ -74,6 +74,11 @@ update)
 
 esac
 
+# Clear all tags from the Osm2Psql tables
+psql -d gis -c "update planet_osm_nodes set tags = null;"
+psql -d gis -c "update planet_osm_ways set tags = null;"
+psql -d gis -c "update planet_osm_rels set tags = null;"
+
 echo "Post processing imported data"
 psql -d gis -f sql/functions.sql
 psql -d gis -f sql/get_station_importance.sql

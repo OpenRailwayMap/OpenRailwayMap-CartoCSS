@@ -37,6 +37,7 @@ _parts:
 Stylesheet:
   - fonts.mss
   - signals.mss
+  - signals_at.mss
   - signals_de.mss
   - signals_deactivated.mss
   - signal_boxes.mss

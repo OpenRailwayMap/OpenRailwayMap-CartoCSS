@@ -147,21 +147,9 @@ postgres:
       properties:
         railway: string
         ref: string
-        railway_local_operated: string
+        railway_local_operated: boolean
 
     # --- Speed --- #
-
-    speed_railway_line_casing:
-      schema: public
-      table: speed_railway_line_casing
-      srid: 3857
-      geometry_column: way
-      geometry_type: LINESTRING
-      properties:
-        railway: string
-        feature: string
-        usage: string
-        service: string
 
     speed_railway_line_fill:
       schema: public

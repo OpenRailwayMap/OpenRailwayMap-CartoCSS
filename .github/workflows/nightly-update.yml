@@ -3,8 +3,8 @@ name: Nightly update
 on:
   workflow_dispatch: ~
   schedule:
-    # Run daily at 3:47 UTC
-    - cron: '47 3 * * *'
+    # Run daily at 12:47 UTC
+    - cron: '47 12 * * *'
 
 jobs:
   trigger-circle-ci:

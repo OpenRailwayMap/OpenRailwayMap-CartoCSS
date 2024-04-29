@@ -441,19 +441,9 @@ const trainProtectionLayout = {
 };
 const trainProtectionFillPaint = dashArray => ({
   'line-color': ['match', ['get', 'train_protection'],
-    'zsi127', '#884400',
-    'ptc', '#cc0033',
-    'construction_etcs', '#87CEFA',
-    'etcs', 'blue',
-    'tvm', '#009966',
-    'kvb', '#66cc33',
-    'asfa', '#ff9092',
-    'scmt', '#dd11ff',
-    'atc', '#6600cc',
-    'atb', '#ff8c00',
-    'lzb', 'red',
-    'pzb', '#ffb900',
-    'other', 'black',
+    {% for train_protection in signals_railway_line.train_protections %}
+    '{% train_protection.train_protection %}', '{% train_protection.color %}',
+{% end %}
     'grey',
   ],
   'line-width': railwayLineWidth,
@@ -3304,60 +3294,57 @@ const legendData = {
       },
     ],
     'openrailwaymap_speed-speed_railway_signals': [
-      // TODO import from signals definition files
       // TODO filter per country polygon
-      // TODO ensure direction shows
+      {% for feature in speed_railway_signals.features %}
       {
-        legend: 'zs3v',
+        legend: `({% feature.country %}) {% feature.description %}`,
         type: 'point',
         properties: {
-          feature: 'de/zs3v-100-sign-down',
+          feature: '{% feature.icon.default %}',
           type: 'line',
-          azimuth: 90.0,
+          azimuth: null,
+        },
+        {% if feature.icon.cases %}
+        variants: [
+          {% for case in feature.icon.cases %}
+          {
+            legend: {% if case.description %}`{% case.description %}`{% else %}null{%end %},
+            properties: {
+              feature: '{% case.example | default(case.value) %}',
+            },
+          },
+{% end %}
+        ],
+{% end %}
+      },
+{% end %}
+      {
+        legend: 'signal direction',
+        type: 'point',
+        properties: {
+          feature: 'does-not-exist',
+          type: 'line',
+          azimuth: 270.0,
         },
       },
     ],
   },
   signals: {
     'openrailwaymap_low-railway_line_low': [
-      // TODO source from definition file
-      ...[
-        { trainProtection: 'etcs', legend: 'European Train Control System (ETCS)' },
-        { trainProtection: 'construction_etcs', legend: 'European Train Control System (under construction)' },
-        { trainProtection: 'zsi127', legend: 'ZSI 127' },
-        { trainProtection: 'ptc', legend: 'Positive train control (PTC)' },
-        { trainProtection: 'tvm', legend: 'Transmission Voie-Machine (TVM)' },
-        { trainProtection: 'kvb', legend: 'Contrôle de vitesse par balises (KVB)' },
-        { trainProtection: 'asfa', legend: 'Anuncio de Señales y Frenado Automático (ASFA)' },
-        { trainProtection: 'scmt', legend: 'Sistema Controllo Marcia Treno (SCMT)' },
-        { trainProtection: 'atc', legend: 'Automatic train control (ATC)' },
-        { trainProtection: 'atb', legend: 'Automatische treinbeïnvloeding (ATB)' },
-        { trainProtection: 'lzb', legend: 'Linienzugbeeinflussung (LZB)' },
-        { trainProtection: 'pzb', legend: 'Punktförmige Zugbeeinflussung (PZB)', }
-      ].map(({ trainProtection: train_protection, legend }) => ({
-        legend,
-        type: 'line',
-        properties: {
-          railway: 'rail',
-          feature: 'rail',
-          usage: 'main',
-          service: null,
-          train_protection,
-          train_protection_rank: 1,
-        },
-      })),
+      {% for train_protection in signals_railway_line.train_protections %}
       {
-        legend: '(other)',
+        legend: '{% train_protection.legend %}',
         type: 'line',
         properties: {
-          railway: 'rail',
+        railway: 'rail',
           feature: 'rail',
           usage: 'main',
           service: null,
-          train_protection: 'other',
+          train_protection: '{% train_protection.train_protection %}',
           train_protection_rank: 1,
         },
       },
+{% end %}
       {
         legend: '(unknown)',
         type: 'line',
@@ -3367,49 +3354,25 @@ const legendData = {
           usage: 'main',
           service: null,
           train_protection: null,
-          train_protection_rank: null,
+          train_protection_rank: 0,
         },
       },
     ],
     'openrailwaymap_med-railway_line_med': [
-      // TODO source from definition file
-      ...[
-        { trainProtection: 'etcs', legend: 'European Train Control System (ETCS)' },
-        { trainProtection: 'construction_etcs', legend: 'European Train Control System (under construction)' },
-        { trainProtection: 'zsi127', legend: 'ZSI 127' },
-        { trainProtection: 'ptc', legend: 'Positive train control (PTC)' },
-        { trainProtection: 'tvm', legend: 'Transmission Voie-Machine (TVM)' },
-        { trainProtection: 'kvb', legend: 'Contrôle de vitesse par balises (KVB)' },
-        { trainProtection: 'asfa', legend: 'Anuncio de Señales y Frenado Automático (ASFA)' },
-        { trainProtection: 'scmt', legend: 'Sistema Controllo Marcia Treno (SCMT)' },
-        { trainProtection: 'atc', legend: 'Automatic train control (ATC)' },
-        { trainProtection: 'atb', legend: 'Automatische treinbeïnvloeding (ATB)' },
-        { trainProtection: 'lzb', legend: 'Linienzugbeeinflussung (LZB)' },
-        { trainProtection: 'pzb', legend: 'Punktförmige Zugbeeinflussung (PZB)', }
-      ].map(({ trainProtection: train_protection, legend }) => ({
-        legend,
-        type: 'line',
-        properties: {
-          railway: 'rail',
-          feature: 'rail',
-          usage: 'main',
-          service: null,
-          train_protection,
-          train_protection_rank: 1,
-        },
-      })),
+      {% for train_protection in signals_railway_line.train_protections %}
       {
-        legend: '(other)',
+        legend: '{% train_protection.legend %}',
         type: 'line',
         properties: {
-          railway: 'rail',
+        railway: 'rail',
           feature: 'rail',
           usage: 'main',
           service: null,
-          train_protection: 'other',
+          train_protection: '{% train_protection.train_protection %}',
           train_protection_rank: 1,
         },
       },
+{% end %}
       {
         legend: '(unknown)',
         type: 'line',
@@ -3419,49 +3382,25 @@ const legendData = {
           usage: 'main',
           service: null,
           train_protection: null,
-          train_protection_rank: null,
+          train_protection_rank: 0,
         },
       },
     ],
     'openrailwaymap_signals-signals_railway_line': [
-      // TODO source from definition file
-      ...[
-        { trainProtection: 'etcs', legend: 'European Train Control System (ETCS)' },
-        { trainProtection: 'construction_etcs', legend: 'European Train Control System (under construction)' },
-        { trainProtection: 'zsi127', legend: 'ZSI 127' },
-        { trainProtection: 'ptc', legend: 'Positive train control (PTC)' },
-        { trainProtection: 'tvm', legend: 'Transmission Voie-Machine (TVM)' },
-        { trainProtection: 'kvb', legend: 'Contrôle de vitesse par balises (KVB)' },
-        { trainProtection: 'asfa', legend: 'Anuncio de Señales y Frenado Automático (ASFA)' },
-        { trainProtection: 'scmt', legend: 'Sistema Controllo Marcia Treno (SCMT)' },
-        { trainProtection: 'atc', legend: 'Automatic train control (ATC)' },
-        { trainProtection: 'atb', legend: 'Automatische treinbeïnvloeding (ATB)' },
-        { trainProtection: 'lzb', legend: 'Linienzugbeeinflussung (LZB)' },
-        { trainProtection: 'pzb', legend: 'Punktförmige Zugbeeinflussung (PZB)', }
-      ].map(({ trainProtection: train_protection, legend }) => ({
-        legend,
-        type: 'line',
-        properties: {
-          railway: 'rail',
-          feature: 'rail',
-          usage: 'main',
-          service: null,
-          train_protection,
-          train_protection_rank: 1,
-        },
-      })),
+      {% for train_protection in signals_railway_line.train_protections %}
       {
-        legend: '(other)',
+        legend: '{% train_protection.legend %}',
         type: 'line',
         properties: {
-          railway: 'rail',
+        railway: 'rail',
           feature: 'rail',
           usage: 'main',
           service: null,
-          train_protection: 'other',
+          train_protection: '{% train_protection.train_protection %}',
           train_protection_rank: 1,
         },
       },
+{% end %}
       {
         legend: '(unknown)',
         type: 'line',
@@ -3471,7 +3410,7 @@ const legendData = {
           usage: 'main',
           service: null,
           train_protection: null,
-          train_protection_rank: null,
+          train_protection_rank: 0,
         },
       },
       {
@@ -3498,7 +3437,38 @@ const legendData = {
       },
     ],
     'openrailwaymap_signals-signals_railway_signals': [
-      // TODO railway signals from definition file
+      {% for feature in signals_railway_signals.features %}
+      {
+        legend: `({% feature.country %}) {% feature.description %}`,
+        type: 'point',
+        properties: {
+          feature: '{% feature.icon.default %}',
+          azimuth: null,
+          deactivated: false,
+        },
+        {% if feature.icon.cases %}
+        variants: [
+          {% for case in feature.icon.cases %}
+          {
+            legend: {% if case.description %}`{% case.description %}`{% else %}null{%end %},
+            properties: {
+              feature: '{% case.example | default(case.value) %}',
+            },
+          },
+{% end %}
+        ],
+{% end %}
+      },
+{% end %}
+      {
+        legend: 'signal direction',
+        type: 'point',
+        properties: {
+          feature: 'does-not-exist',
+          azimuth: 270.0,
+          deactivated: false,
+        },
+      },
       // TODO country specific railway signals
       {
         legend: '(deactivated)',
@@ -3506,7 +3476,7 @@ const legendData = {
         properties: {
           feature: 'de/ks-combined',
           type: 'line',
-          azimuth: 90.0,
+          azimuth: null,
           deactivated: true,
         },
       },
@@ -3776,14 +3746,36 @@ const legendData = {
       },
     ],
     'openrailwaymap_electrification-electrification_signals': [
-      // TODO source from data file
+      {% for feature in electrification_signals.features %}
       {
-        legend: 'AT andkündigung stromabnehmer tief',
+        legend: `({% feature.country %}) {% feature.description %}`,
         type: 'point',
         properties: {
-          feature: 'de/el3',
+          feature: '{% feature.icon.default %}',
           type: 'line',
-          azimuth: 90.0,
+          azimuth: null,
+        },
+        {% if feature.icon.cases %}
+        variants: [
+          {% for case in feature.icon.cases %}
+          {
+            legend: {% if case.description %}`{% case.description %}`{% else %}null{%end %},
+            properties: {
+              feature: '{% case.example | default(case.value) %}',
+            },
+          },
+{% end %}
+        ],
+{% end %}
+      },
+{% end %}
+      {
+        legend: 'signal direction',
+        type: 'point',
+        properties: {
+          feature: 'does-not-exist',
+          type: 'line',
+          azimuth: 270.0,
         },
       },
     ],
@@ -4374,6 +4366,11 @@ function makeLegendStyle(style) {
         const applicable = layerVisibleAtZoom(legendZoom)(layer);
         const data = applicable ? (legendData[style][legendLayerName] ?? []) : [];
         const features = data.map(item => {
+          const legend = [item.legend, ...(item.variants ?? [])
+            .filter(variant => variant.legend)
+            .map(variant => variant.legend)]
+            .join(', ');
+
           const feature = {
             type: 'Feature',
             geometry: {
@@ -4381,7 +4378,7 @@ function makeLegendStyle(style) {
               coordinates: legendPointToMapPoint(legendZoom, [0.5, -entry * 0.6]),
             },
             properties: {
-              legend: [item.legend, ...(item.variants ?? []).map(variant => variant.legend)].join(', '),
+              legend,
             },
           };
           entry ++;

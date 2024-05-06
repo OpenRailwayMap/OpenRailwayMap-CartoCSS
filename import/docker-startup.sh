@@ -100,5 +100,5 @@ echo "Vacuuming database"
 psql -d gis -c "VACUUM FULL;"
 
 echo "Database summary"
-psql -d gis -c "select table_name as table, pg_size_pretty(pg_total_relation_size(quote_ident(table_name))) as size from information_schema.tables where table_schema = 'public' order by table_name;"
-psql -d gis -c "select pg_size_pretty(sum(pg_total_relation_size(quote_ident(table_name)))) as total_size from information_schema.tables where table_schema = 'public';"
+psql -d gis -P pager=off -c "select table_name as table, pg_size_pretty(pg_total_relation_size(quote_ident(table_name))) as size from information_schema.tables where table_schema = 'public' order by table_name;"
+psql -d gis -P pager=off -c "select pg_size_pretty(sum(pg_total_relation_size(quote_ident(table_name)))) as total_size from information_schema.tables where table_schema = 'public';"

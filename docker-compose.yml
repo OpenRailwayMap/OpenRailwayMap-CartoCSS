@@ -9,6 +9,8 @@ services:
     ports:
       - '5432:5432'
     shm_size: 1g
+    volumes:
+      - ./db/postgres-data:/var/lib/postgresql/postgres-data
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - PG_WORK_MEM

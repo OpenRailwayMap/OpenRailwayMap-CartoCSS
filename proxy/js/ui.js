@@ -289,7 +289,7 @@ map.addControl(new StyleControl({
   }
 }));
 map.addControl(new maplibregl.NavigationControl({
-  showCompass: false,
+  showCompass: true,
   visualizePitch: false,
 }));
 map.addControl(

@@ -9,14 +9,14 @@
   <link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16x16.png">
 
-  <link rel="stylesheet" href="css/bootstrap-4.1/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap-4.6/bootstrap.min.css">
   <link rel="stylesheet" href="css/maplibre-gl-4.3/maplibre-gl.css">
   <link rel="stylesheet" href="css/ui.css">
   <title>OpenRailwayMap</title>
 </head>
 
 <body>
-<div id="search-backdrop">
+<div id="search-backdrop" class="modal backdrop">
   <svg role="presentation" onclick="hideSearch()" id="cancel-search" class="search-icon" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
     <path d="M4 4 L28 28" />
     <path d="M4 28 L28 4" />
@@ -34,6 +34,43 @@
       </svg>
     </div>
     <div id="search-results"></div>
+  </div>
+</div>
+<div id="configuration-backdrop" class="modal backdrop" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title">Map configuration</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideConfiguration()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="backgroundSaturation">Background map saturation</label>
+            <input type="range" min="-1.0" max="0.0" step="0.05" class="form-control-range" id="backgroundSaturation" onchange="updateConfiguration('backgroundSaturation', parseFloat(this.value))">
+            <small class="form-text text-muted">
+              Control the saturation of the background map. The smallest value makes the map grayscale, while the largest value makes the map full color.
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="backgroundOpacity">Background map opacity</label>
+            <input type="range" min="0.0" max="1.0" step="0.05" class="form-control-range" id="backgroundOpacity" onchange="updateConfiguration('backgroundOpacity', parseFloat(this.value))">
+            <small class="form-text text-muted">
+              Control the opacity of the background map. The smallest value makes the map transparent, while the largest value makes the map opaque.
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="backgroundRasterUrl">Background map tile URL</label>
+            <input type="url" required class="form-control" id="backgroundRasterUrl" onchange="updateConfiguration('backgroundRasterUrl', this.value)">
+            <small class="form-text text-muted">
+              The tile URL of the background map. Only supports raster tiles. See <a href="https://wiki.openstreetmap.org/wiki/Raster_tile_providers" target="_blank">the wiki</a> for a list of raster tile providers.
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 <div id="legend">

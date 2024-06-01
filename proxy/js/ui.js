@@ -3,6 +3,10 @@ const search = document.getElementById('search');
 const searchResults = document.getElementById('search-results');
 const searchIcon = document.getElementById('search-icon');
 const cancelIcon = document.getElementById('cancel-icon');
+const configurationBackdrop = document.getElementById('configuration-backdrop');
+const backgroundSaturationControl = document.getElementById('backgroundSaturation');
+const backgroundOpacityControl = document.getElementById('backgroundOpacity');
+const backgroundRasterUrlControl = document.getElementById('backgroundRasterUrl');
 const legend = document.getElementById('legend')
 const legendMapContainer = document.getElementById('legend-map')
 
@@ -56,6 +60,17 @@ function hideSearch() {
   searchBackdrop.style.display = 'none';
 }
 
+function showConfiguration() {
+  backgroundSaturationControl.value = configuration.backgroundSaturation ?? defaultConfiguration.backgroundSaturation;
+  backgroundOpacityControl.value = configuration.backgroundOpacity ?? defaultConfiguration.backgroundOpacity;
+  backgroundRasterUrlControl.value = configuration.backgroundRasterUrl ?? defaultConfiguration.backgroundRasterUrl;
+  configurationBackdrop.style.display = 'block';
+}
+
+function hideConfiguration() {
+  configurationBackdrop.style.display = 'none';
+}
+
 function toggleLegend() {
   if (legend.style.display === 'block') {
     legend.style.display = 'none';
@@ -72,6 +87,11 @@ search.addEventListener('keydown', event => {
 searchBackdrop.onclick = event => {
   if (event.target === event.currentTarget) {
     hideSearch();
+  }
+};
+configurationBackdrop.onclick = event => {
+  if (event.target === event.currentTarget) {
+    hideConfiguration();
   }
 };
 
@@ -129,6 +149,41 @@ function putStyleInHash(hash, style) {
 
 let selectedStyle = determineStyleFromHash(window.location.hash)
 
+// Configuration //
+
+const localStorageKey = 'openrailwaymap-configuration';
+function readConfiguration(localStorage) {
+  const rawConfiguration = localStorage.getItem(localStorageKey);
+  if (rawConfiguration) {
+    try {
+      const parsedConfiguration = JSON.parse(rawConfiguration);
+      console.info('Found local configuration', parsedConfiguration);
+      return parsedConfiguration;
+    } catch (exception) {
+      console.error('Error parsing local storage value. Deleting from local storage. Value:', rawConfiguration, 'Error:', exception)
+      localStorage.removeItem(localStorageKey)
+      return {};
+    }
+  } else {
+    return {};
+  }
+}
+function storeConfiguration(localStorage, configuration) {
+  localStorage.setItem(localStorageKey, JSON.stringify(configuration));
+}
+function updateConfiguration(name, value) {
+  configuration[name] = value;
+  storeConfiguration(localStorage, configuration)
+  onStyleChange(selectedStyle);
+}
+
+const defaultConfiguration = {
+  backgroundSaturation: -1.0,
+  backgroundOpacity: 1.0,
+  backgroundRasterUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+}
+let configuration = readConfiguration(localStorage);
+
 const coordinateFactor = legendZoom => Math.pow(2, 5 - legendZoom);
 
 const legendPointToMapPoint = (zoom, [x, y]) =>
@@ -144,9 +199,19 @@ const legendStyles = Object.fromEntries(
     .map(style => [style, `${location.origin}/style/legend-${style}.json`])
 );
 
+const transformMapStyle = (style, configuration) => {
+  const backgroundMapLayer = style.layers.find(it => it.id === 'background-map');
+  backgroundMapLayer.paint['raster-saturation'] = configuration.backgroundSaturation ?? defaultConfiguration.backgroundSaturation;
+  backgroundMapLayer.paint['raster-opacity'] = configuration.backgroundOpacity ?? defaultConfiguration.backgroundOpacity;
+
+  const backgroundMapSource = style.sources.background_map;
+  backgroundMapSource.tiles = [configuration.backgroundRasterUrl ?? defaultConfiguration.backgroundRasterUrl];
+
+  return style;
+}
+
 const legendMap = new maplibregl.Map({
   container: 'legend-map',
-  style: legendStyles[selectedStyle],
   zoom: 5,
   center: [0, 0],
   attributionControl: false,
@@ -157,13 +222,38 @@ const legendMap = new maplibregl.Map({
 
 const map = new maplibregl.Map({
   container: 'map',
-  style: mapStyles[selectedStyle],
   hash: 'view',
   minZoom: globalMinZoom,
   maxZoom: glodalMaxZoom,
   minPitch: 0,
   maxPitch: 0,
 });
+
+const onStyleChange = changedStyle => {
+  selectedStyle = changedStyle;
+
+  // Change styles
+  map.setStyle(mapStyles[changedStyle], {
+    validate: false,
+    transformStyle: (previous, next) => {
+      return transformMapStyle(next, configuration);
+    },
+  });
+  legendMap.setStyle(legendStyles[changedStyle], {
+    validate: false,
+    transformStyle: (previous, next) => {
+      onStylesheetChange(next);
+      return next;
+    },
+  });
+
+  // Update URL
+  const updatedHash = putStyleInHash(window.location.hash, changedStyle);
+  const location = window.location.href.replace(/(#.+)?$/, updatedHash);
+  window.history.replaceState(window.history.state, null, location);
+}
+
+onStyleChange(selectedStyle);
 
 class StyleControl {
   constructor(options) {
@@ -238,6 +328,25 @@ class EditControl {
   }
 }
 
+class ConfigurationControl {
+  onAdd(map) {
+    this._map = map;
+    this._container = createDomElement('div', 'maplibregl-ctrl maplibregl-ctrl-group');
+    const button = createDomElement('button', 'maplibregl-ctrl-configuration', this._container);
+    button.type = 'button';
+    button.title = 'Configure the map'
+    button.onclick = _ => showConfiguration();
+    createDomElement('span', 'maplibregl-ctrl-icon', button);
+
+    return this._container;
+  }
+
+  onRemove() {
+    removeDomElement(this._container);
+    this._map = undefined;
+  }
+}
+
 class LegendControl {
   constructor(options) {
     this.options = options;
@@ -269,24 +378,7 @@ const legendEntriesCount = Object.fromEntries(Object.keys(knownStyles).map(key =
 
 map.addControl(new StyleControl({
   initialSelection: selectedStyle,
-  onStyleChange: changedStyle => {
-    selectedStyle = changedStyle;
-
-    // Change styles
-    map.setStyle(mapStyles[changedStyle], {validate: false});
-    legendMap.setStyle(legendStyles[changedStyle], {
-      validate: false,
-      transformStyle: (previous, next) => {
-        onStylesheetChange(next);
-        return next;
-      },
-    });
-
-    // Update URL
-    const updatedHash = putStyleInHash(window.location.hash, changedStyle);
-    const location = window.location.href.replace(/(#.+)?$/, updatedHash);
-    window.history.replaceState(window.history.state, null, location);
-  }
+  onStyleChange,
 }));
 map.addControl(new maplibregl.NavigationControl({
   showCompass: true,
@@ -304,6 +396,7 @@ map.addControl(
 );
 map.addControl(new maplibregl.FullscreenControl());
 map.addControl(new EditControl());
+map.addControl(new ConfigurationControl());
 
 map.addControl(new SearchControl(), 'top-left');
 
@@ -339,7 +432,3 @@ const onStylesheetChange = styleSheet => {
 
 map.on('load', () => onMapZoom(map.getZoom()));
 map.on('zoomend', () => onMapZoom(map.getZoom()));
-
-// Listen to the first stylesheet change
-// Followup stylesheet changes are handled by the style change callback
-legendMap.once('styledata', e => onStylesheetChange(e.style.stylesheet));

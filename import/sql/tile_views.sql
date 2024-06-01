@@ -213,6 +213,7 @@ CREATE OR REPLACE VIEW standard_railway_symbols AS
       WHEN railway = 'tram_stop' THEN 'general/tram-stop'
       WHEN railway = 'border' THEN 'general/border'
       WHEN railway = 'owner_change' THEN 'general/owner-change'
+      WHEN railway = 'lubricator' THEN 'general/lubricator'
       WHEN railway = 'radio' THEN
         CASE
           WHEN man_made IN ('mast', 'tower') THEN 'general/radio-mast'
@@ -225,7 +226,7 @@ CREATE OR REPLACE VIEW standard_railway_symbols AS
       ELSE 0
     END AS priority
   FROM pois
-  WHERE railway IN ('crossing', 'level_crossing', 'phone', 'tram_stop', 'border', 'owner_change', 'radio')
+  WHERE railway IN ('crossing', 'level_crossing', 'phone', 'tram_stop', 'border', 'owner_change', 'radio', 'lubricator')
   ORDER BY priority DESC;
 
 CREATE OR REPLACE VIEW standard_railway_text_km AS
@@ -434,7 +435,7 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
     (signal_direction = 'both') as direction_both
   FROM signals_with_azimuth
   WHERE ((railway IN ('signal', 'buffer_stop') AND signal_direction IS NOT NULL)
-    OR railway = 'derail')
+    OR railway IN ('derail', 'vacancy_detection'))
   ORDER BY rank NULLS FIRST)
   SELECT
     way,

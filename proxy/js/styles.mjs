@@ -1471,6 +1471,7 @@ const layers = {
         ['==', ['get', 'feature'], 'general/level-crossing'],
         ['==', ['get', 'feature'], 'general/level-crossing-light'],
         ['==', ['get', 'feature'], 'general/level-crossing-barrier'],
+        ['==', ['get', 'feature'], 'general/lubricator'],
       ],
       layout: {
         'symbol-z-order': 'source',
@@ -3207,6 +3208,28 @@ const legendData = {
           feature: 'general/phone',
         },
       },
+      {
+        legend: 'Lubricator',
+        type: 'point',
+        properties: {
+          feature: 'general/lubricator',
+        },
+      },
+      {
+        legend: 'Axle counter',
+        type: 'point',
+        properties: {
+          feature: 'general/vacancy-detection-axle-counter',
+        },
+        variants: [
+          {
+            legend: 'insulated rail joint',
+            properties: {
+              feature: 'general/vacancy-detection-insulated-rail-joint',
+            }
+          },
+        ]
+      },
     ],
     "openrailwaymap_standard-standard_railway_text_km": [
       {
@@ -3448,7 +3471,7 @@ const legendData = {
     ],
     'openrailwaymap_signals-signals_railway_signals': [
       ...signals_railway_signals.features.map(feature => ({
-        legend: `(${feature.country}) ${feature.description}`,
+        legend: `${feature.country ? `(${feature.country}) ` : ''}${feature.description}`,
         type: 'point',
         properties: {
           feature: feature.icon.default,

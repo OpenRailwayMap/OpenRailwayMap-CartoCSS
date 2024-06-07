@@ -78,17 +78,19 @@ Format details:
     }
   }
 
-  /*********************/
-  /* DE ring sign Bü 5 */
-  /*********************/
-  [zoom>=15]["feature"="DE-ESO:bü5"] {
+  /**************************/
+  /* DE ring sign Bü 5      */
+  /* DE tram ring sign Sh 4 */
+  /**************************/
+  [zoom>=15]["feature"="DE-ESO:bü5"],
+  [zoom>=15]["feature"="DE-BOStrab:sh4"] {
     marker-file: url('symbols/de/bue5.svg');
     marker-width: 11;
     marker-height: 16;
     marker-allow-overlap: true;
 
     /* DE ring sign Bü 5 for trains not stopping at a halt */
-    ["ring_only_transit"="yes"] {
+    ["feature"="DE-ESO:bü5"]["ring_only_transit"="yes"] {
       marker-file: url('symbols/de/bue5-only-transit.svg');
       marker-width: 12;
       marker-height: 21;

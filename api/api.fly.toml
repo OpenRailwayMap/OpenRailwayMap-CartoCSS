@@ -1,0 +1,14 @@
+app = 'openrailwaymap-api'
+primary_region = 'ams'
+
+[build]
+  dockerfile = 'Dockerfile'
+  build-target = 'runtime'
+
+[env]
+  PORT = "5000"
+
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 512

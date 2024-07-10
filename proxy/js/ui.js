@@ -15,7 +15,7 @@ function searchFor(term) {
     hideSearchResults();
   } else {
     // or ref=...
-    fetch(`https://api.openrailwaymap.org/v2/facility?name=${term}`)
+    fetch(`${location.origin}/api/facility?name=${term}`)
       .then(result => result.json())
       .then(result => {
         console.info('result', result, result.body)

@@ -1,8 +1,11 @@
 const searchBackdrop = document.getElementById('search-backdrop');
-const search = document.getElementById('search');
+const searchFacilitiesTab = document.getElementById('search-facilities-tab');
+const searchMilestonesTab = document.getElementById('search-milestones-tab');
+const searchFacilitiesForm = document.getElementById('search-facilities-form');
+const searchMilestonesForm = document.getElementById('search-milestones-form');
+const searchFacilityTermField = document.getElementById('facility-term');
+const searchMilestoneRefField = document.getElementById('milestone-ref');
 const searchResults = document.getElementById('search-results');
-const searchIcon = document.getElementById('search-icon');
-const cancelIcon = document.getElementById('cancel-icon');
 const configurationBackdrop = document.getElementById('configuration-backdrop');
 const backgroundSaturationControl = document.getElementById('backgroundSaturation');
 const backgroundOpacityControl = document.getElementById('backgroundOpacity');
@@ -10,16 +13,32 @@ const backgroundRasterUrlControl = document.getElementById('backgroundRasterUrl'
 const legend = document.getElementById('legend')
 const legendMapContainer = document.getElementById('legend-map')
 
-function searchFor(term) {
-  if (!term || term.length < 3) {
+function facilitySearchQuery(type, term) {
+  const encoded = encodeURIComponent(term)
+
+  switch (type) {
+    case 'name':
+      return `name=${encoded}`;
+    case 'ref':
+      return `ref=${encoded}`;
+    case 'uic_ref':
+      return `uic_ref=${encoded}`;
+    case 'all':
+    default:
+      return `q=${encoded}`;
+  }
+}
+
+function searchForFacilities(type, term) {
+  if (!term || term.length < 2) {
     hideSearchResults();
   } else {
-    // or ref=...
-    fetch(`${location.origin}/api/facility?name=${term}`)
+    const queryString = facilitySearchQuery(type, term)
+    fetch(`${location.origin}/api/facility?${queryString}`)
       .then(result => result.json())
       .then(result => {
-        console.info('result', result, result.body)
-        showSearchResults(result)
+        console.info('facility search result', result)
+        showSearchResults(result, item => item.name)
       })
       .catch(error => {
         hideSearchResults();
@@ -29,35 +48,74 @@ function searchFor(term) {
   }
 }
 
-function showSearchResults(results) {
+function searchForMilestones(ref, position) {
+  if (!ref || !position) {
+    hideSearchResults();
+  } else {
+    fetch(`${location.origin}/api/milestone?ref=${encodeURIComponent(ref)}&position=${encodeURIComponent(position)}`)
+      .then(result => result.json())
+      .then(result => {
+        console.info('milestone search result', result)
+        showSearchResults(result, item => `Ref: ${item.ref}, KM: ${item.position}`)
+      })
+      .catch(error => {
+        hideSearchResults();
+        hideSearch();
+        console.error(error);
+      });
+  }
+}
+
+function showSearchResults(results, renderItem) {
   let content = '';
   if (results.length === 0) {
-    content += `<div class="result"><i>No results</i></div>`
+    content += `<div class="list-group-item no-results"><i>No results</i></div>`
   } else {
     results.forEach(result => {
-      content += `<div class="result" onclick="hideSearchResults(); map.easeTo({center: [${result.latitude}, ${result.longitude}], zoom: 15}); hideSearch()">${result.name}</div>`
+      content += `<a class="list-group-item list-group-item-action" href="javascript:hideSearchResults(); map.easeTo({center: [${result.latitude}, ${result.longitude}], zoom: 15}); hideSearch()">${renderItem(result)}</a>`
     })
   }
   searchResults.innerHTML = content;
   searchResults.style.display = 'block';
-  cancelIcon.style.display = 'block';
-  searchIcon.style.display = 'none';
 }
 
 function hideSearchResults() {
   searchResults.style.display = 'none';
-  cancelIcon.style.display = 'none';
-  searchIcon.style.display = 'block';
 }
 
 function showSearch() {
   searchBackdrop.style.display = 'block';
-  search.focus();
-  search.select();
+  if (searchFacilitiesForm.style.display === 'block') {
+    searchFacilityTermField.focus();
+    searchFacilityTermField.select();
+  } else if (searchMilestonesForm.style.display === 'block') {
+    searchMilestoneRefField.focus();
+    searchMilestoneRefField.select();
+  }
 }
 
 function hideSearch() {
   searchBackdrop.style.display = 'none';
+}
+
+function searchFacilities() {
+  searchFacilitiesTab.classList.add('active')
+  searchMilestonesTab.classList.remove('active')
+  searchFacilitiesForm.style.display = 'block';
+  searchMilestonesForm.style.display = 'none';
+  searchFacilityTermField.focus();
+  searchFacilityTermField.select();
+  hideSearchResults();
+}
+
+function searchMilestones() {
+  searchFacilitiesTab.classList.remove('active')
+  searchMilestonesTab.classList.add('active')
+  searchFacilitiesForm.style.display = 'none';
+  searchMilestonesForm.style.display = 'block';
+  searchMilestoneRefField.focus();
+  searchMilestoneRefField.select();
+  hideSearchResults();
 }
 
 function showConfiguration() {
@@ -79,11 +137,18 @@ function toggleLegend() {
   }
 }
 
-search.addEventListener('keydown', event => {
-  if (event.key === 'Enter') {
-    searchFor(event.target.value);
-  }
-});
+searchFacilitiesForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData);
+  searchForFacilities(data.type, data.term)
+})
+searchMilestonesForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData);
+  searchForMilestones(data.ref, data.position)
+})
 searchBackdrop.onclick = event => {
   if (event.target === event.currentTarget) {
     hideSearch();

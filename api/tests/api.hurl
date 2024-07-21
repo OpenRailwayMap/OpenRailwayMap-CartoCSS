@@ -45,7 +45,23 @@ HTTP 200
 [Asserts]
 jsonpath "$" count == 25
 
-# TODO request with too large limit
+# Facility request too large limit
+GET {{base_url}}/facility
+[QueryStringParams]
+name: Berlin
+limit: 201
+HTTP 422
+[Asserts]
+jsonpath "$.detail[0].msg" == "Input should be less than or equal to 200"
+
+# Facility request too small limit
+GET {{base_url}}/facility
+[QueryStringParams]
+name: Berlin
+limit: 0
+HTTP 422
+[Asserts]
+jsonpath "$.detail[0].msg" == "Input should be greater than or equal to 1"
 
 # Facility request with hyphen
 GET {{base_url}}/facility
@@ -103,8 +119,123 @@ HTTP 200
 jsonpath "$" count == 1
 jsonpath "$[0].name" == "Karl-Marx-Straße"
 
-# TODO facility request with q query
-# TODO facility request with UIC queries
+# Facility search for reference
+GET {{base_url}}/facility
+[QueryStringParams]
+ref: BOKN
+HTTP 200
+[Asserts]
+jsonpath "$" count == 1
+jsonpath "$[0].name" == "Berlin Ostkreuz (Ringbahn-F)"
+
+# Facility search for reference
+GET {{base_url}}/facility
+[QueryStringParams]
+ref: BOKN
+HTTP 200
+[Asserts]
+jsonpath "$" count == 1
+jsonpath "$[0].name" == "Berlin Ostkreuz (Ringbahn-F)"
+
+# Facility search for UIC reference
+GET {{base_url}}/facility
+[QueryStringParams]
+uic_ref: 8089028
+HTTP 200
+[Asserts]
+jsonpath "$" count == 2
+jsonpath "$[0].name" == "Ostkreuz"
+jsonpath "$[1].name" == "Ostkreuz (Ringbahn)"
+
+# Facility search for name, reference or UIC reference
+GET {{base_url}}/facility
+[QueryStringParams]
+q: BOK
+HTTP 200
+[Asserts]
+jsonpath "$" count == 1
+jsonpath "$[0].name" == "Ostkreuz (Ringbahn)"
+
+# Facility search for name, reference or UIC reference
+GET {{base_url}}/facility
+[QueryStringParams]
+q: Berlin Ostkreuz
+HTTP 200
+[Asserts]
+jsonpath "$" count == 5
+jsonpath "$[0].name" == "Ostkreuz"
+jsonpath "$[1].name" == "Berlin Ostkreuz (Stadtbahn-F)"
+jsonpath "$[2].name" == "Berlin Ostkreuz (Ringbahn-F)"
+jsonpath "$[3].name" == "Berlin Ostkreuz (Ostbahn)"
+jsonpath "$[4].name" == "Ostkreuz (Ringbahn)"
+
+# Facility search for name, reference or UIC reference
+GET {{base_url}}/facility
+[QueryStringParams]
+q: 8089028
+HTTP 200
+[Asserts]
+jsonpath "$" count == 2
+jsonpath "$[0].name" == "Ostkreuz"
+jsonpath "$[1].name" == "Ostkreuz (Ringbahn)"
+
+# Facility request missing required parameter
+GET {{base_url}}/facility
+HTTP 422
+[Asserts]
+jsonpath "$.detail.error" == "No argument with a search term provided."
+jsonpath "$.detail.detail" == "Provide one of the following query parameters: q, name, ref, uic_ref"
+
+# Facility request duplicated search parameters (1)
+GET {{base_url}}/facility
+[QueryStringParams]
+q: 8089028
+ref: test
+HTTP 422
+[Asserts]
+jsonpath "$.detail.error" == "More than one argument with a search term provided."
+jsonpath "$.detail.detail" == "Provide only one of the following query parameters: q, name, ref, uic_ref"
+
+# Facility request duplicated search parameters (2)
+GET {{base_url}}/facility
+[QueryStringParams]
+q: 8089028
+uic_ref: test
+HTTP 422
+[Asserts]
+jsonpath "$.detail.error" == "More than one argument with a search term provided."
+jsonpath "$.detail.detail" == "Provide only one of the following query parameters: q, name, ref, uic_ref"
+
+# Facility request duplicated search parameters (3)
+GET {{base_url}}/facility
+[QueryStringParams]
+name: 8089028
+uic_ref: test
+HTTP 422
+[Asserts]
+jsonpath "$.detail.error" == "More than one argument with a search term provided."
+jsonpath "$.detail.detail" == "Provide only one of the following query parameters: q, name, ref, uic_ref"
+
+# Facility request duplicated search parameters (4)
+GET {{base_url}}/facility
+[QueryStringParams]
+q: test
+name: test
+ref: test
+uic_ref: test
+HTTP 422
+[Asserts]
+jsonpath "$.detail.error" == "More than one argument with a search term provided."
+jsonpath "$.detail.detail" == "Provide only one of the following query parameters: q, name, ref, uic_ref"
+
+# Facility request limit is not numeric
+GET {{base_url}}/facility
+[QueryStringParams]
+limit: blabla
+HTTP 422
+[Asserts]
+jsonpath "$.detail" count == 1
+jsonpath "$.detail[0].msg" == "Input should be a valid integer, unable to parse string as an integer"
 
 # Milestone request for line 6020 milestone 22.7
 GET {{base_url}}/milestone
@@ -117,3 +248,54 @@ HTTP 200
 jsonpath "$" count == 1
 jsonpath "$[0].ref" == "6020"
 jsonpath "$[0].position" == 22.7
+
+# Milestone request too small limit
+GET {{base_url}}/milestone
+[QueryStringParams]
+ref: 6020
+position: 22.7
+limit: 0
+HTTP 422
+[Asserts]
+jsonpath "$.detail" count == 1
+jsonpath "$.detail[0].msg" == "Input should be greater than or equal to 1"
+
+# Milestone request too large limit
+GET {{base_url}}/milestone
+[QueryStringParams]
+ref: 6020
+position: 22.7
+limit: 201
+HTTP 422
+[Asserts]
+jsonpath "$.detail" count == 1
+jsonpath "$.detail[0].msg" == "Input should be less than or equal to 200"
+
+# Milestone request missing required ref and position parameters
+GET {{base_url}}/milestone
+HTTP 422
+[Asserts]
+jsonpath "$.detail" count == 2
+jsonpath "$.detail[0].msg" == "Field required"
+jsonpath "$.detail[1].msg" == "Field required"
+
+# Milestone request with non-numeric arguments
+GET {{base_url}}/milestone
+[QueryStringParams]
+ref: 6020
+position: blabla
+HTTP 422
+[Asserts]
+jsonpath "$.detail" count == 1
+jsonpath "$.detail[0].msg" == "Input should be a valid number, unable to parse string as a number"
+
+# Milestone request with non-numeric arguments
+GET {{base_url}}/milestone
+[QueryStringParams]
+ref: 6020
+position: 22.7
+limit: blabla
+HTTP 422
+[Asserts]
+jsonpath "$.detail" count == 1
+jsonpath "$.detail[0].msg" == "Input should be a valid integer, unable to parse string as an integer"

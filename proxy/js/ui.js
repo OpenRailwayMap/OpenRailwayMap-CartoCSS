@@ -223,7 +223,8 @@ function removeDomElement(node) {
 }
 
 const globalMinZoom = 1;
-const glodalMaxZoom = 18;
+const globalMaxZoom = 18;
+const globalMaxBounds = [[-10.0, 35.7], [39.0, 70.0]];
 
 const knownStyles = {
   standard: 'Infrastructure',
@@ -338,9 +339,10 @@ const map = new maplibregl.Map({
   container: 'map',
   hash: 'view',
   minZoom: globalMinZoom,
-  maxZoom: glodalMaxZoom,
+  maxZoom: globalMaxZoom,
   minPitch: 0,
   maxPitch: 0,
+  maxBounds: globalMaxBounds,
 });
 
 const onStyleChange = changedStyle => {

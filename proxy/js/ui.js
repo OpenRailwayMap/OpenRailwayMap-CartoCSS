@@ -140,11 +140,11 @@ function showSearchResults(results) {
       </div>
       <div class="list-group">
         ${results.map(result =>
-          `<a class="list-group-item list-group-item-action" href="javascript:hideSearchResults(); map.easeTo({center: [${result.latitude}, ${result.longitude}], zoom: 15}); hideSearch()">
+      `<a class="list-group-item list-group-item-action" href="javascript:hideSearchResults(); map.easeTo({center: [${result.latitude}, ${result.longitude}], zoom: 15}); hideSearch()">
             ${result.icon ? `${result.icon}` : ''}
             ${result.label}
           </a>`
-        ).join('')}
+    ).join('')}
       </div>
     `;
   searchResults.style.display = 'block';
@@ -579,42 +579,106 @@ const onStylesheetChange = styleSheet => {
   onMapZoom(map.getZoom());
 }
 
-map.on('load', () => onMapZoom(map.getZoom()));
-map.on('zoomend', () => onMapZoom(map.getZoom()));
-
-// When a click event occurs on a feature in the places layer, open a popup at the
-// location of the feature, with description HTML from its properties.
-map.on('click', 'search', (e) => {
-  const feature = e.features[0];
-  const coordinates = feature.geometry.coordinates.slice();
-  const properties = feature.properties;
-  const content = `
+function popupContent(properties) {
+  // TODO move icon SVGs to proxy
+  // TODO reuse icons from map features for these features
+  // TODO lookup train protection name
+  // TODO format voltage
+  // TODO format gauge(s)
+  const label = properties.label ?? properties.name ?? properties.ref;
+  return `
     <h6>
       ${properties.icon ? `<span title="${properties.railway}">${properties.icon}</span>` : ''}
-      <a title="View" href="https://www.openstreetmap.org/node/${properties.osm_id}" target="_blank">${properties.label}</a> 
-      <a title="Edit" href="https://www.openstreetmap.org/edit?node=${properties.osm_id}" target="_blank">${icons.edit}</a>
+      ${label ? `${properties.osm_id ? `<a title="View" href="https://www.openstreetmap.org/node/${properties.osm_id}" target="_blank">` : ''}${label}${properties.osm_id ? `</a>` : ''}` : ''}
+      ${properties.osm_id ? `<a title="Edit" href="https://www.openstreetmap.org/edit?node=${properties.osm_id}" target="_blank">${icons.edit}</a>` : ''}
     </h6>
     <h6>
       ${properties.railway_ref ? `<span class="badge badge-pill badge-light">reference: <span class="text-monospace">${properties.railway_ref}</span></span>` : ''} 
       ${properties.ref ? `<span class="badge badge-pill badge-light">reference: <span class="text-monospace">${properties.ref}</span></span>` : ''} 
       ${properties.uic_ref ? `<span class="badge badge-pill badge-light">UIC reference: <span class="text-monospace">${properties.uic_ref}</span></span>` : ''}
       ${properties.position ? `<span class="badge badge-pill badge-light">position: ${properties.position}</span>` : ''}
+      ${properties.pos ? `<span class="badge badge-pill badge-light">position: ${properties.pos}</span>` : ''}
       ${properties.operator ? `<span class="badge badge-pill badge-light">operator: ${properties.operator}</span>` : ''}
+      ${properties.track_ref ? `<span class="badge badge-pill badge-light">track: ${properties.track_ref}</span>` : ''}
+      ${properties.highspeed === true ? `<span class="badge badge-pill badge-light">high speed</span>` : ''}
+      ${properties.usage ? `<span class="badge badge-pill badge-light">usage: <span class="text-monospace">${properties.usage}</span></span>` : ''}
+      ${properties.service ? `<span class="badge badge-pill badge-light">service: <span class="text-monospace">${properties.service}</span></span>` : ''}
+      ${properties.tunnel === true ? `<span class="badge badge-pill badge-light">tunnel</span>` : ''}
+      ${properties.bridge === true ? `<span class="badge badge-pill badge-light">bridge</span>` : ''}
+      ${properties.railway_local_operated === true ? `<span class="badge badge-pill badge-light">operated locally</span>` : ''}
+      ${properties.maxspeed ? `<span class="badge badge-pill badge-light">maximum speed: ${properties.maxspeed} km/h</span>` : ''}
+      ${properties.direction_both ? `<span class="badge badge-pill badge-light">both directions</span>` : ''}
+      ${properties.train_protection ? `<span class="badge badge-pill badge-light">train protection: <span class="text-monospace">${properties.train_protection}</span></span>` : ''}
+      ${properties.deactivated === true ? `<span class="badge badge-pill badge-light">deactivated</span>` : ''}
+      ${properties.type === 'line' ? `<span class="badge badge-pill badge-light">line signal</span>` : ''}
+      ${properties.electrification_state ? `<span class="badge badge-pill badge-light">line electrification: <span class="text-monospace">${properties.electrification_state}</span></span>` : ''}
+      ${properties.voltage ? `<span class="badge badge-pill badge-light">voltage: ${properties.voltage} V</span>` : ''}
+      ${properties.frequency ? `<span class="badge badge-pill badge-light">frequency: ${properties.frequency} Hz</span>` : ''}
+      ${properties.gauge0 ? `<span class="badge badge-pill badge-light">gauge: ${properties.gauge0}</span>` : ''}
+      ${properties.gauge1 ? `<span class="badge badge-pill badge-light">gauge: ${properties.gauge1}</span>` : ''}
+      ${properties.gauge2 ? `<span class="badge badge-pill badge-light">gauge: ${properties.gauge2}</span>` : ''}
     </h6>
   `;
+}
 
-  new maplibregl.Popup()
-    .setLngLat(coordinates)
-    .setHTML(content)
-    .addTo(map);
+map.on('load', () => onMapZoom(map.getZoom()));
+map.on('zoomend', () => onMapZoom(map.getZoom()));
+
+map.on('mousehover', event => {
+  const features = map.queryRenderedFeatures(event.point);
+  if (features.length > 0) {
+    map.getCanvas().style.cursor = 'pointer';
+  } else {
+    map.getCanvas().style.cursor = '';
+  }
 });
 
-// Change the cursor to a pointer when the mouse is over the places layer.
-map.on('mouseenter', 'search', () => {
-  map.getCanvas().style.cursor = 'pointer';
-});
+function closestPointOnLine(point, line) {
+  const lngLatPoint = maplibregl.LngLat.convert(point)
+  let {closest0, closest1} = line.map(maplibregl.LngLat.convert).reduce((acc, cur) => {
+    const d = lngLatPoint.distanceTo(cur)
+    if (acc.closest0 == null || d < lngLatPoint.distanceTo(acc.closest0)) {
+      return {closest0: cur, closest1: acc.closest0}
+    } else if (acc.closest1 == null || d < lngLatPoint.distanceTo(acc.closest1)) {
+      return {closest0: acc.closest0, closest1: cur}
+    } else {
+      return acc;
+    }
+  }, {closest0: null, closest1: null});
 
-// Change it back to a pointer when it leaves.
-map.on('mouseleave', 'search', () => {
-  map.getCanvas().style.cursor = '';
+  closest0 = closest0.toArray()
+  closest1 = closest1.toArray()
+  point = lngLatPoint.toArray()
+
+  if (closest0 == null && closest1 == null) {
+    return null;
+  } else if (closest1 == null) {
+    return closest0;
+  } else {
+    // project point onto line between closest0 and closest1
+    const abx = closest1[0] - closest0[0]
+    const aby = closest1[1] - closest0[1]
+    const acx = point[0] - closest0[0]
+    const acy = point[1] - closest0[1]
+    const coeff = (abx * acx + aby * acy) / (abx * abx + aby * aby)
+    return [closest0[0] + abx * coeff, closest0[1] + aby * coeff]
+  }
+}
+
+map.on('click', event => {
+  const features = map.queryRenderedFeatures(event.point);
+  if (features.length > 0) {
+    const feature = features[0];
+
+    const coordinates = feature.geometry.type === 'Point'
+      ? feature.geometry.coordinates.slice()
+      : feature.geometry.type === 'LineString'
+        ? closestPointOnLine(event.lngLat, feature.geometry.coordinates)
+        : event.lngLat;
+
+    new maplibregl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(popupContent(feature.properties))
+      .addTo(map);
+  }
 });

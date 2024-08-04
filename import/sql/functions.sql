@@ -5,7 +5,10 @@ BEGIN
   END IF;
   RETURN value;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_to_float(value TEXT) RETURNS FLOAT AS $$
 BEGIN
@@ -14,7 +17,10 @@ BEGIN
   END IF;
   RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_to_int(value TEXT) RETURNS INTEGER AS $$
 BEGIN
@@ -23,7 +29,10 @@ BEGIN
   END IF;
   RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_get_first_pos(pos_value TEXT) RETURNS TEXT AS $$
 DECLARE
@@ -35,14 +44,15 @@ BEGIN
   END IF;
   RETURN pos_part1;
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_pos_round(km_pos TEXT) RETURNS NUMERIC AS $$
 DECLARE
   pos_part1 TEXT;
   km_float NUMERIC(8, 3);
-  int_part INTEGER;
 BEGIN
   pos_part1 := railway_get_first_pos(km_pos);
   IF pos_part1 IS NULL THEN
@@ -52,8 +62,10 @@ BEGIN
   km_float := round(km_float, 1);
   RETURN trunc(km_float, 1);
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_pos_decimal(km_pos TEXT) RETURNS CHAR AS $$
 DECLARE
@@ -76,7 +88,10 @@ BEGIN
   END IF;
   RETURN substring(pos_parts[2] FROM 1 FOR 1);
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Is this speed in imperial miles per hour?
 -- Returns 1 for true, 0 for false
@@ -87,15 +102,19 @@ BEGIN
   END IF;
   RETURN 0;
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_imperial_flags(value1 TEXT, value2 TEXT) RETURNS INTEGER[] AS $$
 BEGIN
   RETURN ARRAY[railway_speed_imperial(value1), railway_speed_imperial(value2)];
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Convert a speed number from text to integer and miles to kilometre
 CREATE OR REPLACE FUNCTION railway_speed_int(value TEXT) RETURNS INTEGER AS $$
@@ -108,7 +127,10 @@ BEGIN
   END IF;
   RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Convert a speed number from text to integer but not convert units
 CREATE OR REPLACE FUNCTION railway_speed_int_noconvert(value TEXT) RETURNS INTEGER AS $$
@@ -121,8 +143,10 @@ BEGIN
   END IF;
   RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Get the largest speed from a list of speed values (common at light speed signals)
 CREATE OR REPLACE FUNCTION railway_largest_speed_noconvert(value TEXT) RETURNS INTEGER AS $$
@@ -148,7 +172,10 @@ BEGIN
   END LOOP;
   RETURN largest_value;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Get dominant speed for coloring
 CREATE OR REPLACE FUNCTION railway_dominant_speed(preferred_direction TEXT, speed TEXT, forward_speed TEXT, backward_speed TEXT) RETURNS INTEGER AS $$
@@ -167,7 +194,10 @@ BEGIN
   END IF;
   RETURN railway_speed_int(forward_speed);
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION null_to_dash(value TEXT) RETURNS TEXT AS $$
 BEGIN
@@ -176,8 +206,10 @@ BEGIN
   END IF;
   RETURN value;
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_add_unit_to_label(speed INTEGER, is_imp_flag INTEGER) RETURNS TEXT AS $$
 BEGIN
@@ -187,8 +219,10 @@ BEGIN
   END IF;
   RETURN speed::TEXT;
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 CREATE OR REPLACE FUNCTION railway_speed_label(speed_arr INTEGER[]) RETURNS TEXT AS $$
 BEGIN
@@ -209,15 +243,20 @@ BEGIN
   END IF;
   RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Add flags indicating imperial units to an array of speeds
 CREATE OR REPLACE FUNCTION railway_speed_array_add_unit(arr INTEGER[]) RETURNS INTEGER[] AS $$
 BEGIN
   RETURN arr || railway_speed_array_add_unit(arr[1]) || railway_speed_array_add_unit(2);
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Get the speed limit in the primary and secondary direction.
 -- No unit conversion is preformed.
@@ -249,19 +288,10 @@ BEGIN
   END IF;
   RETURN ARRAY[railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 4] || railway_imperial_flags(forward_speed, backward_speed);
 END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION merc_dist_to_earth_dist(y_avg FLOAT, dist FLOAT) RETURNS FLOAT AS $$
-DECLARE
-  lat_radians FLOAT;
-  scale FLOAT;
-BEGIN
-  lat_radians := 2 * atan(exp(y_avg / 6378137)) - 0.5 * pi();
-  scale := 1 / cos(lat_radians);
-  RETURN dist / scale;
-END;
-$$ LANGUAGE plpgsql;
-
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Check whether a key is present in a hstore field and if its value is not 'no'
 CREATE OR REPLACE FUNCTION railway_has_key(tags HSTORE, key TEXT) RETURNS BOOLEAN AS $$
@@ -277,7 +307,10 @@ BEGIN
   END IF;
   RETURN TRUE;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Get name for labelling in standard style depending whether it is a bridge, a tunnel or none of these two.
 CREATE OR REPLACE FUNCTION railway_label_name(name TEXT, tunnel TEXT, tunnel_name TEXT, bridge TEXT, bridge_name TEXT) RETURNS TEXT AS $$
@@ -290,7 +323,10 @@ BEGIN
   END IF;
   RETURN name;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
 
 -- Get label for electrification
 CREATE OR REPLACE FUNCTION railway_electrification_label(voltage INT, frequency REAL) RETURNS TEXT AS $$
@@ -320,4 +356,7 @@ BEGIN
   END IF;
   RETURN volt_text;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;

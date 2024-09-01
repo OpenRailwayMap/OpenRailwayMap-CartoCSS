@@ -11,6 +11,11 @@ map $http_referer $cache_style {
   default 1h;
 }
 
+map $http_referer $cache_assets {
+  ~^http://localhost 0s;
+  default 1d;
+}
+
 server {
   listen 8000 default_server;
   server_name localhost;
@@ -25,22 +30,22 @@ server {
 
   location = /favicon.ico {
     root /etc/nginx/public/image;
-    expires 1d;
+    expires $cache_assets;
   }
 
   location /js {
     root /etc/nginx/public;
-    expires 1d;
+    expires $cache_assets;
   }
 
   location /css {
     root /etc/nginx/public;
-    expires 1d;
+    expires $cache_assets;
   }
 
   location /image {
     root /etc/nginx/public;
-    expires 1d;
+    expires $cache_assets;
   }
 
   location /style {
@@ -52,7 +57,7 @@ server {
     root /etc/nginx/public;
     index api.html;
     port_in_redirect off;
-    expires 1d;
+    expires $cache_assets;
     error_page 404 = @api;
   }
 

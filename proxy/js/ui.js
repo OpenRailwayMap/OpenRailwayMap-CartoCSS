@@ -585,7 +585,7 @@ function popupContent(properties) {
   // TODO lookup train protection name
   // TODO format voltage
   // TODO format gauge(s)
-  const label = properties.label ?? properties.name ?? properties.ref;
+  const label = properties.label ?? properties.standard_label ?? properties.name ?? properties.ref;
   return `
     <h6>
       ${properties.icon ? `<span title="${properties.railway}">${properties.icon}</span>` : ''}

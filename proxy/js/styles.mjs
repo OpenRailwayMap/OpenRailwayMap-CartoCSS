@@ -1858,7 +1858,7 @@ const layers = {
         12,
         ['!=', ['get', 'ref'], null],
         14,
-        ['!=', ['get', 'label'], null],
+        ['!=', ['get', 'standard_label'], null],
       ],
       paint: {
         'text-color': '#585858',

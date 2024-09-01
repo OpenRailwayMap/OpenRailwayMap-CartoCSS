@@ -613,7 +613,7 @@ function popupContent(properties) {
       ${properties.type === 'line' ? `<span class="badge badge-pill badge-light">line signal</span>` : ''}
       ${properties.electrification_state ? `<span class="badge badge-pill badge-light">line electrification: <span class="text-monospace">${properties.electrification_state}</span></span>` : ''}
       ${properties.voltage ? `<span class="badge badge-pill badge-light">voltage: ${properties.voltage} V</span>` : ''}
-      ${properties.frequency ? `<span class="badge badge-pill badge-light">frequency: ${properties.frequency} Hz</span>` : ''}
+      ${properties.frequency ? `<span class="badge badge-pill badge-light">frequency: ${properties.frequency.toFixed(2)} Hz</span>` : ''}
       ${properties.gauge0 ? `<span class="badge badge-pill badge-light">gauge: ${properties.gauge0}</span>` : ''}
       ${properties.gauge1 ? `<span class="badge badge-pill badge-light">gauge: ${properties.gauge1}</span>` : ''}
       ${properties.gauge2 ? `<span class="badge badge-pill badge-light">gauge: ${properties.gauge2}</span>` : ''}

@@ -254,7 +254,6 @@ function removeDomElement(node) {
 
 const globalMinZoom = 1;
 const globalMaxZoom = 18;
-const globalMaxBounds = [[-10.0, 35.7], [39.0, 70.0]];
 
 const knownStyles = {
   standard: 'Infrastructure',
@@ -375,7 +374,6 @@ const map = new maplibregl.Map({
   maxZoom: globalMaxZoom,
   minPitch: 0,
   maxPitch: 0,
-  maxBounds: globalMaxBounds,
 });
 
 const onStyleChange = changedStyle => {
@@ -700,3 +698,14 @@ map.on('click', event => {
       .addTo(map);
   }
 });
+
+fetch(`${location.origin}/bounds.json`)
+  .then(result => {
+    if (result.status === 200) {
+      return result.json()
+    } else {
+      throw `Invalid status code ${result.status}`
+    }
+  })
+  .then(result => map.setMaxBounds(result))
+  .catch(error => console.error('Error during fetching of import map bounds', error))

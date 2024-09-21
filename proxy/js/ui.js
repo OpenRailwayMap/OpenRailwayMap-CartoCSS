@@ -9,7 +9,10 @@ const searchResults = document.getElementById('search-results');
 const configurationBackdrop = document.getElementById('configuration-backdrop');
 const backgroundSaturationControl = document.getElementById('backgroundSaturation');
 const backgroundOpacityControl = document.getElementById('backgroundOpacity');
-const backgroundRasterUrlControl = document.getElementById('backgroundRasterUrl');
+const backgroundTypeRasterControl = document.getElementById('backgroundTypeRaster');
+const backgroundTypeVectorControl = document.getElementById('backgroundTypeVector');
+const backgroundUrlControl = document.getElementById('backgroundUrl');
+const backgroundMapContainer = document.getElementById('background-map')
 const legend = document.getElementById('legend')
 const legendMapContainer = document.getElementById('legend-map')
 
@@ -200,7 +203,13 @@ function viewSearchResultsOnMap(bounds) {
 function showConfiguration() {
   backgroundSaturationControl.value = configuration.backgroundSaturation ?? defaultConfiguration.backgroundSaturation;
   backgroundOpacityControl.value = configuration.backgroundOpacity ?? defaultConfiguration.backgroundOpacity;
-  backgroundRasterUrlControl.value = configuration.backgroundRasterUrl ?? defaultConfiguration.backgroundRasterUrl;
+  if ((configuration.backgroundType ?? defaultConfiguration.backgroundType) === 'raster') {
+    backgroundTypeRasterControl.checked = true;
+  } else {
+    backgroundTypeVectorControl.checked = true;
+  }
+  backgroundUrlControl.value = configuration.backgroundUrl ?? defaultConfiguration.backgroundUrl;
+
   configurationBackdrop.style.display = 'block';
 }
 
@@ -314,22 +323,80 @@ function readConfiguration(localStorage) {
   }
 }
 
+function migrateConfiguration(localStorage, configuration) {
+  if (configuration.backgroundSaturation && configuration.backgroundSaturation < 0.0) {
+    console.info('Migrating background saturation from', configuration.backgroundSaturation, 'to', configuration.backgroundSaturation + 1.0)
+    configuration.backgroundSaturation += 1.0;
+    storeConfiguration(localStorage, configuration);
+  }
+
+  if (configuration.backgroundRasterUrl) {
+    console.info('Migrating background raster URL:', configuration.backgroundRasterUrl)
+    configuration.backgroundType = 'raster';
+    configuration.backgroundUrl = configuration.backgroundRasterUrl;
+    delete configuration.backgroundRasterUrl;
+    storeConfiguration(localStorage, configuration);
+  }
+
+  return configuration;
+}
+
 function storeConfiguration(localStorage, configuration) {
   localStorage.setItem(localStorageKey, JSON.stringify(configuration));
 }
 
 function updateConfiguration(name, value) {
   configuration[name] = value;
-  storeConfiguration(localStorage, configuration)
-  onStyleChange(selectedStyle);
+  storeConfiguration(localStorage, configuration);
+}
+
+function clamp(value, min, max) {
+  return Math.max(Math.min(value, max), min);
+}
+
+function buildBackgroundMapStyle() {
+  if ((configuration.backgroundType ?? defaultConfiguration.backgroundType) === 'raster') {
+    return {
+      name: 'Background map',
+      version: 8,
+      layers: [
+        {
+          id: "background-map",
+          type: "raster",
+          source: "background_map",
+        },
+      ],
+      sources: {
+        background_map: {
+          type: 'raster',
+          tiles: [
+            configuration.backgroundUrl ?? defaultConfiguration.backgroundUrl,
+          ],
+          tileSize: 256,
+        },
+      },
+    };
+  } else {
+    return configuration.backgroundUrl ?? defaultConfiguration.backgroundUrl;
+  }
+}
+
+function updateBackgroundMapStyle() {
+  backgroundMap.setStyle(buildBackgroundMapStyle());
+}
+
+function updateBackgroundMapContainer() {
+  backgroundMapContainer.style.filter = `saturate(${clamp(configuration.backgroundSaturation ?? defaultConfiguration.backgroundSaturation, 0.0, 1.0)}) opacity(${clamp(configuration.backgroundOpacity ?? defaultConfiguration.backgroundOpacity, 0.0, 1.0)})`;
 }
 
 const defaultConfiguration = {
-  backgroundSaturation: -1.0,
+  backgroundSaturation: 0.0,
   backgroundOpacity: 1.0,
-  backgroundRasterUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  backgroundType: 'raster',
+  backgroundUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
 }
 let configuration = readConfiguration(localStorage);
+configuration = migrateConfiguration(localStorage, configuration);
 
 const coordinateFactor = legendZoom => Math.pow(2, 5 - legendZoom);
 
@@ -346,17 +413,6 @@ const legendStyles = Object.fromEntries(
     .map(style => [style, `${location.origin}/style/legend-${style}.json`])
 );
 
-const transformMapStyle = (style, configuration) => {
-  const backgroundMapLayer = style.layers.find(it => it.id === 'background-map');
-  backgroundMapLayer.paint['raster-saturation'] = configuration.backgroundSaturation ?? defaultConfiguration.backgroundSaturation;
-  backgroundMapLayer.paint['raster-opacity'] = configuration.backgroundOpacity ?? defaultConfiguration.backgroundOpacity;
-
-  const backgroundMapSource = style.sources.background_map;
-  backgroundMapSource.tiles = [configuration.backgroundRasterUrl ?? defaultConfiguration.backgroundRasterUrl];
-
-  return style;
-}
-
 const legendMap = new maplibregl.Map({
   container: 'legend-map',
   zoom: 5,
@@ -366,6 +422,19 @@ const legendMap = new maplibregl.Map({
   // See https://github.com/maplibre/maplibre-gl-js/issues/3503
   maxCanvasSize: [Infinity, Infinity],
 });
+
+const backgroundMap = new maplibregl.Map({
+  container: 'background-map',
+  style: buildBackgroundMapStyle(),
+  attributionControl: false,
+  interactive: false,
+});
+updateBackgroundMapContainer();
+
+// Process the current state of the URL hash once onto the background map
+const backgroundHash = new maplibregl.Hash('view').addTo(backgroundMap);
+backgroundHash._onHashChange();
+backgroundHash.remove();
 
 const map = new maplibregl.Map({
   container: 'map',
@@ -382,9 +451,6 @@ const onStyleChange = changedStyle => {
   // Change styles
   map.setStyle(mapStyles[changedStyle], {
     validate: false,
-    transformStyle: (previous, next) => {
-      return transformMapStyle(next, configuration);
-    },
   });
   legendMap.setStyle(legendStyles[changedStyle], {
     validate: false,
@@ -622,6 +688,8 @@ function popupContent(properties) {
 
 map.on('load', () => onMapZoom(map.getZoom()));
 map.on('zoomend', () => onMapZoom(map.getZoom()));
+map.on('move', () => backgroundMap.jumpTo({ center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing()}));
+map.on('zoom', () => backgroundMap.jumpTo({ center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing()}));
 
 let hoveredFeature = null
 map.on('mousemove', event => {
@@ -707,5 +775,8 @@ fetch(`${location.origin}/bounds.json`)
       throw `Invalid status code ${result.status}`
     }
   })
-  .then(result => map.setMaxBounds(result))
+  .then(result => {
+    map.setMaxBounds(result);
+    backgroundMap.jumpTo({ center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing()});
+  })
   .catch(error => console.error('Error during fetching of import map bounds', error))

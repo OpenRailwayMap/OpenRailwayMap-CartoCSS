@@ -17,7 +17,7 @@ const knownStyles = [
 ];
 
 const globalMinZoom = 1;
-const glodalMaxZoom= 18;
+const glodalMaxZoom = 18;
 
 const colors = {
   hover: {
@@ -957,17 +957,9 @@ const gaugeLayout = {
   'line-cap': 'round',
 };
 
-const attribution = '<a href="https://github.com/hiddewie/OpenRailwayMap-vector" target="_blank">&copy; OpenRailwayMap contributors</a>';
+const attribution = '<a href="https://github.com/hiddewie/OpenRailwayMap-vector" target="_blank">&copy; OpenRailwayMap contributors</a> | <a href="https://www.openstreetmap.org/about" target="_blank">&copy; OpenStreetMap contributors</a>';
 
 const sources = {
-  background_map: {
-    type: 'raster',
-    tiles: [
-      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    ],
-    tileSize: 256,
-    attribution: '<a href="https://www.openstreetmap.org/about" target="_blank">&copy; OpenStreetMap contributors</a>'
-  },
   search: {
     type: 'geojson',
     data: {
@@ -1031,24 +1023,6 @@ const sources = {
   }
 };
 
-const backgroundColor = {
-  id: 'background',
-  type: 'background',
-  paint: {
-    'background-color': 'rgb(242, 243, 240)'
-  }
-};
-
-const backgroundMap = {
-  id: "background-map",
-  type: "raster",
-  source: "background_map",
-  paint: {
-    'raster-saturation': -1.0, // or 0.0 for colorful
-    'raster-opacity': 1.0, // or 0.0 for transparent
-  }
-};
-
 const searchResults = {
   id: 'search',
   type: 'circle',
@@ -1064,8 +1038,6 @@ const searchResults = {
 // TODO remove all [switch, [zoom]] to ensure legend displays only visible features
 const layers = {
   standard: [
-    backgroundColor,
-    backgroundMap,
     {
       id: 'railway_line_low_casing',
       type: 'line',
@@ -1977,8 +1949,6 @@ const layers = {
   ],
 
   speed: [
-    backgroundColor,
-    backgroundMap,
     {
       id: 'speed_railway_line_low_casing',
       type: 'line',
@@ -2154,8 +2124,6 @@ const layers = {
   ],
 
   signals: [
-    backgroundColor,
-    backgroundMap,
     {
       id: 'railway_line_low_casing',
       type: 'line',
@@ -2462,8 +2430,6 @@ const layers = {
   ],
 
   electrification: [
-    backgroundColor,
-    backgroundMap,
     {
       id: 'electrification_railway_line_low_casing',
       type: 'line',
@@ -2725,8 +2691,6 @@ const layers = {
   ],
 
   gauge: [
-    backgroundColor,
-    backgroundMap,
     {
       id: 'gauge_railway_line_low_casing',
       type: 'line',
@@ -3960,7 +3924,7 @@ const legendData = {
           electrification_label: '',
         },
       },
-      ...electrificationLegends.map(({legend, voltage, frequency, electrification_label }) => ({
+      ...electrificationLegends.map(({legend, voltage, frequency, electrification_label}) => ({
         legend,
         type: 'line',
         properties: {
@@ -4523,7 +4487,7 @@ function makeLegendStyle(style) {
               legend,
             },
           };
-          entry ++;
+          entry++;
           return feature;
         });
         done.add(sourceName);
@@ -4562,6 +4526,6 @@ function makeLegendStyle(style) {
 }
 
 knownStyles.forEach(style => {
-    fs.writeFileSync(`${style}.json`, JSON.stringify(makeStyle(style)));
-    fs.writeFileSync(`legend-${style}.json`, JSON.stringify(makeLegendStyle(style)));
+  fs.writeFileSync(`${style}.json`, JSON.stringify(makeStyle(style)));
+  fs.writeFileSync(`legend-${style}.json`, JSON.stringify(makeLegendStyle(style)));
 });

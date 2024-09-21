@@ -41,7 +41,6 @@ import)
     --create \
     --database gis \
     --slim \
-    --middle-database-format new \
     --output flex \
     --style openrailwaymap.lua \
     --cache "${OSM2PGSQL_CACHE:-256}" \

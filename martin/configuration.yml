@@ -170,6 +170,7 @@ postgres:
       geometry_type: POLYGON
       properties:
         id: integer
+        feature: string
 
     standard_railway_text_stations:
       schema: public
@@ -260,6 +261,7 @@ postgres:
       geometry_type: GEOMETRY
       properties:
         id: integer
+        feature: string
         ref: string
         name: string
 

@@ -1511,6 +1511,23 @@ const layers = {
         ['==', ['get', 'feature'], 'general/level-crossing-light'],
         ['==', ['get', 'feature'], 'general/level-crossing-barrier'],
         ['==', ['get', 'feature'], 'general/lubricator'],
+        ['==', ['get', 'feature'], 'general/fuel'],
+        ['==', ['get', 'feature'], 'general/sand_store'],
+        ['==', ['get', 'feature'], 'general/aei'],
+        ['==', ['get', 'feature'], 'general/buffer_stop'],
+        ['==', ['get', 'feature'], 'general/derail'],
+        ['==', ['get', 'feature'], 'general/defect_detector'],
+        ['==', ['get', 'feature'], 'general/hump_yard'],
+        ['==', ['get', 'feature'], 'general/loading_gauge'],
+        ['==', ['get', 'feature'], 'general/preheating'],
+        ['==', ['get', 'feature'], 'general/compressed_air_supply'],
+        ['==', ['get', 'feature'], 'general/waste_disposal'],
+        ['==', ['get', 'feature'], 'general/coaling_facility'],
+        ['==', ['get', 'feature'], 'general/wash'],
+        ['==', ['get', 'feature'], 'general/water_tower'],
+        ['==', ['get', 'feature'], 'general/water_crane'],
+        ['==', ['get', 'feature'], 'general/vacancy-detection-insulated-rail-joint'],
+        ['==', ['get', 'feature'], 'general/vacancy-detection-axle-counter'],
       ],
       layout: {
         'symbol-z-order': 'source',
@@ -3281,7 +3298,17 @@ const legendData = {
       {
         legend: 'Turntable',
         type: 'polygon',
-        properties: {},
+        properties: {
+          feature: 'turntable'
+        },
+        variants: [
+          {
+            legend: 'Transfer table',
+            properties: {
+              feature: 'traverser',
+            }
+          }
+        ]
       },
     ],
     "openrailwaymap_standard-standard_railway_symbols": [
@@ -3362,6 +3389,113 @@ const legendData = {
         properties: {
           feature: 'general/lubricator',
         },
+      },
+      {
+        legend: 'Fuel',
+        type: 'point',
+        properties: {
+          feature: 'general/fuel',
+        },
+      },
+      {
+        legend: 'Sand store',
+        type: 'point',
+        properties: {
+          feature: 'general/sand_store',
+        },
+      },
+      {
+        legend: 'Defect detector',
+        type: 'point',
+        properties: {
+          feature: 'general/defect_detector',
+        },
+      },
+      {
+        legend: 'Automatic equipment identification',
+        type: 'point',
+        properties: {
+          feature: 'general/aei',
+        },
+      },
+      {
+        legend: 'Buffer stop',
+        type: 'point',
+        properties: {
+          feature: 'general/buffer_stop',
+        },
+        variants: [
+          {
+            legend: 'Derailer',
+            properties: {
+              feature: 'general/derail',
+            }
+          }
+        ]
+      },
+      {
+        legend: 'Hump yard',
+        type: 'point',
+        properties: {
+          feature: 'general/hump_yard',
+        },
+      },
+      {
+        legend: 'Loading gauge',
+        type: 'point',
+        properties: {
+          feature: 'general/loading_gauge',
+        },
+      },
+      {
+        legend: 'Preheating',
+        type: 'point',
+        properties: {
+          feature: 'general/preheating',
+        },
+      },
+      {
+        legend: 'Compressed air supply',
+        type: 'point',
+        properties: {
+          feature: 'general/compressed_air_supply',
+        },
+      },
+      {
+        legend: 'Waste disposal',
+        type: 'point',
+        properties: {
+          feature: 'general/waste_disposal',
+        },
+      },
+      {
+        legend: 'Coaling facility',
+        type: 'point',
+        properties: {
+          feature: 'general/coaling_facility',
+        },
+      },
+      {
+        legend: 'Wash',
+        type: 'point',
+        properties: {
+          feature: 'general/wash',
+        },
+      },
+      {
+        legend: 'Water tower',
+        type: 'point',
+        properties: {
+          feature: 'general/water_tower',
+        },
+        variants: [
+          {
+            legend: 'crane',
+            properties: {
+              feature: 'general/water_crane',
+            },
+          },
+        ]
       },
       {
         legend: 'Axle counter',
@@ -3614,8 +3748,27 @@ const legendData = {
         type: 'point',
         properties: {
           ref: 'Rtd',
-          name: 'Rotterdam'
+          name: 'Rotterdam',
+          feature: 'signal_box',
         },
+        variants: [
+          {
+            legend: 'crossing box',
+            properties: {
+              ref: 'Crs',
+              name: 'Cross',
+              feature: 'crossing_box',
+            },
+          },
+          {
+            legend: 'block post',
+            properties: {
+              ref: 'Blk',
+              name: 'KM 47',
+              feature: 'blockpost',
+            },
+          },
+        ],
       },
     ],
     'openrailwaymap_signals-signals_railway_signals': [

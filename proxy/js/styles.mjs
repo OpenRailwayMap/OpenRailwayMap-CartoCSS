@@ -991,9 +991,9 @@ const sources = {
     attribution,
     promoteId: 'id',
   },
-  railway_line_high: {
+  high: {
     type: 'vector',
-    url: `${origin}/railway_line_high`,
+    url: `${origin}/high`,
     attribution,
     promoteId: 'id',
   },
@@ -1033,6 +1033,33 @@ const searchResults = {
     'circle-stroke-width': 2,
     'circle-stroke-color': 'black',
   }
+};
+
+const railwayKmText = {
+  id: 'railway_text_km',
+  type: 'symbol',
+  minzoom: 10,
+  source: 'high',
+  'source-layer': 'railway_text_km',
+  filter: ['step', ['zoom'],
+    ['get', 'zero'],
+    13,
+    true,
+  ],
+  paint: {
+    'text-color': 'black',
+    'text-halo-color': ['case',
+      ['boolean', ['feature-state', 'hover'], false], colors.hover.textHalo,
+      'white',
+    ],
+    'text-halo-width': 1,
+  },
+  layout: {
+    'symbol-z-order': 'source',
+    'text-field': '{pos}',
+    'text-font': ['Noto Sans Bold'],
+    'text-size': 11,
+  },
 };
 
 // TODO remove all [switch, [zoom]] to ensure legend displays only visible features
@@ -1142,7 +1169,7 @@ const layers = {
       id: 'railway_tunnel_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['get', 'tunnel'],
@@ -1165,7 +1192,7 @@ const layers = {
       id: 'railway_tunnel_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['get', 'tunnel'],
@@ -1184,7 +1211,7 @@ const layers = {
       id: 'railway_tunnel_bright',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['get', 'tunnel'],
@@ -1206,7 +1233,7 @@ const layers = {
       id: 'railway_line_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['!', ['get', 'bridge']],
@@ -1230,7 +1257,7 @@ const layers = {
       id: 'railway_line_construction_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'construction'],
       layout: {
@@ -1248,7 +1275,7 @@ const layers = {
       id: 'railway_line_proposed_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'proposed'],
       layout: {
@@ -1266,7 +1293,7 @@ const layers = {
       id: 'railway_line_abandoned_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'abandoned'],
       layout: {
@@ -1284,7 +1311,7 @@ const layers = {
       id: 'railway_line_razed_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'razed'],
       layout: {
@@ -1302,7 +1329,7 @@ const layers = {
       id: 'railway_construction_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'construction'],
       layout: {
@@ -1315,7 +1342,7 @@ const layers = {
       id: 'railway_proposed_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'proposed'],
       layout: {
@@ -1328,7 +1355,7 @@ const layers = {
       id: 'railway_abandoned_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'abandoned'],
       layout: {
@@ -1341,7 +1368,7 @@ const layers = {
       id: 'railway_razed_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'razed'],
       layout: {
@@ -1354,7 +1381,7 @@ const layers = {
       id: 'railway_line_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['!', ['get', 'bridge']],
@@ -1374,7 +1401,7 @@ const layers = {
       id: 'railway_bridge_railing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['get', 'bridge'],
@@ -1393,7 +1420,7 @@ const layers = {
       id: 'railway_bridge_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['get', 'bridge'],
@@ -1412,7 +1439,7 @@ const layers = {
       id: 'railway_bridge_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['get', 'bridge'],
@@ -1535,37 +1562,12 @@ const layers = {
         'icon-image': ['image', ['get', 'feature']],
       }
     },
-    {
-      id: 'railway_text_km',
-      type: 'symbol',
-      minzoom: 10,
-      source: 'openrailwaymap_standard',
-      'source-layer': 'standard_railway_text_km',
-      filter: ['step', ['zoom'],
-        ['get', 'zero'],
-        13,
-        true,
-      ],
-      paint: {
-        'text-color': 'black',
-        'text-halo-color': ['case',
-          ['boolean', ['feature-state', 'hover'], false], colors.hover.textHalo,
-          'white',
-        ],
-        'text-halo-width': 1,
-      },
-      layout: {
-        'symbol-z-order': 'source',
-        'text-field': '{pos}',
-        'text-font': ['Noto Sans Bold'],
-        'text-size': 11,
-      },
-    },
+    railwayKmText,
     {
       id: 'railway_text_track_numbers',
       type: 'symbol',
       minzoom: 16,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['!=', ['get', 'track_ref'], null],
       paint: {
@@ -1590,7 +1592,7 @@ const layers = {
       id: 'railway_text',
       type: 'symbol',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['step', ['zoom'],
         ['all',
@@ -1990,7 +1992,7 @@ const layers = {
     {
       id: 'speed_railway_line_casing',
       type: 'line',
-      source: 'railway_line_high',
+      source: 'high',
       minzoom: 8,
       'source-layer': 'railway_line_high',
       paint: speedCasingPaint,
@@ -1999,7 +2001,7 @@ const layers = {
     {
       id: 'speed_railway_line_fill',
       type: 'line',
-      source: 'railway_line_high',
+      source: 'high',
       minzoom: 8,
       'source-layer': 'railway_line_high',
       paint: speedFillPaint,
@@ -2079,11 +2081,12 @@ const layers = {
         'icon-image': ['image', ['get', 'feature']],
       }
     },
+    railwayKmText,
     {
       id: 'speed_railway_line_text',
       type: 'symbol',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       // TODO zoom filters do not match line zoom levels
       filter: ['step', ['zoom'],
@@ -2165,7 +2168,7 @@ const layers = {
     {
       id: 'railway_line_casing_construction',
       type: 'line',
-      source: 'railway_line_high',
+      source: 'high',
       minzoom: 8,
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'construction'],
@@ -2175,7 +2178,7 @@ const layers = {
     {
       id: 'railway_line_casing',
       type: 'line',
-      source: 'railway_line_high',
+      source: 'high',
       minzoom: 8,
       'source-layer': 'railway_line_high',
       filter: ['!=', ['get', 'railway'], 'construction'],
@@ -2186,7 +2189,7 @@ const layers = {
       id: 'railway_line_fill_construction',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'construction'],
       paint: trainProtectionFillPaint([2, 2]),
@@ -2196,7 +2199,7 @@ const layers = {
       id: 'railway_line_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['!=', ['get', 'railway'], 'construction'],
       paint: trainProtectionFillPaint([1]),
@@ -2334,6 +2337,7 @@ const layers = {
         'text-size': 11,
       }
     },
+    railwayKmText,
     {
       id: 'signal_boxes_text_high',
       type: 'symbol',
@@ -2472,7 +2476,7 @@ const layers = {
       id: 'electrification_railway_line_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       paint: electrificationCasingPaint,
       layout: electrificationLayout,
@@ -2481,7 +2485,7 @@ const layers = {
       id: 'electrification_railway_line_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       paint: electrificationFillPaint([1], 'voltage', 'frequency'),
       layout: electrificationLayout,
@@ -2490,7 +2494,7 @@ const layers = {
       id: 'electrification_future_proposed',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'electrification_state'], 'proposed'],
       paint: electrificationFillPaint(electrification_proposed_dashes, 'future_voltage', 'future_frequency'),
@@ -2500,7 +2504,7 @@ const layers = {
       id: 'electrification_future_construction',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'electrification_state'], 'construction'],
       paint: electrificationFillPaint(electrification_construction_dashes, 'future_voltage', 'future_frequency'),
@@ -2546,11 +2550,12 @@ const layers = {
         'icon-image': ['image', ['get', 'feature']],
       }
     },
+    railwayKmText,
     {
       id: 'electrification_railway_text_high',
       type: 'symbol',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['step', ['zoom'],
         ['all',
@@ -2684,7 +2689,7 @@ const layers = {
         'text-font': ['Noto Sans Bold'],
         'text-size': 11,
         'text-padding': 30,
-        'symbol-spacing': 100,
+        'symbol-spacing': 250,
       },
     },
     searchResults,
@@ -2733,7 +2738,7 @@ const layers = {
       id: 'gauge_railway_line_casing',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['!=', ['get', 'railway'], 'construction'],
       paint: gaugeCasingPaint,
@@ -2743,7 +2748,7 @@ const layers = {
       id: 'gauge_railway_line_casing_construction',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'construction'],
       paint: {
@@ -2757,7 +2762,7 @@ const layers = {
       id: 'gauge_railway_line_fill',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['!=', ['get', 'railway'], 'construction'],
       paint: gaugeFillPaint('gauge0', 'gaugeint0', [1]),
@@ -2767,7 +2772,7 @@ const layers = {
       id: 'gauge_railway_line_fill_construction',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['==', ['get', 'railway'], 'construction'],
       paint: gaugeFillPaint('gauge0', 'gaugeint0', gauge_construction_dashes),
@@ -2777,7 +2782,7 @@ const layers = {
       id: 'gauge_railway_dual_gauge_line',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['!=', ['get', 'gauge1'], null],
@@ -2790,7 +2795,7 @@ const layers = {
       id: 'gauge_railway_dual_gauge_line_construction',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['!=', ['get', 'gauge1'], null],
@@ -2803,7 +2808,7 @@ const layers = {
       id: 'gauge_railway_multi_gauge_line',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['!=', ['get', 'gauge2'], null],
@@ -2816,7 +2821,7 @@ const layers = {
       id: 'gauge_railway_multi_gauge_line_construction',
       type: 'line',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['all',
         ['!=', ['get', 'gauge2'], null],
@@ -2825,11 +2830,12 @@ const layers = {
       paint: gaugeFillPaint('gauge2', 'gaugeint2', multi_construction_dashes),
       layout: gaugeLayout,
     },
+    railwayKmText,
     {
       id: 'gauge_railway_text_high',
       type: 'symbol',
       minzoom: 8,
-      source: 'railway_line_high',
+      source: 'high',
       'source-layer': 'railway_line_high',
       filter: ['step', ['zoom'],
         ['all',
@@ -2963,7 +2969,7 @@ const layers = {
         'text-font': ['Noto Sans Bold'],
         'text-size': 11,
         'text-padding': 30,
-        'symbol-spacing': 100,
+        'symbol-spacing': 250,
       },
     },
     searchResults,
@@ -3026,7 +3032,7 @@ const legendData = {
         }
       },
     ],
-    "railway_line_high-railway_line_high": [
+    "high-railway_line_high": [
       {
         legend: 'Highspeed main line',
         type: 'line',
@@ -3477,7 +3483,7 @@ const legendData = {
         ]
       },
     ],
-    "openrailwaymap_standard-standard_railway_text_km": [
+    "high-railway_text_km": [
       {
         legend: 'Milestone',
         type: 'point',
@@ -3553,7 +3559,7 @@ const legendData = {
         },
       },
     ],
-    'railway_line_high-railway_line_high': [
+    'high-railway_line_high': [
       ...speedLegends.map(speed => ({
         legend: `${speed} km/h`,
         type: 'line',
@@ -3668,7 +3674,7 @@ const legendData = {
         },
       },
     ],
-    'railway_line_high-railway_line_high': [
+    'high-railway_line_high': [
       ...signals_railway_line.train_protections.map(train_protection => ({
         legend: train_protection.legend,
         type: 'line',
@@ -3895,7 +3901,7 @@ const legendData = {
         },
       },
     ],
-    'railway_line_high-railway_line_high': [
+    'high-railway_line_high': [
       {
         legend: 'Not electrified',
         type: 'line',
@@ -4175,7 +4181,7 @@ const legendData = {
         },
       },
     ],
-    'railway_line_high-railway_line_high': [
+    'high-railway_line_high': [
       ...gaugeLegends.map(({min, legend}) => ({
         legend,
         type: 'line',

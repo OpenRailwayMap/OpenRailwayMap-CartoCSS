@@ -929,7 +929,7 @@ signals_railway_signals:
         - { tag: 'railway:signal:combined', value: 'DE-ESO:hl' }
         - { tag: 'railway:signal:combined:form', value: 'light' }
 
-    - description: tram main signal "Fahrsignal"
+    - description: tram Fahrsignal
       country: DE
       icon:
         match: 'railway:signal:main:states'
@@ -942,6 +942,20 @@ signals_railway_signals:
       tags:
         - { tag: 'railway:signal:main', values: ['DE-AVG:f', 'DE-BOStrab:f'] }
         - { tag: 'railway:signal:main:form', value: 'light' }
+
+    - description: tram Hauptsignal
+      country: DE
+      icon: { default: 'de/ks-main' }
+      tags:
+        - { tag: 'railway:signal:main', value: 'DE-BOStrab:h' }
+        - { tag: 'railway:signal:main:form', value: 'light' }
+
+    - description: tram Hauptsignal mit Vorsignal
+      country: DE
+      icon: { default: 'de/ks-combined' }
+      tags:
+        - { tag: 'railway:signal:combined', value: 'DE-BOStrab:h' }
+        - { tag: 'railway:signal:combined:form', value: 'light' }
 
     - description: Hamburger Hochbahn main signal
       country: DE

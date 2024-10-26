@@ -3231,6 +3231,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         },
       },
       {
@@ -3247,6 +3248,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         },
         variants: [
           {
@@ -3256,6 +3258,7 @@ const legendData = {
               standard_label: null,
               ref: null,
               track_ref: null,
+              way_length: 1.0,
             },
           },
           {
@@ -3265,6 +3268,7 @@ const legendData = {
               standard_label: null,
               ref: null,
               track_ref: null,
+              way_length: 1.0,
             },
           },
         ],
@@ -3283,6 +3287,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         }
       },
       {
@@ -3299,6 +3304,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         }
       },
       {
@@ -3315,6 +3321,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         }
       },
       {
@@ -3331,6 +3338,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         }
       },
       {
@@ -3347,6 +3355,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         }
       },
       {
@@ -3363,6 +3372,7 @@ const legendData = {
           ref: 'L1',
           standard_label: null,
           track_ref: '8b',
+          way_length: 1.0,
         }
       },
       {
@@ -3379,6 +3389,7 @@ const legendData = {
           ref: 'L1',
           standard_label: 'Name',
           track_ref: '8b',
+          way_length: 1.0,
         }
       },
       {
@@ -3395,6 +3406,7 @@ const legendData = {
           ref: null,
           standard_label: null,
           track_ref: null,
+          way_length: 1.0,
         }
       },
     ],

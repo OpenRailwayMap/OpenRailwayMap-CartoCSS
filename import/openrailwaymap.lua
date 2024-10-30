@@ -29,6 +29,10 @@ end
 
 -- Convert a speed number from text to integer but not convert units
 function speed_int_noconvert(value)
+  if not value then
+    return nil
+  end
+
   local _, _, match = value:find('^(%d+%.?%d*)$')
   if match then
     return tonumber(match)
@@ -37,6 +41,25 @@ function speed_int_noconvert(value)
   local _, _, match = value:find('^(%d+%.?%d*) ?mph$')
   if match then
     return tonumber(match)
+  end
+
+  return nil
+end
+
+-- Convert a speed number from text to integer with unit conversion
+function speed_int(value)
+  if not value then
+    return nil
+  end
+
+  local _, _, match = value:find('^(%d+%.?%d*)$')
+  if match then
+    return tonumber(match)
+  end
+
+  local _, _, match = value:find('^(%d+%.?%d*) ?mph$')
+  if match then
+    return tonumber(match) * 1.609344
   end
 
   return nil
@@ -61,6 +84,27 @@ function largest_speed_noconvert(value)
   return largest_speed
 end
 
+-- Speed label and dominant speed, taking the preferred direction and forward, backward an non-directional speed into account
+function dominant_speed_label(preferred_direction, speed, forward_speed, backward_speed)
+  if (not speed) and (not forward_speed) and (not backward_speed) then
+    return nil, nil
+  elseif speed and (not forward_speed) and (not backward_speed) then
+    return speed_int(speed), speed
+  elseif speed then
+    return nil, nil
+  end
+
+  if preferred_direction == 'forward' then
+    return speed_int(forward_speed), (forward_speed or '-') .. ' (' .. (backward_speed or '-') .. ')'
+  elseif preferred_direction == 'backward' then
+    return speed_int(backward_speed), (backward_speed or '-') .. ' (' .. (forward_speed or '-') .. ')'
+  elseif preferred_direction == 'both' or (not preferred_direction) then
+    return speed_int(forward_speed), (forward_speed or '-') .. ' / ' .. (backward_speed or '-')
+  else
+    return speed_int(forward_speed), (forward_speed or '-') .. ' / ' .. (backward_speed or '-')
+  end
+end
+
 local railway_line = osm2pgsql.define_table({
   name = 'railway_line',
   ids = { type = 'way', id_column = 'osm_id' },
@@ -83,10 +127,9 @@ local railway_line = osm2pgsql.define_table({
     { column = 'tunnel_name', type = 'text' },
     { column = 'bridge', type = 'text' },
     { column = 'bridge_name', type = 'text' },
-    { column = 'maxspeed', type = 'text' },
-    { column = 'maxspeed_forward', type = 'text' },
-    { column = 'maxspeed_backward', type = 'text' },
+    { column = 'maxspeed', type = 'real' },
     { column = 'preferred_direction', type = 'text' },
+    { column = 'speed_label', type = 'text' },
     { column = 'frequency', type = 'real' },
     { column = 'voltage', type = 'integer' },
     { column = 'electrification_state', type = 'text' },
@@ -174,6 +217,7 @@ local signals = osm2pgsql.define_table({
     {% for tag in signals_railway_signals.tags %}
     { column = '{% tag %}', type = 'text' },
 {% end %}
+    { column = 'dominant_speed', type = 'real' },
     {% for tag in speed_railway_signals.tags %}
     { column = '{% tag %}', type = 'text' },
 {% end %}
@@ -429,6 +473,12 @@ function osm2pgsql.process_node(object)
     ) == 'yes'
     local ref_multiline, newline_count = (tags.ref or ''):gsub(' ', '\n')
 
+    -- We cast the highest speed to text to make it possible to only select those speeds
+    -- we have an icon for. Otherwise we might render an icon for 40 kph if
+    -- 42 is tagged (but invalid tagging).
+    local speed_limit_speed = tags['railway:signal:speed_limit'] and largest_speed_noconvert(tags['railway:signal:speed_limit:speed']) or tags['railway:signal:speed_limit:speed']
+    local speed_limit_distant_speed = tags['railway:signal:speed_limit_distant'] and largest_speed_noconvert(tags['railway:signal:speed_limit_distant:speed']) or tags['railway:signal:speed_limit_distant:speed']
+
     signals:insert({
       way = object:as_point(),
       railway = tags.railway,
@@ -447,11 +497,9 @@ function osm2pgsql.process_node(object)
 {% end %}
 {% end %}
 {% end %}
-      -- We cast the highest speed to text to make it possible to only select those speeds
-      -- we have an icon for. Otherwise we might render an icon for 40 kph if
-      -- 42 is tagged (but invalid tagging).
-      ["railway:signal:speed_limit:speed"] = tags['railway:signal:speed_limit'] and largest_speed_noconvert(tags['railway:signal:speed_limit:speed']) or tags['railway:signal:speed_limit:speed'],
-      ["railway:signal:speed_limit_distant:speed"] = tags['railway:signal:speed_limit_distant'] and largest_speed_noconvert(tags['railway:signal:speed_limit_distant:speed']) or tags['railway:signal:speed_limit_distant:speed'],
+      ["railway:signal:speed_limit:speed"] = speed_limit_speed,
+      ["railway:signal:speed_limit_distant:speed"] = speed_limit_distant_speed,
+      dominant_speed = speed_int(tostring(speed_limit_speed) or tostring(speed_limit_distant_speed)),
       {% for tag in electrification_signals.tags %}
       ["{% tag %}"] = tags['{% tag %}'],
 {% end %}
@@ -512,6 +560,9 @@ function osm2pgsql.process_way(object)
       end
     end
 
+    local preferred_direction = tags['railway:preferred_direction']
+    local dominant_speed, speed_label = dominant_speed_label(preferred_direction, tags['maxspeed'], tags['maxspeed:forward'], tags['maxspeed:backward'])
+
     local way = object:as_linestring()
     railway_line:insert({
       way = way,
@@ -530,10 +581,9 @@ function osm2pgsql.process_way(object)
       tunnel_name = tags['tunnel:name'],
       bridge = tags['bridge'],
       bridge_name = tags['bridge:name'],
-      maxspeed = tags['maxspeed'],
-      maxspeed_forward = tags['maxspeed:forward'],
-      maxspeed_backward = tags['maxspeed:backward'],
-      preferred_direction = tags['railway:preferred_direction'],
+      preferred_direction = preferred_direction,
+      maxspeed = dominant_speed,
+      speed_label = speed_label,
       electrification_state = current_electrification_state,
       frequency = frequency,
       voltage = voltage,

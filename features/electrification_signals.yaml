@@ -1,9 +1,10 @@
 
 electrification_signals:
   tags:
+    - 'railway:signal:electricity'
     - 'railway:signal:electricity:type'
     - 'railway:signal:electricity:form'
-    - 'railway:signal:electricity'
+    - 'railway:signal:electricity:for'
     - 'railway:signal:electricity:turn_direction'
 
   features:
@@ -12,65 +13,89 @@ electrification_signals:
 
     - description: Ankündigung Stromabnehmer tief
       country: AT
-      icon: { default: 'de/el3' }
+      icon: { default: 'at/ankündigung_stromabnehmer_tief' }
       tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:ankündigung_stromabnehmer_tief' }
         - { tag: 'railway:signal:electricity:type', value: 'pantograph_down_advance' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'AT-V2:andkündigung_stromabnehmer_tief' }
 
     - description: Ankündigung Hauptschalter aus
       country: AT
-      icon: { default: 'de/el1v' }
+      icon: { default: 'at/ankündigung_hauptschalter_aus' }
       tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:ankündigung_hauptschalter_aus' }
         - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'AT-V2:ankündigung_hauptschalter_aus' }
 
     - description: Halt für Fahrzeuge mit angehobenem Stromabnehmer
       country: AT
       icon:
         match: 'railway:signal:electricity:turn_direction'
         cases:
-          - { regex: '^left$', value: 'de/el6-left' }
-          - { regex: '^through$', value: 'de/el6-through' }
-          - { regex: '^right$', value: 'de/el6-right' }
-        default: 'de/el6'
+          - { regex: '^left$', value: 'at/halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer-left' }
+          - { regex: '^through$', value: 'at/halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer-through' }
+          - { regex: '^right$', value: 'at/halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer-right' }
+        default: 'at/halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer'
       tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer' }
         - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'AT-V2:halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer' }
 
     - description: Hauptschalter ein
       country: AT
-      icon: { default: 'de/el2' }
+      icon: { default: 'at/hauptschalter_ein' }
       tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:hauptschalter_ein' }
         - { tag: 'railway:signal:electricity:type', value: 'power_on' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'AT-V2:hauptschalter_ein' }
 
     - description: Stromabnehmer hoch
       country: AT
-      icon: { default: 'de/el5' }
+      icon: { default: 'at/stromabnehmer_hoch' }
       tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:stromabnehmer_hoch' }
         - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'AT-V2:stromabnehmer_hoch' }
 
     - description: Hauptschalter aus
       country: AT
-      icon: { default: 'de/el1' }
+      icon: { default: 'at/hauptschalter_aus' }
       tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:hauptschalter_aus' }
         - { tag: 'railway:signal:electricity:type', value: 'power_off' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'AT-V2:hauptschalter_aus' }
 
     - description: Stromabnehmer tief
       country: AT
-      icon: { default: 'de/el4' }
+      icon: { default: 'at/stromabnehmer_tief' }
       tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:stromabnehmer_tief' }
         - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'AT-V2:stromabnehmer_tief' }
+
+    - description: Bahnhof Streckentrennung anfang
+      country: AT
+      icon: { default: 'at/bahnhof-streckentrennung_anfang' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:bahnhof-streckentrennung_anfang' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Bahnhof Streckentrennung ende
+      country: AT
+      icon: { default: 'at/bahnhof-streckentrennung_ende' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:bahnhof-streckentrennung_ende' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: AT-V2:schaltzeiger
+      country: AT
+      icon: { default: 'at/schaltzeiger' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'AT-V2:schaltzeiger' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_indicator' }
+        - { tag: 'railway:signal:electricity:form', value: 'semaphore' }
 
     # --- DE --- #
 
@@ -101,8 +126,8 @@ electrification_signals:
         default: 'de/el6'
       tags:
         - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
-        - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'DE-ESO:el6' }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light', 'semaphore'] }
+        - { tag: 'railway:signal:electricity', values: ['DE-ESO:el6', 'DE-BOStrab:st8'] }
 
     - description: power on sign El 2
       country: DE
@@ -143,3 +168,127 @@ electrification_signals:
         - { tag: 'railway:signal:electricity:type', value: 'power_off_shortly' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
         - { tag: 'railway:signal:electricity', values: ['DE-BOStrab:st7', 'DE-AVG:st7'] }
+
+    # --- FI --- #
+
+    - description: Erotusjakson etumerkki
+      country: FI
+      icon: { default: 'fi/t-120' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'FI:T-120' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Erotusjakso alkaa
+      country: FI
+      icon: { default: 'fi/t-122' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'FI:T-122' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Erotusjakso päättyy
+      country: FI
+      icon: { default: 'fi/t-123' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'FI:T-123' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Ajojohdin päättyy
+      country: FI
+      icon: { default: 'fi/t-121' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'FI:T-121' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Laske virroitin
+      country: FI
+      icon: { default: 'fi/t-124A' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'FI:T-124A' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Laske virroitin -etumerkki
+      country: FI
+      icon: { default: 'fi/t-133' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'FI:T-133' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Nosta virroitin
+      country: FI
+      icon: { default: 'fi/t-125' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'FI:T-125' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    # --- PL --- #
+
+    - description: Wskaźnik uprzedzający o opuszczeniu pantografu (we1)
+      country: PL
+      icon: { default: 'pl/we1' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'PL-PKP:we1' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down_advance' }
+
+    - description: Wskaźniki opuszczenia pantografu (we2)
+      country: PL
+      icon:
+        match: 'railway:signal:electricity:turn_direction'
+        cases:
+          - { regex: '^right$', value: 'pl/we2b' }
+          - { regex: '^left$', value: 'pl/we2c' }
+        default: 'pl/we2a'
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['PL-PKP:we2a', 'PL-PKP:we2b', 'PL-PKP:we2c'] }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
+
+    - description: Wskaźniki podniesienia pantografu (we3)
+      country: PL
+      icon:
+        match: 'railway:signal:electricity:for'
+        cases:
+          - { regex: '^locomotive$', value: 'pl/we3b' }
+        default: 'pl/we3a'
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['PL-PKP:we3a', 'PL-PKP:we3b'] }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+
+    - description: Wskaźniki zakazu wjazdu elektrycznych pojazdów trakcyjnych (we4)
+      country: PL
+      icon:
+        match: 'railway:signal:electricity:turn_direction'
+        cases:
+          - { regex: '^right$', value: 'pl/we4b' }
+          - { regex: '^left$', value: 'pl/we4c' }
+        default: 'pl/we4a'
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['PL-PKP:we4a', 'PL-PKP:we4b', 'PL-PKP:we4c'] }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
+
+    - description: Wskaźniki jazdy bezprądowej (we8)
+      country: PL
+      icon:
+        match: 'railway:signal:electricity:turn_direction'
+        cases:
+          - { regex: '^right$', value: 'pl/we8b' }
+          - { regex: '^left$', value: 'pl/we8c' }
+        default: 'pl/we8a'
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['PL-PKP:we8a', 'PL-PKP:we8b', 'PL-PKP:we8c'] }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+    - description: Wskaźniki jazdy pod prądem (we9)
+      country: PL
+      icon:
+        match: 'railway:signal:electricity:for'
+        cases:
+          - { regex: '^locomotive$', value: 'pl/we9b' }
+        default: 'pl/we9a'
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['PL-PKP:we9a', 'PL-PKP:we9b'] }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_on' }

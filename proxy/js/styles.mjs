@@ -2385,7 +2385,7 @@ const layers = {
           ['boolean', ['feature-state', 'hover'], false], colors.hover.main,
           '#008206',
         ],
-        'circle-radius': 6,
+        'circle-radius': 4,
         'circle-stroke-color': 'white',
         'circle-stroke-width': 1,
       },
@@ -2393,7 +2393,7 @@ const layers = {
     {
       id: 'signal_boxes_polygon',
       type: 'fill',
-      minzoom: 12,
+      minzoom: 14,
       source: 'openrailwaymap_signals',
       'source-layer': 'signals_signal_boxes',
       filter: ['any',
@@ -2411,7 +2411,7 @@ const layers = {
     {
       id: 'signal_boxes_polygon_outline',
       type: 'line',
-      minzoom: 12,
+      minzoom: 14,
       source: 'openrailwaymap_signals',
       'source-layer': 'signals_signal_boxes',
       filter: ['any',
@@ -2519,6 +2519,7 @@ const layers = {
         'text-field': '{ref}',
         'text-font': ['Noto Sans Bold'],
         'text-size': 11,
+        'text-offset': ['literal', [0, 1]],
       }
     },
     railwayKmText,

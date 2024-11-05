@@ -6,6 +6,7 @@ electrification_signals:
     - 'railway:signal:electricity:form'
     - 'railway:signal:electricity:for'
     - 'railway:signal:electricity:turn_direction'
+    - 'railway:signal:electricity:voltage'
 
   features:
 
@@ -25,7 +26,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity', value: 'AT-V2:ankündigung_hauptschalter_aus' }
         - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
-        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light'] }
 
     - description: Halt für Fahrzeuge mit angehobenem Stromabnehmer
       country: AT
@@ -39,7 +40,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity', value: 'AT-V2:halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer' }
         - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
-        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light'] }
 
     - description: Hauptschalter ein
       country: AT
@@ -63,7 +64,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity', value: 'AT-V2:hauptschalter_aus' }
         - { tag: 'railway:signal:electricity:type', value: 'power_off' }
-        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light'] }
 
     - description: Stromabnehmer tief
       country: AT
@@ -169,6 +170,38 @@ electrification_signals:
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
         - { tag: 'railway:signal:electricity', values: ['DE-BOStrab:st7', 'DE-AVG:st7'] }
 
+    - description: power off shortly
+      country: DE
+      icon: { default: 'de/el1-el2' }
+      tags:
+        - { tag: 'railway:signal:electricity:type', value: 'power_off_shortly' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity', values: ['DE-ESO:el1;DE-ESO:el2', 'DE-ESO:el2:DE-ESO:el1'] }
+
+    - description: Streckentrennung (anfang)
+      country: DE
+      icon: { default: 'de/streckentrennung-anfang' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'DE-ESO:streckentrennung' }
+        - { tag: 'railway:signal:electricity:type', value: 'begin_of_isolated_overlap' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: Streckentrennung (ende)
+      country: DE
+      icon: { default: 'de/streckentrennung-ende' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'DE-ESO:streckentrennung' }
+        - { tag: 'railway:signal:electricity:type', value: 'end_of_isolated_overlap' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    - description: ICE-Schaltmerkhilfe
+      country: DE
+      icon: { default: 'de/ice-schaltmerkhilfe' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'DE-ESO:ice-schaltmerkhilfe' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_on_for_long_trains' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
     # --- FI --- #
 
     - description: Erotusjakson etumerkki
@@ -219,6 +252,77 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity', value: 'FI:T-125' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    # --- NL --- #
+
+    - description: power off
+      country: NL
+      icon: { default: 'nl/306a' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'NL:306a' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+      # TODO support carriages
+    - description: power on
+      country: NL
+      icon: { default: 'nl/307a' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'NL:307a' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_on' }
+
+    - description: announcement pantograph down
+      country: NL
+      icon: { default: 'nl/307a' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'NL:308a' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down_advance' }
+
+    # TODO support wash
+    - description: pantograph down
+      country: NL
+      icon: { default: 'nl/309a' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'NL:309a' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
+
+    # TODO support carriages
+    - description: pantograph up
+      country: NL
+      icon: { default: 'nl/310a' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'NL:310a' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+
+    - description: end of catenary
+      country: NL
+      icon:
+        match: 'railway:signal:electricity:turn_direction'
+        cases:
+          - { regex: '^right$', value: 'nl/311-right' }
+          - { regex: '^left$', value: 'nl/311-left' }
+        default: 'nl/311'
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'NL:311' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
+
+    - description: voltage change
+      country: NL
+      icon:
+        match: 'railway:signal:electricity:voltage'
+        cases:
+          - { regex: '^1500$', value: 'nl/320-1500' }
+          - { regex: '^25000$', value: 'nl/320-25000' }
+        default: 'nl/320-unknown'
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'NL:320' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'voltage_change' }
 
     # --- PL --- #
 

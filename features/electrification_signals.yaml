@@ -40,7 +40,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity', value: 'AT-V2:halt_fuer_fahrzeuge_mit_angehobenem_stromabnehmer' }
         - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
-        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light'] }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light', 'semaphore'] }
 
     - description: Hauptschalter ein
       country: AT
@@ -98,6 +98,179 @@ electrification_signals:
         - { tag: 'railway:signal:electricity:type', value: 'power_indicator' }
         - { tag: 'railway:signal:electricity:form', value: 'semaphore' }
 
+    # --- BE --- #
+
+    - description: Panto distant
+      country: BE
+      icon: { default: 'be/PBA' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'BE:PBA' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down_advance' }
+
+    - description: Panto down
+      country: BE
+      icon: { default: 'be/PBE' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'BE:PBE' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
+
+    - description: Panto up
+      country: BE
+      icon: { default: 'be/PRL' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'BE:PRL' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+
+    # --- CH --- #
+
+    - description: Vorsignal zum Senksignal
+      country: CH
+      icon: { default: 'ch/fdv-703' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:703' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down_advance' }
+
+    - description: Senksignal
+      country: CH
+      icon: { default: 'ch/fdv-704' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:704' }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'semaphore'] }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
+
+    - description: Endsignal zum Senksignal
+      country: CH
+      icon: { default: 'ch/fdv-705' }
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['CH-FDV:705', 'CH-FDV:706'] }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light'] }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+
+    - description: Aufhebungssignal zum Senksignal
+      country: CH
+      icon: { default: 'ch/fdv-707' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:707' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+
+    - description: Vorsignal zum Ausschaltsignal (sign)
+      country: CH
+      icon: { default: 'ch/fdv-708' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:708' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
+
+    - description: Vorsignal zum Ausschaltsignal (light)
+      country: CH
+      icon: { default: 'ch/fdv-709' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:709' }
+        - { tag: 'railway:signal:electricity:form', value: 'light' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
+
+    - description: Ausschaltsignal (sign)
+      country: CH
+      icon: { default: 'ch/fdv-710' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:710' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+    - description: Ausschaltsignal (light)
+      country: CH
+      icon: { default: 'ch/fdv-711' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:711' }
+        - { tag: 'railway:signal:electricity:form', value: 'light' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+    - description: Einschaltsignal (sign)
+      country: CH
+      icon: { default: 'ch/fdv-712' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:712' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+    - description: Einschaltsignal (light)
+      country: CH
+      icon: { default: 'ch/fdv-713' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:713' }
+        - { tag: 'railway:signal:electricity:form', value: 'light' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+    - description: Streckentrennung
+      country: CH
+      icon: { default: 'ch/fdv-714' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:714' }
+        - { tag: 'railway:signal:electricity:form', values: ['sign', 'light'] }
+        - { tag: 'railway:signal:electricity:type', value: 'joint' } # TODO why joint?
+
+    - description: Zonen-Schutzstreckensignal
+      country: CH
+      icon: { default: 'ch/fdv-715' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:715' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'main_switch_off' }
+
+    - description: Zonensignal
+      country: CH
+      # TODO support voltage values
+      icon: { default: 'ch/fdv-716' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:716' }
+        - { tag: 'railway:signal:electricity:form', value: 'light' }
+        - { tag: 'railway:signal:electricity:type', value: 'system_changeable' }
+
+    - description: Vorsignal zum Umschaltsignal
+      country: CH
+      icon: { default: 'ch/fdv-719' }
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['CH-FDV:719', 'CH-SBB:719'] }
+        - { tag: 'railway:signal:electricity:form', value: 'light' }
+        - { tag: 'railway:signal:electricity:type', value: 'system_change_advance' }
+
+    - description: Umschaltsignal anfang (sign)
+      country: CH
+      icon: { default: 'ch/fdv-717' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:717' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'system_change_start' }
+
+    - description: Umschaltsignal anfang (light)
+      country: CH
+      icon: { default: 'ch/fdv-717.1' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:717.1' }
+        - { tag: 'railway:signal:electricity:form', value: 'light' }
+        - { tag: 'railway:signal:electricity:type', value: 'system_change_start' }
+
+    - description: Umschaltsignal ende (sign)
+      country: CH
+      icon: { default: 'ch/fdv-718' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:718' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'system_change_end' }
+
+    - description: Umschaltsignal ende (light)
+      country: CH
+      icon: { default: 'ch/fdv-718.1' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'CH-FDV:718.1' }
+        - { tag: 'railway:signal:electricity:form', value: 'light' }
+        - { tag: 'railway:signal:electricity:type', value: 'system_change_end' }
+
     # --- DE --- #
 
     - description: pantograph down advance El 3
@@ -136,7 +309,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity:type', value: 'power_on' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'DE-ESO:el2' }
+        - { tag: 'railway:signal:electricity', values: ['DE-ESO:el2', 'DE-BOStrab:st4', 'DE-HHA:s2'] }
 
     - description: pantograph up El 5
       country: DE
@@ -144,7 +317,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'DE-ESO:el5' }
+        - { tag: 'railway:signal:electricity', values: ['DE-ESO:el5', 'DE-BOStrab:st6'] }
 
     - description: power off sign El 1
       country: DE
@@ -152,7 +325,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity:type', value: 'power_off' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'DE-ESO:el1' }
+        - { tag: 'railway:signal:electricity', values: ['DE-ESO:el1', 'DE-BOStrab:st3', 'DE-HHA:s1'] }
 
     - description: pantograph down El 4
       country: DE
@@ -160,7 +333,7 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
-        - { tag: 'railway:signal:electricity', value: 'DE-ESO:el4' }
+        - { tag: 'railway:signal:electricity', values: ['DE-ESO:el4', 'DE-BOStrab:st5'] }
 
     - description: tram power off shortly signal (St 7)
       country: DE
@@ -209,6 +382,81 @@ electrification_signals:
         - { tag: 'railway:signal:electricity', value: 'DE-ESO:ice-schaltmerkhilfe' }
         - { tag: 'railway:signal:electricity:type', value: 'power_on_for_long_trains' }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+    # --- ES --- #
+
+    - description: end of catenary
+      country: ES
+      # TODO add turn direction
+      icon: { default: 'es/FI14A' }
+      tags:
+        - { tag: 'railway:signal:electricity', values: ['ES:FI14A', 'ES:FI14B'] }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'end_of_catenaxy' }
+
+    - description: power off shortly
+      country: ES
+      icon: { default: 'es/FI14C' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14C' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off_shortly' }
+
+    - description: power off shortly (full)
+      country: ES
+      icon: { default: 'es/FI14D' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14D' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off_shortly' }
+
+    - description: pantograph down
+      country: ES
+      icon: { default: 'es/FI14E' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14E' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
+
+    - description: pantograph up
+      country: ES
+      icon: { default: 'es/FI14F' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14F' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+
+    - description: pantograph down announcement
+      country: ES
+      icon: { default: 'es/FI14G' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14G' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down_advance' }
+
+    - description: power off announcement
+      country: ES
+      icon: { default: 'es/FI14H' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14H' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
+
+    - description: power off
+      country: ES
+      icon: { default: 'es/FI14I' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14I' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+    - description: power on
+      country: ES
+      icon: { default: 'es/FI14J' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'ES:FI14J' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_on' }
 
     # --- FI --- #
 
@@ -347,6 +595,64 @@ electrification_signals:
       tags:
         - { tag: 'railway:signal:electricity', value: 'FR:GIVRE' }
         - { tag: 'railway:signal:electricity:form', values: ['sign', 'light'] }
+
+    # --- LU --- #
+
+    - description: ESFA
+      country: LU
+      icon: { default: 'lu/ESFA' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'LU-CFL:ESFA' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
+
+    - description: ESFAp/TA
+      country: LU
+      icon: { default: 'lu/ESFAp_TA' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'LU-CFL:ESFAp/TA' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down_advance' }
+
+    - description: ESFAp/TE
+      country: LU
+      icon: { default: 'lu/ESFAp_TE' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'LU-CFL:ESFAp/TE' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
+
+    - description: ESFAp/TR
+      country: LU
+      icon: { default: 'lu/ESFAp_TR' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'LU-CFL:ESFAp/TR' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+
+    - description: ESFCC/A
+      country: LU
+      icon: { default: 'lu/ESFCC_A' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'LU-CFL:ESFCC/A' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
+
+    - description: ESFCC/E
+      country: LU
+      icon: { default: 'lu/ESFCC_E' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'LU-CFL:ESFCC/E' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+
+    - description: ESFCC/F
+      country: LU
+      icon: { default: 'lu/ESFCC_F' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'LU-CFL:ESFCC/F' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_on' }
 
     # --- NL --- #
 
@@ -491,3 +797,19 @@ electrification_signals:
         - { tag: 'railway:signal:electricity', values: ['PL-PKP:we9a', 'PL-PKP:we9b'] }
         - { tag: 'railway:signal:electricity:form', value: 'sign' }
         - { tag: 'railway:signal:electricity:type', value: 'power_on' }
+
+    - description: Tram isolation (ct-1)
+      country: PL
+      icon: { default: 'pl/ct-1' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'PL-tram:ct-1' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'isolation' }
+
+    - description: Tram power limit (ct-2)
+      country: PL
+      icon: { default: 'pl/ct-2' }
+      tags:
+        - { tag: 'railway:signal:electricity', value: 'PL-tram:ct-2' }
+        - { tag: 'railway:signal:electricity:form', value: 'sign' }
+        - { tag: 'railway:signal:electricity:type', value: 'power_limit' }

@@ -271,6 +271,7 @@ const knownStyles = {
   electrification: 'Electrification',
   gauge: 'Gauge',
   loading_gauge: 'Loading gauge',
+  track_class: 'Track class',
 };
 
 function hashToObject(hash) {
@@ -668,6 +669,7 @@ function popupContent(properties) {
       ${properties.bridge === true ? `<span class="badge rounded-pill text-bg-light">bridge</span>` : ''}
       ${properties.railway_local_operated === true ? `<span class="badge rounded-pill text-bg-light">operated locally</span>` : ''}
       ${properties.maxspeed ? `<span class="badge rounded-pill text-bg-light">maximum speed: ${properties.maxspeed} km/h</span>` : ''}
+      ${properties.track_class ? `<span class="badge rounded-pill text-bg-light">track class: ${properties.track_class}</span>` : ''}
       ${properties.direction_both ? `<span class="badge rounded-pill text-bg-light">both directions</span>` : ''}
       ${properties.train_protection ? `<span class="badge rounded-pill text-bg-light">train protection: <span class="text-monospace">${properties.train_protection}</span></span>` : ''}
       ${properties.deactivated === true ? `<span class="badge rounded-pill text-bg-light">deactivated</span>` : ''}

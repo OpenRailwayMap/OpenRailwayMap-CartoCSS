@@ -747,8 +747,11 @@ speed_railway_signals:
     - description: tunnel distant speed limit
       country: NL
       type: line
-      # TODO match speed
-      icon: { default: 'nl/286-80' }
+      icon:
+        match: 'railway:signal:speed_limit_distant:speed'
+        cases:
+          - { regex: '^80$', value: 'nl/286-{}', example: 'nl/286-80' }
+        default: 'nl/286-empty'
       tags:
         - { tag: 'railway:signal:speed_limit_distant', value: 'NL:286' }
         - { tag: 'railway:signal:speed_limit_distant:form', value: 'sign' }
@@ -756,8 +759,11 @@ speed_railway_signals:
     - description: tunnel entry speed limit
       country: NL
       type: line
-      # TODO match speed
-      icon: { default: 'nl/281-40' }
+      icon:
+        match: 'railway:signal:speed_limit:speed'
+        cases:
+          - { regex: '^[3-8]0$', value: 'nl/281-{}', example: 'nl/281-40' }
+        default: 'nl/281-empty'
       tags:
         - { tag: 'railway:signal:speed_limit', value: 'NL:281' }
         - { tag: 'railway:signal:speed_limit:form', value: 'sign' }
@@ -765,8 +771,11 @@ speed_railway_signals:
     - description: advisory speed (sign)
       country: NL
       type: line
-      # TODO match speed
-      icon: { default: 'nl/282-40' }
+      icon:
+        match: 'railway:signal:speed_limit:speed'
+        cases:
+          - { regex: '^15|35|[4-9]0|120$', value: 'nl/282-{}', example: 'nl/282-40' }
+        default: 'nl/282-empty'
       tags:
         - { tag: 'railway:signal:speed_limit', value: 'NL:282' }
         - { tag: 'railway:signal:speed_limit:form', value: 'sign' }
@@ -774,8 +783,11 @@ speed_railway_signals:
     - description: advisory speed (light)
       country: NL
       type: line
-      # TODO match speed
-      icon: { default: 'nl/282a-40' }
+      icon:
+        match: 'railway:signal:speed_limit:speed'
+        cases:
+          - { regex: '^15|35|[4-9]0|120$', value: 'nl/282a-{}', example: 'nl/282a-40' }
+        default: 'nl/282a-empty'
       tags:
         - { tag: 'railway:signal:speed_limit', value: 'NL:282' }
         - { tag: 'railway:signal:speed_limit:form', value: 'light' }

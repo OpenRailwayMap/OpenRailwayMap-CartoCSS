@@ -30,8 +30,8 @@ const glodalMaxZoom = 20;
 const colors = {
   light: {
     text: {
-      main: 'white',
-      halo: 'black',
+      main: 'black',
+      halo: 'white',
     },
     halo: 'white',
     casing: 'white',

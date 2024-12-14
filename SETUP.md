@@ -32,6 +32,13 @@ The OpenRailwayMap is now available on http://localhost:8000.
 
 Docker Compose will automatically rebuild and restart the `martin` and `martin-proxy` containers if relevant files are modified.
 
+### Making changes
+
+If changes are made to features, the materialized views in the database have to be refreshed:
+```shell
+docker compose run --build import refresh
+```
+
 ## Deployment
 
 Import the data:

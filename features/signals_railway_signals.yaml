@@ -778,6 +778,68 @@ features:
       - { tag: 'railway:signal:main', value: 'DE-ESO:ne1' }
       - { tag: 'railway:signal:main:form', value: 'sign' }
 
+  - description: Hamburger Hochbahn distant signal
+    country: DE
+    icon: { default: 'de/hha/v1' }
+    tags:
+      - { tag: 'railway:signal:distant', value: 'DE-HHA:v' }
+      - { tag: 'railway:signal:distant:form', value: 'light' }
+
+  - description: Blockkennzeichen
+    country: DE
+    icon:
+      match: 'ref_multiline'
+      cases:
+        - { regex: '^([^\n]{4}\n[^\n]{1,4})|([^\n]{1,4}\n[^\n]{4})$', value: 'de/blockkennzeichen-4x2' }
+        - { regex: '^[^\n]{4}$', value: 'de/blockkennzeichen-4x1' }
+        - { regex: '^([^\n]{3}\n[^\n]{1,3})|([^\n]{1,3}\n[^\n]{3})$', value: 'de/blockkennzeichen-3x2' }
+        - { regex: '^[^\n]{3}$', value: 'de/blockkennzeichen-3x1' }
+        - { regex: '^([^\n]{2}\n[^\n]{1,2})|([^\n]{1,2}\n[^\n]{2})$', value: 'de/blockkennzeichen-2x2' }
+        - { regex: '^[^\n]{2}$', value: 'de/blockkennzeichen-2x1' }
+        - { regex: '^[^\n]\n[^\n]$', value: 'de/blockkennzeichen-1x2' }
+        - { regex: '^[^\n]$', value: 'de/blockkennzeichen-1x1' }
+      default: 'de/blockkennzeichen'
+    tags:
+      - { tag: 'railway:signal:train_protection', value: 'DE-ESO:blockkennzeichen' }
+
+  - description: distant signal replacement by sign So 106
+    country: DE
+    icon: { default: 'de/so106' }
+    tags:
+      - { tag: 'railway:signal:distant', value: 'DE-ESO:so106' }
+      - { tag: 'railway:signal:distant:form', value: 'sign' }
+
+  - description: distant crossing So 14
+    country: DE
+    icon: { default: 'de/so14' }
+    tags:
+      - { tag: 'railway:signal:crossing_distant', value: 'DE-ESO:so14' }
+      - { tag: 'railway:signal:crossing_distant:form', value: 'sign' }
+
+  - description: main semaphore signals type Hp
+    country: DE
+    icon:
+      match: 'railway:signal:main:states'
+      cases:
+        - { regex: '^(.*;)?DE-ESO:hp2(;.*)?$', value: 'de/hp2-semaphore' }
+        - { regex: '^(.*;)?DE-ESO:hp1(;.*)?$', value: 'de/hp1-semaphore' }
+      default: 'de/hp0-semaphore'
+    tags:
+      - { tag: 'railway:signal:main', value: 'DE-ESO:hp' }
+      - { tag: 'railway:signal:main:form', value: 'semaphore' }
+
+  - description: main light signals type Hp
+    country: DE
+    icon:
+      match: 'railway:signal:main:states'
+      cases:
+        - { regex: '^(.*;)?DE-ESO:hp2(;.*)?$', value: 'de/hp2-light' }
+        - { regex: '^(.*;)?DE-ESO:hp1(;.*)?$', value: 'de/hp1-light' }
+      default: 'de/hp0-light'
+    tags:
+      - { tag: 'railway:signal:main', value: 'DE-ESO:hp' }
+      - { tag: 'railway:signal:main:form', value: 'light' }
+
   - description: distant light signals type Vr (repeated)
     country: DE
     icon:
@@ -830,44 +892,6 @@ features:
       - { tag: 'railway:signal:distant', value: 'DE-ESO:vr' }
       - { tag: 'railway:signal:distant:form', value: 'semaphore' }
 
-  - description: Hamburger Hochbahn distant signal
-    country: DE
-    icon: { default: 'de/hha/v1' }
-    tags:
-      - { tag: 'railway:signal:distant', value: 'DE-HHA:v' }
-      - { tag: 'railway:signal:distant:form', value: 'light' }
-
-  - description: Blockkennzeichen
-    country: DE
-    icon:
-      match: 'ref_multiline'
-      cases:
-        - { regex: '^([^\n]{4}\n[^\n]{1,4})|([^\n]{1,4}\n[^\n]{4})$', value: 'de/blockkennzeichen-4x2' }
-        - { regex: '^[^\n]{4}$', value: 'de/blockkennzeichen-4x1' }
-        - { regex: '^([^\n]{3}\n[^\n]{1,3})|([^\n]{1,3}\n[^\n]{3})$', value: 'de/blockkennzeichen-3x2' }
-        - { regex: '^[^\n]{3}$', value: 'de/blockkennzeichen-3x1' }
-        - { regex: '^([^\n]{2}\n[^\n]{1,2})|([^\n]{1,2}\n[^\n]{2})$', value: 'de/blockkennzeichen-2x2' }
-        - { regex: '^[^\n]{2}$', value: 'de/blockkennzeichen-2x1' }
-        - { regex: '^[^\n]\n[^\n]$', value: 'de/blockkennzeichen-1x2' }
-        - { regex: '^[^\n]$', value: 'de/blockkennzeichen-1x1' }
-      default: 'de/blockkennzeichen'
-    tags:
-      - { tag: 'railway:signal:train_protection', value: 'DE-ESO:blockkennzeichen' }
-
-  - description: distant signal replacement by sign So 106
-    country: DE
-    icon: { default: 'de/so106' }
-    tags:
-      - { tag: 'railway:signal:distant', value: 'DE-ESO:so106' }
-      - { tag: 'railway:signal:distant:form', value: 'sign' }
-
-  - description: distant crossing So 14
-    country: DE
-    icon: { default: 'de/so14' }
-    tags:
-      - { tag: 'railway:signal:crossing_distant', value: 'DE-ESO:so14' }
-      - { tag: 'railway:signal:crossing_distant:form', value: 'sign' }
-
   - description: distant signal replacement by sign Ne 2
     country: DE
     icon:
@@ -878,30 +902,6 @@ features:
     tags:
       - { tag: 'railway:signal:distant', value: 'DE-ESO:db:ne2' }
       - { tag: 'railway:signal:distant:form', value: 'sign' }
-
-  - description: main semaphore signals type Hp
-    country: DE
-    icon:
-      match: 'railway:signal:main:states'
-      cases:
-        - { regex: '^(.*;)?DE-ESO:hp2(;.*)?$', value: 'de/hp2-semaphore' }
-        - { regex: '^(.*;)?DE-ESO:hp1(;.*)?$', value: 'de/hp1-semaphore' }
-      default: 'de/hp0-semaphore'
-    tags:
-      - { tag: 'railway:signal:main', value: 'DE-ESO:hp' }
-      - { tag: 'railway:signal:main:form', value: 'semaphore' }
-
-  - description: main light signals type Hp
-    country: DE
-    icon:
-      match: 'railway:signal:main:states'
-      cases:
-        - { regex: '^(.*;)?DE-ESO:hp2(;.*)?$', value: 'de/hp2-light' }
-        - { regex: '^(.*;)?DE-ESO:hp1(;.*)?$', value: 'de/hp1-light' }
-      default: 'de/hp0-light'
-    tags:
-      - { tag: 'railway:signal:main', value: 'DE-ESO:hp' }
-      - { tag: 'railway:signal:main:form', value: 'light' }
 
   - description: distant light signals type Hl
     country: DE

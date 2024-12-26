@@ -16,8 +16,10 @@ const themeSystemControl = document.getElementById('themeSystem');
 const themeDarkControl = document.getElementById('themeDark');
 const themeLightControl = document.getElementById('themeLight');
 const backgroundMapContainer = document.getElementById('background-map');
-const legend = document.getElementById('legend')
-const legendMapContainer = document.getElementById('legend-map')
+const legend = document.getElementById('legend');
+const legendMapContainer = document.getElementById('legend-map');
+const newsBackdrop = document.getElementById('news-backdrop');
+const newsContent = document.getElementById('news-content');
 
 const icons = {
   railway: {
@@ -236,6 +238,34 @@ function toggleLegend() {
   }
 }
 
+function toggleNews() {
+  if (newsBackdrop.style.display === 'block') {
+    hideNews();
+  } else {
+    showNews();
+  }
+}
+
+function showNews() {
+  newsBackdrop.style.display = 'block';
+
+  const newsHash = newsControl.newsHash()
+  if (newsHash) {
+    configuration.newsHash = newsHash;
+    storeConfiguration(localStorage, configuration);
+  }
+}
+
+function hideNews() {
+  newsBackdrop.style.display = 'none';
+}
+
+function newsLink(style, zoom, lat, lon) {
+  hideNews();
+  selectStyle(style);
+  map.jumpTo({zoom, center: {lat, lon}});
+}
+
 searchFacilitiesForm.addEventListener('submit', event => {
   event.preventDefault();
   const formData = new FormData(event.target);
@@ -258,6 +288,20 @@ configurationBackdrop.onclick = event => {
     hideConfiguration();
   }
 };
+newsBackdrop.onclick = event => {
+  if (event.target === event.currentTarget) {
+    hideNews();
+  }
+};
+
+// Bind Escape keypress (without modifiers) to close all modal windows
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !(event.ctrlKey || event.altKey || event.shiftKey)) {
+    hideSearch();
+    hideConfiguration();
+    hideNews();
+  }
+});
 
 function createDomElement(tagName, className, container) {
   const el = window.document.createElement(tagName);
@@ -319,6 +363,14 @@ function putStyleInHash(hash, style) {
 }
 
 let selectedStyle = determineStyleFromHash(window.location.hash)
+
+async function generateHash(input) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
 
 // Configuration //
 
@@ -487,6 +539,14 @@ const map = new maplibregl.Map({
   maxPitch: 0,
 });
 
+function selectStyle(style) {
+  if (selectedStyle !== style) {
+    selectedStyle = style;
+    styleControl.onExternalStyleChange(style);
+    onStyleChange();
+  }
+}
+
 const onStyleChange = () => {
   // Change styles
   map.setStyle(mapStyles[selectedTheme][selectedStyle], {
@@ -511,6 +571,7 @@ onStyleChange();
 class StyleControl {
   constructor(options) {
     this.options = options
+    this.radioButtons = {};
   }
 
   onAdd(map) {
@@ -530,6 +591,8 @@ class StyleControl {
       const label = createDomElement('label', 'btn btn-outline-success', buttonGroup);
       label.htmlFor = id
       label.innerText = styleLabel
+
+      this.radioButtons[name] = radio;
     });
 
     return this._container;
@@ -538,6 +601,13 @@ class StyleControl {
   onRemove() {
     removeDomElement(this._container);
     this._map = undefined;
+  }
+
+  onExternalStyleChange(style) {
+    const radio = this.radioButtons[style];
+    if (radio && !radio.checked) {
+      radio.checked = true;
+    }
   }
 }
 
@@ -629,13 +699,57 @@ class LegendControl {
 // Cache for the number of items in the legend, per style and zoom level
 const legendEntriesCount = Object.fromEntries(Object.keys(knownStyles).map(key => [key, {}]));
 
-map.addControl(new StyleControl({
+class NewsControl {
+  constructor(options) {
+    this.options = options;
+    this._newsHash = null;
+  }
+
+  onAdd(map) {
+    this._map = map;
+    this._container = createDomElement('div', 'maplibregl-ctrl maplibregl-ctrl-group');
+    const button = createDomElement('button', 'maplibregl-ctrl-news', this._container);
+    button.type = 'button';
+    button.title = 'Show/hide news';
+    createDomElement('span', 'maplibregl-ctrl-icon', button);
+    const text = createDomElement('span', undefined, button);
+    text.innerText = 'News'
+    createDomElement('span', 'news-marker', button);
+
+    button.onclick = () => {
+      button.classList.remove('news-updated');
+      this.options.onNewsToggle();
+    }
+
+    // Attach news hash to the button
+    generateHash(newsContent.innerText)
+      .then(hash => {
+        this._newsHash = hash;
+        if (!configuration.newsHash || hash !== configuration.newsHash) {
+          button.classList.add('news-updated');
+          console.info('News has been updated');
+        }
+      })
+      .catch(error => console.error('Error during calculation of news content hash', error))
+
+    return this._container;
+  }
+
+  onRemove() {
+    removeDomElement(this._container);
+    this._map = undefined;
+  }
+
+  newsHash() {
+    return this._newsHash;
+  }
+}
+
+const styleControl = new StyleControl({
   initialSelection: selectedStyle,
-  onStyleChange: style => {
-    selectedStyle = style;
-    onStyleChange();
-  },
-}));
+  onStyleChange: selectStyle,
+});
+map.addControl(styleControl);
 map.addControl(new maplibregl.NavigationControl({
   showCompass: true,
   visualizePitch: false,
@@ -660,6 +774,10 @@ map.addControl(new maplibregl.ScaleControl({
   maxWidth: 150,
   unit: 'metric',
 }), 'bottom-right');
+const newsControl = new NewsControl({
+  onNewsToggle: toggleNews,
+});
+map.addControl(newsControl, 'bottom-right');
 
 map.addControl(new LegendControl({
   onLegendToggle: toggleLegend,

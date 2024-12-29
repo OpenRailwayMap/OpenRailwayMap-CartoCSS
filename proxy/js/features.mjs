@@ -26,10 +26,9 @@ const generateSignalFeatures = features =>
       ]
     ].concat(
       feature.icon.match
-        // TODO dynamic match for speed signals, need difference between feature and icon
-        ? feature.icon.cases.map(iconCase => [iconCase.example ?? iconCase.value, {
+        ? feature.icon.cases.map(iconCase => [iconCase.value, {
           country: feature.country,
-          name: iconCase.description,
+          name: `${feature.description}${iconCase.description ? ` (${iconCase.description})` : ''}`,
         }])
         : []
     ),
@@ -233,7 +232,7 @@ const features = {
         [
           [feature.feature, {name: feature.description}]
         ].concat(
-          (feature.variants || []).map(variant => [variant.feature, {name: variant.description}])
+          (feature.variants || []).map(variant => [variant.feature, {name: `${feature.description}${variant.description ? ` (${variant.description})` : ''}`}])
         ))
     ),
   },

@@ -2,12 +2,14 @@ import fs from 'fs'
 import yaml from 'yaml'
 
 const signals_railway_line = yaml.parse(fs.readFileSync('features/train_protection.yaml', 'utf8'))
-const speed_railway_signals = yaml.parse(fs.readFileSync('features/speed_railway_signals.yaml', 'utf8'))
-const signals_railway_signals = yaml.parse(fs.readFileSync('features/signals_railway_signals.yaml', 'utf8'))
-const electrification_signals = yaml.parse(fs.readFileSync('features/electrification_signals.yaml', 'utf8'))
+const all_signals = yaml.parse(fs.readFileSync('features/signals_railway_signals.yaml', 'utf8'))
 const loading_gauges = yaml.parse(fs.readFileSync('features/loading_gauge.yaml', 'utf8'))
 const poi = yaml.parse(fs.readFileSync('features/poi.yaml', 'utf8'))
 const stations = yaml.parse(fs.readFileSync('features/stations.yaml', 'utf8'))
+
+const speed_railway_signals = all_signals.features.filter(feature => feature.tags.find(tag => tag.tag === 'railway:signal:speed_limit' || tag.tag === 'railway:signal:speed_limit_distant'))
+const signals_railway_signals = all_signals.features.filter(feature => !feature.tags.find(tag => tag.tag === 'railway:signal:speed_limit' || tag.tag === 'railway:signal:speed_limit_distant' || tag.tag === 'railway:signal:electricity'))
+const electrification_signals = all_signals.features.filter(feature => feature.tags.find(tag => tag.tag === 'railway:signal:electricity'))
 
 // TODO add links to documentation
 
@@ -225,6 +227,7 @@ const features = {
     },
   },
   'openrailwaymap_standard-standard_railway_symbols': {
+    labelProperty: 'feature',
     features: Object.fromEntries(
       poi.features.flatMap(feature =>
         [
@@ -270,10 +273,15 @@ const features = {
     },
   },
   'openrailwaymap_speed-speed_railway_signals': {
-    features: generateSignalFeatures(speed_railway_signals.features),
+    featureProperty: 'feature0',
+    features: generateSignalFeatures(speed_railway_signals),
     properties: {
-      direction_both: {
-        name: 'both directions',
+      feature1: {
+        name: 'Secondary signal',
+        format: {
+          // Recursive feature lookup
+          lookup: 'openrailwaymap_speed-speed_railway_signals',
+        },
       },
       ref: {
         name: 'Reference',
@@ -287,13 +295,42 @@ const features = {
       speed: {
         name: 'Speed limit',
       },
+      direction_both: {
+        name: 'both directions',
+      },
     },
   },
   'openrailwaymap_signals-signals_railway_signals': {
-    features: generateSignalFeatures(signals_railway_signals.features),
+    featureProperty: 'feature0',
+    features: generateSignalFeatures(signals_railway_signals),
     properties: {
-      direction_both: {
-        name: 'both directions',
+      feature1: {
+        name: 'Secondary signal',
+        format: {
+          // Recursive feature lookup
+          lookup: 'openrailwaymap_signals-signals_railway_signals',
+        },
+      },
+      feature2: {
+        name: 'Tertiary signal',
+        format: {
+          // Recursive feature lookup
+          lookup: 'openrailwaymap_signals-signals_railway_signals',
+        },
+      },
+      feature3: {
+        name: 'Quaternary signal',
+        format: {
+          // Recursive feature lookup
+          lookup: 'openrailwaymap_signals-signals_railway_signals',
+        },
+      },
+      feature4: {
+        name: 'Quinary signal',
+        format: {
+          // Recursive feature lookup
+          lookup: 'openrailwaymap_signals-signals_railway_signals',
+        },
       },
       ref: {
         name: 'Reference',
@@ -303,6 +340,9 @@ const features = {
       },
       deactivated: {
         name: 'Deactivated',
+      },
+      direction_both: {
+        name: 'both directions',
       },
     },
   },
@@ -326,7 +366,8 @@ const features = {
     },
   },
   'openrailwaymap_electrification-electrification_signals': {
-    features: generateSignalFeatures(electrification_signals.features),
+    featureProperty: 'feature',
+    features: generateSignalFeatures(electrification_signals),
     properties: {
       direction_both: {
         name: 'both directions',

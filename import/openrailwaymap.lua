@@ -222,12 +222,6 @@ local signal_columns = {
 for _, tag in ipairs(tag_functions.signal_tags) do
   table.insert(signal_columns, { column = tag, type = 'text' })
 end
-for _, tag in ipairs(tag_functions.speed_tags) do
-  table.insert(signal_columns, { column = tag, type = 'text' })
-end
-for _, tag in ipairs(tag_functions.electrification_tags) do
-  table.insert(signal_columns, { column = tag, type = 'text' })
-end
 local signals = osm2pgsql.define_table({
   name = 'signals',
   ids = { type = 'node', id_column = 'osm_id' },
@@ -454,51 +448,6 @@ function osm2pgsql.process_node(object)
   end
 
   if railway_signal_values(tags.railway) then
-    local rank = (
-      (tags['railway:signal:main'] and 10000) or
-      (tags['railway:signal:combined'] and 10000) or
-      (tags['railway:signal:distant'] and 9000) or
-      (tags['railway:signal:train_protection'] and 8500) or
-      (tags['railway:signal:main_repeated'] and 8000) or
-      (tags['railway:signal:speed_limit'] and 5500) or
-      (tags['railway:signal:speed_limit_distant'] and 5000) or
-      (tags['railway:signal:minor'] and 4000) or
-      (tags['railway:signal:passing'] and 3500) or
-      (tags['railway:signal:shunting'] and 3000) or
-      (tags['railway:signal:stop'] and 1000) or
-      (tags['railway:signal:stop_demand'] and 900) or
-      (tags['railway:signal:station_distant'] and 550) or
-      (tags['railway:signal:crossing'] and 1000) or
-      (tags['railway:signal:crossing_distant'] and 500) or
-      (tags['railway:signal:ring'] and 500) or
-      (tags['railway:signal:whistle'] and 500) or
-      (tags['railway:signal:electricity'] and 500) or
-      (tags['railway:signal:departure'] and 400) or
-      (tags['railway:signal:resetting_switch'] and 300) or
-      (tags['railway:signal:resetting_switch_distant'] and 200) or
-      0
-    )
-    local deactivated = (
-      tags['railway:signal:combined:deactivated'] or
-      tags['railway:signal:main:deactivated'] or
-      tags['railway:signal:distant:deactivated'] or
-      tags['railway:signal:train_protection:deactivated'] or
-      tags['railway:signal:main_repeated:deactivated'] or
-      tags['railway:signal:minor:deactivated'] or
-      tags['railway:signal:passing:deactivated'] or
-      tags['railway:signal:shunting:deactivated'] or
-      tags['railway:signal:stop:deactivated'] or
-      tags['railway:signal:stop_demand:deactivated'] or
-      tags['railway:signal:station_distant:deactivated'] or
-      tags['railway:signal:crossing_distant:deactivated'] or
-      tags['railway:signal:crossing:deactivated'] or
-      tags['railway:signal:ring:deactivated'] or
-      tags['railway:signal:whistle:deactivated'] or
-      tags['railway:signal:departure:deactivated'] or
-      tags['railway:signal:main_repeated:deactivated'] or
-      tags['railway:signal:humping:deactivated'] or
-      tags['railway:signal:speed_limit:deactivated']
-    ) == 'yes'
     local ref_multiline, newline_count = (tags.ref or ''):gsub(' ', '\n')
 
     -- We cast the highest speed to text to make it possible to only select those speeds
@@ -510,8 +459,8 @@ function osm2pgsql.process_node(object)
     local signal = {
       way = object:as_point(),
       railway = tags.railway,
-      rank = rank,
-      deactivated = deactivated,
+      rank = tag_functions.signal_rank(tags),
+      deactivated = tag_functions.signal_deactivated(tags),
       ref = tags.ref,
       ref_multiline = ref_multiline ~= '' and ref_multiline or nil,
       signal_direction = tags['railway:signal:direction'],
@@ -521,15 +470,9 @@ function osm2pgsql.process_node(object)
     }
 
     for _, tag in ipairs(tag_functions.signal_tags) do
-      signal[tag] = tags[tag]
-    end
-    for _, tag in ipairs(tag_functions.speed_tags) do
       if tag ~= 'railway:signal:speed_limit:speed' and tag ~= 'railway:signal:speed_limit_distant:speed' then
         signal[tag] = tags[tag]
       end
-    end
-    for _, tag in ipairs(tag_functions.electrification_tags) do
-      signal[tag] = tags[tag]
     end
 
     signals:insert(signal)

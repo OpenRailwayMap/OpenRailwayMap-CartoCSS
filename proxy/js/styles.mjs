@@ -2,13 +2,15 @@ import fs from 'fs'
 import yaml from 'yaml'
 
 const signals_railway_line = yaml.parse(fs.readFileSync('features/train_protection.yaml', 'utf8'))
-const speed_railway_signals = yaml.parse(fs.readFileSync('features/speed_railway_signals.yaml', 'utf8'))
-const signals_railway_signals = yaml.parse(fs.readFileSync('features/signals_railway_signals.yaml', 'utf8'))
-const electrification_signals = yaml.parse(fs.readFileSync('features/electrification_signals.yaml', 'utf8'))
+const all_signals = yaml.parse(fs.readFileSync('features/signals_railway_signals.yaml', 'utf8'))
 const loading_gauges = yaml.parse(fs.readFileSync('features/loading_gauge.yaml', 'utf8'))
 const track_classes = yaml.parse(fs.readFileSync('features/track_class.yaml', 'utf8'))
 const poi = yaml.parse(fs.readFileSync('features/poi.yaml', 'utf8'))
 const stations = yaml.parse(fs.readFileSync('features/stations.yaml', 'utf8'))
+
+const speed_railway_signals = all_signals.features.filter(feature => feature.tags.find(tag => tag.tag === 'railway:signal:speed_limit' || tag.tag === 'railway:signal:speed_limit_distant'))
+const signals_railway_signals = all_signals.features.filter(feature => !feature.tags.find(tag => tag.tag === 'railway:signal:speed_limit' || tag.tag === 'railway:signal:speed_limit_distant' || tag.tag === 'railway:signal:electricity'))
+const electrification_signals = all_signals.features.filter(feature => feature.tags.find(tag => tag.tag === 'railway:signal:electricity'))
 
 const origin = `${process.env.PUBLIC_PROTOCOL}://${process.env.PUBLIC_HOST}`
 
@@ -2342,13 +2344,13 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
       'source-layer': 'speed_railway_signals',
       filter: ['step', ['zoom'],
         ['all',
-          ['!=', ['get', 'feature'], null],
+          ['!=', ['get', 'feature0'], null],
           ['!=', ['get', 'azimuth'], null],
           ['==', ['get', 'type'], 'line'],
         ],
         14,
         ['all',
-          ['!=', ['get', 'feature'], null],
+          ['!=', ['get', 'feature0'], null],
           ['!=', ['get', 'azimuth'], null],
           ['any',
             ['==', ['get', 'type'], 'line'],
@@ -2357,7 +2359,7 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
         ],
         16,
         ['all',
-          ['!=', ['get', 'feature'], null],
+          ['!=', ['get', 'feature0'], null],
           ['!=', ['get', 'azimuth'], null],
         ],
       ],
@@ -2373,62 +2375,87 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
       layout: {
         'icon-overlap': 'always',
         'icon-image': ['case',
-          ['get', 'direction_both'], 'sdf:general/signal-direction-both',
+          ['coalesce', ['get', 'direction_both'], false], 'sdf:general/signal-direction-both',
           'sdf:general/signal-direction',
         ],
         'icon-anchor': ['case',
-          ['get', 'direction_both'], 'center',
+          ['coalesce', ['get', 'direction_both'], false], 'center',
           'top',
         ],
         'icon-rotate': ['get', 'azimuth'],
       },
     },
-    ...imageLayerWithOutline(
-      theme,
-      'speed_railway_signals',
-      ['get', 'feature'],
-      {
-        type: 'symbol',
-        source: 'openrailwaymap_speed',
-        minzoom: 13,
-        'source-layer': 'speed_railway_signals',
-        filter: ['step', ['zoom'],
-          ['all',
-            ['!=', ['get', 'feature'], null],
-            ['==', ['get', 'type'], 'line'],
-          ],
-          14,
-          ['all',
-            ['!=', ['get', 'feature'], null],
-            ['any',
+    ...[0, 1].flatMap(featureIndex =>
+      imageLayerWithOutline(
+        theme,
+        `speed_railway_signals_${featureIndex}`,
+        ['get', `feature${featureIndex}`],
+        {
+          type: 'symbol',
+          minzoom: 13,
+          source: 'openrailwaymap_speed',
+          'source-layer': 'speed_railway_signals',
+          filter: ['step', ['zoom'],
+            ['all',
+              ['!=', ['get', `feature${featureIndex}`], null],
               ['==', ['get', 'type'], 'line'],
-              ['==', ['get', 'type'], 'tram'],
-            ]
+            ],
+            14,
+            ['all',
+              ['!=', ['get', `feature${featureIndex}`], null],
+              ['any',
+                ['==', ['get', 'type'], 'line'],
+                ['==', ['get', 'type'], 'tram'],
+              ]
+            ],
+            16,
+            ['!=', ['get', `feature${featureIndex}`], null],
           ],
-          16,
-          ['!=', ['get', 'feature'], null],
-        ],
-        paint: {
-          'text-color': colors[theme].text.main,
-          'text-halo-color': ['case',
-            ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
-            colors[theme].halo
-          ],
-          'text-halo-width': 1.5,
-          'text-halo-blur': 1,
+          layout: {
+            'symbol-z-order': 'source',
+            'icon-overlap': 'always',
+            'icon-offset': [0, -20 * featureIndex],
+          },
         },
-        layout: {
-          'symbol-z-order': 'source',
-          'icon-overlap': 'always',
-          'text-field': '{ref}',
-          'text-font': ['Noto Sans Medium'],
-          'text-size': 9,
-          'text-optional': true,
-          'text-anchor': 'top',
-          'text-offset': ['literal', [0, 1.5]],
-        },
-      },
+      )
     ),
+    {
+      id: 'speed_railway_signals_deactivated',
+      type: 'symbol',
+      minzoom: 13,
+      source: 'openrailwaymap_speed',
+      'source-layer': 'speed_railway_signals',
+      filter: ['get', 'deactivated'],
+      layout: {
+        'symbol-z-order': 'source',
+        'icon-overlap': 'always',
+        'icon-image': 'general/signal-deactivated',
+      }
+    },
+    {
+      id: `speed_railway_signals_text`,
+      type: 'symbol',
+      minzoom: 16,
+      source: 'openrailwaymap_speed',
+      'source-layer': 'speed_railway_signals',
+      filter: ['!=', ['get', `ref`], null],
+      paint: {
+        'text-color': colors[theme].text.main,
+        'text-halo-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].halo
+        ],
+        'text-halo-width': 1.5,
+        'text-halo-blur': 1,
+      },
+      layout: {
+        'text-field': '{ref}',
+        'text-font': ['Noto Sans Medium'],
+        'text-size': 9,
+        'text-anchor': 'top',
+        'text-offset': [0, 1.5],
+      },
+    },
     railwayKmText(theme),
     {
       id: 'speed_railway_line_text',
@@ -2620,7 +2647,7 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
       'source-layer': 'signals_railway_signals',
       filter: ['all',
         ['!=', ['get', 'azimuth'], null],
-        ['!=', ['get', 'feature'], ''],
+        ['!=', ['get', 'feature0'], ''],
       ],
       paint: {
         'icon-color': colors[theme].signals.direction,
@@ -2634,77 +2661,99 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
       layout: {
         'icon-overlap': 'always',
         'icon-image': ['case',
-          ['get', 'direction_both'], 'sdf:general/signal-direction-both',
+          ['coalesce', ['get', 'direction_both'], false], 'sdf:general/signal-direction-both',
           'sdf:general/signal-direction',
         ],
         'icon-anchor': ['case',
-          ['get', 'direction_both'], 'center',
+          ['coalesce', ['get', 'direction_both'], false], 'center',
           'top',
         ],
         'icon-rotate': ['get', 'azimuth'],
       },
     },
-    ...imageLayerWithOutline(
-      theme,
-      'railway_signals_medium',
-      ['case',
-        ['==', ['slice', ['get', 'feature'], 0, 20], 'de/blockkennzeichen-'], 'de/blockkennzeichen',
-        ['get', 'feature'],
+    // Show at most 2 combined features
+    ...[0, 1].flatMap(featureIndex =>
+      imageLayerWithOutline(
+        theme,
+        `railway_signals_medium_${featureIndex}`,
+        ['case',
+          ['==', ['slice', ['get', `feature${featureIndex}`], 0, 20], 'de/blockkennzeichen-'], 'de/blockkennzeichen',
+          ['get', `feature${featureIndex}`],
+        ],
+        {
+          type: 'symbol',
+          minzoom: 13,
+          maxzoom: 16,
+          source: 'openrailwaymap_signals',
+          'source-layer': 'signals_railway_signals',
+          filter: ['!=', ['get', `feature${featureIndex}`], null],
+          layout: {
+            'symbol-z-order': 'source',
+            'icon-overlap': 'always',
+            'icon-offset': [0, -20 * featureIndex],
+          },
+        },
+      )
+    ),
+    ...[0, 1, 2, 3, 4, 5].flatMap(featureIndex =>
+      imageLayerWithOutline(
+        theme,
+        `railway_signals_high_${featureIndex}`,
+        ['get', `feature${featureIndex}`],
+        {
+          type: 'symbol',
+          minzoom: 16,
+          source: 'openrailwaymap_signals',
+          'source-layer': 'signals_railway_signals',
+          filter: ['!=', ['get', `feature${featureIndex}`], null],
+          layout: {
+            'symbol-z-order': 'source',
+            'icon-overlap': 'always',
+            'icon-offset': [0, -20 * featureIndex],
+          },
+        },
+      )
+    ),
+    {
+      id:`railway_signals_high_text`,
+      type: 'symbol',
+      minzoom: 16,
+      source: 'openrailwaymap_signals',
+      'source-layer': 'signals_railway_signals',
+      filter: ['all',
+        ['!=', ['get', `ref`], null],
+        ['!=', ['get', `feature0`], null],
       ],
-      {
-        type: 'symbol',
-        minzoom: 13,
-        maxzoom: 16,
-        source: 'openrailwaymap_signals',
-        'source-layer': 'signals_railway_signals',
-        layout: {
-          'symbol-z-order': 'source',
-          'icon-overlap': 'always',
-        },
+      paint: {
+        'text-color': colors[theme].text.main,
+        'text-halo-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].halo
+        ],
+        'text-halo-width': ['case',
+          ['==', ['slice', ['get', 'feature0'], 0, 20], 'de/blockkennzeichen-'], 2.0,
+          1.5,
+        ],
+        'text-halo-blur': 1,
       },
-    ),
-    ...imageLayerWithOutline(
-      theme,
-      'railway_signals_high',
-      ['get', 'feature'],
-      {
-        type: 'symbol',
-        minzoom: 16,
-        source: 'openrailwaymap_signals',
-        'source-layer': 'signals_railway_signals',
-        paint: {
-          'text-color': colors[theme].text.main,
-          'text-halo-color': ['case',
-            ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
-            colors[theme].halo
-          ],
-          'text-halo-width': ['case',
-            ['==', ['slice', ['get', 'feature'], 0, 20], 'de/blockkennzeichen-'], 2.0,
-            1.5,
-          ],
-          'text-halo-blur': 1,
-        },
-        layout: {
-          'symbol-z-order': 'source',
-          'icon-overlap': 'always',
-          'text-field': ['case',
-            ['==', ['slice', ['get', 'feature'], 0, 20], 'de/blockkennzeichen-'], ['get', 'ref_multiline'],
-            ['get', 'ref'],
-          ],
-          'text-font': ['Noto Sans Medium'],
-          'text-size': 9,
-          'text-optional': true,
-          'text-anchor': ['case',
-            ['==', ['slice', ['get', 'feature'], 0, 20], 'de/blockkennzeichen-'], 'center',
-            'top',
-          ],
-          'text-offset': ['case',
-            ['==', ['slice', ['get', 'feature'], 0, 20], 'de/blockkennzeichen-'], ['literal', [0, 0]],
-            ['literal', [0, 1.5]],
-          ],
-        },
+      layout: {
+        'symbol-z-order': 'source',
+        'text-field': ['case',
+          ['==', ['slice', ['get', 'feature0'], 0, 20], 'de/blockkennzeichen-'], ['get', 'ref_multiline'],
+          ['get', 'ref'],
+        ],
+        'text-font': ['Noto Sans Medium'],
+        'text-size': 9,
+        'text-anchor': ['case',
+          ['==', ['slice', ['get', 'feature0'], 0, 20], 'de/blockkennzeichen-'], 'center',
+          'top',
+        ],
+        'text-offset': ['case',
+          ['==', ['slice', ['get', 'feature0'], 0, 20], 'de/blockkennzeichen-'], ['literal', [0, 0]],
+          ['literal', [0, 1.5]],
+        ],
       },
-    ),
+    },
     {
       id: 'railway_signals_deactivated',
       type: 'symbol',
@@ -2871,11 +2920,11 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
       layout: {
         'icon-overlap': 'always',
         'icon-image': ['case',
-          ['get', 'direction_both'], 'sdf:general/signal-direction-both',
+          ['coalesce', ['get', 'direction_both'], false], 'sdf:general/signal-direction-both',
           'sdf:general/signal-direction',
         ],
         'icon-anchor': ['case',
-          ['get', 'direction_both'], 'center',
+          ['coalesce', ['get', 'direction_both'], false], 'center',
           'top',
         ],
         'icon-rotate': ['get', 'azimuth'],
@@ -2911,6 +2960,19 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
         },
       },
     ),
+    {
+      id: 'electrification_signals_deactivated',
+      type: 'symbol',
+      minzoom: 15,
+      source: 'openrailwaymap_electrification',
+      'source-layer': 'electrification_signals',
+      filter: ['get', 'deactivated'],
+      layout: {
+        'symbol-z-order': 'source',
+        'icon-overlap': 'always',
+        'icon-image': 'general/signal-deactivated',
+      }
+    },
     railwayKmText(theme),
     {
       id: 'electrification_railway_text_high',
@@ -4254,19 +4316,20 @@ const legendData = {
     ],
     'openrailwaymap_speed-speed_railway_signals': [
       // TODO filter per country polygon
-      ...speed_railway_signals.features.map(feature => ({
+      ...speed_railway_signals.map(feature => ({
         legend: `(${feature.country}) ${feature.description}`,
         type: 'point',
         properties: {
-          feature: feature.icon.default,
+          feature0: feature.icon.default,
           type: 'line',
           azimuth: null,
+          deactivated: false,
           direction_both: false,
         },
         variants: (feature.icon.cases ?? []).map(item => ({
           legend: item.description,
           properties: {
-            feature: item.example ?? item.value,
+            feature0: item.example ?? item.value,
           },
         })),
       })),
@@ -4274,9 +4337,10 @@ const legendData = {
         legend: 'signal direction',
         type: 'point',
         properties: {
-          feature: 'does-not-exist',
+          feature0: 'does-not-exist',
           type: 'line',
           azimuth: 135.5,
+          deactivated: false,
           direction_both: false,
         },
         variants: [
@@ -4287,6 +4351,17 @@ const legendData = {
             },
           },
         ],
+      },
+      {
+        legend: '(deactivated)',
+        type: 'point',
+        properties: {
+          feature0: 'pl/w21-40',
+          type: 'line',
+          azimuth: null,
+          deactivated: true,
+          direction_both: false,
+        },
       },
     ],
   },
@@ -4422,11 +4497,11 @@ const legendData = {
       },
     ],
     'openrailwaymap_signals-signals_railway_signals': [
-      ...signals_railway_signals.features.map(feature => ({
+      ...signals_railway_signals.map(feature => ({
         legend: `${feature.country ? `(${feature.country}) ` : ''}${feature.description}`,
         type: 'point',
         properties: {
-          feature: feature.icon.default,
+          feature0: feature.icon.default,
           type: 'line',
           azimuth: null,
           deactivated: false,
@@ -4435,7 +4510,7 @@ const legendData = {
         variants: (feature.icon.cases ?? []).map(item => ({
           legend: item.description,
           properties: {
-            feature: item.example ?? item.value,
+            feature0: item.example ?? item.value,
           },
         })),
       })),
@@ -4443,7 +4518,7 @@ const legendData = {
         legend: 'signal direction',
         type: 'point',
         properties: {
-          feature: 'does-not-exist',
+          feature0: 'does-not-exist',
           type: 'line',
           azimuth: 135.5,
           deactivated: false,
@@ -4463,7 +4538,7 @@ const legendData = {
         legend: '(deactivated)',
         type: 'point',
         properties: {
-          feature: 'de/ks-combined',
+          feature0: 'de/ks-combined',
           type: 'line',
           azimuth: null,
           deactivated: true,
@@ -4683,13 +4758,14 @@ const legendData = {
       },
     ],
     'openrailwaymap_electrification-electrification_signals': [
-      ...electrification_signals.features.map(feature => ({
+      ...electrification_signals.map(feature => ({
         legend: `(${feature.country}) ${feature.description}`,
         type: 'point',
         properties: {
           feature: feature.icon.default,
           type: 'line',
           azimuth: null,
+          deactivated: false,
           direction_both: false,
         },
         variants: (feature.icon.cases ?? []).map(item => ({
@@ -4706,6 +4782,7 @@ const legendData = {
           feature: 'does-not-exist',
           type: 'line',
           azimuth: 135.5,
+          deactivated: false,
           direction_both: false,
         },
         variants: [
@@ -4716,6 +4793,17 @@ const legendData = {
             },
           },
         ],
+      },
+      {
+        legend: '(deactivated)',
+        type: 'point',
+        properties: {
+          feature: 'de/el6',
+          type: 'line',
+          azimuth: null,
+          deactivated: true,
+          direction_both: false,
+        },
       },
     ],
   },

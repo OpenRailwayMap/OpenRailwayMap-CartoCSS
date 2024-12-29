@@ -271,15 +271,15 @@ CREATE OR REPLACE VIEW railway_text_km AS
     pos,
     (railway_pos_decimal(pos) = '0') as zero,
     railway_pos_round(pos, 0)::text as pos_int
-  FROM
-    (SELECT
-       id,
-       osm_id,
-       way,
-       railway,
-       COALESCE(railway_position, railway_pos_round(railway_position_exact, 1)::text) AS pos
-     FROM railway_positions
-    ) AS r
+  FROM (
+    SELECT
+      id,
+      osm_id,
+      way,
+      railway,
+      COALESCE(railway_position, railway_pos_round(railway_position_exact, 1)::text) AS pos
+      FROM railway_positions
+  ) AS r
   WHERE pos IS NOT NULL
   ORDER by zero;
 
@@ -302,19 +302,17 @@ CREATE OR REPLACE VIEW speed_railway_signals AS
     id,
     osm_id,
     way,
-    speed_feature as feature,
-    speed_feature_type as type,
+    features[1] as feature0,
+    features[2] as feature1,
+    type,
     azimuth,
     (signal_direction = 'both') as direction_both,
     ref,
     deactivated,
     dominant_speed as speed
-  FROM signals_with_azimuth
-  WHERE railway = 'signal'
-    AND speed_feature IS NOT NULL
+  FROM speed_railway_signal_features
   ORDER BY
-    -- distant signals are less important, signals for slower speeds are more important
-    ("railway:signal:speed_limit" IS NOT NULL) DESC NULLS FIRST,
+    rank NULLS FIRST,
     dominant_speed DESC NULLS FIRST;
 
 
@@ -375,15 +373,18 @@ CREATE OR REPLACE VIEW signals_railway_signals AS
     id,
     osm_id,
     way,
+    features[1] as feature0,
+    features[2] as feature1,
+    features[3] as feature2,
+    features[4] as feature3,
+    features[5] as feature4,
     railway,
     ref,
     ref_multiline,
     deactivated,
-    signal_feature as feature,
     azimuth,
     (signal_direction = 'both') as direction_both
-  FROM signals_with_azimuth
-  WHERE signal_feature IS NOT NULL
+  FROM signals_railway_signal_features
   ORDER BY rank NULLS FIRST;
 
 --- Electrification ---
@@ -393,14 +394,12 @@ CREATE OR REPLACE VIEW electrification_signals AS
     id,
     osm_id,
     way,
-    electrification_feature as feature,
+    feature_electricity as feature,
     azimuth,
     (signal_direction = 'both') as direction_both,
     ref,
     deactivated,
     voltage,
     frequency
-  FROM signals_with_azimuth
-  WHERE
-    railway = 'signal'
-    AND electrification_feature IS NOT NULL;
+  FROM electricity_railway_signal_features
+  ORDER BY rank NULLS FIRST;

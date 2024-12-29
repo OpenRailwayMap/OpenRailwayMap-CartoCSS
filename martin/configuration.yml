@@ -280,7 +280,8 @@ postgres:
       properties:
         id: integer
         osm_id: integer
-        feature: string
+        feature0: string
+        feature1: string
         type: string
         ref: string
         azimuth: number
@@ -302,7 +303,11 @@ postgres:
         railway: string
         ref: string
         ref_multiline: string
-        feature: string
+        feature0: string
+        feature1: string
+        feature2: string
+        feature3: string
+        feature4: string
         deactivated: boolean
         azimuth: number
         direction_both: boolean

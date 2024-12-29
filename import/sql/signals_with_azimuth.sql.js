@@ -1,9 +1,11 @@
 import fs from 'fs'
 import yaml from 'yaml'
 
-const speed_railway_signals = yaml.parse(fs.readFileSync('speed_railway_signals.yaml', 'utf8'))
 const signals_railway_signals = yaml.parse(fs.readFileSync('signals_railway_signals.yaml', 'utf8'))
-const electrification_signals = yaml.parse(fs.readFileSync('electrification_signals.yaml', 'utf8'))
+
+const speedFeatureTypes = signals_railway_signals.types.filter(type => type.layer === 'speed').map(type => type.type);
+const electrificationFeatureTypes = signals_railway_signals.types.filter(type => type.layer === 'electrification').map(type => type.type);
+const otherFeatureTypes = signals_railway_signals.types.filter(type => !(type.layer === 'speed' || type.layer === 'electrification')).map(type => type.type);
 
 /**
  * Template that builds the SQL view taking the YAML configuration into account
@@ -21,7 +23,6 @@ CREATE OR REPLACE VIEW signals_with_azimuth_view AS
     ref_multiline,
     deactivated,
     signal_direction,
-    "railway:signal:speed_limit",
     dominant_speed,
     CASE WHEN "railway:signal:electricity:voltage" ~ '^[0-9]+$' then "railway:signal:electricity:voltage"::int ELSE NULL END as voltage,
     CASE WHEN "railway:signal:electricity:frequency" ~ '^[0-9]+(\\.[0-9]+)?$' then "railway:signal:electricity:frequency"::real ELSE NULL END as frequency,
@@ -30,17 +31,9 @@ CREATE OR REPLACE VIEW signals_with_azimuth_view AS
       st_lineinterpolatepoint(sl.way, greatest(0, st_linelocatepoint(sl.way, ST_ClosestPoint(sl.way, s.way)) - 0.01)),
       st_lineinterpolatepoint(sl.way, least(1, st_linelocatepoint(sl.way, ST_ClosestPoint(sl.way, s.way)) + 0.01))
     )) + (CASE WHEN signal_direction = 'backward' THEN 180.0 ELSE 0.0 END) as azimuth,
-    CASE ${signals_railway_signals.features.map(feature => `
-      -- ${feature.country ? `(${feature.country}) ` : ''}${feature.description}
-      WHEN ${feature.tags.map(tag => `"${tag.tag}" ${tag.value ? `= '${tag.value}'`: tag.values ? `IN (${tag.values.map(value => `'${value}'`).join(', ')})` : ''}`).join(' AND ')}
-        THEN ${feature.icon.match ? `CASE ${feature.icon.cases.map(iconCase => `
-          WHEN "${feature.icon.match}" ~ '${iconCase.regex}' THEN '${iconCase.value}'`).join('')}
-          ${feature.icon.default ? `ELSE '${feature.icon.default}'` : ''}
-        END` : `'${feature.icon.default}'`}
-    `).join('')}
-    END as signal_feature,
-    
-    CASE ${speed_railway_signals.features.map(feature => `
+      
+    ${signals_railway_signals.types.map(type => `
+    CASE ${signals_railway_signals.features.filter(feature => feature.tags.find(it => it.tag === `railway:signal:${type.type}`)).map(feature => `
       -- ${feature.country ? `(${feature.country}) ` : ''}${feature.description}
       WHEN ${feature.tags.map(tag => `"${tag.tag}" ${tag.value ? `= '${tag.value}'`: tag.values ? `IN (${tag.values.map(value => `'${value}'`).join(', ')})` : ''}`).join(' AND ')}
         THEN ${feature.icon.match ? `CASE ${feature.icon.cases.map(iconCase => `
@@ -48,23 +41,15 @@ CREATE OR REPLACE VIEW signals_with_azimuth_view AS
           ${feature.icon.default ? `ELSE '${feature.icon.default}'` : ''}
         END` : `'${feature.icon.default}'`}
     `).join('')}
-    END as speed_feature,
-    
-    CASE ${speed_railway_signals.features.map(feature => feature.type ? `
+    END as feature_${type.type},
+    `).join('')}
+      
+    -- TODO support type per feature
+    CASE ${signals_railway_signals.features.map(feature => feature.type ? `
       -- ${feature.country ? `(${feature.country}) ` : ''}${feature.description}
       WHEN ${feature.tags.map(tag => `"${tag.tag}" ${tag.value ? `= '${tag.value}'`: tag.values ? `IN (${tag.values.map(value => `'${value}'`).join(', ')})` : ''}`).join(' AND ')} THEN '${feature.type}'
     ` : '').join('')}
-    END as speed_feature_type,
-    
-    CASE ${electrification_signals.features.map(feature => `
-      -- ${feature.country ? `(${feature.country}) ` : ''}${feature.description}
-      WHEN ${feature.tags.map(tag => `"${tag.tag}" ${tag.value ? `= '${tag.value}'`: tag.values ? `IN (${tag.values.map(value => `'${value}'`).join(', ')})` : ''}`).join(' AND ')}
-        THEN ${feature.icon.match ? `CASE ${feature.icon.cases.map(iconCase => `
-          WHEN "${feature.icon.match}" ~ '${iconCase.regex}' THEN '${iconCase.value}'`).join('')}
-          ${feature.icon.default ? `ELSE '${feature.icon.default}'` : ''}
-        END` : `'${feature.icon.default}'`}
-    `).join('')}
-    END as electrification_feature
+    END as type
     
   FROM signals s
   LEFT JOIN LATERAL (
@@ -85,13 +70,59 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS signals_with_azimuth AS
   FROM
     signals_with_azimuth_view
   WHERE
-    signal_feature IS NOT NULL 
-      OR speed_feature IS NOT NULL 
-      OR electrification_feature IS NOT NULL;
+    ${signals_railway_signals.types.map(type => `feature_${type.type} IS NOT NULL`).join(' OR ')};
 
 CREATE INDEX IF NOT EXISTS signals_with_azimuth_geom_index
   ON signals_with_azimuth
   USING GIST(way);
+
+CREATE OR REPLACE VIEW signals_railway_signal_features AS
+  SELECT *
+  FROM (
+    SELECT
+      signals_with_azimuth.*,
+      -- Build up array of available features
+      -- The order of the array is hardcoded, defining the importance of features (earlier is more important)
+      -- Does not include: speed_limit, speed_limit_distant, electricity
+      array_remove(
+        ARRAY[${otherFeatureTypes.map(type => `feature_${type}`).join(', ')}],
+        NULL
+      ) AS features
+    FROM signals_with_azimuth
+  ) AS s
+  WHERE array_length(features, 1) > 0;
+
+CREATE OR REPLACE VIEW speed_railway_signal_features AS
+  SELECT *
+  FROM (
+    SELECT
+      signals_with_azimuth.*,
+      -- Build up array of available features
+      -- The order of the array is hardcoded, defining the importance of features (earlier is more important)
+      -- Does not include: speed_limit, speed_limit_distant, electricity
+      array_remove(
+        ARRAY[${speedFeatureTypes.map(type => `feature_${type}`).join(', ')}],
+        NULL
+        ) AS features
+      FROM signals_with_azimuth
+  ) AS s
+  WHERE array_length(features, 1) > 0;
+
+CREATE OR REPLACE VIEW electricity_railway_signal_features AS
+  SELECT *
+  FROM (
+    SELECT
+      signals_with_azimuth.*,
+      -- Build up array of available features
+      -- The order of the array is hardcoded, defining the importance of features (earlier is more important)
+      -- Does not include: speed_limit, speed_limit_distant, electricity
+      array_remove(
+        ARRAY[${electrificationFeatureTypes.map(type => `feature_${type}`).join(', ')}],
+        NULL
+        ) AS features
+      FROM signals_with_azimuth
+  ) AS s
+  WHERE array_length(features, 1) > 0;
 `
 
 console.log(sql);

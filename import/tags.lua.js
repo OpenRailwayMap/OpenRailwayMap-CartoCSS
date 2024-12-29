@@ -2,9 +2,7 @@ import fs from 'fs'
 import yaml from 'yaml'
 
 const signals_railway_line = yaml.parse(fs.readFileSync('train_protection.yaml', 'utf8'))
-const speed_railway_signals = yaml.parse(fs.readFileSync('speed_railway_signals.yaml', 'utf8'))
 const signals_railway_signals = yaml.parse(fs.readFileSync('signals_railway_signals.yaml', 'utf8'))
-const electrification_signals = yaml.parse(fs.readFileSync('electrification_signals.yaml', 'utf8'))
 
 /**
  * Template that builds Lua functions used in the Osm2Psql Lua import, and taking the YAML configuration into account
@@ -20,19 +18,23 @@ local signal_tags = {${signals_railway_signals.tags.map(tag => `
   '${tag}',`).join('')}
 }
 
-local speed_tags = {${speed_railway_signals.tags.map(tag => `
-  '${tag}',`).join('')}
-}
+function signal_rank(tags)${signals_railway_signals.types.map((type, typeIndex) => `
+  if tags['railway:signal:${type.type}'] then return ${signals_railway_signals.types.length - typeIndex} end`).join('')}
+  
+  return 0
+end
 
-local electrification_tags = {${electrification_signals.tags.map(tag => `
-  '${tag}',`).join('')}
-}
+function signal_deactivated(tags)
+  return (${signals_railway_signals.types.map((type, typeIndex) => `
+    tags['railway:signal:${type.type}:deactivated']${(typeIndex < signals_railway_signals.types.length - 1) ? ' or' : ''}`).join('')}
+  ) == 'yes'
+end
 
 return {
   train_protection = train_protection,
   signal_tags = signal_tags,
-  speed_tags = speed_tags,
-  electrification_tags = electrification_tags,
+  signal_rank = signal_rank,
+  signal_deactivated = signal_deactivated,
 }
 `;
 

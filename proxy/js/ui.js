@@ -554,6 +554,8 @@ const onStyleChange = () => {
   });
   legendMap.setStyle(legendStyles[selectedTheme][selectedStyle], {
     validate: false,
+    // Do not calculate a diff because of the large structural layer differences causing a blocking performance hit
+    diff: false,
     transformStyle: (previous, next) => {
       onStylesheetChange(next);
       return next;

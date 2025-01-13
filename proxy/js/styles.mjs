@@ -8,6 +8,8 @@ const track_classes = yaml.parse(fs.readFileSync('features/track_class.yaml', 'u
 const poi = yaml.parse(fs.readFileSync('features/poi.yaml', 'utf8'))
 const stations = yaml.parse(fs.readFileSync('features/stations.yaml', 'utf8'))
 
+const signal_types = all_signals.types;
+
 const speed_railway_signals = all_signals.features.filter(feature => feature.tags.find(tag => tag.tag === 'railway:signal:speed_limit' || tag.tag === 'railway:signal:speed_limit_distant'))
 const signals_railway_signals = all_signals.features.filter(feature => !feature.tags.find(tag => tag.tag === 'railway:signal:speed_limit' || tag.tag === 'railway:signal:speed_limit_distant' || tag.tag === 'railway:signal:electricity'))
 const electrification_signals = all_signals.features.filter(feature => feature.tags.find(tag => tag.tag === 'railway:signal:electricity'))
@@ -29,7 +31,7 @@ const knownThemes = [
 ];
 
 const globalMinZoom = 1;
-const glodalMaxZoom = 20;
+const globalMaxZoom = 20;
 
 const colors = {
   light: {
@@ -3195,6 +3197,17 @@ const legendData = {
           direction_both: false,
         },
       },
+      ...signal_types.filter(type => type.layer === 'speed').map(type => ({
+        legend: `unknown signal (${type.type})`,
+        type: 'point',
+        properties: {
+          feature0: `general/signal-unknown-${type.type}`,
+          type: 'line',
+          azimuth: null,
+          deactivated: false,
+          direction_both: false,
+        },
+      })),
     ],
   },
   signals: {
@@ -3361,6 +3374,17 @@ const legendData = {
           direction_both: false,
         },
       },
+      ...signal_types.filter(type => !['speed', 'electrification'].includes(type.layer)).map(type => ({
+        legend: `unknown signal (${type.type})`,
+        type: 'point',
+        properties: {
+          feature0: `general/signal-unknown-${type.type}`,
+          type: 'line',
+          azimuth: null,
+          deactivated: false,
+          direction_both: false,
+        },
+      })),
     ],
   },
   electrification: {
@@ -3587,6 +3611,17 @@ const legendData = {
           direction_both: false,
         },
       },
+      ...signal_types.filter(type => type.layer === 'electrification').map(type => ({
+        legend: `unknown signal (${type.type})`,
+        type: 'point',
+        properties: {
+          feature: `general/signal-unknown-${type.type}`,
+          type: 'line',
+          azimuth: null,
+          deactivated: false,
+          direction_both: false,
+        },
+      })),
     ],
   },
   gauge: {
@@ -4041,7 +4076,7 @@ const coordinateFactor = legendZoom => Math.pow(2, 5 - legendZoom);
 
 const layerVisibleAtZoom = (zoom) =>
   layer =>
-    ((layer.minzoom ?? globalMinZoom) <= zoom) && (zoom < (layer.maxzoom ?? (glodalMaxZoom + 1)));
+    ((layer.minzoom ?? globalMinZoom) <= zoom) && (zoom < (layer.maxzoom ?? (globalMaxZoom + 1)));
 
 const legendPointToMapPoint = (zoom, [x, y]) =>
   [x * coordinateFactor(zoom), y * coordinateFactor(zoom)]
@@ -4049,7 +4084,7 @@ const legendPointToMapPoint = (zoom, [x, y]) =>
 function makeLegendStyle(style, theme) {
   const sourceStyle = makeStyle(style, theme);
   const sourceLayers = sourceStyle.layers;
-  const legendZoomLevels = [...Array(glodalMaxZoom - globalMinZoom + 1).keys()].map(zoom => globalMinZoom + zoom);
+  const legendZoomLevels = [...Array(globalMaxZoom - globalMinZoom + 1).keys()].map(zoom => globalMinZoom + zoom);
 
   const legendLayers = legendZoomLevels.flatMap(legendZoom => {
     const styleZoomLayers = sourceLayers

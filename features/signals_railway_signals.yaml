@@ -124,6 +124,8 @@ types:
   - { type: departure }
   - { type: resetting_switch }
   - { type: resetting_switch_distant }
+  - { type: humping }
+  - { type: snowplow }
 
 features:
 
@@ -2041,15 +2043,59 @@ features:
 
   - description: shunting light signals type Ro (new)
     country: FI
-    icon:
-      match: 'railway:signal:shunting:states'
-      cases:
-        - { regex: '^(.*;)?FI:Ro0(;.*)?$', value: 'fi/ro0-new' }
-      # TODO add old as well
-      default: ''
+    icon: { default: 'fi/ro0-new' }
     tags:
       - { tag: 'railway:signal:shunting', value: 'FI:Ro' }
       - { tag: 'railway:signal:shunting:form', value: 'light' }
+
+  - description: Stop
+    country: FI
+    icon: { default: 'fi/t-259' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'FI:T-259' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Seismerkki (old)
+    country: FI
+    icon: { default: 'fi/t-150' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'FI:T-150' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Seismerkki (new)
+    country: FI
+    icon: { default: 'fi/t-150B' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'FI:T-150B' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Seislevy (old)
+    country: FI
+    icon: { default: 'fi/t-151' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'FI:T-151' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Seislevy (new)
+    country: FI
+    icon: { default: 'fi/t-151B' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'FI:T-151A' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Liikennöinnin raja
+    country: FI
+    icon: { default: 'fi/t-152' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'FI:T-152' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Veturin ajokieltomerkki
+    country: FI
+    icon: { default: 'fi/t-310' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'FI:T-310' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
 
   - description: minor light signals type Lo at moveable bridges
     country: FI
@@ -2080,6 +2126,20 @@ features:
     tags:
       - { tag: 'railway:signal:distant', value: 'FI:Eo-v' }
       - { tag: 'railway:signal:distant:form', value: 'light' }
+
+  - description: distant signal
+    country: FI
+    icon: { default: 'fi/t-301A' }
+    tags:
+      - { tag: 'railway:signal:distant', value: 'FI:T-301A' }
+      - { tag: 'railway:signal:distant:form', value: 'sign' }
+
+  - description: Balise
+    country: FI
+    icon: { default: 'fi/t-262' }
+    tags:
+      - { tag: 'railway:signal:main', value: 'FI:Po' }
+      - { tag: 'railway:signal:main:form', value: 'balise' }
 
   - description: main light signals (new)
     country: FI
@@ -2196,6 +2256,139 @@ features:
     tags:
       - { tag: 'railway:signal:electricity', value: 'FI:T-125' }
       - { tag: 'railway:signal:electricity:form', value: 'sign' }
+
+  - description: Combined signal type Yo
+    country: FI
+    icon: { default: 'fi/yo-combined' }
+    tags:
+      - { tag: 'railway:signal:combined', value: 'FI:Yo' }
+      - { tag: 'railway:signal:combined:form', value: 'light' }
+
+  - description: Main signal type Yo
+    country: FI
+    icon: { default: 'fi/yo-main' }
+    tags:
+      - { tag: 'railway:signal:main', value: 'FI:Yo' }
+      - { tag: 'railway:signal:main:form', value: 'light' }
+
+  - description: Distant signal type Yo
+    country: FI
+    icon: { default: 'fi/yo-distant' }
+    tags:
+      - { tag: 'railway:signal:distant', value: 'FI:Yo' }
+      - { tag: 'railway:signal:distant:form', value: 'light' }
+
+  - description: Shunting signal type Yo
+    country: FI
+    icon: { default: 'fi/yo-shunting' }
+    tags:
+      - { tag: 'railway:signal:shunting', value: 'FI:Yo' }
+      - { tag: 'railway:signal:shunting:form', value: 'light' }
+
+  - description: Main repeated light
+    country: FI
+    icon: { default: 'fi/ko1' }
+    tags:
+      - { tag: 'railway:signal:main_repeated', value: 'FI:Ko' }
+      - { tag: 'railway:signal:main_repeated:form', value: 'light' }
+
+  - description: Liikennepaikan raja -merkki
+    country: FI
+    icon: { default: 'fi/t-164' }
+    tags:
+      - { tag: 'railway:signal:station_distant', value: 'FI:T-164' }
+      - { tag: 'railway:signal:station_distant:form', value: 'sign' }
+
+  - description: Liikennepaikka päättyy
+    country: FI
+    icon: { default: 'fi/t-165' }
+    tags:
+      - { tag: 'railway:signal:station_distant', value: 'FI:T-165' }
+      - { tag: 'railway:signal:station_distant:form', value: 'sign' }
+
+  - description: Matkustajalaiturin ennakkomerkki
+    country: FI
+    icon: { default: 'fi/t-166' }
+    tags:
+      - { tag: 'railway:signal:station_distant', value: 'FI:T-166' }
+      - { tag: 'railway:signal:station_distant:form', value: 'sign' }
+
+  - description: JKV alkaa
+    country: FI
+    icon: { default: 'fi/t-140' }
+    tags:
+      - { tag: 'railway:signal:train_protection', values: ['FI:T-140', 'FI:T-140A'] }
+      - { tag: 'railway:signal:train_protection:form', value: 'sign' }
+
+  - description: JKV päättyy
+    country: FI
+    icon: { default: 'fi/t-141' }
+    tags:
+      - { tag: 'railway:signal:train_protection', values: ['FI:T-141', 'FI:T-141A'] }
+      - { tag: 'railway:signal:train_protection:form', value: 'sign' }
+
+  - description: JKV rakennusalue alkaa
+    country: FI
+    icon: { default: 'fi/t-142' }
+    tags:
+      - { tag: 'railway:signal:train_protection', values: ['FI:T-142', 'FI:T-142A'] }
+      - { tag: 'railway:signal:train_protection:form', value: 'sign' }
+
+  - description: JKV rakennusalue päättyy
+    country: FI
+    icon: { default: 'fi/t-143' }
+    tags:
+      - { tag: 'railway:signal:train_protection', values: ['FI:T-143', 'FI:T-143A'] }
+      - { tag: 'railway:signal:train_protection:form', value: 'sign' }
+
+  - description: Baliisiryhmämerkki
+    country: FI
+    icon: { default: 'fi/t-144' }
+    tags:
+      - { tag: 'railway:signal:train_protection', values: ['FI:T-144', 'FI:T-144A', 'FI:T-144B', 'FI:T-144C'] }
+      - { tag: 'railway:signal:train_protection:form', value: 'sign' }
+
+  - description: Järjestelyopastin
+    country: FI
+    icon: { default: 'fi/jo4' }
+    tags:
+      - { tag: 'railway:signal:humping', value: 'FI:Jo' }
+      - { tag: 'railway:signal:humping:form', value: 'light' }
+
+  - description: Raise snowplow blades (point)
+    country: FI
+    icon: { default: 'fi/t-171' }
+    tags:
+      - { tag: 'railway:signal:snowplow', values: ['FI:T-170A', 'FI:T-171'] }
+      - { tag: 'railway:signal:snowplow:form', value: 'sign' }
+
+  - description: Raise snowplow blades (area)
+    country: FI
+    icon: { default: 'fi/t-171A' }
+    tags:
+      - { tag: 'railway:signal:snowplow', values: ['FI:T-170B', 'FI:T-171A'] }
+      - { tag: 'railway:signal:snowplow:form', value: 'sign' }
+
+  - description: Raise snowplow blades (old)
+    country: FI
+    icon: { default: 'fi/t-170-v' }
+    tags:
+      - { tag: 'railway:signal:snowplow', value: 'FI:T-170-v' }
+      - { tag: 'railway:signal:snowplow:form', value: 'sign' }
+
+  - description: Lower snowplow blades
+    country: FI
+    icon: { default: 'fi/t-171B' }
+    tags:
+      - { tag: 'railway:signal:snowplow', value: 'FI:T-171B' }
+      - { tag: 'railway:signal:snowplow:form', value: 'sign' }
+
+  - description: Lower snowplow blades (old)
+    country: FI
+    icon: { default: 'fi/t-171-v' }
+    tags:
+      - { tag: 'railway:signal:snowplow', value: 'FI:T-171-v' }
+      - { tag: 'railway:signal:snowplow:form', value: 'sign' }
 
   # --- FR --- #
 

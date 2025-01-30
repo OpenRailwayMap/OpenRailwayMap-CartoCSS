@@ -2294,7 +2294,7 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
     {
       id: 'electrification_signals_direction',
       type: 'symbol',
-      minzoom: 15,
+      minzoom: 13,
       source: 'openrailwaymap_electrification',
       'source-layer': 'electrification_signals',
       filter: ['all',
@@ -2331,7 +2331,7 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
       ['get', 'feature'],
       {
         type: 'symbol',
-        minzoom: 15,
+        minzoom: 13,
         source: 'openrailwaymap_electrification',
         'source-layer': 'electrification_signals',
         paint: {

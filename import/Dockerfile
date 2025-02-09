@@ -33,6 +33,7 @@ RUN apt-get update \
     gnupg \
     osm2pgsql \
     osmium-tool \
+    pyosmium \
     gdal-bin \
     python3-psycopg2 \
     python3-yaml \
@@ -48,6 +49,7 @@ WORKDIR /openrailwaymap
 COPY import/sql sql
 COPY import/docker-startup.sh docker-startup.sh
 COPY import/openrailwaymap.lua openrailwaymap.lua
+COPY import/osmium-tags-filter osmium-tags-filter
 
 COPY --from=build-lua \
   /build/tags.lua tags.lua

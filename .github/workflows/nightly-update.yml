@@ -27,9 +27,9 @@ jobs:
 
       - name: Pull OSM data
         run: |
-          docker pull ghcr.io/hiddewie/openrailwaymap-data:latest
-          DB_CONTAINER_ID="$(docker container create ghcr.io/hiddewie/openrailwaymap-data:latest sleep inf)"
-          docker cp "$DB_CONTAINER_ID:/data/data.osm.pbf" data/filtered/data.osm.pbf
+          docker compose pull data
+          docker compose create data
+          docker compose cp data:/data/data.osm.pbf data/filtered/data.osm.pbf
 
       - name: Build import image
         run: |
@@ -41,23 +41,11 @@ jobs:
 
       - name: Build new OSM data image
         run: |
-          cat > .dockerignore << EOF
-          **
-          !data/filtered/data.osm.pbf
-          EOF
-          
-          cat > Dockerfile << EOF
-          FROM scratch
-          COPY data/filtered/data.osm.pbf /data/data.osm.pbf
-          EOF
-          
-          docker build --tag ghcr.io/hiddewie/openrailwaymap-data:latest .
-          
-          git checkout -- .
+          docker compose build data
 
       - name: Push OSM data
         run: |
-          docker push ghcr.io/hiddewie/openrailwaymap-data:latest
+          docker compose push data
 
       - name: Build database
         run: |
@@ -84,3 +72,9 @@ jobs:
           DB_CONTAINER_ID="$(docker compose ps --all --format json | jq -r 'select(.Service == "db") | .ID')"
           docker commit "$DB_CONTAINER_ID" ghcr.io/hiddewie/openrailwaymap-import-db:latest
           docker compose push db
+
+      - name: Trigger deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run --ref '${{ github.ref_name }}' deploy.yml

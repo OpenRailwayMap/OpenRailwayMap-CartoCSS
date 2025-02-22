@@ -109,10 +109,10 @@ tags:
 
 # Define an ordering for determining importance of signal types
 types:
+  - { type: train_protection }
   - { type: main }
   - { type: combined }
   - { type: distant }
-  - { type: train_protection }
   - { type: main_repeated }
   - { type: speed_limit, layer: speed }
   - { type: speed_limit_distant, layer: speed }

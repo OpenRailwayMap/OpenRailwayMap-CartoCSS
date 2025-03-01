@@ -288,6 +288,7 @@ CREATE OR REPLACE VIEW standard_railway_symbols AS
   SELECT
     id,
     osm_id,
+    osm_type,
     way,
     CASE
       WHEN railway = 'crossing' THEN 'general/crossing'
@@ -338,6 +339,7 @@ CREATE OR REPLACE VIEW standard_railway_symbols AS
   SELECT
     id,
     osm_id,
+    osm_type,
     way,
     'general/subway-entrance' as feature,
     0 as priority
@@ -423,6 +425,7 @@ CREATE OR REPLACE FUNCTION signals_signal_boxes(z integer, x integer, y integer)
         ) AS way,
         id,
         osm_id,
+        osm_type,
         feature,
         ref,
         name
@@ -442,6 +445,7 @@ DO $do$ BEGIN
         "fields": {
           "id": "integer",
           "osm_id": "integer",
+          "osm_type": "string",
           "feature": "string",
           "ref": "string",
           "name": "string"

@@ -111,6 +111,7 @@ postgres:
       properties:
         id: integer
         osm_id: integer
+        osm_type: string
         feature: string
 
     railway_text_km:

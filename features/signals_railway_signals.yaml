@@ -15,6 +15,10 @@ tags:
   - 'railway:signal:crossing_distant'
   - 'railway:signal:crossing_distant:shortened'
   - 'railway:signal:crossing_distant:form'
+  - 'railway:signal:crossing_hint'
+  - 'railway:signal:crossing_hint:form'
+  - 'railway:signal:crossing_info'
+  - 'railway:signal:crossing_info:form'
   - 'railway:signal:departure'
   - 'railway:signal:departure:form'
   - 'railway:signal:departure:states'
@@ -124,6 +128,8 @@ types:
   - { type: station_distant }
   - { type: crossing }
   - { type: crossing_distant }
+  - { type: crossing_info }
+  - { type: crossing_hint }
   - { type: ring }
   - { type: whistle }
   - { type: electricity, layer: electrification }
@@ -1263,6 +1269,33 @@ features:
       - { tag: 'railway:signal:train_protection:form', value: 'sign' }
       - { tag: 'railway:signal:train_protection:type', value: 'end' }
 
+  - description: distant signal announcement signs Ne 3 (normal)
+    country: DE
+    icon:
+      match: 'railway:signal:distant:type'
+      cases:
+      - { regex: '^II$', value: 'de/ne3-normal-II' }
+      - { regex: '^III$', value: 'de/ne3-normal-III' }
+      - { regex: '^IV$', value: 'de/ne3-normal-IV' }
+      default: 'de/ne3-normal-I'
+    tags:
+      - { tag: 'railway:signal:distant', value: 'DE-ESO:ne3' }
+      - { tag: 'railway:signal:distant:form', value: 'sign' }
+
+  - description: distant signal announcement signs Ne 3 (dwarf)
+    country: DE
+    icon:
+      match: 'railway:signal:distant:type'
+      cases:
+      - { regex: '^II$', value: 'de/ne3-dwarf-II' }
+      - { regex: '^III$', value: 'de/ne3-dwarf-III' }
+      - { regex: '^IV$', value: 'de/ne3-dwarf-IV' }
+      default: 'de/ne3-dwarf-I'
+    tags:
+      - { tag: 'railway:signal:distant', value: 'DE-ESO:ne3' }
+      - { tag: 'railway:signal:distant:form', value: 'sign' }
+      - { tag: 'railway:signal:distant:height', value: 'dwarf' }
+
   - description: station distant sign Ne 6
     country: DE
     icon: { default: 'de/ne6' }
@@ -1579,6 +1612,20 @@ features:
     tags:
       - { tag: 'railway:signal:train_protection', value: 'DE-ESO:blockkennzeichen' }
 
+  - description: crossing info sign
+    country: DE
+    icon: { default: 'de/bue-crossing-info' }
+    tags:
+      - { tag: 'railway:signal:crossing_info', value: 'DE-ESO:bü-kennzeichentafel' }
+      - { tag: 'railway:signal:crossing_info:form', value: 'sign' }
+
+  - description: crossing anouncement sign
+    country: DE
+    icon: { default: 'de/bue-crossing-hint' }
+    tags:
+      - { tag: 'railway:signal:crossing_hint', value: 'DE-ESO:bü-ankündetafel' }
+      - { tag: 'railway:signal:crossing_hint:form', value: 'sign' }
+
   - description: distant signal replacement by sign So 106
     country: DE
     icon: { default: 'de/so106' }
@@ -1684,10 +1731,15 @@ features:
     tags:
       - { tag: 'railway:signal:distant', value: 'DE-ESO:dr:so3' }
       - { tag: 'railway:signal:distant:form', value: 'sign' }
+      - { tag: 'railway:signal:distant:shortened', value: 'yes' }
 
   - description: distant light signals type Hl
     country: DE
-    icon: { default: 'de/hl1-distant' }
+    icon:
+      match: 'railway:signal:distant:repeated'
+      cases:
+        - { regex: '^yes$', value: 'de/hl1-distant-repeated' }
+      default: 'de/hl1-distant'
     tags:
       - { tag: 'railway:signal:distant', value: 'DE-ESO:hl' }
       - { tag: 'railway:signal:distant:form', value: 'light' }
@@ -2110,6 +2162,30 @@ features:
       - { tag: 'railway:signal:speed_limit', value: 'DE-ESO:db:zs10' }
       - { tag: 'railway:signal:speed_limit:form', value: 'light' }
 
+  - description: power off advance sign El 1v
+    country: DE
+    icon: { default: 'de/el1v' }
+    tags:
+      - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
+      - { tag: 'railway:signal:electricity:form', value: 'sign' }
+      - { tag: 'railway:signal:electricity', value: 'DE-ESO:el1v' }
+
+  - description: power off sign El 1
+    country: DE
+    icon: { default: 'de/el1' }
+    tags:
+      - { tag: 'railway:signal:electricity:type', value: 'power_off' }
+      - { tag: 'railway:signal:electricity:form', value: 'sign' }
+      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el1', 'DE-BOStrab:st3', 'DE-HHA:s1'] }
+
+  - description: power on sign El 2
+    country: DE
+    icon: { default: 'de/el2' }
+    tags:
+      - { tag: 'railway:signal:electricity:type', value: 'power_on' }
+      - { tag: 'railway:signal:electricity:form', value: 'sign' }
+      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el2', 'DE-BOStrab:st4', 'DE-HHA:s2'] }
+
   - description: pantograph down advance El 3
     country: DE
     icon: { default: 'de/el3' }
@@ -2118,13 +2194,21 @@ features:
       - { tag: 'railway:signal:electricity:form', value: 'sign' }
       - { tag: 'railway:signal:electricity', value: 'DE-ESO:el3' }
 
-  - description: power off advance sign El 1v
+  - description: pantograph down El 4
     country: DE
-    icon: { default: 'de/el1v' }
+    icon: { default: 'de/el4' }
     tags:
-      - { tag: 'railway:signal:electricity:type', value: 'power_off_advance' }
+      - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
       - { tag: 'railway:signal:electricity:form', value: 'sign' }
-      - { tag: 'railway:signal:electricity', value: 'DE-ESO:el1v' }
+      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el4', 'DE-BOStrab:st5'] }
+
+  - description: pantograph up El 5
+    country: DE
+    icon: { default: 'de/el5' }
+    tags:
+      - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
+      - { tag: 'railway:signal:electricity:form', value: 'sign' }
+      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el5', 'DE-BOStrab:st6'] }
 
   - description: end of catenary sign El 6
     country: DE
@@ -2140,37 +2224,13 @@ features:
       - { tag: 'railway:signal:electricity:form', values: ['sign', 'light', 'semaphore'] }
       - { tag: 'railway:signal:electricity', values: ['DE-ESO:el6', 'DE-BOStrab:st8'] }
 
-  - description: power on sign El 2
+  - description: power off shortly sign El 7 (S-Bahn Berlin)
     country: DE
-    icon: { default: 'de/el2' }
+    icon: { default: 'de/el7' }
     tags:
-      - { tag: 'railway:signal:electricity:type', value: 'power_on' }
+      - { tag: 'railway:signal:electricity:type', value: 'power_off_shortly' }
       - { tag: 'railway:signal:electricity:form', value: 'sign' }
-      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el2', 'DE-BOStrab:st4', 'DE-HHA:s2'] }
-
-  - description: pantograph up El 5
-    country: DE
-    icon: { default: 'de/el5' }
-    tags:
-      - { tag: 'railway:signal:electricity:type', value: 'pantograph_up' }
-      - { tag: 'railway:signal:electricity:form', value: 'sign' }
-      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el5', 'DE-BOStrab:st6'] }
-
-  - description: power off sign El 1
-    country: DE
-    icon: { default: 'de/el1' }
-    tags:
-      - { tag: 'railway:signal:electricity:type', value: 'power_off' }
-      - { tag: 'railway:signal:electricity:form', value: 'sign' }
-      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el1', 'DE-BOStrab:st3', 'DE-HHA:s1'] }
-
-  - description: pantograph down El 4
-    country: DE
-    icon: { default: 'de/el4' }
-    tags:
-      - { tag: 'railway:signal:electricity:type', value: 'pantograph_down' }
-      - { tag: 'railway:signal:electricity:form', value: 'sign' }
-      - { tag: 'railway:signal:electricity', values: ['DE-ESO:el4', 'DE-BOStrab:st5'] }
+      - { tag: 'railway:signal:electricity', value: 'DE-ESO:el7' }
 
   - description: tram power off shortly signal (St 7)
     country: DE

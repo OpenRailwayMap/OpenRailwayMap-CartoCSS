@@ -95,7 +95,7 @@ paths:
                       type: number
                     longitude:
                       type: number
-                    osm_id:
+                    osm_ids:
                       type: array
                       items:
                         type: integer
@@ -107,49 +107,121 @@ paths:
                     railway:
                       type: string
                       nullable: true
+                    station:
+                      type: string
+                      nullable: true
                     railway_ref:
                       type: string
                       nullable: true
+                    uic_ref:
+                      type: string
+                      nullable: true
+                    operator:
+                      type: array
+                      items:
+                        type: string
+                    network:
+                      type: array
+                      items:
+                        type: string
+                    wikidata:
+                      type: array
+                      items:
+                        type: string
+                    wikimedia_commons:
+                      type: array
+                      items:
+                        type: string
+                    image:
+                      type: array
+                      items:
+                        type: string
+                    mapillary:
+                      type: array
+                      items:
+                        type: string
+                    wikipedia:
+                      type: array
+                      items:
+                        type: string
+                    note:
+                      type: array
+                      items:
+                        type: string
+                    description:
+                      type: array
+                      items:
+                        type: string
                     rank:
                       type: integer
                       description: |
                         an importance rank calculated by taking the public transport route relations into account using this station/halt
                 example:
-                  - "osm_ids": [4487545500]
-                    "name": "Gouda"
-                    "railway": "station"
-                    "railway_ref": "Gd"
-                    "latitude": 4.7061636
-                    "longitude": 52.01742449911598
-                    "rank": 52
-                  - "osm_ids": [7606567286]
-                    "name": "Gouda Goverwelle"
-                    "railway": "station"
-                    "railway_ref": "Gdg"
-                    "latitude": 4.7420993
-                    "longitude": 52.01501279911619
-                    "rank": 8
-                  - "osm_ids": [5370097609]
-                    "name": "Dubbele Wierickebrug - tussen Woerden en Gouda"
-                    "railway": "site"
-                    "railway_ref": null
-                    "latitude": 4.809544
-                    "longitude": 52.074374099111374
-                    "rank": 0
-                  - "osm_ids": [5370103610]
-                    "name": "Hoge Gouwebrug - bij Gouda"
-                    "railway": "site"
-                    "railway_ref": null
-                    "latitude": 4.6826321
-                    "longitude": 52.017554399115966
-                    "rank": 0
-                  - "osm_ids": [5370103611]
-                    "name": "Gouwebrug - bij Gouda"
-                    "railway": "site"
-                    "railway_ref": null
-                    "latitude": 4.681521499999999
-                    "longitude": 52.01886699911586
-                    "rank": 0
+                  - osm_ids:
+                      - 271777826
+                      - 244129991
+                      - 1787945074
+                      - 1679221136
+                    name: Landsberger Allee/Petersburger Straße
+                    railway: tram_stop
+                    railway_ref:
+                    station:
+                    uic_ref:
+                    operator: [ ]
+                    network: [ ]
+                    wikidata: [ ]
+                    wikimedia_commons: [ ]
+                    image: [ ]
+                    mapillary: [ ]
+                    wikipedia: [ ]
+                    note: [ ]
+                    description: [ ]
+                    latitude: 13.446564275
+                    longitude: 52.52637340222645
+                    rank: 32
+                  - osm_ids:
+                      - 1860777038
+                      - 98878581
+                    name: S Landsberger Allee
+                    railway: tram_stop
+                    railway_ref:
+                    station:
+                    uic_ref:
+                    operator: [ ]
+                    network: [ ]
+                    wikidata: [ ]
+                    wikimedia_commons: [ ]
+                    image: [ ]
+                    mapillary: [ ]
+                    wikipedia: [ ]
+                    note: [ ]
+                    description: [ ]
+                    latitude: 13.4564517
+                    longitude: 52.528652549251355
+                    rank: 28
+                  - osm_ids:
+                      - 3872632789
+                    name: Landsberger Allee
+                    railway: station
+                    railway_ref: BLST
+                    station: light_rail
+                    uic_ref: '8089020'
+                    operator:
+                      - DB InfraGO AG
+                    network:
+                      - Verkehrsverbund Berlin-Brandenburg
+                    wikidata:
+                      - Q800507
+                    wikimedia_commons: [ ]
+                    image: [ ]
+                    mapillary: [ ]
+                    wikipedia:
+                      - de:Bahnhof Berlin Landsberger Allee
+                    note: [ ]
+                    description: [ ]
+                    latitude: 13.454780299999998
+                    longitude: 52.52948199908725
+                    rank: 16
         '400':
           description: |
             Bad request: invalid parameter values
@@ -213,11 +285,16 @@ paths:
                       type: integer
                       description: |
                         OSM node ID
-                    ref:
+                    line_ref:
                       type: string
                       description: |
                         Reference number of the railway line the feature is located on.
                       nullable: true
+                    milestone_ref:
+                      type: string
+                      nullable: true
+                      description: |
+                        Reference number of the feature.
                     operator:
                       type: string
                       description: |
@@ -233,21 +310,58 @@ paths:
                       description: |
                         Mileage of the feature
                       nullable: true
+                    wikidata:
+                      type: string
+                      nullable: true
+                    wikimedia_commons:
+                      type: string
+                      nullable: true
+                    image:
+                      type: string
+                      nullable: true
+                    mapillary:
+                      type: string
+                      nullable: true
+                    wikipedia:
+                      type: string
+                      nullable: true
+                    note:
+                      type: string
+                      nullable: true
+                    description:
+                      type: string
+                      nullable: true
                 example:
-                  - "osm_id": 3479484133
-                    "railway": "milestone"
-                    "position": 18.405
-                    "latitude": 8.7064769
-                    "longitude": 49.031523899684544
-                    "ref": "4201"
-                    "operator": null
-                  - "osm_id": 3479484134
-                    "railway": "milestone"
-                    "position": 18.2
-                    "latitude": 8.7045853
-                    "longitude": 49.03277039968421
-                    "ref": "4201"
-                    "operator": null
+                  - description:
+                    image:
+                    latitude: 13.372542999999999
+                    line_ref: '6020'
+                    longitude: 52.471930899089024
+                    mapillary:
+                    milestone_ref:
+                    note:
+                    operator: DB InfraGO AG
+                    osm_id: 11562536788
+                    position: 22.7
+                    railway: milestone
+                    wikidata:
+                    wikimedia_commons:
+                    wikipedia:
+                  - description:
+                    image:
+                    latitude: 13.3739671
+                    line_ref: '6020'
+                    longitude: 52.47137729908903
+                    mapillary:
+                    milestone_ref:
+                    note:
+                    operator: DB InfraGO AG
+                    osm_id: 11558214672
+                    position: 22.6
+                    railway: milestone
+                    wikidata:
+                    wikimedia_commons:
+                    wikipedia:
         '400':
           description: |
             Bad request: invalid parameter values

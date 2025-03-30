@@ -196,6 +196,13 @@ jsonpath "$[0].osm_ids[0]" == 271777826
 jsonpath "$[0].osm_ids[1]" == 244129991
 jsonpath "$[0].osm_ids[2]" == 1787945074
 jsonpath "$[0].osm_ids[3]" == 1679221136
+jsonpath "$[2].railway_ref" == "BLST"
+jsonpath "$[2].station" == "light_rail"
+jsonpath "$[2].uic_ref" == "8089020"
+jsonpath "$[2].operator[0]" == "DB InfraGO AG"
+jsonpath "$[2].network[0]" == "Verkehrsverbund Berlin-Brandenburg"
+jsonpath "$[2].wikidata[0]" == "Q800507"
+jsonpath "$[2].wikipedia[0]" == "de:Bahnhof Berlin Landsberger Allee"
 
 # Facility request missing required parameter
 GET {{base_url}}/facility
@@ -264,7 +271,7 @@ limit: 1
 HTTP 200
 [Asserts]
 jsonpath "$" count == 1
-jsonpath "$[0].ref" == "6020"
+jsonpath "$[0].line_ref" == "6020"
 jsonpath "$[0].position" == 22.7
 
 # Milestone request too small limit

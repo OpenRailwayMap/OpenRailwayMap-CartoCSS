@@ -31,12 +31,6 @@ const knownThemes = [
   'dark',
 ];
 
-function layerHasDateFilter(layer) {
-  return layer.filter
-    && layer.filter[0] === 'let'
-    && layer.filter[1] === 'date'
-}
-
 const defaultDate = (new Date()).getFullYear();
 
 const globalMinZoom = 1;
@@ -2482,6 +2476,56 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
         },
       ],
     ),
+    {
+      id: 'historical_stations',
+      type: 'symbol',
+      minzoom: 14,
+      source: 'openhistoricalmap',
+      'source-layer': 'transport_points',
+      filter: ['let', 'date', defaultDate,
+        ['all',
+          ['<=', ['coalesce', ['get', 'start_decdate'], 0.0], ['var', 'date']],
+          ['<=', ['var', 'date'], ['coalesce', ['get', 'end_decdate'], 9999.0]],
+          ['==', ['get', 'class'], 'railway'],
+          ['any',
+            ['==', ['get', 'type'], 'station'],
+            ['==', ['get', 'type'], 'halt'],
+          ]
+        ],
+      ],
+      paint: {
+        'text-color': ['case',
+          ['==', ['get', 'type'], 'halt'], colors[theme].styles.standard.tramStopText,
+          colors[theme].styles.standard.stationsText,
+        ],
+        'text-halo-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].halo,
+        ],
+        'text-halo-width': 1.5,
+        'icon-color': ['case',
+          ['==', ['get', 'type'], 'halt'], colors[theme].styles.standard.tramStopText,
+          colors[theme].styles.standard.stationsText,
+        ],
+        'icon-halo-width': 1,
+        'icon-halo-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].halo,
+        ],
+      },
+      layout: {
+        'symbol-z-order': 'source',
+        'icon-image': 'sdf:general/station-small',
+        'icon-overlap': 'always',
+        'text-field': '{name}',
+        'text-font': font.bold,
+        'text-size': 11,
+        'text-padding': 10,
+        'text-max-width': 5,
+        'text-optional': true,
+        'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+      },
+    },
   ],
 
   speed: [
@@ -4431,6 +4475,15 @@ const legendData = {
         }
       },
     ],
+    'openhistoricalmap-transport_points': [
+      {
+        legend: 'Station',
+        properties: {
+          class: 'railway',
+          type: 'station',
+        },
+      },
+    ],
   },
   speed: {
     'openrailwaymap_low-railway_line_high': [
@@ -5546,7 +5599,7 @@ function makeLegendStyle(style, theme) {
     legendZoomLevels.flatMap(legendZoom => {
       const zoomFilter = layerVisibleAtZoom(legendZoom);
 
-      let entry = { withDate: 0, withoutDate: 0 };
+      let entry = 0;
       let done = new Set();
 
       const featureSourceLayers = sourceLayers.flatMap(layer => {
@@ -5558,11 +5611,9 @@ function makeLegendStyle(style, theme) {
         }
 
         const data = applicable ? (legendData[style][legendLayerName] ?? []) : [];
-        const hasDateFilter = layerHasDateFilter(layer);
         const features = data
           .filter(zoomFilter)
           .flatMap(item => {
-            const currentEntry = entry[hasDateFilter ? 'withDate' : 'withoutDate'];
             const itemFeatures = [item, ...(item.variants ?? []).map(subItem => ({...item, ...subItem, properties: {...item.properties, ...subItem.properties}}))].flatMap((subItem, index, subItems) => ({
               type: 'Feature',
               geometry: {
@@ -5571,16 +5622,16 @@ function makeLegendStyle(style, theme) {
                   : 'Point',
                 coordinates:
                   subItem.type === 'line' ? [
-                    legendPointToMapPoint(legendZoom, [index / subItems.length * 1.5 - 1.5, -currentEntry * 0.6]),
-                    legendPointToMapPoint(legendZoom, [(index + 1) / subItems.length * 1.5 - 1.5, -currentEntry * 0.6]),
+                    legendPointToMapPoint(legendZoom, [index / subItems.length * 1.5 - 1.5, -entry * 0.6]),
+                    legendPointToMapPoint(legendZoom, [(index + 1) / subItems.length * 1.5 - 1.5, -entry * 0.6]),
                   ] :
                   subItem.type === 'polygon' ? Array.from({length: 20 + 1}, (_, i) => i * Math.PI * 2 / 20).map(phi =>
-                      legendPointToMapPoint(legendZoom, [Math.cos(phi) * 0.1 + (index + 0.5) / subItems.length * 1.5 - 1.5, Math.sin(phi) * 0.1 - currentEntry * 0.6]))
-                    : legendPointToMapPoint(legendZoom, [(index + 0.5) / subItems.length * 1.5 - 1.5, -currentEntry * 0.6]),
+                      legendPointToMapPoint(legendZoom, [Math.cos(phi) * 0.1 + (index + 0.5) / subItems.length * 1.5 - 1.5, Math.sin(phi) * 0.1 - entry * 0.6]))
+                    : legendPointToMapPoint(legendZoom, [(index + 0.5) / subItems.length * 1.5 - 1.5, -entry * 0.6]),
               },
               properties: subItem.properties,
             }));
-            entry[hasDateFilter ? 'withDate' : 'withoutDate']++;
+            entry++;
             return itemFeatures;
           });
         done.add(sourceName);
@@ -5594,7 +5645,7 @@ function makeLegendStyle(style, theme) {
         }]];
       });
 
-      entry = { withDate: 0, withoutDate: 0 };
+      entry = 0;
       done = new Set();
 
       const legendFeatures = sourceLayers.flatMap(layer => {
@@ -5606,11 +5657,9 @@ function makeLegendStyle(style, theme) {
         }
 
         const data = applicable ? (legendData[style][legendLayerName] ?? []) : [];
-        const hasDateFilter = layerHasDateFilter(layer);
         const features = data
           .filter(zoomFilter)
           .map(item => {
-            const currentEntry = entry[hasDateFilter ? 'withDate' : 'withoutDate'];
             const legend = [item.legend, ...(item.variants ?? [])
               .filter(variant => variant.legend)
               .map(variant => variant.legend)]
@@ -5620,13 +5669,13 @@ function makeLegendStyle(style, theme) {
               type: 'Feature',
               geometry: {
                 type: "Point",
-                coordinates: legendPointToMapPoint(legendZoom, [0.5, -currentEntry * 0.6]),
+                coordinates: legendPointToMapPoint(legendZoom, [0.5, -entry * 0.6]),
               },
               properties: {
                 legend,
               },
             };
-            entry[hasDateFilter ? 'withDate' : 'withoutDate']++;
+            entry++;
             return feature;
           });
         done.add(sourceName);

@@ -43,6 +43,7 @@ tags:
   - 'railway:signal:humping'
   - 'railway:signal:humping:form'
   - 'railway:signal:main'
+  - 'railway:signal:main:design'
   - 'railway:signal:main:form'
   - 'railway:signal:main:height'
   - 'railway:signal:main:states'
@@ -3047,22 +3048,37 @@ features:
 
   # --- GB --- #
 
-  - description: Main (shunting)
+  - description: Main (light)
     country: GB
-    icon: { default: 'gb/main-shunting' }
+    icon:
+      match: 'railway:signal:main:design'
+      cases:
+        - { regex: '^combined$', value: 'gb/main-combined-light' }
+      default: 'gb/main-individual-light'
     tags:
       - { tag: 'railway:signal:main', value: 'GB-NR:main' }
       - { tag: 'railway:signal:main:form', value: 'light' }
-      - { tag: 'railway:signal:shunting', value: 'GB-NR:shunting' }
-      - { tag: 'railway:signal:shunting:form', value: 'light' }
 
-  - description: Main
+  - description: Main (semaphore)
     country: GB
-    # TODO support railway:signal:main:design=individual/combined for 2 or 4 lenses
-    icon: { default: 'gb/main' }
+    icon: { default: 'gb/main-semaphore' }
     tags:
       - { tag: 'railway:signal:main', value: 'GB-NR:main' }
-      - { tag: 'railway:signal:main:form', value: 'light' }
+      - { tag: 'railway:signal:main:form', value: 'semaphore' }
+
+  - description: Distant
+    country: GB
+    icon: { default: 'gb/distant-light' }
+    tags:
+      - { tag: 'railway:signal:distant', value: 'GB-NR:distant' }
+      - { tag: 'railway:signal:distant:form', value: 'light' }
+
+  - description: Distant (semaphore)
+    country: GB
+    icon: { default: 'gb/distant-semaphore' }
+    tags:
+      - { tag: 'railway:signal:distant', value: 'GB-NR:distant' }
+      - { tag: 'railway:signal:distant:form', value: 'semaphore' }
 
   - description: SPAD
     country: GB
@@ -3090,7 +3106,7 @@ features:
     icon:
       match: 'railway:signal:route:states'
       cases:
-        - { regex: '^(off;)?position_1;position_2;position_3;position_4(;off)?', value: 'gb/route-feather-1234' }
+        - { regex: '^(off;)?position_1;position_2;position_3;position_4(;off)?$', value: 'gb/route-feather-1234' }
         - { regex: '^(off;)?position_1;position_4;position_5;position_6(;off)?$', value: 'gb/route-feather-1456' }
         - { regex: '^(off;)?position_1;position_4;position_5(;off)?$', value: 'gb/route-feather-145' }
         - { regex: '^(off;)?position_4;position_5;position_6(;off)?$', value: 'gb/route-feather-456' }
@@ -3119,12 +3135,12 @@ features:
       - { tag: 'railway:signal:route:form', value: 'light' }
       - { tag: 'railway:signal:route:design', value: 'theatre' }
 
-  - description: Banner
+  - description: Repeated (banner)
     country: GB
-    icon: { default: 'gb/distant-banner' }
+    icon: { default: 'gb/repeated-banner' }
     tags:
-      - { tag: 'railway:signal:distant', value: 'GB-NR:banner' }
-      - { tag: 'railway:signal:distant:form', value: 'light' }
+      - { tag: 'railway:signal:main_repeated', value: 'GB-NR:banner' }
+      - { tag: 'railway:signal:main_repeated:form', value: 'light' }
 
   - description: Repeated off
     country: GB
@@ -3139,6 +3155,13 @@ features:
     tags:
       - { tag: 'railway:signal:departure', value: 'GB-NR:RA' }
       - { tag: 'railway:signal:departure:form', value: 'light' }
+
+  - description: Crossing
+    country: GB
+    icon: { default: 'gb/crossing' }
+    tags:
+      - { tag: 'railway:signal:crossing', value: 'GB-NR:crossing' }
+      - { tag: 'railway:signal:crossing:form', value: 'light' }
 
   # --- LU --- #
 

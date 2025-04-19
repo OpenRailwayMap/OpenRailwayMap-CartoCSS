@@ -23,6 +23,7 @@ const legend = document.getElementById('legend');
 const legendMapContainer = document.getElementById('legend-map');
 const newsBackdrop = document.getElementById('news-backdrop');
 const newsContent = document.getElementById('news-content');
+const aboutBackdrop = document.getElementById('about-backdrop');
 
 const icons = {
   railway: {
@@ -250,7 +251,7 @@ function toggleNews() {
 function showNews() {
   newsBackdrop.style.display = 'block';
 
-  const newsHash = newsControl.newsHash()
+  const newsHash = aboutControl.newsHash()
   if (newsHash) {
     configuration.newsHash = newsHash;
     storeConfiguration(localStorage, configuration);
@@ -266,6 +267,22 @@ function newsLink(style, zoom, lat, lon, date) {
   selectStyle(style);
   selectDate(date ?? defaultDate);
   map.jumpTo({zoom, center: {lat, lon}});
+}
+
+function showAbout() {
+  aboutBackdrop.style.display = 'block';
+}
+
+function hideAbout() {
+  aboutBackdrop.style.display = 'none';
+}
+
+function toggleAbout() {
+  if (aboutBackdrop.style.display === 'block') {
+    showAbout();
+  } else {
+    showAbout();
+  }
 }
 
 searchFacilitiesForm.addEventListener('submit', event => {
@@ -921,7 +938,7 @@ const legendEntriesCount = Object.fromEntries(
     .map(key => [key, {}])
 );
 
-class NewsControl {
+class AboutControl {
   constructor(options) {
     this.options = options;
     this._newsHash = null;
@@ -929,7 +946,8 @@ class NewsControl {
 
   onAdd(map) {
     this._map = map;
-    this._container = createDomElement('div', 'maplibregl-ctrl maplibregl-ctrl-group');
+    this._container = createDomElement('div', 'maplibregl-ctrl maplibregl-ctrl-group maplibregl-ctrl-group-about');
+
     const button = createDomElement('button', 'maplibregl-ctrl-news', this._container);
     button.type = 'button';
     button.title = 'Show/hide news';
@@ -942,6 +960,15 @@ class NewsControl {
       button.classList.remove('news-updated');
       this.options.onNewsToggle();
     }
+
+    const aboutButton = createDomElement('button', 'maplibregl-ctrl-about', this._container);
+    aboutButton.type = 'button';
+    aboutButton.title = 'Show/hide about';
+    createDomElement('span', 'maplibregl-ctrl-icon', aboutButton);
+    const aboutText = createDomElement('span', undefined, aboutButton);
+    aboutText.innerText = 'About'
+
+    aboutButton.onclick = () => this.options.onAboutToggle();
 
     fetch(`${location.origin}/news.html`)
       .then(news => {
@@ -1007,10 +1034,11 @@ map.addControl(new maplibregl.ScaleControl({
   maxWidth: 150,
   unit: 'metric',
 }), 'bottom-right');
-const newsControl = new NewsControl({
+const aboutControl = new AboutControl({
+  onAboutToggle: toggleAbout,
   onNewsToggle: toggleNews,
 });
-map.addControl(newsControl, 'bottom-right');
+map.addControl(aboutControl, 'bottom-right');
 
 map.addControl(new LegendControl({
   onLegendToggle: toggleLegend,

@@ -75,6 +75,7 @@ tags:
   - 'railway:signal:radio:form'
   - 'railway:signal:radio:frequency'
   - 'railway:signal:route'
+  - 'railway:signal:route:design'
   - 'railway:signal:route:form'
   - 'railway:signal:route:states'
   - 'railway:signal:short_route'
@@ -3063,12 +3064,81 @@ features:
       - { tag: 'railway:signal:main', value: 'GB-NR:main' }
       - { tag: 'railway:signal:main:form', value: 'light' }
 
+  - description: SPAD
+    country: GB
+    icon: { default: 'gb/SPAD' }
+    tags:
+      - { tag: 'railway:signal:main', value: 'GB-NR:SPAD' }
+      - { tag: 'railway:signal:main:form', value: 'light' }
+
   - description: Shunting
     country: GB
     icon: { default: 'gb/shunting' }
     tags:
       - { tag: 'railway:signal:shunting', value: 'GB-NR:shunting' }
       - { tag: 'railway:signal:shunting:form', value: 'light' }
+
+  - description: Shunting limit
+    country: GB
+    icon: { default: 'gb/limit-shunt' }
+    tags:
+      - { tag: 'railway:signal:shunting', value: 'GB-NR:limit' }
+      - { tag: 'railway:signal:shunting:form', value: 'light' }
+
+  - description: Junction signals (feather)
+    country: GB
+    icon:
+      match: 'railway:signal:route:states'
+      cases:
+        - { regex: '^(off;)?position_1;position_2;position_3;position_4(;off)?', value: 'gb/route-feather-1234' }
+        - { regex: '^(off;)?position_1;position_4;position_5;position_6(;off)?$', value: 'gb/route-feather-1456' }
+        - { regex: '^(off;)?position_1;position_4;position_5(;off)?$', value: 'gb/route-feather-145' }
+        - { regex: '^(off;)?position_4;position_5;position_6(;off)?$', value: 'gb/route-feather-456' }
+        - { regex: '^(off;)?position_1;position_2;position_3(;off)?$', value: 'gb/route-feather-123' }
+        - { regex: '^(off;)?position_1;position_2;position_4(;off)?$', value: 'gb/route-feather-124' }
+        - { regex: '^(off;)?position_4;position_5(;off)?$', value: 'gb/route-feather-45' }
+        - { regex: '^(off;)?position_1;position_4(;off)?$', value: 'gb/route-feather-14' }
+        - { regex: '^(off;)?position_1;position_2(;off)?$', value: 'gb/route-feather-12' }
+        - { regex: '^(off;)?position_4(;off)?$', value: 'gb/route-feather-4' }
+        - { regex: '^(off;)?position_1(;off)?$', value: 'gb/route-feather-1' }
+      default: 'gb/route-feather-unknown'
+    tags:
+      - { tag: 'railway:signal:route', value: 'GB-NR:junction' }
+      - { tag: 'railway:signal:route:form', value: 'light' }
+      - { tag: 'railway:signal:route:design', value: 'feather' }
+
+  - description: Junction signals (theatre)
+    country: GB
+    icon:
+      match: 'railway:signal:route:states'
+      cases:
+        - { regex: '^(.*;)?[CSFU](;.*)?$', value: 'gb/route-theatre-{}', example: 'gb/route-theatre-{S}' }
+      default: 'gb/route-theatre-unknown'
+    tags:
+      - { tag: 'railway:signal:route', value: 'GB-NR:junction' }
+      - { tag: 'railway:signal:route:form', value: 'light' }
+      - { tag: 'railway:signal:route:design', value: 'theatre' }
+
+  - description: Banner
+    country: GB
+    icon: { default: 'gb/distant-banner' }
+    tags:
+      - { tag: 'railway:signal:distant', value: 'GB-NR:banner' }
+      - { tag: 'railway:signal:distant:form', value: 'light' }
+
+  - description: Repeated off
+    country: GB
+    icon: { default: 'gb/repeated-off' }
+    tags:
+      - { tag: 'railway:signal:main_repeated', value: 'GB-NR:off' }
+      - { tag: 'railway:signal:main_repeated:form', value: 'light' }
+
+  - description: Departure
+    country: GB
+    icon: { default: 'gb/departure-RA' }
+    tags:
+      - { tag: 'railway:signal:departure', value: 'GB-NR:RA' }
+      - { tag: 'railway:signal:departure:form', value: 'light' }
 
   # --- LU --- #
 

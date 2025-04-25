@@ -38,6 +38,10 @@ The API has been adapted from [the OpenRailwayMap API](https://github.com/OpenRa
 
 The API documentation can be found at https://openrailwaymap.fly.dev/api. You can also view [the raw OpenAPI specification](proxy/api/openapi.yaml).
 
+## Mapping presets
+
+Presets for [JOSM](https://josm.openstreetmap.de/) and [Vespucci](https://vespucci.io/) are generated for mapping assistance. The preset is available for download on https://openrailwaymap.fly.dev/preset.zip. The preset is also available directly from the [Tagging Presets register in JOSM Preferences](https://josm.openstreetmap.de/wiki/Help/Preferences/TaggingPresetPreference). [Vespucci](https://vespucci.io/help/en/Presets/) can use the same presets for mobile mapping.
+
 ## Contributing
 
 Contributions are welcome!

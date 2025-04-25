@@ -20,6 +20,28 @@ RUN --mount=type=bind,source=proxy/js/features.mjs,target=features.mjs \
   node /build/features.mjs \
     > /build/features.json
 
+FROM python:3-alpine AS build-preset
+
+ARG PRESET_VERSION
+
+RUN apk add --no-cache zip
+
+RUN pip install --no-cache-dir \
+  pyyaml \
+  yattag
+
+WORKDIR /build
+
+RUN --mount=type=bind,source=proxy/preset.py,target=preset.py \
+  --mount=type=bind,source=features,target=features \
+  python preset.py \
+    > preset.xml
+
+RUN --mount=type=bind,source=symbols,target=symbols \
+  zip -o /build/preset.zip -r \
+    symbols \
+    preset.xml
+
 FROM nginx:1-alpine
 
 COPY proxy/proxy.conf.template /etc/nginx/templates/proxy.conf.template
@@ -34,6 +56,9 @@ COPY data/import /etc/nginx/public/import
 
 COPY --from=build-styles \
   /build /etc/nginx/public/style
+
+COPY --from=build-preset \
+  /build/preset.zip /etc/nginx/public/preset.zip
 
 COPY --from=build-features \
   /build/features.json /etc/nginx/public/features.json

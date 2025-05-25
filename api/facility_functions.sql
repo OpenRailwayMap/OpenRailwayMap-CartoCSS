@@ -10,13 +10,13 @@ $$ LANGUAGE plpgsql
   LEAKPROOF
   PARALLEL SAFE;
 
-CREATE OR REPLACE FUNCTION openrailwaymap_name_rank(tsquery_str tsquery, tsvec_col tsvector, route_count INTEGER, railway TEXT, station TEXT) RETURNS INTEGER AS $$
+CREATE OR REPLACE FUNCTION openrailwaymap_name_rank(tsquery_str tsquery, tsvec_col tsvector, route_count INTEGER, feature TEXT, station TEXT) RETURNS INTEGER AS $$
 DECLARE
   factor FLOAT;
 BEGIN
-  IF railway = 'tram_stop' OR station IN ('light_rail', 'monorail', 'subway') THEN
+  IF feature = 'tram_stop' OR station IN ('light_rail', 'monorail', 'subway') THEN
     factor := 0.5;
-  ELSIF railway = 'halt' THEN
+  ELSIF feature = 'halt' THEN
     factor := 0.8;
   END IF;
   IF tsvec_col @@ tsquery_str THEN
@@ -36,7 +36,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_name(
 ) RETURNS TABLE(
   "osm_ids" bigint[],
   "name" text,
-  "railway" text,
+  "feature" text,
+  "state" text,
   "railway_ref" text,
   "station" text,
   "uic_ref" text,
@@ -59,7 +60,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_name(
       SELECT
         b.osm_ids,
         b.name,
-        b.railway,
+        b.feature,
+        b.state,
         b.railway_ref,
         b.station,
         b.uic_ref,
@@ -79,7 +81,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_name(
         SELECT DISTINCT ON (a.osm_ids)
           a.osm_ids,
           a.name,
-          a.railway,
+          a.feature,
+          a.state,
           a.railway_ref,
           a.station,
           a.uic_ref,
@@ -99,7 +102,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_name(
           SELECT
             fs.osm_ids,
             fs.name,
-            fs.railway,
+            fs.feature,
+            fs.state,
             fs.railway_ref,
             fs.station,
             fs.uic_ref,
@@ -114,7 +118,7 @@ CREATE OR REPLACE FUNCTION query_facilities_by_name(
             fs.description,
             ST_X(ST_Transform(fs.geom, 4326)) AS latitude,
             ST_Y(ST_Transform(fs.geom, 4326)) AS longitude,
-            openrailwaymap_name_rank(phraseto_tsquery('simple', unaccent(openrailwaymap_hyphen_to_space(input_name))), fs.terms, fs.route_count::INTEGER, fs.railway, fs.station) AS rank
+            openrailwaymap_name_rank(phraseto_tsquery('simple', unaccent(openrailwaymap_hyphen_to_space(input_name))), fs.terms, fs.route_count::INTEGER, fs.feature, fs.station) AS rank
           FROM openrailwaymap_facilities_for_search fs
           WHERE fs.terms @@ phraseto_tsquery('simple', unaccent(openrailwaymap_hyphen_to_space(input_name)))
         ) AS a
@@ -133,7 +137,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_ref(
 ) RETURNS TABLE(
   "osm_ids" bigint[],
   "name" text,
-  "railway" text,
+  "feature" text,
+  "state" text,
   "railway_ref" text,
   "station" text,
   "uic_ref" text,
@@ -156,7 +161,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_ref(
         DISTINCT ON (osm_ids)
         r.osm_ids,
         r.name,
-        r.railway,
+        r.feature,
+        r.state,
         r.railway_ref,
         r.station,
         r.uic_ref,
@@ -186,7 +192,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_uic_ref(
 ) RETURNS TABLE(
   "osm_ids" bigint[],
   "name" text,
-  "railway" text,
+  "feature" text,
+  "state" text,
   "railway_ref" text,
   "station" text,
   "uic_ref" text,
@@ -209,7 +216,8 @@ CREATE OR REPLACE FUNCTION query_facilities_by_uic_ref(
         DISTINCT ON (osm_ids)
         r.osm_ids,
         r.name,
-        r.railway,
+        r.feature,
+        r.state,
         r.railway_ref,
         r.station,
         r.uic_ref,

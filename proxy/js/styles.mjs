@@ -129,6 +129,7 @@ const colors = {
     signals: {
       direction: '#a8d8bcff'
     },
+    catenary: 'blue',
   },
   dark: {
     text: {
@@ -214,6 +215,7 @@ const colors = {
     signals: {
       direction: '#a8d8bcff'
     },
+    catenary: 'blue',
   },
 };
 
@@ -3136,7 +3138,37 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
           14, 2,
           15, 3,
         ],
-        'circle-color': 'blue',
+        'circle-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].catenary,
+        ],
+      },
+    },
+    {
+      id: 'electrification_catenary_mast_text',
+      type: 'symbol',
+      minzoom: 17,
+      source: 'openrailwaymap_electrification',
+      'source-layer': 'catenary',
+      filter: ['all',
+        ['==', ['get', 'feature'], 'mast'],
+        ['!=', ['get', 'ref'],null ],
+      ],
+      paint: {
+        'text-color': colors[theme].catenary,
+        'text-halo-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].halo,
+        ],
+        'text-halo-width': 2,
+      },
+      layout: {
+        'text-field': '{ref}',
+        'text-font': font.bold,
+        'text-size': 11,
+        'text-padding': 6,
+        'text-max-width': 5,
+        'text-offset': [0, 1],
       },
     },
     {
@@ -3147,7 +3179,10 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
       'source-layer': 'catenary',
       filter: ['==', ['get', 'feature'], 'portal'],
       paint: {
-        'line-color': 'blue',
+        'line-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].catenary,
+        ],
         'line-width': ['interpolate', ['exponential', 1.2], ['zoom'],
           14, 1.5,
           15, 2.0,

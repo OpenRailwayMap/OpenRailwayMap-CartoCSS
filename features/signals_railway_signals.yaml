@@ -31,6 +31,7 @@ tags:
   - { tag: 'railway:signal:distant:height', description: 'Distant height' }
   - { tag: 'railway:signal:distant:type', description: 'Distant type' }
   - { tag: 'railway:signal:distant:distance', description: 'Distant distance' }
+  - { tag: 'railway:signal:distant:regime', description: 'Distant regime' }
   - { tag: 'railway:signal:electricity', description: 'Electricity' }
   - { tag: 'railway:signal:electricity:type', description: 'Electricity type' }
   - { tag: 'railway:signal:electricity:form', description: 'Electricity form' }
@@ -50,6 +51,7 @@ tags:
   - { tag: 'railway:signal:main:states', description: 'Main states', type: array }
   - { tag: 'railway:signal:main:substitute_signal', description: 'Main substitute signal' }
   - { tag: 'railway:signal:main:PT_priority', description: 'Main PT priority' }
+  - { tag: 'railway:signal:main:regime', description: 'Main regime' }
   - { tag: 'railway:signal:main_repeated', description: 'Main repeated' }
   - { tag: 'railway:signal:main_repeated:form', description: 'Main repeated form' }
   - { tag: 'railway:signal:main_repeated:magnet', description: 'Main repeated magnet', type: boolean }
@@ -760,61 +762,13 @@ features:
 
   # --- BE --- #
 
-  - description: Grand Signal d'Arrêt
-    country: BE
-    icon: { default: 'be/GSA-V' }
-    tags:
-      - { tag: 'railway:signal:main', value: 'BE:GSA' }
-
-  - description: (BME) Approach (semaphore)
-    country: BE
-    icon: { default: 'be/bme/semaphore_approach' }
-    tags:
-      - { tag: 'railway:signal:main', value: 'BE-SME:simplified_stop_signal' }
-      - { tag: 'railway:signal:main:form', value: 'semaphore' }
-
-  - description: (BME) Simplified main signal
-    country: BE
-    icon:
-      match: 'railway:signal:main:states'
-      cases:
-        - { exact: 'BE-SME:W', value: 'be/bme/simplified_xnw' }
-        - { exact: 'BE-SME:N', value: 'be/bme/simplified_ny' }
-      default: 'be/bme/simplified_unknown'
-    tags:
-      - { tag: 'railway:signal:main', value: 'BE-SME:simplified_stop_signal' }
-
-  - description: Répétiteur à Traits Lumineux
-    country: BE
-    icon: { default: 'be/RTL-open' }
-    tags:
-      - { tag: 'railway:signal:main_repeated', value: 'BE:RTL' }
-
-  - description: Signal d'Arrêt Simplifié
-    country: BE
-    icon: { default: 'be/SAS' }
-    tags:
-      - { tag: 'railway:signal:minor', value: 'BE:SAS' }
-
-  - description: Petit Signal d'Arrêt
-    country: BE
-    icon: { default: 'be/PSA' }
-    tags:
-      - { tag: 'railway:signal:shunting', any: ['BE:PSA', 'BE-SME:small_signal_triangle'] }
-
-  - description: (BME) Shunting signal, 2 color
-    country: BE
-    icon: { default: 'be/bme/shunting_twocolour_ny' }
-    tags:
-      - { tag: 'railway:signal:shunting', value: 'BE-SME:small_signal_two_colour' }
-
   - description: Speed limit light (part of main signal)
     country: BE
     icon:
       match: 'railway:signal:speed_limit:speed'
       cases:
-        - { regex: '^([4-9]0)$', value: 'be/chiffre-vitesse-{}', example: 'be/chiffre-vitesse-{60}' }
-      default: 'be/chiffre-vitesse-empty'
+        - { regex: '^([4-9]0)$', value: 'be/VIS-{}', example: 'be/VIS-{60}' }
+      default: 'be/VIS-empty'
     tags:
       - { tag: 'railway:signal:speed_limit', value: 'BE:VIS' }
       - { tag: 'railway:signal:speed_limit:form', value: 'light' }
@@ -874,6 +828,182 @@ features:
       - { tag: 'railway:signal:speed_limit', value: 'BE:PVV' }
       - { tag: 'railway:signal:speed_limit:form', value: 'sign' }
 
+  - description: Speed sign for distant signal
+    country: BE
+    icon:
+      match: 'railway:signal:speed_limit_distant:speed'
+      cases:
+        - { regex: '^90$', value: 'be/PVSA-{}', example: 'be/PVSA-{90}' }
+      default: 'be/PVSA-empty'
+    tags:
+      - { tag: 'railway:signal:speed_limit_distant', value: 'BE:PVSA' }
+      - { tag: 'railway:signal:speed_limit_distant:form', value: 'sign' }
+
+  - description: Grand Signal d'Arrêt (opposite regime)
+    country: BE
+    icon:
+      match: 'railway:signal:main:states'
+      cases:
+        - { exact: 'BE:RB', value: 'be/GSA-opposite-RB' }
+        - { exact: 'BE:2J', value: 'be/GSA-opposite-2J' }
+        - { exact: 'BE:VJV', value: 'be/GSA-opposite-VJV' }
+        - { exact: 'BE:VJH', value: 'be/GSA-opposite-VJH' }
+        - { exact: 'BE:V', value: 'be/GSA-opposite-V' }
+      default: 'be/GSA-opposite-R'
+    tags:
+      - { tag: 'railway:signal:main', value: 'BE:GSA' }
+      - { tag: 'railway:signal:main:regime', value: 'opposite' }
+
+  - description: Grand Signal d'Arrêt (normal regime)
+    country: BE
+    icon:
+      match: 'railway:signal:main:states'
+      cases:
+        - { exact: 'BE:RB', value: 'be/GSA-RB' }
+        - { exact: 'BE:2J', value: 'be/GSA-2J' }
+        - { exact: 'BE:VJV', value: 'be/GSA-VJV' }
+        - { exact: 'BE:VJH', value: 'be/GSA-VJH' }
+        - { exact: 'BE:V', value: 'be/GSA-V' }
+      default: 'be/GSA-R'
+    tags:
+      - { tag: 'railway:signal:main', value: 'BE:GSA' }
+
+  - description: Distant signal (opposite regime)
+    country: BE
+    icon:
+      match: 'railway:signal:distant:states'
+      cases:
+        - { exact: 'BE:2J', value: 'be/SAI-opposite-2J' }
+        - { exact: 'BE:VJV', value: 'be/SAI-opposite-VJV' }
+        - { exact: 'BE:VJH', value: 'be/SAI-opposite-VJH' }
+      default: 'be/SAI-opposite-V'
+    tags:
+      - { tag: 'railway:signal:distant', value: 'BE:SAI' }
+      - { tag: 'railway:signal:distant:regime', value: 'opposite' }
+
+  - description: Distant signal (normal regime)
+    country: BE
+    icon:
+      match: 'railway:signal:distant:states'
+      cases:
+        - { exact: 'BE:2J', value: 'be/SAI-2J' }
+        - { exact: 'BE:VJV', value: 'be/SAI-VJV' }
+        - { exact: 'BE:VJH', value: 'be/SAI-VJH' }
+      default: 'be/SAI-V'
+    tags:
+      - { tag: 'railway:signal:distant', value: 'BE:SAI' }
+
+  - description: (BME) Approach (semaphore)
+    country: BE
+    icon: { default: 'be/bme/semaphore_approach' }
+    tags:
+      - { tag: 'railway:signal:main', value: 'BE-SME:simplified_stop_signal' }
+      - { tag: 'railway:signal:main:form', value: 'semaphore' }
+
+  - description: (BME) Simplified main signal
+    country: BE
+    icon:
+      match: 'railway:signal:main:states'
+      cases:
+        - { exact: 'BE-SME:W', value: 'be/bme/simplified_xnw' }
+        - { exact: 'BE-SME:N', value: 'be/bme/simplified_ny' }
+      default: 'be/bme/simplified_unknown'
+    tags:
+      - { tag: 'railway:signal:main', value: 'BE-SME:simplified_stop_signal' }
+
+  - description: Répétiteur à Traits Lumineux
+    country: BE
+    icon: { default: 'be/RTL-open' }
+    tags:
+      - { tag: 'railway:signal:main_repeated', value: 'BE:RTL' }
+
+  - description: Signal d'Arrêt Simplifié
+    country: BE
+    icon: { default: 'be/SAS' }
+    tags:
+      - { tag: 'railway:signal:minor', value: 'BE:SAS' }
+
+  - description: Petit Signal d'Arrêt
+    country: BE
+    icon: { default: 'be/PSA' }
+    tags:
+      - { tag: 'railway:signal:shunting', any: ['BE:PSA', 'BE-SME:small_signal_triangle'] }
+
+  - description: (BME) Shunting signal, 2 color
+    country: BE
+    icon: { default: 'be/bme/shunting_twocolour_ny' }
+    tags:
+      - { tag: 'railway:signal:shunting', value: 'BE-SME:small_signal_two_colour' }
+
+  - description: Buffer stop (sign)
+    country: BE
+    icon: { default: 'be/RH-sign' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'BE:RH' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Buffer stop (light)
+    country: BE
+    icon: { default: 'be/RH-light' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'BE:RH' }
+      - { tag: 'railway:signal:stop:form', value: 'light' }
+
+  - description: Stop position
+    country: BE
+    icon:
+      match: 'railway:signal:stop:carriages'
+      cases:
+        - { regex: '^(2|3|4|6|8|10|12)$', value: 'be/PMQ-{}', example: 'be/PMQ-{8}' }
+      default: 'be/PMQ-unknown'
+    tags:
+      - { tag: 'railway:signal:stop', value: 'BE:PMQ' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: End of platform
+    country: BE
+    icon: { default: 'be/PREQ' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'BE:PREQ' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
+  - description: Main signal indicator
+    country: BE
+    icon:
+      match: 'railway:signal:route:states'
+      cases:
+        - { exact: 'BE:ECS-V', value: 'be/ECS-V', description: 'regime change' }
+        - { exact: 'BE:ECS-U', value: 'be/ECS-U', description: 'dead end' }
+        - { exact: 'BE:ECS-CAB', value: 'be/ECS-CAB', description: 'cab signalling' }
+      default: 'be/ECS-unknown'
+    tags:
+      - { tag: 'railway:signal:route', value: 'BE:ECS' }
+      - { tag: 'railway:signal:route:form', value: 'light' }
+
+  - description: Distant speed limit light (part of main signal)
+    country: BE
+    icon:
+      match: 'railway:signal:speed_limit_distant:speed'
+      cases:
+        - { regex: '^([4-9]0)$', value: 'be/ARV-{}', example: 'be/ARV-{60}' }
+      default: 'be/ARV-empty'
+    tags:
+      - { tag: 'railway:signal:speed_limit_distant', value: 'BE:ARV' }
+      - { tag: 'railway:signal:speed_limit_distant:form', value: 'light' }
+
+  - description: Balise marker
+    country: BE
+    icon: { default: 'be/PRB' }
+    tags:
+      - { tag: 'railway:signal:fouling_point', value: 'BE:PRB' }
+
+  - description: Station announcement
+    country: BE
+    icon: { default: 'be/PAPA' }
+    tags:
+      - { tag: 'railway:signal:station_distant', value: 'BE:PAPA' }
+      - { tag: 'railway:signal:station_distant:form', value: 'sign' }
+
   - description: Panto distant
     country: BE
     icon: { default: 'be/PBA' }
@@ -905,6 +1035,13 @@ features:
       - { tag: 'railway:signal:electricity', value: 'BE:FLC' }
       - { tag: 'railway:signal:electricity:form', value: 'sign' }
       - { tag: 'railway:signal:electricity:type', value: 'end_of_catenary' }
+
+  - description: Contact line segmentation
+    country: BE
+    icon: { default: 'be/SLC' }
+    tags:
+      - { tag: 'railway:signal:electricity', value: 'BE:SLC' }
+      - { tag: 'railway:signal:electricity:form', value: 'sign' }
 
   - description: train protection block markers (arrow)
     country: BE

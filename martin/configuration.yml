@@ -217,7 +217,7 @@ postgres:
 
     catenary:
       schema: public
-      table: electrification_catenary
+      table: catenary
       srid: 3857
       geometry_column: way
       geometry_type: GEOMETRY
@@ -228,6 +228,7 @@ postgres:
         ref: string
         feature: string
         position: string
+        transition: boolean
         structure: string
         supporting: string
         attachment: string

@@ -915,6 +915,9 @@ const features = {
       position: {
         name: 'Position',
       },
+      transition: {
+        name: 'Transition point',
+      },
       structure: {
         name: 'Structure',
       },

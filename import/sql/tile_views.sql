@@ -508,24 +508,6 @@ CREATE OR REPLACE VIEW standard_railway_switch_ref AS
 
 --- Electrification ---
 
-CREATE OR REPLACE VIEW electrification_catenary AS
-  SELECT
-    id,
-    osm_id,
-    osm_type,
-    way,
-    ref,
-    feature,
-    railway_position_exact as position,
-    structure,
-    supporting,
-    attachment,
-    tensioning,
-    insulator,
-    note,
-    description
-  FROM catenary;
-
 CREATE OR REPLACE FUNCTION electrification_railway_symbols(z integer, x integer, y integer)
   RETURNS bytea
   LANGUAGE SQL

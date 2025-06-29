@@ -390,6 +390,12 @@ const knownStyles = {
       default: 'track_class',
     },
   },
+  operator: {
+    name: 'Operator',
+    styles: {
+      default: 'operator',
+    },
+  },
 };
 
 const defaultStyle = Object.keys(knownStyles)[0];
@@ -746,7 +752,7 @@ class StyleControl {
 
   activateStyle(style) {
     Object.entries(this.buttons).forEach(([buttonStyle, button]) => {
-      if (buttonStyle == style) {
+      if (buttonStyle === style) {
         button.classList.add('active')
       } else {
         button.classList.remove('active')

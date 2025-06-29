@@ -35,6 +35,7 @@ const knownStyles = [
   'gauge',
   'loading_gauge',
   'track_class',
+  'operator',
 ];
 const knownThemes = [
   'light',
@@ -3550,6 +3551,54 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
     ),
     searchResults,
   ],
+  operator: [
+    ...railwayLine(theme,
+      ['coalesce', ['get', 'operator'], ''],
+      [
+        {
+          id: 'railway_line_low',
+          minzoom: 0,
+          maxzoom: 7,
+          source: 'openrailwaymap_low',
+          states: {
+            present: undefined,
+          },
+          width: ["interpolate", ["exponential", 1.2], ["zoom"],
+            0, 0.5,
+            7, 2,
+          ],
+          color: ['concat', 'hsl(', ['get', 'operator_hash'], ', 100%, 40%)'],
+        },
+        {
+          id: 'railway_line_med',
+          minzoom: 7,
+          maxzoom: 8,
+          source: 'openrailwaymap_low',
+          states: {
+            present: undefined,
+          },
+          width: 2,
+          color: ['concat', 'hsl(', ['get', 'operator_hash'], ', 100%, 40%)'],
+        },
+        {
+          id: 'railway_line_high',
+          minzoom: 8,
+          source: 'high',
+          states: {
+            present: undefined,
+            construction: construction_dasharray,
+            proposed: proposed_dasharray,
+          },
+          width: ["interpolate", ["exponential", 1.2], ["zoom"],
+            14, 2,
+            16, 3,
+          ],
+          color: ['concat', 'hsl(', ['get', 'operator_hash'], ', 100%, 40%)'],
+        },
+      ],
+    ),
+    searchResults,
+  ],
 }]));
 
 const makeStyle = (selectedStyle, theme) => ({
@@ -5640,6 +5689,79 @@ const legendData = {
         type: 'line',
         properties: {
           track_class: null,
+          feature: 'rail',
+          state: 'present',
+          usage: 'main',
+          service: null,
+          bridge: false,
+          tunnel: false,
+        },
+      },
+    ],
+    "high-railway_text_km": [
+      {
+        legend: 'Milestone',
+        type: 'point',
+        properties: {
+          zero: true,
+          pos_int: '47',
+          pos: '47.0',
+        },
+      },
+    ],
+  },
+  operator: {
+    'openrailwaymap_low-railway_line_high': [
+      {
+        legend: 'Railway line',
+        type: 'line',
+        properties: {
+          operator: 'ABC',
+          operator_hash: 0,
+          feature: 'rail',
+          state: 'present',
+          usage: 'main',
+          service: null,
+          bridge: false,
+          tunnel: false,
+        },
+      },
+      {
+        legend: '(unknown)',
+        type: 'line',
+        properties: {
+          operator: null,
+          operator_hash: null,
+          feature: 'rail',
+          state: 'present',
+          usage: 'main',
+          service: null,
+          bridge: false,
+          tunnel: false,
+        },
+      },
+    ],
+    'high-railway_line_high': [
+      {
+        legend: 'Railway line',
+        type: 'line',
+        properties: {
+          operator: 'ABC',
+          operator_hash: 0,
+          feature: 'rail',
+          state: 'present',
+          usage: 'main',
+          service: null,
+          bridge: false,
+          tunnel: false,
+        },
+      },
+      {
+        legend: '(unknown)',
+        type: 'line',
+        properties: {
+          operator: null,
+          operator_hash: null,
           feature: 'rail',
           state: 'present',
           usage: 'main',

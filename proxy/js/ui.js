@@ -27,6 +27,8 @@ const newsBackdrop = document.getElementById('news-backdrop');
 const newsContent = document.getElementById('news-content');
 const aboutBackdrop = document.getElementById('about-backdrop');
 
+const MD5 = function(d){var r = M(V(Y(X(d),8*d.length)));return r.toLowerCase()};function M(d){for(var _,m="0123456789ABCDEF",f="",r=0;r<d.length;r++)_=d.charCodeAt(r),f+=m.charAt(_>>>4&15)+m.charAt(15&_);return f}function X(d){for(var _=Array(d.length>>2),m=0;m<_.length;m++)_[m]=0;for(m=0;m<8*d.length;m+=8)_[m>>5]|=(255&d.charCodeAt(m/8))<<m%32;return _}function V(d){for(var _="",m=0;m<32*d.length;m+=8)_+=String.fromCharCode(d[m>>5]>>>m%32&255);return _}function Y(d,_){d[_>>5]|=128<<_%32,d[14+(_+64>>>9<<4)]=_;for(var m=1732584193,f=-271733879,r=-1732584194,i=271733878,n=0;n<d.length;n+=16){var h=m,t=f,g=r,e=i;f=md5_ii(f=md5_ii(f=md5_ii(f=md5_ii(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_hh(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_gg(f=md5_ff(f=md5_ff(f=md5_ff(f=md5_ff(f,r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+0],7,-680876936),f,r,d[n+1],12,-389564586),m,f,d[n+2],17,606105819),i,m,d[n+3],22,-1044525330),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+4],7,-176418897),f,r,d[n+5],12,1200080426),m,f,d[n+6],17,-1473231341),i,m,d[n+7],22,-45705983),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+8],7,1770035416),f,r,d[n+9],12,-1958414417),m,f,d[n+10],17,-42063),i,m,d[n+11],22,-1990404162),r=md5_ff(r,i=md5_ff(i,m=md5_ff(m,f,r,i,d[n+12],7,1804603682),f,r,d[n+13],12,-40341101),m,f,d[n+14],17,-1502002290),i,m,d[n+15],22,1236535329),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+1],5,-165796510),f,r,d[n+6],9,-1069501632),m,f,d[n+11],14,643717713),i,m,d[n+0],20,-373897302),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+5],5,-701558691),f,r,d[n+10],9,38016083),m,f,d[n+15],14,-660478335),i,m,d[n+4],20,-405537848),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+9],5,568446438),f,r,d[n+14],9,-1019803690),m,f,d[n+3],14,-187363961),i,m,d[n+8],20,1163531501),r=md5_gg(r,i=md5_gg(i,m=md5_gg(m,f,r,i,d[n+13],5,-1444681467),f,r,d[n+2],9,-51403784),m,f,d[n+7],14,1735328473),i,m,d[n+12],20,-1926607734),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+5],4,-378558),f,r,d[n+8],11,-2022574463),m,f,d[n+11],16,1839030562),i,m,d[n+14],23,-35309556),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+1],4,-1530992060),f,r,d[n+4],11,1272893353),m,f,d[n+7],16,-155497632),i,m,d[n+10],23,-1094730640),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+13],4,681279174),f,r,d[n+0],11,-358537222),m,f,d[n+3],16,-722521979),i,m,d[n+6],23,76029189),r=md5_hh(r,i=md5_hh(i,m=md5_hh(m,f,r,i,d[n+9],4,-640364487),f,r,d[n+12],11,-421815835),m,f,d[n+15],16,530742520),i,m,d[n+2],23,-995338651),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+0],6,-198630844),f,r,d[n+7],10,1126891415),m,f,d[n+14],15,-1416354905),i,m,d[n+5],21,-57434055),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+12],6,1700485571),f,r,d[n+3],10,-1894986606),m,f,d[n+10],15,-1051523),i,m,d[n+1],21,-2054922799),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+8],6,1873313359),f,r,d[n+15],10,-30611744),m,f,d[n+6],15,-1560198380),i,m,d[n+13],21,1309151649),r=md5_ii(r,i=md5_ii(i,m=md5_ii(m,f,r,i,d[n+4],6,-145523070),f,r,d[n+11],10,-1120210379),m,f,d[n+2],15,718787259),i,m,d[n+9],21,-343485551),m=safe_add(m,h),f=safe_add(f,t),r=safe_add(r,g),i=safe_add(i,e)}return Array(m,f,r,i)}function md5_cmn(d,_,m,f,r,i){return safe_add(bit_rol(safe_add(safe_add(_,d),safe_add(f,i)),r),m)}function md5_ff(d,_,m,f,r,i,n){return md5_cmn(_&m|~_&f,d,_,r,i,n)}function md5_gg(d,_,m,f,r,i,n){return md5_cmn(_&f|m&~f,d,_,r,i,n)}function md5_hh(d,_,m,f,r,i,n){return md5_cmn(_^m^f,d,_,r,i,n)}function md5_ii(d,_,m,f,r,i,n){return md5_cmn(m^(_|~f),d,_,r,i,n)}function safe_add(d,_){var m=(65535&d)+(65535&_);return(d>>16)+(_>>16)+(m>>16)<<16|65535&m}function bit_rol(d,_){return d<<_|d>>>32-_};
+
 const icons = {
   railway: {
     station: '<svg xmlns="http://www.w3.org/2000/svg" width="auto" height="16" viewBox="0 0 5120 5120"><path d="M1215 4784c-46-24-63-43-81-90-13-34-14-52-7-81 6-21 113-204 237-408 125-203 228-374 229-378 1-5-29-18-68-31-219-71-376-206-475-411-89-184-85-115-85-1310 0-1138-2-1097 56-1243 98-248 318-434 584-494 88-19 1822-19 1910 0 309 70 537 293 621 607 18 66 19 126 19 1125 0 1200 4 1131-85 1315-56 116-134 213-223 281-70 53-201 119-274 138-26 7-47 17-46 22s105 178 231 384c134 219 233 391 237 412 5 26 1 49-13 80-45 104-170 129-245 50-15-16-60-82-100-148l-73-119H1556l-73 119c-83 136-105 163-150 182-42 18-81 18-118-2zm2145-629c0-2-42-73-93-157l-94-153H1948l-94 153c-52 84-94 155-94 157 0 3 360 5 800 5s800-2 800-5zm-1512-975c48-30 72-75 72-140 0-100-60-160-160-160s-160 60-160 159c0 63 26 113 74 142 43 26 130 26 174-1zm1600 0c48-30 72-75 72-140 0-100-60-160-160-160s-160 60-160 160 60 160 160 160c37 0 66-6 88-20zm28-797c34-11 67-35 110-77 98-98 94-69 94-706s4-608-94-706c-102-101-26-95-1042-92l-879 3-47 23c-60 30-120 90-150 150l-23 47-3 559c-3 654-7 623 92 722 100 99 23 92 1022 93 788 1 875-1 920-16z"/></svg>',
@@ -1121,7 +1123,6 @@ function openJOSM(josmUrl, osmType, osmId) {
 function popupContent(feature) {
   const bounds = map.getBounds();
   const editor = configuration.editor ?? defaultConfiguration.editor;
-  const josmUrl = `http://localhost:8111/load_and_zoom?left=${bounds.getWest()}&right=${bounds.getEast()}&top=${bounds.getNorth()}&bottom=${bounds.getSouth()}`
   const properties = feature.properties;
   const layerSource = `${feature.source}${feature.sourceLayer ? `-${feature.sourceLayer}` : ''}`;
 
@@ -1160,7 +1161,7 @@ function popupContent(feature) {
   }
   const osmType = determineOsmType(properties, featureContent);
 
-  const formatPropertyValue = (value, format, link) =>
+  const formatPropertyValue = (value, format) =>
     String(value)
       .split('\u001e')
       .map(stringValue => {
@@ -1187,55 +1188,150 @@ function popupContent(feature) {
           return stringValue;
         }
       })
-      .map(formatted =>
-        link
-          ? `<a href="${link.replace('%s', () => formatted)}" target="_blank">${formatted}</a>`
-          : formatted
-      )
       .join(', ');
 
   const propertyValues = Object.entries(featureCatalog.properties || {})
     .filter(([_, {paragraph}]) => !paragraph)
-    .flatMap(
-      ([property, {name, format, link}]) =>
-        (properties[property] !== undefined && properties[property] !== null && properties[property] !== '' && properties[property] !== false)
-          ? [`<span class="badge rounded-pill text-bg-light">${name}${properties[property] === true ? '' : `: ${formatPropertyValue(properties[property], format, link)}`}</span>`]
-          : []
-    )
-    .join('');
+    .filter(([property, {name, format, link}]) => (properties[property] !== undefined && properties[property] !== null && properties[property] !== '' && properties[property] !== false))
+    .map(([property, {name, format, link, paragraph}]) => ({
+      title: name,
+      body: properties[property] === true ? '' : formatPropertyValue(properties[property], format),
+      paragraph,
+      link,
+    }));
 
-  const paragraphValues = Object.entries(featureCatalog.properties || {})
-    .filter(([_, {paragraph}]) => paragraph)
-    .flatMap(
-      ([property, {name, format, link}]) =>
-        (properties[property] !== undefined && properties[property] !== null && properties[property] !== '' && properties[property] !== false)
-          ? [`<p><span class="fw-bold">${name}</span>${properties[property] === true ? '' : `: ${formatPropertyValue(properties[property], format, link)}`}</p>`]
-          : []
-    )
-    .join('');
 
   const osm_ids = properties.osm_id
     ? String(properties.osm_id).split('\u001e')
     : [];
 
-  return `
-    <h5>${featureDescription ? featureDescription : ''}</h5>
-    ${properties.icon || label ? `<h6>
-      ${properties.icon ? `<span title="${properties.railway}">${properties.icon}</span>` : ''}
-      ${label ? label : ''}
-    </h6>` : ''}
-    <h6>${osm_ids.map(osm_id => `
-      <div class="btn-group btn-group-sm">
-        ${osm_ids.length > 1 ? `<button type="button" class="btn btn-outline-secondary" disabled><code>${osm_id}</code></button>` : ''}
-        <a title="View source" href="${featureCatalog.featureLinks.view.replace('{osm_type}', osmType).replace('{osm_id}', osm_id).replace('{date}', String(selectedDate))}" target="_blank" class="btn btn-outline-primary">View</a>
-        ${editor === 'josm' ?
-          `<div title="Edit Source" onclick="openJOSM('${josmUrl}', '${osmType}', '${osm_id}')" class="btn btn-outline-primary">Edit</div>` :
-          `<a title="Edit source" href="${featureCatalog.featureLinks.edit.replace('{osm_type}', osmType).replace('{osm_id}', osm_id).replace('{date}', String(selectedDate))}" target="_blank" class="btn btn-outline-primary">Edit</a>`}
-      </div>
-    `).join('')}</h6>
-    ${propertyValues ? `<h6>${propertyValues}</h6>` : ''}
-    ${paragraphValues}
-  `;
+  // Build HTML content dynamically to avoid cross site scripting
+
+  const popupContainer = createDomElement('div');
+
+  const popupTitle = createDomElement('h5', undefined, popupContainer);
+  popupTitle.innerText = featureDescription;
+
+  if (properties.icon || label) {
+    const popupLabel = createDomElement('h6', undefined, popupContainer);
+    if (properties.icon) {
+      const popupLabelSpan = createDomElement('span', undefined, popupLabel);
+      popupLabelSpan.title = properties.railway;
+      popupLabelSpan.innerText = properties.icon;
+    } else {
+      popupLabel.innerText = label;
+    }
+  }
+
+  const popupOsmIds = createDomElement('h6', undefined, popupContainer);
+  osm_ids.forEach(osm_id => {
+    const osmIdContainer = createDomElement('div', 'btn-group btn-group-sm', popupOsmIds);
+    if (osm_ids.length > 1) {
+      const osmIdButton = createDomElement('button', 'btn btn-outline-secondary', osmIdContainer);
+      osmIdButton.type = 'button'
+      osmIdButton.disabled = 'disabled';
+
+      const osmIdContent = createDomElement('code', undefined, osmIdButton);
+      osmIdContent.innerText = osm_id;
+    }
+
+    const osmIdLink = createDomElement('a', 'btn btn-outline-primary', osmIdContainer);
+    osmIdLink.title = 'View source'
+    osmIdLink.href = featureCatalog.featureLinks.view.replace('{osm_type}', osmType).replace('{osm_id}', osm_id).replace('{date}', String(selectedDate))
+    osmIdLink.target = '_blank'
+    osmIdLink.innerText = 'View'
+
+    if (editor === 'josm') {
+      const editButton = createDomElement('div', 'btn btn-outline-primary', osmIdContainer);
+      editButton.title = 'Edit Source'
+      editButton.onclick = () => openJOSM(`http://localhost:8111/load_and_zoom?left=${bounds.getWest()}&right=${bounds.getEast()}&top=${bounds.getNorth()}&bottom=${bounds.getSouth()}`, osmType, osm_id)
+      editButton.innerText = 'Edit'
+    } else {
+      const editButton = createDomElement('a', 'btn btn-outline-primary', osmIdContainer);
+      editButton.title = 'Edit Source'
+      editButton.href = featureCatalog.featureLinks.edit.replace('{osm_type}', osmType).replace('{osm_id}', osm_id).replace('{date}', String(selectedDate))
+      editButton.target = '_blank'
+      editButton.innerText = 'Edit'
+    }
+  })
+
+  // Images are not output as properties
+  if (properties.wikimedia_commons_file || properties.image) {
+    const popupImageContainer = createDomElement('p', undefined, popupContainer);
+
+    if (properties.wikimedia_commons_file) {
+      const sanitizedName = properties.wikimedia_commons_file.replaceAll(' ', '_');
+      const nameHash = MD5(sanitizedName)
+      const wikimediaUrl = `https://upload.wikimedia.org/wikipedia/commons/thumb/${nameHash.substr(0, 1)}/${nameHash.substr(0, 2)}/${encodeURIComponent(sanitizedName)}/330px-${encodeURIComponent(sanitizedName)}`
+      const popupImageLink = createDomElement('a', undefined, popupImageContainer)
+      popupImageLink.href = `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(properties.wikimedia_commons_file)}#/media/File:${encodeURIComponent(properties.wikimedia_commons_file)}`
+      popupImageLink.target = '_blank'
+      popupImageLink.alt = `Wikimedia Commons file: ${properties.wikimedia_commons_file}`
+
+      const popupImage = createDomElement('img', undefined, popupImageLink);
+      popupImage.src = wikimediaUrl
+      popupImage.title = properties.wikimedia_commons_file
+    }
+
+    if (properties.image) {
+      const popupImageLink = createDomElement('a', undefined, popupImageContainer);
+      popupImageLink.href = properties.image
+      popupImageLink.target = '_blank'
+      popupImageLink.alt = `Image: ${properties.image}`
+
+      const popupImage = createDomElement('img', undefined, popupImageLink);
+      popupImage.src = properties.image
+      popupImage.title = properties.image
+    }
+  }
+
+  if (propertyValues.some(it => !it.paragraph)) {
+    const popupValuesContainer = createDomElement('h6', undefined, popupContainer);
+    propertyValues
+      .filter(it => !it.paragraph)
+      .forEach(({title, body, link}) => {
+        const popupValue = createDomElement('span', 'badge rounded-pill text-bg-light', popupValuesContainer);
+
+        const popupValueTitle = createDomElement('span', 'fw-bold', popupValue);
+        popupValueTitle.innerText = title;
+
+        if (body) {
+          if (link) {
+            const popupValueBody = createDomElement('span', undefined, popupValue);
+            const popupValueColon = createDomElement('span', undefined, popupValueBody);
+            popupValueColon.innerText = ': ';
+            const popupValueLink = createDomElement('a', undefined, popupValueBody);
+            popupValueLink.href = link.replace('%s', () => encodeURIComponent(body))
+            popupValueLink.target = '_blank'
+            const popupValueText = createDomElement('span', undefined, popupValueLink);
+            popupValueText.innerText = body;
+          } else {
+            const popupValueBody = createDomElement('span', undefined, popupValue);
+            popupValueBody.innerText = `: ${body}`;
+          }
+        }
+      })
+  }
+
+  if (propertyValues.some(it => it.paragraph)) {
+    const popupValuesContainer = createDomElement('div', undefined, popupContainer);
+    propertyValues
+      .filter(it => it.paragraph)
+      .forEach(({title, body}) => {
+        const popupParagraph = createDomElement('p', undefined, popupValuesContainer);
+
+        const popupValueTitle = createDomElement('span', 'fw-bold', popupParagraph);
+        popupValueTitle.innerText = title;
+
+        if (body) {
+          // Paragraph bodies do not support links
+          const popupValueBody = createDomElement('span', undefined, popupParagraph);
+          popupValueBody.innerText = `: ${body}`;
+        }
+      })
+  }
+
+  return popupContainer
 }
 
 map.on('load', () => onMapZoom(map.getZoom()));
@@ -1362,7 +1458,7 @@ map.on('click', event => {
     }
     new maplibregl.Popup({offset: popupOffsets})
       .setLngLat(coordinates)
-      .setHTML(popupContent(feature))
+      .setDOMContent(popupContent(feature))
       .addTo(map);
   }
 });

@@ -50,6 +50,7 @@ services:
       - inf
 
   martin:
+    image: ghcr.io/hiddewie/openrailwaymap-martin:latest
     build:
       dockerfile: martin.Dockerfile
     depends_on:
@@ -70,6 +71,7 @@ services:
           path: symbols
 
   martin-proxy:
+    image: ghcr.io/hiddewie/openrailwaymap-proxy:latest
     build:
       dockerfile: proxy.Dockerfile
     ports:

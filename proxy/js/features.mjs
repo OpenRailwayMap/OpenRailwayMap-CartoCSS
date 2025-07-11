@@ -184,6 +184,9 @@ const railwayLineFeatures = {
     operator: {
       name: 'Operator',
     },
+    owner: {
+      name: 'Owner',
+    },
     traffic_mode: {
       name: 'Traffic mode',
     },

@@ -1322,8 +1322,20 @@ function popupContent(feature) {
   })
 
   // Images are not output as properties
-  if (properties.wikimedia_commons_file || properties.image) {
+  if (properties.wikidata || properties.wikimedia_commons_file || properties.image) {
     const popupImageContainer = createDomElement('p', undefined, popupContainer);
+
+    if (properties.wikidata) {
+      const popupImageLink = createDomElement('a', undefined, popupImageContainer)
+      popupImageLink.href = `https://www.wikidata.org/wiki/${encodeURIComponent(properties.wikidata)}`
+      popupImageLink.target = '_blank'
+      popupImageLink.alt = `Wikidata: ${properties.wikidata}`
+
+      const popupImage = createDomElement('img', 'popup-image', popupImageLink);
+      popupImage.src = `/api/wikidata/${encodeURIComponent(properties.wikidata)}`
+      popupImage.title = properties.wikidata
+      popupImage.alt = '' // Do not display broken images
+    }
 
     if (properties.wikimedia_commons_file) {
       const sanitizedName = properties.wikimedia_commons_file.replaceAll(' ', '_');
@@ -1337,6 +1349,7 @@ function popupContent(feature) {
       const popupImage = createDomElement('img', 'popup-image', popupImageLink);
       popupImage.src = wikimediaUrl
       popupImage.title = properties.wikimedia_commons_file
+      popupImage.alt = '' // Do not display broken images
     }
 
     if (properties.image) {
@@ -1348,6 +1361,7 @@ function popupContent(feature) {
       const popupImage = createDomElement('img', 'popup-image', popupImageLink);
       popupImage.src = properties.image
       popupImage.title = properties.image
+      popupImage.alt = '' // Do not display broken images
     }
   }
 

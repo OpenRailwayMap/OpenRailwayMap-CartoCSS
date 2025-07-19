@@ -29,6 +29,20 @@ features:
           - { tag: 'railway', value: 'radio' }
           - { tag: 'man_made', value: 'antenna' }
 
+  - description: Container terminal
+    feature: 'general/container-terminal'
+    layer: standard
+    minzoom: 12
+    tags:
+      - { tag: 'railway', value: 'container_terminal' }
+
+  - description: Ferry terminal
+    feature: 'general/ferry-terminal'
+    layer: standard
+    minzoom: 12
+    tags:
+      - { tag: 'railway', value: 'ferry_terminal' }
+
   - description: Lubricator
     layer: standard
     minzoom: 13
@@ -132,7 +146,7 @@ features:
     tags:
       - { tag: 'railway', value: 'workshop' }
 
-  - description: Engine Shed
+  - description: Engine shed
     feature: 'general/engine_shed'
     layer: standard
     minzoom: 13
@@ -152,19 +166,82 @@ features:
           - { tag: 'tourism', value: 'museum' }
           - { tag: 'museum', value: 'railway' }
 
-  - description: Power Supply
+  - description: Power supply
     feature: 'general/power_supply'
     layer: electrification
     minzoom: 13
     tags:
       - { tag: 'railway', value: 'power_supply' }
 
-  - description: Rolling Highway
+  - description: Rolling highway
     feature: 'general/rolling_highway'
     layer: standard
     minzoom: 13
     tags:
       - { tag: 'railway', value: 'rolling_highway' }
+
+  - description: Pit
+    feature: 'general/pit'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'pit' }
+
+  - description: Loading rack
+    feature: 'general/loading-rack'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'loading_rack' }
+
+  - description: Loading ramp
+    feature: 'general/loading-ramp'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'loading_ramp' }
+
+  - description: Loading tower
+    feature: 'general/loading-tower'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'loading_tower' }
+
+  - description: Unloading hole
+    feature: 'general/unloading-hole'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'unloading_hole' }
+
+  - description: Weigh bridge
+    feature: 'general/track-scale'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'track_scale' }
+
+  - description: Transporter car
+    feature: 'general/carrier-truck-pit'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'carrier_truck_pit' }
+
+  - description: Bogie exchange
+    feature: 'general/gauge-conversion'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'gauge_conversion' }
+
+  - description: Car shuttle
+    feature: 'general/car-shuttle'
+    layer: standard
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'car_shuttle' }
 
   - description: Isolated track section
     feature: 'general/isolated-track-section'

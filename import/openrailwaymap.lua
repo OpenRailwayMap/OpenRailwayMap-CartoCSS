@@ -22,10 +22,15 @@ function dump(o)
 end
 
 function map(tbl, f)
+  if not tbl then
+    return nil
+  end
+
   local t = {}
-  for k,v in pairs(tbl) do
+  for k, v in pairs(tbl) do
     t[k] = f(v)
   end
+
   return t
 end
 
@@ -216,6 +221,7 @@ local pois = osm2pgsql.define_table({
     { column = 'layer', type = 'text' },
     { column = 'name', type = 'text' },
     { column = 'ref', type = 'text' },
+    { column = 'position', sql_type = 'text[]' },
     { column = 'wikidata', type = 'text' },
     { column = 'wikimedia_commons', type = 'text' },
     { column = 'wikimedia_commons_file', type = 'text' },
@@ -310,6 +316,7 @@ local signal_columns = {
   { column = 'ref_multiline', type = 'text' },
   { column = 'signal_direction', type = 'text' },
   { column = 'caption', type = 'text' },
+  { column = 'position', sql_type = 'text[]' },
   { column = 'wikidata', type = 'text' },
   { column = 'wikimedia_commons', type = 'text' },
   { column = 'wikimedia_commons_file', type = 'text' },
@@ -354,6 +361,7 @@ local boxes = osm2pgsql.define_table({
     { column = 'feature', type = 'text' },
     { column = 'ref', type = 'text' },
     { column = 'name', type = 'text' },
+    { column = 'position', sql_type = 'text[]' },
     { column = 'wikidata', type = 'text' },
     { column = 'wikimedia_commons', type = 'text' },
     { column = 'wikimedia_commons_file', type = 'text' },
@@ -382,8 +390,10 @@ local railway_positions = osm2pgsql.define_table({
     { column = 'id', sql_type = 'serial', create_only = true },
     { column = 'way', type = 'point' },
     { column = 'railway', type = 'text' },
-    { column = 'railway_position', type = 'text' },
-    { column = 'railway_position_exact', type = 'text' },
+    { column = 'position_numeric', type = 'real' },
+    { column = 'position_text', type = 'text', not_null = true },
+    { column = 'type', type = 'text', not_null = true },
+    { column = 'zero', type = 'boolean' },
     { column = 'name', type = 'text' },
     { column = 'ref', type = 'text' },
     { column = 'operator', type = 'text' },
@@ -396,6 +406,10 @@ local railway_positions = osm2pgsql.define_table({
     { column = 'note', type = 'text' },
     { column = 'description', type = 'text' },
   },
+  indexes = {
+    { column = 'way', method = 'gist' },
+    { column = 'position_numeric', method = 'btree', where = 'position_numeric IS NOT NULL' },
+  },
 })
 
 local catenary = osm2pgsql.define_table({
@@ -406,13 +420,13 @@ local catenary = osm2pgsql.define_table({
     { column = 'way', type = 'geometry' },
     { column = 'feature', type = 'text' },
     { column = 'ref', type = 'text' },
-    { column = 'position', type = 'text' },
     { column = 'transition', type = 'boolean' },
     { column = 'structure', type = 'text' },
     { column = 'supporting', type = 'text' },
     { column = 'attachment', type = 'text' },
     { column = 'tensioning', type = 'text' },
     { column = 'insulator', type = 'text' },
+    { column = 'position', sql_type = 'text[]' },
     { column = 'note', type = 'text' },
     { column = 'description', type = 'text' },
   },
@@ -430,6 +444,7 @@ local railway_switches = osm2pgsql.define_table({
     { column = 'turnout_side', type = 'text' },
     { column = 'local_operated', type = 'boolean' },
     { column = 'resetting', type = 'boolean' },
+    { column = 'position', sql_type = 'text[]' },
     { column = 'wikidata', type = 'text' },
     { column = 'wikimedia_commons', type = 'text' },
     { column = 'wikimedia_commons_file', type = 'text' },
@@ -570,33 +585,44 @@ function electrification_state(tags)
     return nil, nil, nil
 end
 
+function to_sql_array(items)
+  -- Put the items in a table into a raw SQL array string (quoted and comma-delimited)
+  if not items then
+    return nil
+  end
+
+  local result = '{'
+
+  for index, item in ipairs(items) do
+    if index > 1 then
+      result = result .. ','
+    end
+
+    -- Raw SQL array syntax
+    result = result .. "\"" .. item:gsub("\\", "\\\\"):gsub("\"", "\\\"") .. "\""
+  end
+
+  return result .. '}'
+end
+
 -- Split a value and turn it into a raw SQL array (quoted and comma-delimited)
 function split_semicolon_to_sql_array(value)
   if not value then
     return nil
   end
 
-  local result = '{'
+  local items = {}
 
-  local first = true
   if value then
     for part in string.gmatch(value, '[^;]+') do
       local stripped_part = strip_prefix(part, ' ')
-
       if stripped_part then
-        if first then
-          first = false
-        else
-          result = result .. ','
-        end
-
-        -- Raw SQL array syntax
-        result = result .. "\"" .. stripped_part:gsub("\\", "\\\\"):gsub("\"", "\\\"") .. "\""
+        table.insert(items, stripped_part)
       end
     end
   end
 
-  return result .. '}'
+  return to_sql_array(items)
 end
 
 function semicolon_to_record_separator(value)
@@ -671,6 +697,79 @@ function name_tags(tags)
   return found_name_tags
 end
 
+function parse_railway_position(position)
+  if not position then
+    return nil
+  end
+
+  if position:find('^mi:') then
+    return {
+      position = position:gsub('^mi:', ''),
+      type = 'mi',
+    }
+  elseif position:find('^pkm:') then
+    return {
+      position = position:gsub('^pkm:', ''),
+      type = 'pkm',
+    }
+  else
+    return {
+      text = position,
+      type = 'km',
+    }
+  end
+end
+
+function parse_railway_positions(position, position_exact)
+  -- Parse one or more positions from a position or exact position
+
+  if position_exact then
+    local parsed_positions = {}
+    local found_positions = false
+
+    for part in string.gmatch(position_exact, '[^;]+') do
+      local stripped_part = part:gsub('^ ', '')
+      local position = parse_railway_position(stripped_part)
+
+      if position then
+        table.insert(parsed_positions, position)
+        found_positions = true
+      end
+    end
+
+    if found_positions then
+      return parsed_positions
+    end
+  end
+
+  -- Fall back to non-exact positions
+
+  if position then
+    local parsed_positions = {}
+    local found_positions = false
+
+    for part in string.gmatch(position, '[^;]+') do
+      local stripped_part = part:gsub('^ ', '')
+      local position = parse_railway_position(stripped_part)
+
+      if position then
+        table.insert(parsed_positions, position)
+        found_positions = true
+      end
+    end
+
+    if found_positions then
+      return parsed_positions
+    end
+  end
+
+  return nil
+end
+
+function format_railway_position(item)
+  return item.text .. ' (' .. item.type .. ')'
+end
+
 local railway_station_values = osm2pgsql.make_check_values_func({'station', 'halt', 'tram_stop', 'service_station', 'yard', 'junction', 'spur_junction', 'crossover', 'site'})
 local railway_poi_values = osm2pgsql.make_check_values_func(tag_functions.poi_railway_values)
 local railway_signal_values = osm2pgsql.make_check_values_func({'signal', 'buffer_stop', 'derail', 'vacancy_detection'})
@@ -685,6 +784,7 @@ local entrance_types = {
 function osm2pgsql.process_node(object)
   local tags = object.tags
   local wikimedia_commons, wikimedia_commons_file, image = wikimedia_commons_or_image(tags.wikimedia_commons, tags.image)
+  local position, position_exact = tags['railway:position'], tags['railway:position:exact']
 
   if railway_box_values(tags.railway) then
     local point = object:as_point()
@@ -695,6 +795,7 @@ function osm2pgsql.process_node(object)
       feature = tags.railway,
       ref = tags['railway:ref'],
       name = tags.name,
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       wikimedia_commons = wikimedia_commons,
       wikimedia_commons_file = wikimedia_commons_file,
       image = image,
@@ -743,6 +844,7 @@ function osm2pgsql.process_node(object)
       layer = layer,
       name = tags.name,
       ref = tags.ref,
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       wikidata = tags.wikidata,
       wikimedia_commons = wikimedia_commons,
       wikimedia_commons_file = wikimedia_commons_file,
@@ -796,6 +898,7 @@ function osm2pgsql.process_node(object)
       ref_multiline = ref_multiline ~= '' and ref_multiline or nil,
       signal_direction = tags['railway:signal:direction'],
       caption = signal_caption(tags),
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       wikidata = tags.wikidata,
       wikimedia_commons = wikimedia_commons,
       wikimedia_commons_file = wikimedia_commons_file,
@@ -819,24 +922,31 @@ function osm2pgsql.process_node(object)
     signals:insert(signal)
   end
 
-  if railway_position_values(tags.railway) and (tags['railway:position'] or tags['railway:position:exact']) then
-    railway_positions:insert({
-      way = object:as_point(),
-      railway = tags.railway,
-      railway_position = strip_prefix(tags['railway:position'], 'mi:'),
-      railway_position_exact = strip_prefix(tags['railway:position:exact'], 'mi:'),
-      name = tags['name'],
-      ref = tags['ref'],
-      operator = tags['operator'],
-      wikidata = tags.wikidata,
-      wikimedia_commons = wikimedia_commons,
-      wikimedia_commons_file = wikimedia_commons_file,
-      image = image,
-      mapillary = tags.mapillary,
-      wikipedia = tags.wikipedia,
-      note = tags.note,
-      description = tags.description,
-    })
+  if railway_position_values(tags.railway) and (position or position_exact) then
+    for _, position in ipairs(parse_railway_positions(position, position_exact)) do
+      local position_with_dots, _ = position.text:gsub(',', '.')
+      local position_numeric = tonumber(position_with_dots)
+
+      railway_positions:insert({
+        way = object:as_point(),
+        railway = tags.railway,
+        position_numeric = position_numeric,
+        position_text = position.text,
+        type = position.type,
+        zero = position_numeric ~= nil and ((math.abs(position_numeric) % 1) < 0.001),
+        name = tags['name'],
+        ref = tags['ref'],
+        operator = tags['operator'],
+        wikidata = tags.wikidata,
+        wikimedia_commons = wikimedia_commons,
+        wikimedia_commons_file = wikimedia_commons_file,
+        image = image,
+        mapillary = tags.mapillary,
+        wikipedia = tags.wikipedia,
+        note = tags.note,
+        description = tags.description,
+      })
+    end
   end
 
   if railway_switch_values(tags.railway) and tags.ref then
@@ -848,6 +958,7 @@ function osm2pgsql.process_node(object)
       turnout_side = tags['railway:turnout_side'],
       local_operated = tags['railway:local_operated'] == 'yes',
       resetting = tags['railway:switch:resetting'] == 'yes',
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       wikidata = tags.wikidata,
       wikimedia_commons = wikimedia_commons,
       wikimedia_commons_file = wikimedia_commons_file,
@@ -864,13 +975,13 @@ function osm2pgsql.process_node(object)
       way = object:as_point(),
       ref = tags.ref,
       feature = 'mast',
-      position = strip_prefix(tags['railway:position:exact'], 'mi:'),
       transition = tags['location:transition'] == 'yes',
       structure = tags.structure,
       supporting = tags['catenary_mast:supporting'],
       attachment = tags['catenary_mast:attachment'],
       tensioning = tags.tensioning,
       insulator = tags.insulator,
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       note = tags.note,
       description = tags.description,
     })
@@ -999,6 +1110,7 @@ function osm2pgsql.process_way(object)
       feature = tags.railway,
       ref = tags['railway:ref'],
       name = tags.name,
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       wikidata = tags.wikidata,
       wikimedia_commons = wikimedia_commons,
       wikimedia_commons_file = wikimedia_commons_file,
@@ -1021,6 +1133,7 @@ function osm2pgsql.process_way(object)
       layer = layer,
       name = tags.name,
       ref = tags.ref,
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       wikidata = tags.wikidata,
       wikimedia_commons = wikimedia_commons,
       wikimedia_commons_file = wikimedia_commons_file,
@@ -1037,13 +1150,13 @@ function osm2pgsql.process_way(object)
       way = object:as_linestring(),
       ref = tags.ref,
       feature = 'portal',
-      position = strip_prefix(tags['railway:position:exact'], 'mi:'),
       transition = tags['location:transition'] == 'yes',
       structure = tags.structure,
       supporting = nil,
       attachment = nil,
       tensioning = tags.tensioning,
       insulator = tags.insulator,
+      position = to_sql_array(map(parse_railway_positions(position, position_exact), format_railway_position)),
       note = tags.note,
       description = tags.description,
     })

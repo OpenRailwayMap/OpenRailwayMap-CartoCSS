@@ -550,6 +550,38 @@ DO $do$ BEGIN
   $$::json || '$tj$';
 END $do$;
 
+CREATE OR REPLACE VIEW standard_railway_platforms AS
+SELECT
+  id,
+  osm_id,
+  osm_type,
+  way,
+  'platform' as feature,
+  name,
+  ref,
+  height,
+  surface,
+  elevator,
+  shelter,
+  lit,
+  bin,
+  bench,
+  wheelchair,
+  departures_board,
+  tactile_paving
+FROM platforms;
+
+CREATE OR REPLACE VIEW standard_railway_platform_edges AS
+  SELECT
+    id,
+    osm_id,
+    way,
+    'platform_edge' as feature,
+    ref,
+    height,
+    tactile_paving
+  FROM platform_edge;
+
 CREATE OR REPLACE VIEW railway_text_km AS
   SELECT
     id,

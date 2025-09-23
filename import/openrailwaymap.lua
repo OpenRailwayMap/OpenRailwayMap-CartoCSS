@@ -282,8 +282,31 @@ local platforms = osm2pgsql.define_table({
   ids = { type = 'any', id_column = 'osm_id', type_column = 'osm_type' },
   columns = {
     { column = 'id', sql_type = 'serial', create_only = true },
-    { column = 'way', type = 'point' },
+    { column = 'way', type = 'geometry' },
     { column = 'name', type = 'text' },
+    { column = 'ref', sql_type = 'text[]' },
+    { column = 'height', type = 'real' },
+    { column = 'surface', type = 'text' },
+    { column = 'elevator', type = 'boolean' },
+    { column = 'shelter', type = 'boolean' },
+    { column = 'lit', type = 'boolean' },
+    { column = 'bin', type = 'boolean' },
+    { column = 'bench', type = 'boolean' },
+    { column = 'wheelchair', type = 'boolean' },
+    { column = 'departures_board', type = 'boolean' },
+    { column = 'tactile_paving', type = 'boolean' },
+  },
+})
+
+local platform_edge = osm2pgsql.define_table({
+  name = 'platform_edge',
+  ids = { type = 'way', id_column = 'osm_id' },
+  columns = {
+    { column = 'id', sql_type = 'serial', create_only = true },
+    { column = 'way', type = 'linestring' },
+    { column = 'ref', sql_type = 'text' },
+    { column = 'height', type = 'real' },
+    { column = 'tactile_paving', type = 'boolean' },
   },
 })
 
@@ -900,6 +923,17 @@ function osm2pgsql.process_node(object)
     platforms:insert({
       way = object:as_point(),
       name = tags.name,
+      ref = split_semicolon_to_sql_array(tags.ref),
+      height = tags.height,
+      surface = tags.surface,
+      elevator = tags.elevator == 'yes',
+      shelter = tags.shelter == 'yes',
+      lit = tags.lit == 'yes',
+      bin = tags.bin == 'yes',
+      bench = tags.bench == 'yes',
+      wheelchair = tags.wheelchair == 'yes',
+      departures_board = tags.departures_board == 'yes',
+      tactile_paving = tags.tactile_paving == 'yes',
     })
   end
 
@@ -1123,8 +1157,19 @@ function osm2pgsql.process_way(object)
 
   if tags.public_transport == 'platform' or tags.railway == 'platform' then
     platforms:insert({
-      way = object:as_linestring():centroid(),
+      way = object:as_polygon(),
       name = tags.name,
+      ref = split_semicolon_to_sql_array(tags.ref),
+      height = tags.height,
+      surface = tags.surface,
+      elevator = tags.elevator == 'yes',
+      shelter = tags.shelter == 'yes',
+      lit = tags.lit == 'yes',
+      bin = tags.bin == 'yes',
+      bench = tags.bench == 'yes',
+      wheelchair = tags.wheelchair == 'yes',
+      departures_board = tags.departures_board == 'yes',
+      tactile_paving = tags.tactile_paving == 'yes',
     })
   end
 
@@ -1196,6 +1241,15 @@ function osm2pgsql.process_way(object)
       description = tags.description,
     })
   end
+
+  if tags.railway == 'platform_edge' then
+    platform_edge:insert({
+      way = object:as_linestring(),
+      ref = tags.ref,
+      height = tags.height,
+      tactile_paving = tags.tactile_paving == 'yes',
+    })
+  end
 end
 
 local route_values = osm2pgsql.make_check_values_func({'train', 'subway', 'tram', 'light_rail'})
@@ -1206,8 +1260,19 @@ function osm2pgsql.process_relation(object)
 
   if tags.public_transport == 'platform' or tags.railway == 'platform' then
     platforms:insert({
-      way = object:as_multilinestring():centroid(),
+      way = object:as_multipolygon(),
       name = tags.name,
+      ref = split_semicolon_to_sql_array(tags.ref),
+      height = tags.height,
+      surface = tags.surface,
+      elevator = tags.elevator == 'yes',
+      shelter = tags.shelter == 'yes',
+      lit = tags.lit == 'yes',
+      bin = tags.bin == 'yes',
+      bench = tags.bench == 'yes',
+      wheelchair = tags.wheelchair == 'yes',
+      departures_board = tags.departures_board == 'yes',
+      tactile_paving = tags.tactile_paving == 'yes',
     })
   end
 

@@ -117,6 +117,7 @@ const colors = {
           resetting: '#414925',
         },
         symbols: 'black',
+        platform: '#aaa',
       },
     },
     km: {
@@ -204,6 +205,7 @@ const colors = {
           resetting: '#bdc2ab',
         },
         symbols: 'white',
+        platform: '#aaa',
       },
     },
     km: {
@@ -756,7 +758,7 @@ const sources = {
   },
   openrailwaymap_standard: {
     type: 'vector',
-    url: '/standard_railway_turntables,standard_railway_text_stations,standard_railway_grouped_stations,standard_railway_symbols,standard_railway_switch_ref,standard_station_entrances',
+    url: '/standard_railway_turntables,standard_railway_text_stations,standard_railway_grouped_stations,standard_railway_symbols,standard_railway_switch_ref,standard_station_entrances,standard_railway_platforms,standard_railway_platform_edges',
     promoteId: 'id',
   },
   openrailwaymap_speed: {
@@ -1499,6 +1501,58 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
         ],
       },
     },
+    {
+      id: 'railway_platforms',
+      type: 'fill',
+      minzoom: 15,
+      source: 'openrailwaymap_standard',
+      'source-layer': 'standard_railway_platforms',
+      filter: ['any',
+        ['==', ["geometry-type"], 'Polygon'],
+        ['==', ["geometry-type"], 'MultiPolygon'],
+      ],
+      paint: {
+        'fill-color': colors[theme].styles.standard.platform,
+      },
+    },
+    {
+      id: 'railway_platforms_outline',
+      type: 'line',
+      minzoom: 15,
+      source: 'openrailwaymap_standard',
+      'source-layer': 'standard_railway_platforms',
+      filter: ['any',
+        ['==', ["geometry-type"], 'Polygon'],
+        ['==', ["geometry-type"], 'MultiPolygon'],
+      ],
+      layout: {
+        'line-join': 'round',
+      },
+      paint: {
+        'line-width': 2,
+        'line-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.main,
+          colors[theme].styles.standard.platform,
+        ],
+      },
+    },
+    {
+      id: 'railway_platforms_edges',
+      type: 'line',
+      minzoom: 17,
+      source: 'openrailwaymap_standard',
+      'source-layer': 'standard_railway_platform_edges',
+      layout: {
+        'line-join': 'round',
+      },
+      paint: {
+        'line-width': 3,
+        'line-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.main,
+          colors[theme].styles.standard.track.halo,
+        ],
+      },
+    },
     ...Object.entries({
       present: present_dasharray,
       disused: disused_dasharray,
@@ -2045,6 +2099,58 @@ const layers = Object.fromEntries(knownThemes.map(theme => [theme, {
         },
       },
     ),
+    {
+      id: 'railway_platforms_text',
+      type: 'symbol',
+      minzoom: 17,
+      source: 'openrailwaymap_standard',
+      'source-layer': 'standard_railway_platforms',
+      filter: ['all',
+        ['any',
+          ['==', ["geometry-type"], 'Polygon'],
+          ['==', ["geometry-type"], 'MultiPolygon'],
+        ],
+        ['!=', ["get", "name"], null],
+      ],
+      paint: {
+        'text-color': colors[theme].styles.standard.defaultText,
+        'text-halo-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].hover.textHalo,
+          colors[theme].halo,
+        ],
+        'text-halo-width': 1.5,
+      },
+      layout: {
+        'text-field': '{name}',
+        'text-font': font.regular,
+        'text-size': 11,
+        'text-padding': 10,
+      },
+    },
+    {
+      id: 'standard_railway_platform_edges_text',
+      type: 'symbol',
+      minzoom: 17,
+      source: 'openrailwaymap_standard',
+      'source-layer': 'standard_railway_platform_edges',
+      filter: ['!=', ['get', 'ref'], null],
+      paint: {
+        'text-color': ['case',
+          ['boolean', ['feature-state', 'hover'], false], colors[theme].styles.standard.track.hover,
+          colors[theme].styles.standard.track.text,
+        ],
+        'text-halo-color': colors[theme].styles.standard.track.halo,
+        'text-halo-width': 4,
+        'text-halo-blur': 2,
+      },
+      layout: {
+        'symbol-placement': 'line',
+        'text-field': '{ref}',
+        'text-font': font.bold,
+        'text-size': 10,
+        'text-padding': 10,
+      },
+    },
     {
       id: 'standard_station_entrances',
       type: 'symbol',
@@ -4706,7 +4812,24 @@ const legendData = {
       {
         legend: 'Subway entrance',
         type: 'point',
-        properties: {},
+      },
+    ],
+    "openrailwaymap_standard-standard_railway_platforms": [
+      {
+        legend: 'Platform',
+        type: 'polygon',
+        properties: {
+          ref: 1,
+        },
+      },
+    ],
+    "openrailwaymap_standard-standard_railway_platform_edges": [
+      {
+        legend: 'Platform edge',
+        type: 'line',
+        properties: {
+          ref: 3,
+        },
       },
     ],
     "openrailwaymap_standard-standard_railway_symbols":

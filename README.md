@@ -1,33 +1,78 @@
-# OpenRailwayMap CartoCSS Map Styles
+# OpenRailwayMap Vector Map Styles
 
-This is a port of the OpenRailwayMap Infrastructure map style from
-MapCSS to CartoCSS to be able to use Mapnik to render maps.
+This repository contains the visualization of railway infrastructure, speed limits, train protection, electrification and railway gauges using vector-based tiles and a web-based user interface. 
 
-## Differences to the MapCSS Style
+Documentation can be found on the [OpenStreetMap Wiki](https://wiki.openstreetmap.org/wiki/OpenRailwayMap).
 
-There are a couple of smaller and larger differences to the MapCSS style:
+## Architecture
 
-* The rendering of station labels is more sophisticated because Osm2pgsql.
-  Stations are ranked by their importance. The importance is defined by the
-  number of route relations a station and its platforms and stop position nodes
-  belong to. Matching from stops and platforms to stations is based on names
-  and spatial proximity. Stop area relations (`type=public_transport`
-  + `public_transport=stop_area` are not used). The matching is sensitive to
-  differences in spelling.
-* Icons (radio towers, level crossings) have a higher priority than most labels.
-* The map style uses the Noto Sans font.
-* Railway lines have a white halo to improve visibility on colourful background maps.
+This repository aims to contain all code, configuration and tooling for the OpenRailwayMap.
 
-## Setup Notes
+- Data is provided by [OpenStreetMap](https://www.openstreetmap.org/about) and [OpenHistoricalMap](https://www.openhistoricalmap.org/about).
+- Data is stored in a [PostgreSQL](https://www.postgresql.org/) database, augmented by [PostGIS](https://postgis.net/) for spatial features.
+- Data is imported from the OpenStreetMap data files to PostgreSQL using [Osm2pgsql](https://osm2pgsql.org/).
+- Vector tiles are rendered from the database with [Martin](https://martin.maplibre.org/) (part of the [MapLibre initiative](https://maplibre.org/)) in the MBtiles format and converted to PMTiles using [ProtoMaps PMTiles](https://docs.protomaps.com/pmtiles/).
+- The user interface uses [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/) to visualize the map content.
+- The style is specified using the [MapLibre Style Specification](https://maplibre.org/maplibre-style-spec/).
+- [Docker](https://www.docker.com/) is used to package the software and data for local development and deployment.
+- Continuous Integration and daily data updates are done using [Github Actions](https://docs.github.com/en/actions).
 
-See [SETUP.md](SETUP.md) for details.
+## Changes from the CartoCSS style
+
+A number of changes have been made from the [upstream `OpenRailwayMap-CartoCSS` project](https://github.com/OpenRailwayMap/OpenRailwayMap-CartoCSS):
+- The raster tiles have been replaced with vector tiles.
+- MapCSS and Mapnik have been replaced with the MapLibre Style Specification and Martin.
+- Database views have been collapsed into single views to minimize data transfer.
+- Lua code is used to minimize imported data, while retaining the ability to change the database views for adding new features. 
+- Visualization of additional signalling has been added.
+- Direction of railway signals has been added.
+- Fixes have been made for non-functional visualization rules.
+- The API runs from a Docker container from static PostgreSQL data optimized for searching.
+
+Upstream changes will be merged into this project.
+
+## API
+
+The API has been adapted from [the OpenRailwayMap API](https://github.com/OpenRailwayMap/OpenRailwayMap-api). The API powers the search in the OpenRailwayMap UI, and provides facility (stations, halts, tram stops, yards, sidings, crossovers, including disused, abandoned, razed, proposed and under construction) searches by name and reference and milestone searches by combination of line number and mileage. The searches are full text, based on PostgreSQL's full text search functionalities.
+
+The API documentation can be found at https://openrailwaymap.app/api.html. You can also view [the raw OpenAPI specification](proxy/api/openapi.yaml).
+
+## Mapping presets
+
+Presets for [JOSM](https://josm.openstreetmap.de/) and [Vespucci](https://vespucci.io/) are generated for mapping assistance. The preset is available for download on https://openrailwaymap.app/preset.zip. The preset is also available directly from the [Tagging Presets register in JOSM Preferences](https://josm.openstreetmap.de/wiki/Help/Preferences/TaggingPresetPreference). [Vespucci](https://vespucci.io/help/en/Presets/) can use the same presets for mobile mapping.
+
+## Contributing
+
+Contributions are welcome!
+
+There are multiple ways to contribute to this project:
+- Improving the code and/or tooling.
+- Providing more details for visualization on the map, for the infrastructure, speed limit, train protection, electrification or gauge layer.
+- Providing icons for visualizing features on the map.
+- Providing user interface improvements.
+- Providing technical or user documentation.
+
+View the [contribution documentation](CONTRIBUTING.md) for details.
+
+## Development
+
+To run the OpenRailwayMap locally, you can import OpenStreetMap data and run the tile and web server locally.
+
+View the [setup documentation](SETUP.md) for details.
+
+## Deployment
+
+The [deployment documentation](deployment/README.md) describes how the OpenRailwayMap is deployed to https://openrailwaymap.app using [Github Actions](https://docs.github.com/en/actions), Cloudflare and a server running the software.
 
 ## License
 
-Copyright (C) 2017–2019 Michael Reichert
+Copyright © 2024–2025 Hidde Wieringa
 
-The [original map style](https://github.com/OpenRailwayMap/OpenRailwayMap/tree/master/styles)
-is Copyright (C) 2012 Alexander Matheisen
+The [original map style (CartoCSS)](https://github.com/OpenRailwayMap/OpenRailwayMap-CartoCSS/)
+is copyright © 2017–2019 Michael Reichert
+
+The [original map style (MapCSS)](https://github.com/OpenRailwayMap/OpenRailwayMap/tree/master/styles)
+is Copyright © 2012 Alexander Matheisen
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

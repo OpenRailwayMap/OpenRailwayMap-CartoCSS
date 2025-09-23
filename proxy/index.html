@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="image/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16x16.png">
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="stylesheet" href="css/bootstrap-5.3.3/bootstrap.min.css">
+  <link rel="stylesheet" href="css/maplibre-gl-5.7/maplibre-gl.css">
+  <link rel="stylesheet" href="css/ui.css">
+
+  <script>
+    // See https://stackoverflow.com/a/64158043/711129
+    let FF_FOUC_FIX;
+  </script>
+
+  <script src="js/maplibre-gl-5.7/maplibre-gl.js" defer></script>
+  <script src="js/ui.js" defer></script>
+
+  <title>OpenRailwayMap</title>
+</head>
+
+<body>
+<div id="search-backdrop" class="modal backdrop" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Search</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="hideSearch()"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-pills mb-2">
+          <li class="nav-item">
+            <a id="search-facilities-tab" class="nav-link active" href="javascript:searchFacilities()">Facilities</a>
+          </li>
+          <li class="nav-item">
+            <a id="search-milestones-tab" class="nav-link" href="javascript:searchMilestones()">Milestones</a>
+          </li>
+        </ul>
+        <form id="search-facilities-form">
+          <div class="mb-3">
+            <label class="form-label">Search by</label>
+            <div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="search-all" value="all" checked>
+                <label class="form-check-label" for="search-all">All</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="search-name" value="name">
+                <label class="form-check-label" for="search-name">Name</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="search-ref" value="ref">
+                <label class="form-check-label" for="search-ref">Reference</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="search-uic-ref" value="uic_ref">
+                <label class="form-check-label" for="search-uic-ref">UIC reference</label>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="search" id="facility-term" name="term" class="form-control" placeholder="Bruxelles, EAHS, 8000294" minlength="2" required>
+            <button class="btn btn-success" type="submit">Search</button>
+          </div>
+        </form>
+        <form id="search-milestones-form">
+          <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="milestone-ref">Reference</label>
+                  <input type="text" id="milestone-ref" name="ref" class="form-control" placeholder="6020" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="milestone-position">Position</label>
+                  <input type="number" id="milestone-position" name="position" class="form-control" placeholder="22.7" min="0" step="0.1" required>
+                </div>
+              </div>
+              <div class="col flex-grow-0">
+                <button class="btn btn-success" type="submit">Search</button>
+              </div>
+            </div>
+        </form>
+        <div id="search-results"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="configuration-backdrop" class="modal backdrop" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Map configuration</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="hideConfiguration()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="backgroundSaturation" class="form-label">Background map saturation</label>
+            <input type="range" min="0.0" max="1.0" step="0.05" class="form-range" id="backgroundSaturation" onchange="updateConfiguration('backgroundSaturation', parseFloat(this.value)); updateBackgroundMapContainer();">
+            <small class="form-text">
+              Control the saturation of the background map. The smallest value makes the map grayscale, while the largest value makes the map full color.
+            </small>
+          </div>
+          <div class="mb-3">
+            <label for="backgroundOpacity" class="form-label" >Background map opacity</label>
+            <input type="range" min="0.0" max="1.0" step="0.05" class="form-range" id="backgroundOpacity" onchange="updateConfiguration('backgroundOpacity', parseFloat(this.value)); updateBackgroundMapContainer();">
+            <small class="form-text">
+              Control the opacity of the background map. The smallest value makes the map transparent, while the largest value makes the map opaque.
+            </small>
+          </div>
+          <div class="mb-3">
+            <label for="backgroundUrl" class="form-label" >Background map tile URL</label>
+            <div class="mb-1">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="backgroundType" id="backgroundTypeRaster" value="raster" checked onchange="updateConfiguration('backgroundType', 'raster'); updateBackgroundMapStyle();">
+                <label class="form-check-label" for="backgroundTypeRaster">Raster</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="backgroundType" id="backgroundTypeVector" value="raster" onchange="updateConfiguration('backgroundType', 'vector'); updateBackgroundMapStyle();">
+                <label class="form-check-label" for="backgroundTypeVector">Vector</label>
+              </div>
+            </div>
+            <input type="url" required class="form-control" id="backgroundUrl" onchange="updateConfiguration('backgroundUrl', this.value); updateBackgroundMapStyle();">
+            <small class="form-text">
+              The tile URL for the background map.<br>
+              Raster tiles: A URL serving raster tiles. See <a href="https://wiki.openstreetmap.org/wiki/Raster_tile_providers" target="_blank">the wiki</a> for a list of raster tile providers, for example <code>https://tile.openstreetmap.org/{z}/{x}/{y}.png</code>.<br>
+              Vector tiles: A URL specifying a vector style. See <a href="https://wiki.openstreetmap.org/wiki/Vector_tiles#Providers" target="_blank">the wiki</a> for a list of vector tile providers, for example <code>https://tiles-eu.stadiamaps.com/styles/alidade_smooth.json?api_key=REGISTER_FOR_API_KEY</code> (<a href="https://client.stadiamaps.com/accounts/login/?next=/dashboard/" target="_blank">registration is required for Stadia Maps</a> to get an API key).
+            </small>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Theme</label>
+            <div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="theme" id="themeSystem" value="system" checked onchange="onThemeChange('system');">
+                <label class="form-check-label" for="themeSystem">System</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="theme" id="themeLight" value="light" onchange="onThemeChange('light');">
+                <label class="form-check-label" for="themeLight">Light</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="theme" id="themeDark" value="dark" onchange="onThemeChange('dark');">
+                <label class="form-check-label" for="themeDark">Dark</label>
+              </div>
+            </div>
+            <small class="form-text">
+              Control the theme of OpenRailwayMap. The default is to follow the system and browser preferences. A light or dark theme can also be configured.
+            </small>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Editor</label>
+            <div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="editor" id="editorID" value="id" checked onchange="onEditorChange('id');">
+                <label class="form-check-label" for="editorID">iD</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="editor" id="editorJOSM" value="josm" onchange="onEditorChange('josm');">
+                <label class="form-check-label" for="editorJOSM">JOSM</label>
+              </div>
+            </div>
+            <small class="form-text">
+              <a href="https://ideditor.com/" target="_blank">iD</a> is an in-browser application used as default editor at <a href="https://openstreetmap.org" target="_blank">openstreetmap.org</a>.<br>
+              <a href="https://josm.openstreetmap.de/" target="_blank">JOSM</a> is a local desktop application. Ensure that the option <a href="https://josm.openstreetmap.de/wiki/Help/Preferences/RemoteControl" target="_blank">Remote control</a> is enabled. The JOSM integration also works with compatible remote-controllable apps like <a href="https://merkaartor.be/" target="_blank">Merkaartor</a>.
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="about-backdrop" class="modal backdrop" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">About</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="hideAbout()"></button>
+      </div>
+      <div class="modal-body" id="about-content">
+        <p class="about-banner-container">
+          <img src="image/banner.png" alt="OpenRailwayMap banner" width="1280" height="640" class="banner" loading="lazy">
+        </p>
+        <p>
+          Welcome to the OpenRailwayMap!
+        </p>
+        <p>
+          This project shows railway infrastructure, speed limits, train protection, electrification and railway gauges of present and historical railway data using <a href="https://www.openstreetmap.org/about" target="_blank">OpenStreetMap</a> and <a href="https://www.openhistoricalmap.org/about" target="_blank">OpenHistoricalMap</a> data for all around the world.
+        </p>
+        <p>
+          Suggestions, improvements and discussions are welcome! You can find the project homepage of the OpenRailwayMap <a href="https://github.com/hiddewie/OpenRailwayMap-vector" target="_blank">on Github</a>. Start a discussion on the <a href="https://github.com/hiddewie/OpenRailwayMap-vector/discussions" target="_blank">Discussions page on Github</a>, or create an issue in the <a href="https://github.com/hiddewie/OpenRailwayMap-vector/issues" target="_blank">Issue tracker on Github</a>. It is possible to contribute improvements directly by creating <a href="https://github.com/hiddewie/OpenRailwayMap-vector/pulls" target="_blank">a Pull Request on Github</a>. Be sure to read <a href="https://github.com/hiddewie/OpenRailwayMap-vector/blob/master/CONTRIBUTING.md" target="_blank">the contributing instructions</a>. Alternatively, it is possible to contact the author directly <a href="mailto:openrailwaymap@hiddewieringa.nl">using email</a>.
+        </p>
+        <p>
+          Documentation about the OpenStreetMap data can be found on the <a href="https://wiki.openstreetmap.org/wiki/OpenRailwayMap" target="_blank">OpenRailwayMap wiki pages</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="news-backdrop" class="modal backdrop" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">News</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="hideNews()"></button>
+      </div>
+      <div class="modal-body" id="news-content"></div>
+    </div>
+  </div>
+</div>
+<div id="legend">
+  <div id="legend-map"></div>
+</div>
+<div id="map-container">
+  <div id="background-map"></div>
+  <div id="map"></div>
+</div>
+</body>
+
+</html>

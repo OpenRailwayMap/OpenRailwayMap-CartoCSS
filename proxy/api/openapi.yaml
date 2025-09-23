@@ -1,0 +1,427 @@
+openapi: 3.1.0
+
+info:
+  description: API to search for OpenRailwayMap-vector
+  contact:
+    name: Hidde Wieringa
+    email: openrailwaymap@hiddewieringa.nl
+    url: https://github.com/hiddewie/OpenRailwayMap-vector
+  license:
+    identifier: GPL-2.0-or-later
+    name: GNU General Public License v2.0 or later
+  title: OpenRailwayMap API
+  version: current
+
+servers:
+  - url: https://openrailwaymap.app
+  - url: http://localhost:8000
+
+tags:
+  - name: search
+    description: Search API
+  - name: status
+    description: Status API
+
+externalDocs:
+  description: GitHub
+  url: https://github.com/hiddewie/OpenRailwayMap-vector#readme
+
+paths:
+  /api/status:
+    get:
+      operationId: status
+      description: Status endpoint
+      summary: Status endpoint
+      tags:
+        - status
+
+  /api/replication_timestamp:
+    get:
+      operationId: replicationTimestamp
+      description: The replication timestamp of the OpenStreetMap data
+      summary: Replication endpoint
+      tags:
+        - replication
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  replication_timestamp:
+                    type: string
+
+  /api/facility:
+    get:
+      operationId: searchFacilities
+      summary: Facility search
+      description: |
+        The facility endpoint returns detail of a facility (station, junction, yard, …) by its name, UIC reference or reference.
+        
+        The parameters q, name, ref and uic_ref are mutually exclusive.
+        
+        It takes the first keyword of (name,uicref,ref) and the optional the operator to search for the data.
+      tags:
+        - search
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+            example: Karlsruhe
+          description: |
+            search term (will be looked up in all `name=*` tags, `railway:ref=*` and `uic_ref=*`)
+        - name: name
+          in: query
+          schema:
+            type: string
+            example: Karlsruhe
+          description: |
+            search term (name search only)
+        - name: ref
+          in: query
+          schema:
+            type: string
+            example: Gd
+          description: |
+            search by official facility reference number/code only
+        - name: uic_ref
+          in: query
+          schema:
+            type: string
+          description: |
+            search by UIC reference number of a station (uses OSM tag `uic_ref=*`)
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 200
+          description: maximum number of results
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                    osm_ids:
+                      type: array
+                      items:
+                        type: integer
+                        description: |
+                          OSM node ID
+                    osm_types:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - 'N'
+                          - 'W'
+                        description: |
+                          The type of OSM object, same order as the IDs
+                    name:
+                      type: string
+                      nullable: true
+                    railway:
+                      type: string
+                      nullable: true
+                    station:
+                      type: string
+                      nullable: true
+                    railway_ref:
+                      type: string
+                      nullable: true
+                    uic_ref:
+                      type: string
+                      nullable: true
+                    operator:
+                      type: array
+                      items:
+                        type: string
+                    network:
+                      type: array
+                      items:
+                        type: string
+                    wikidata:
+                      type: array
+                      items:
+                        type: string
+                    wikimedia_commons:
+                      type: array
+                      items:
+                        type: string
+                    image:
+                      type: array
+                      items:
+                        type: string
+                    mapillary:
+                      type: array
+                      items:
+                        type: string
+                    wikipedia:
+                      type: array
+                      items:
+                        type: string
+                    note:
+                      type: array
+                      items:
+                        type: string
+                    description:
+                      type: array
+                      items:
+                        type: string
+                    rank:
+                      type: integer
+                      description: |
+                        an importance rank calculated by taking the public transport route relations into account using this station/halt
+                example:
+                  - osm_ids:
+                      - 271777826
+                      - 244129991
+                      - 1787945074
+                      - 1679221136
+                    osm_types: [N, N, N, N]
+                    name: Landsberger Allee/Petersburger Straße
+                    railway: tram_stop
+                    railway_ref:
+                    station:
+                    uic_ref:
+                    operator: [ ]
+                    network: [ ]
+                    wikidata: [ ]
+                    wikimedia_commons: [ ]
+                    image: [ ]
+                    mapillary: [ ]
+                    wikipedia: [ ]
+                    note: [ ]
+                    description: [ ]
+                    latitude: 13.446564275
+                    longitude: 52.52637340222645
+                    rank: 32
+                  - osm_ids:
+                      - 1860777038
+                      - 98878581
+                    osm_types: [N, N]
+                    name: S Landsberger Allee
+                    railway: tram_stop
+                    railway_ref:
+                    station:
+                    uic_ref:
+                    operator: [ ]
+                    network: [ ]
+                    wikidata: [ ]
+                    wikimedia_commons: [ ]
+                    image: [ ]
+                    mapillary: [ ]
+                    wikipedia: [ ]
+                    note: [ ]
+                    description: [ ]
+                    latitude: 13.4564517
+                    longitude: 52.528652549251355
+                    rank: 28
+                  - osm_ids:
+                      - 3872632789
+                    osm_types: [N]
+                    name: Landsberger Allee
+                    railway: station
+                    railway_ref: BLST
+                    station: light_rail
+                    uic_ref: '8089020'
+                    operator:
+                      - DB InfraGO AG
+                    network:
+                      - Verkehrsverbund Berlin-Brandenburg
+                    wikidata:
+                      - Q800507
+                    wikimedia_commons: [ ]
+                    image: [ ]
+                    mapillary: [ ]
+                    wikipedia:
+                      - de:Bahnhof Berlin Landsberger Allee
+                    note: [ ]
+                    description: [ ]
+                    latitude: 13.454780299999998
+                    longitude: 52.52948199908725
+                    rank: 16
+        '400':
+          description: |
+            Bad request: invalid parameter values
+
+  /api/milestone:
+    get:
+      operationId: searchMilestones
+      summary: Milestone search
+      description: |
+        The milestone endpoint returns the position of milestones or other items such as signals or level crossings with a mapped position on a line.
+        
+        The API will return the features within a maximum distance of 10 km (hardcoded). The presence of an `operator=*` tag on the tracks is honoured, it will be used to
+        distinguish reference numbers used by different infrastructure operators and/or in different countries.
+        
+        Mileage is read from the OSM tags `railway:position=*` and `railway:position:exact=*` with precedence of the exact mileage. The tracks must be tagged with a reference number (OSM tag `ref=*`).
+        
+        The tracks must not tagged with `service=*` (this condition does not apply to tracks with `usage=industrial/military/test`).
+        
+        Negative mileage is supported but gaps in mileage or duplicated positions (if railway lines are reroute) are not supported. For example, you cannot query for `16.8+200` or things like that.
+      tags:
+        - search
+      parameters:
+        - name: ref
+          required: true
+          in: query
+          schema:
+            type: string
+            example: '4201'
+          description: |
+            reference number of the railway route the mileage refers to (in this case, route means lines as infrastructure, not the services using the tracks)
+        - name: position
+          required: true
+          in: query
+          schema:
+            type: number
+            example: 18.4
+          description: |
+            position (can be negative)
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 200
+          description: maximum number of results
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                    longitude:
+                      type: number
+                    osm_id:
+                      type: integer
+                      description: |
+                        OSM node ID
+                    line_ref:
+                      type: string
+                      description: |
+                        Reference number of the railway line the feature is located on.
+                      nullable: true
+                    milestone_ref:
+                      type: string
+                      nullable: true
+                      description: |
+                        Reference number of the feature.
+                    operator:
+                      type: string
+                      description: |
+                        operator of the infrastructure
+                      nullable: true
+                    railway:
+                      type: string
+                      description: |
+                        type of the facility following Tagging rules (https://wiki.openstreetmap.org/wiki/OpenRailwayMap/Tagging#Operating_Sites), e.g. `milestone`, `level_crossing`, `signal`.
+                      nullable: true
+                    position:
+                      type: string
+                      description: |
+                        Mileage of the feature
+                      nullable: true
+                    wikidata:
+                      type: string
+                      nullable: true
+                    wikimedia_commons:
+                      type: string
+                      nullable: true
+                    image:
+                      type: string
+                      nullable: true
+                    mapillary:
+                      type: string
+                      nullable: true
+                    wikipedia:
+                      type: string
+                      nullable: true
+                    note:
+                      type: string
+                      nullable: true
+                    description:
+                      type: string
+                      nullable: true
+                example:
+                  - description:
+                    image:
+                    latitude: 13.372542999999999
+                    line_ref: '6020'
+                    longitude: 52.471930899089024
+                    mapillary:
+                    milestone_ref:
+                    note:
+                    operator: DB InfraGO AG
+                    osm_id: 11562536788
+                    position: 22.7
+                    railway: milestone
+                    wikidata:
+                    wikimedia_commons:
+                    wikipedia:
+                  - description:
+                    image:
+                    latitude: 13.3739671
+                    line_ref: '6020'
+                    longitude: 52.47137729908903
+                    mapillary:
+                    milestone_ref:
+                    note:
+                    operator: DB InfraGO AG
+                    osm_id: 11558214672
+                    position: 22.6
+                    railway: milestone
+                    wikidata:
+                    wikimedia_commons:
+                    wikipedia:
+        '400':
+          description: |
+            Bad request: invalid parameter values
+
+  /api/wikidata/{entity}:
+    get:
+      operationId: wikidataImage
+      summary: Find the image from Wikidata
+      description: |
+        The Wikidata image endpoint returns the URL of the image thumbnail for a given Wikidata entity.
+      tags:
+        - wikidata
+      parameters:
+        - name: entity
+          required: true
+          in: path
+          schema:
+            type: string
+            example: 'Q2655858'
+          description: |
+            The Wikidata entity ID
+      responses:
+        '404':
+          description: Entity not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: The reason that the entity was not found
+        '307':
+          description: |
+            Location of the Wikikdata thumbnail image

@@ -481,8 +481,11 @@ BEGIN
     volt_text := volt || 'V';
   ELSIF volt_int % 1000 = 0 THEN
     volt_text := (volt_int/1000)::TEXT || 'kV';
-  ELSE
+  ELSIF volt_int < 100000 THEN
+    -- Catch numeric overflow (250001 will trigger it but 250000 not). Values equal or larger than 100 kV are not realistic.
     volt_text := (volt_int::FLOAT / 1000::FLOAT)::NUMERIC(3, 1)::TEXT || 'kV';
+  ELSE
+    RETURN NULL;
   END IF;
   -- Output voltage and frequency
   IF freq = '0' THEN

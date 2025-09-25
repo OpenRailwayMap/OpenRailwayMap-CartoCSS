@@ -261,12 +261,12 @@ Layer:
         (SELECT
             way,
             railway, usage, service,
-            CASE WHEN speed_arr[3] = 4 THEN speed_arr[1]
-                 WHEN speed_arr[3] = 3 THEN speed_arr[1]
-                 WHEN speed_arr[3] = 2 THEN speed_arr[2]
-                 WHEN speed_arr[3] = 1 THEN speed_arr[1]
+            CASE WHEN (speed_info).primary_direction = 4 THEN (speed_info).forward
+                 WHEN (speed_info).primary_direction = 3 THEN (speed_info).forward
+                 WHEN (speed_info).primary_direction = 2 THEN (speed_info).backward
+                 WHEN (speed_info).primary_direction = 1 THEN (speed_info).forward
             END AS maxspeed,
-            railway_speed_label(speed_arr) AS label,
+            railway_speed_label((speed_info)) AS label,
             disused, construction,
             disused_railway,
             construction_railway,
@@ -294,7 +294,7 @@ Layer:
                 ST_Area(ST_Envelope(way)) / NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS bbox_pixels,
                 way, railway, usage, service,
                 -- does no unit conversion
-                railway_direction_speed_limit(tags->'railway:preferred_direction',tags->'maxspeed', tags->'maxspeed:forward', tags->'maxspeed:backward') AS speed_arr,
+                railway_direction_speed_limit(tags->'railway:preferred_direction',tags->'maxspeed', tags->'maxspeed:forward', tags->'maxspeed:backward') AS speed_info,
                 tags->'disused' AS disused, construction,
                 tags->'disused:railway' AS disused_railway,
                 tags->'construction:railway' AS construction_railway,

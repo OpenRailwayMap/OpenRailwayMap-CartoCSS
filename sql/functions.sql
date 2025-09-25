@@ -196,23 +196,38 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE TYPE direction_speeds AS (
+  forward INTEGER,
+  backward INTEGER,
+-- If the primary direction is the direction of the linestring: 1
+-- Is opposite direction of line: (2)
+-- Has no primary direction: (3)
+-- All direction same speed: (4)
+-- Primary direction invalid: (5)
+-- Contradicting speed values: (6)
+-- No speed information: (7)
+  primary_direction INTEGER,
+  -- forward_unit, backward_unit: kph (0), mph (1)
+  forward_unit INTEGER,
+  backward_unit INTEGER
+);
 
-CREATE OR REPLACE FUNCTION railway_speed_label(speed_arr INTEGER[]) RETURNS TEXT AS $$
+CREATE OR REPLACE FUNCTION railway_speed_label(speed_info direction_speeds) RETURNS TEXT AS $$
 BEGIN
-  IF speed_arr[3] = 7 THEN
+  IF speed_info.primary_direction = 7 THEN
     RETURN NULL;
   END IF;
-  IF speed_arr[3] = 4 THEN
-    RETURN railway_add_unit_to_label(speed_arr[1], speed_arr[4]);
+  IF speed_info.primary_direction = 4 THEN
+    RETURN railway_add_unit_to_label(speed_info.forward, speed_info.forward_unit);
   END IF;
-  IF  speed_arr[3] = 3 THEN
-    RETURN null_to_dash(railway_add_unit_to_label(speed_arr[1], speed_arr[4])) || '/' || null_to_dash(railway_add_unit_to_label(speed_arr[2], speed_arr[5]));
+  IF  speed_info.primary_direction = 3 THEN
+    RETURN null_to_dash(railway_add_unit_to_label(speed_info.forward, speed_info.forward_unit)) || '/' || null_to_dash(railway_add_unit_to_label(speed_info.backward, speed_info.backward_unit));
   END IF;
-  IF speed_arr[3] = 2 THEN
-    RETURN null_to_dash(railway_add_unit_to_label(speed_arr[2], speed_arr[5])) || ' (' || null_to_dash(railway_add_unit_to_label(speed_arr[1], speed_arr[4])) || ')';
+  IF speed_info.primary_direction = 2 THEN
+    RETURN null_to_dash(railway_add_unit_to_label(speed_info.backward, speed_info.backward_unit)) || ' (' || null_to_dash(railway_add_unit_to_label(speed_info.forward, speed_info.forward_unit)) || ')';
   END IF;
-  IF speed_arr[3] = 1 THEN
-    RETURN null_to_dash(railway_add_unit_to_label(speed_arr[1], speed_arr[4])) || ' (' || null_to_dash(railway_add_unit_to_label(speed_arr[2], speed_arr[5])) || ')';
+  IF speed_info.primary_direction = 1 THEN
+    RETURN null_to_dash(railway_add_unit_to_label(speed_info.forward, speed_info.forward_unit)) || ' (' || null_to_dash(railway_add_unit_to_label(speed_info.backward, speed_info.backward_unit)) || ')';
   END IF;
   RETURN NULL;
 END;
@@ -234,27 +249,27 @@ $$ LANGUAGE plpgsql;
 --   * has primary direction is line direction (1), is opposite direction of line (2), has no primary direction (3), all direction same speed (4), primary direction invalid (5), contradicting speed values (6), no speed information (7)
 --   * forward unit: kph (0), mph (1)
 --   * backward unit: kph (0), mph (1)
-CREATE OR REPLACE FUNCTION railway_direction_speed_limit(preferred_direction TEXT, speed TEXT, forward_speed TEXT, backward_speed TEXT) RETURNS INTEGER[] AS $$
+CREATE OR REPLACE FUNCTION railway_direction_speed_limit(preferred_direction TEXT, speed TEXT, forward_speed TEXT, backward_speed TEXT) RETURNS direction_speeds AS $$
 BEGIN
   IF speed IS NULL AND forward_speed IS NULL AND backward_speed IS NULL THEN
-    RETURN ARRAY[NULL, NULL, 7, 0, 0];
+    RETURN (NULL::INTEGER, NULL::INTEGER, 7, 0, 0);
   END IF;
   IF speed IS NOT NULL AND forward_speed IS NULL AND backward_speed IS NULL THEN
-    RETURN ARRAY[railway_speed_int_noconvert(speed), railway_speed_int_noconvert(speed), 4] || railway_imperial_flags(speed, speed);
+    RETURN (railway_speed_int_noconvert(speed), railway_speed_int_noconvert(speed), 4, railway_speed_imperial(speed), railway_speed_imperial(speed));
   END IF;
   IF speed IS NOT NULL THEN
-    RETURN ARRAY[railway_speed_int_noconvert(speed), railway_speed_int_noconvert(speed), 6] || railway_imperial_flags(speed, speed);
+    RETURN (railway_speed_int_noconvert(speed), railway_speed_int_noconvert(speed), 6, railway_speed_imperial(speed), railway_speed_imperial(speed));
   END IF;
   IF preferred_direction = 'forward' THEN
-    RETURN ARRAY[railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 1] || railway_imperial_flags(forward_speed, backward_speed);
+    RETURN (railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 1, railway_speed_imperial(forward_speed), railway_speed_imperial(backward_speed));
   END IF;
   IF preferred_direction = 'backward' THEN
-    RETURN ARRAY[railway_speed_int_noconvert(backward_speed), railway_speed_int_noconvert(forward_speed), 2] || railway_imperial_flags(backward_speed, forward_speed);
+    RETURN (railway_speed_int_noconvert(backward_speed), railway_speed_int_noconvert(forward_speed), 2, railway_speed_imperial(backward_speed), railway_speed_imperial(forward_speed));
   END IF;
   IF preferred_direction = 'both' OR preferred_direction IS NULL THEN
-    RETURN ARRAY[railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 3] || railway_imperial_flags(forward_speed, backward_speed);
+    RETURN (railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 3, railway_speed_imperial(forward_speed), railway_speed_imperial(backward_speed));
   END IF;
-  RETURN ARRAY[railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 4] || railway_imperial_flags(forward_speed, backward_speed);
+  RETURN (railway_speed_int_noconvert(forward_speed), railway_speed_int_noconvert(backward_speed), 4, railway_speed_imperial(forward_speed), railway_speed_imperial(backward_speed));
 END;
 $$ LANGUAGE plpgsql;
 

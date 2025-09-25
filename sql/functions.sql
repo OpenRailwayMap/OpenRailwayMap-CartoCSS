@@ -196,21 +196,25 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TYPE direction_speeds AS (
-  forward INTEGER,
-  backward INTEGER,
--- If the primary direction is the direction of the linestring: 1
--- Is opposite direction of line: (2)
--- Has no primary direction: (3)
--- All direction same speed: (4)
--- Primary direction invalid: (5)
--- Contradicting speed values: (6)
--- No speed information: (7)
-  primary_direction INTEGER,
-  -- forward_unit, backward_unit: kph (0), mph (1)
-  forward_unit INTEGER,
-  backward_unit INTEGER
-);
+DO $$ BEGIN
+  CREATE TYPE direction_speeds AS (
+    forward INTEGER,
+    backward INTEGER,
+  -- If the primary direction is the direction of the linestring: 1
+  -- Is opposite direction of line: (2)
+  -- Has no primary direction: (3)
+  -- All direction same speed: (4)
+  -- Primary direction invalid: (5)
+  -- Contradicting speed values: (6)
+  -- No speed information: (7)
+    primary_direction INTEGER,
+    -- forward_unit, backward_unit: kph (0), mph (1)
+    forward_unit INTEGER,
+    backward_unit INTEGER
+  );
+EXCEPTION
+  WHEN duplicate_object THEN NULL;
+END $$;
 
 CREATE OR REPLACE FUNCTION railway_speed_label(speed_info direction_speeds) RETURNS TEXT AS $$
 BEGIN

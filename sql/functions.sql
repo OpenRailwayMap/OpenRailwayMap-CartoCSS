@@ -118,11 +118,13 @@ CREATE OR REPLACE FUNCTION railway_speed_int_noconvert(value TEXT) RETURNS INTEG
 DECLARE
   mph_value TEXT;
 BEGIN
+  -- Casting to numeric first, then to integer in order to avoid
+  -- errors when trying to convert non-integer input values (e.g. '9.5 mph')
   IF value ~ '^[0-9]+(\.[0-9]+)?$' THEN
-    RETURN value::INTEGER;
+    RETURN value::NUMERIC::INTEGER;
   END IF;
   IF value ~ '^[0-9]+(\.[0-9]+)? ?mph$' THEN
-    RETURN substring(value FROM '^([0-9]+(\.[0-9]+)?)');
+    RETURN substring(value FROM '^([0-9]+(\.[0-9]+)?)')::NUMERIC::INTEGER;
   END IF;
   RETURN NULL;
 END;

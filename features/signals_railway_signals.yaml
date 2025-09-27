@@ -1820,6 +1820,13 @@ features:
       - { tag: 'railway:signal:stop', value: 'DE-ESO:ne5' }
       - { tag: 'railway:signal:stop:form', value: 'sign' }
 
+  - description: train length stopping marker
+    country: DE
+    icon: { default: 'de/zuglaenge' }
+    tags:
+      - { tag: 'railway:signal:stop', value: 'DE-ESO:zuglänge' }
+      - { tag: 'railway:signal:stop:form', value: 'sign' }
+
   - description: stop demand post BOStrab Sh 7 (sign)
     country: DE
     icon: { default: 'de/bostrab/sh7' }
@@ -1991,6 +1998,20 @@ features:
       - { tag: 'railway:signal:ring', value: 'DE-ESO:dr:pl4' }
       - { tag: 'railway:signal:ring:form', value: 'sign' }
 
+  - description: start ringing LP 4
+    country: DE
+    icon: { default: 'de/lp4' }
+    tags:
+      - { tag: 'railway:signal:ring', value: 'DE-ESO:db:lp4' }
+      - { tag: 'railway:signal:ring:form', value: 'sign' }
+
+  - description: stop ringing LP 5
+    country: DE
+    icon: { default: 'de/lp5' }
+    tags:
+      - { tag: 'railway:signal:ring', value: 'DE-ESO:db:lp5' }
+      - { tag: 'railway:signal:ring:form', value: 'sign' }
+
   - description: Lift / Fold snowplow Ne 7 (sign)
     country: DE
     icon:
@@ -2101,6 +2122,13 @@ features:
       - { tag: 'railway:signal:stop_demand', value: 'DE-AVG:hw1' }
       - { tag: 'railway:signal:stop_demand:form', value: 'light' }
 
+  - description: Karlsruhe AVG end of EBO structure gauge Ra 14
+    country: DE
+    icon: { default: 'de/avg/ra14' }
+    tags:
+      - { tag: 'railway:signal:minor', value: 'DE-AVG:ra14' }
+      - { tag: 'railway:signal:minor:form', value: 'sign' }
+
   - description: wrong road signal Zs 6 (DB) (sign)
     country: DE
     icon: { default: 'de/zs6-sign' }
@@ -2192,6 +2220,17 @@ features:
       - { tag: 'railway:signal:speed_limit_distant', value: 'DE-ESO:dr:lf4' }
       - { tag: 'railway:signal:speed_limit_distant:form', value: 'sign' }
 
+  - description: East German branch line speed signals (Lf 4)
+    country: DE
+    icon:
+      match: 'railway:signal:speed_limit:speed'
+      cases:
+        - { regex: '^(100|[2-8]0|1?[05])$', value: 'de/lf4-dr-sign-down-speed-limit-{}', example: 'de/lf4-dr-sign-down-speed-limit-{70}' }
+      default: 'de/lf4-dr-sign-down-speed-limit-empty'
+    tags:
+      - { tag: 'railway:signal:speed_limit', value: 'DE-ESO:dr:lf4' }
+      - { tag: 'railway:signal:speed_limit:form', value: 'sign' }
+
   - description: German line speed signals (Lf 6)
     country: DE
     type: line
@@ -2276,6 +2315,31 @@ features:
       default: 'de/ne3-dwarf-I'
     tags:
       - { tag: 'railway:signal:distant', value: 'DE-ESO:ne3' }
+      - { tag: 'railway:signal:distant:form', value: 'sign' }
+      - { tag: 'railway:signal:distant:height', value: 'dwarf' }
+
+  - description: main signal announcement signs So 19 (normal)
+    country: DE
+    icon:
+      match: 'railway:signal:distant:type'
+      cases:
+        - { exact: 'II', value: 'de/so19-normal-II' }
+        - { exact: 'III', value: 'de/so19-normal-III' }
+      default: 'de/so19-normal-I'
+    tags:
+      - { tag: 'railway:signal:distant', value: 'DE-ESO:so19' }
+      - { tag: 'railway:signal:distant:form', value: 'sign' }
+
+  - description: main signal announcement signs So 19 (dwarf)
+    country: DE
+    icon:
+      match: 'railway:signal:distant:type'
+      cases:
+        - { exact: 'II', value: 'de/so19-dwarf-II' }
+        - { exact: 'III', value: 'de/so19-dwarf-III' }
+      default: 'de/so19-dwarf-I'
+    tags:
+      - { tag: 'railway:signal:distant', value: 'DE-ESO:so19' }
       - { tag: 'railway:signal:distant:form', value: 'sign' }
       - { tag: 'railway:signal:distant:height', value: 'dwarf' }
 
@@ -2920,6 +2984,13 @@ features:
     tags:
       - { tag: 'railway:signal:minor:form', value: 'sign' }
       - { tag: 'railway:signal:minor', value: 'DE-RSAG:so13' }
+
+  - description: radio channel notice
+    country: DE
+    icon: { default: 'de/zugfunk' }
+    tags:
+      - { tag: 'railway:signal:radio', value: 'DE-ESO:zugfunk-kanalhinweis' }
+      - { tag: 'railway:signal:radio:form', value: 'sign' }
 
   # --- DK --- #
 

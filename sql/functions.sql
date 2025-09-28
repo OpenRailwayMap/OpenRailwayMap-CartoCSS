@@ -327,9 +327,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- Get rank by train protection a track is equipped with
--- Other code expects 1 for no protection, 0 for default/unknown
-CREATE OR REPLACE FUNCTION railway_train_protection_rank(
+-- Get which train protection system has to be rendered.
+-- Overlaps are not foreseen but the logic could be handled here.
+CREATE OR REPLACE FUNCTION railway_train_protection_rendered(
+  train_protection TEXT,
   pzb TEXT,
   lzb TEXT,
   atb TEXT,
@@ -339,53 +340,66 @@ CREATE OR REPLACE FUNCTION railway_train_protection_rank(
   atc TEXT,
   kvb TEXT,
   tvm TEXT,
-  scmt TEXT,
   asfa TEXT,
   ptc TEXT,
   zsi127 TEXT,
   etcs TEXT,
-  construction_etcs TEXT) RETURNS INTEGER AS $$
+  construction_etcs TEXT) RETURNS TEXT AS $$
 BEGIN
+  /* Continental systems. They are not supposed to overlap any soon. */
   IF etcs <> 'no' THEN
-    RETURN 10;
+    RETURN 'etcs';
+  END IF;
+  IF POSITION('CTCS' IN train_protection) > 0 THEN
+    RETURN 'ctcs';
   END IF;
   IF ptc <> 'no' THEN
-    RETURN 10;
-  END IF;  
+    RETURN 'ptc';
+  END IF;
   IF construction_etcs <> 'no' THEN
-    RETURN 9;
+    RETURN 'etcs_construction';
+  END IF;
+  /* National systems. Possible overlaps, the order here decides priority. */
+  IF POSITION('SCMT' IN train_protection) > 0 THEN
+    RETURN 'scmt';
+  END IF;
+  IF POSITION('TVM' IN train_protection) > 0 THEN
+    RETURN 'tvm';
+  END IF; 
+  IF tvm = 'yes' OR tvm = '430' OR tvm = '300' THEN
+    RETURN 'tvm';
   END IF;
   IF asfa = 'yes' THEN
-    RETURN 8;
-  END IF;
-  IF scmt = 'yes' THEN
-    RETURN 7;
-  END IF;
-  IF tvm = 'yes' OR tvm = '430' OR tvm = '300' THEN
-    RETURN 6;
+    RETURN 'asfa';
   END IF;
   IF kvb = 'yes' THEN
-    RETURN 5;
+    RETURN 'kvb';
   END IF;
   IF atc = 'yes' THEN
-    RETURN 5;
+    RETURN 'atc';
   END IF;
   IF COALESCE(atb, atb_eg, atb_ng, atb_vv) = 'yes' THEN
-    RETURN 4;
-  END IF;
-  IF zsi127 = 'yes' THEN
-    RETURN 3;
+    RETURN 'atb';
   END IF;
   IF lzb = 'yes' THEN
-    RETURN 3;
+    RETURN 'lzb';
   END IF;
   IF pzb = 'yes' THEN
-    RETURN 2;
+    RETURN 'pzb';
   END IF;
-  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (scmt = 'no' AND etcs = 'no') OR (asfa = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') THEN
-    RETURN 1;
+  /* Regional systems. */
+  IF zsi127 = 'yes' THEN
+    RETURN 'zsi127';
   END IF;
-  RETURN 0;
+  /* No system. */
+  IF train_protection = 'none' THEN
+    RETURN 'none';
+  END IF;
+  IF (pzb = 'no' AND lzb = 'no' AND etcs = 'no') OR (atb = 'no' AND etcs = 'no') OR (atc = 'no' AND etcs = 'no') OR (asfa = 'no' AND etcs = 'no') OR (kvb = 'no' AND tvm = 'no' AND etcs = 'no') OR (zsi127 = 'no') THEN
+    RETURN 'none';
+  END IF;
+  /* No information. */
+  RETURN 'unknown';
 END;
 $$ LANGUAGE plpgsql;
 

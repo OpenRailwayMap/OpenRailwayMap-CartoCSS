@@ -412,17 +412,26 @@ DECLARE
   valid_values TEXT[] := ARRAY['contact_line', 'yes', 'rail', 'ground-level_power_supply', '4th_rail', 'contact_line;rail', 'rail;contact_line'];
 BEGIN
   state := NULL;
-  IF electrified = ANY(valid_values) THEN
-    return 'present';
+
+  IF railway = 'construction' AND construction_electrified = 'no' THEN
+    return 'no';
+  ELSIF railway = 'construction' AND construction_electrified = ANY(valid_values) THEN
+    return 'construction_now';
+  ELSIF railway = 'construction' AND electrified = ANY(valid_values) THEN
+  --this is really to correct a mistag, but there are too many mistags to leave this out
+    return 'construction_now';
   END IF;
   IF electrified = 'no' THEN
     state := 'no';
   END IF;
+  IF electrified = ANY(valid_values) THEN
+    return 'present';
+  END IF;
   IF NOT ignore_future_states AND construction_electrified = ANY(valid_values) THEN
-    RETURN 'construction';
+    RETURN 'construction_future';
   END IF;
   IF NOT ignore_future_states AND proposed_electrified = ANY(valid_values) THEN
-    RETURN 'proposed';
+    RETURN 'proposed_future';
   END IF;
   IF state = 'no' AND deelectrified = ANY(valid_values) THEN
     RETURN 'deelectrified';
@@ -440,10 +449,10 @@ BEGIN
   IF state = 'present' THEN
     RETURN railway_to_int(voltage);
   END IF;
-  IF state = 'construction' THEN
-    RETURN railway_to_int(construction_voltage);
+  IF state = 'construction_future' OR state = 'construction_now' THEN
+    RETURN railway_to_int(COALESCE(construction_voltage,voltage));
   END IF;
-  IF state = 'proposed' THEN
+  IF state = 'proposed_future' THEN
     RETURN railway_to_int(proposed_voltage);
   END IF;
   RETURN NULL;
@@ -456,10 +465,10 @@ BEGIN
   IF state = 'present' THEN
     RETURN railway_to_float(frequency);
   END IF;
-  IF state = 'construction' THEN
-    RETURN railway_to_float(construction_frequency);
+  IF state = 'construction_future' OR state = 'construction_now' THEN
+    RETURN railway_to_float(COALESCE(construction_frequency,frequency));
   END IF;
-  IF state = 'proposed' THEN
+  IF state = 'proposed_future' THEN
     RETURN railway_to_float(proposed_frequency);
   END IF;
   RETURN NULL;

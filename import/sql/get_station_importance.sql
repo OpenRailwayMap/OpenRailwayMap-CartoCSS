@@ -239,3 +239,40 @@ CREATE INDEX IF NOT EXISTS grouped_stations_with_route_count_center_index
 CREATE INDEX IF NOT EXISTS grouped_stations_with_route_count_buffered_index
   ON grouped_stations_with_route_count
     USING GIST(buffered);
+
+CREATE INDEX IF NOT EXISTS grouped_stations_with_route_count_osm_ids_index
+  ON grouped_stations_with_route_count
+    USING GIN(osm_ids);
+
+CLUSTER grouped_stations_with_route_count
+  USING grouped_stations_with_route_count_center_index;
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS stop_area_groups_buffered AS
+  SELECT
+    sag.osm_id,
+    ST_Buffer(ST_ConvexHull(ST_RemoveRepeatedPoints(ST_Collect(gs.buffered))), 20) as way
+  FROM stop_area_groups sag
+  JOIN stop_areas sa
+    ON ARRAY[sa.osm_id] <@ sag.stop_area_ref_ids
+  JOIN stations s
+    ON (ARRAY[s.osm_id] <@ sa.node_ref_ids AND s.osm_type = 'N')
+      OR (ARRAY[s.osm_id] <@ sa.way_ref_ids AND s.osm_type = 'W')
+      OR (ARRAY[s.osm_id] <@ sa.stop_ref_ids AND s.osm_type = 'N')
+  JOIN (
+    SELECT
+      unnest(osm_ids) AS osm_id,
+      unnest(osm_types) AS osm_type,
+      buffered
+    FROM grouped_stations_with_route_count
+  ) gs
+    ON s.osm_id = gs.osm_id and s.osm_type = gs.osm_type
+  GROUP BY sag.osm_id
+  -- Only use station area groups that have more than one station area
+  HAVING COUNT(distinct sa.osm_id) > 1;
+
+CREATE INDEX IF NOT EXISTS stop_area_groups_buffered_index
+  ON stop_area_groups_buffered
+    USING GIST(way);
+
+CLUSTER stop_area_groups_buffered
+  USING stop_area_groups_buffered_index;

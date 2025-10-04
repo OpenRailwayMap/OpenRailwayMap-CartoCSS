@@ -119,6 +119,7 @@ const colors = {
       },
       symbols: themeSwitch('black', 'white'),
       platform: themeSwitch('#aaa', '#aaa'),
+      stationAreaGroup: themeSwitch('black', 'white'),
     },
   },
   km: {
@@ -670,7 +671,7 @@ const sources = {
   },
   openrailwaymap_standard: {
     type: 'vector',
-    url: '/standard_railway_turntables,standard_railway_text_stations,standard_railway_grouped_stations,standard_railway_symbols,standard_railway_switch_ref,standard_station_entrances,standard_railway_platforms,standard_railway_platform_edges',
+    url: '/standard_railway_turntables,standard_railway_text_stations,standard_railway_grouped_stations,standard_railway_grouped_station_areas,standard_railway_symbols,standard_railway_switch_ref,standard_station_entrances,standard_railway_platforms,standard_railway_platform_edges',
     promoteId: 'id',
   },
   openrailwaymap_speed: {
@@ -1389,6 +1390,18 @@ const imageLayerWithOutline = (id, spriteExpression, layer) => [
 const layers = {
   standard: [
     {
+      id: 'railway_grouped_station_areas',
+      type: 'line',
+      minzoom: 13,
+      source: 'openrailwaymap_standard',
+      'source-layer': 'standard_railway_grouped_station_areas',
+      paint: {
+        'line-color': colors.styles.standard.stationAreaGroup,
+        'line-width': 2,
+        'line-dasharray': [4, 4],
+      },
+    },
+    {
       id: 'railway_grouped_stations',
       type: 'fill',
       minzoom: 13,
@@ -1412,6 +1425,36 @@ const layers = {
         ],
       },
     },
+    ...Object.entries({
+      present: present_dasharray,
+      disused: disused_dasharray,
+      abandoned: abandoned_dasharray,
+      preserved: disused_dasharray,
+      construction: construction_dasharray,
+      proposed: proposed_dasharray,
+    }).map(([state, dasharray]) => ({
+      id: `railway_grouped_stations_outline_${state}`,
+      type: 'line',
+      minzoom: 13,
+      source: 'openrailwaymap_standard',
+      'source-layer': 'standard_railway_grouped_stations',
+      filter: ['==', ['get', 'state'], state],
+      paint: {
+        'line-color': ['case',
+          // Use outline color of feature, without taking state into account
+          ['==', ['get', 'station'], 'light_rail'], colors.styles.standard.light_rail,
+          ['==', ['get', 'station'], 'subway'], colors.styles.standard.subway,
+          ['==', ['get', 'station'], 'monorail'], colors.styles.standard.monorail,
+          ['==', ['get', 'station'], 'miniature'], colors.styles.standard.miniature,
+          ['==', ['get', 'station'], 'funicular'], colors.styles.standard.funicular,
+          ['==', ['get', 'station'], 'tram'], colors.styles.standard.tram,
+          colors.styles.standard.main,
+        ],
+        'line-opacity': 0.3,
+        'line-width': 2 ,
+        'line-dasharray': dasharray,
+      },
+    })),
     {
       id: 'railway_platforms',
       type: 'fill',
@@ -1464,36 +1507,6 @@ const layers = {
         ],
       },
     },
-    ...Object.entries({
-      present: present_dasharray,
-      disused: disused_dasharray,
-      abandoned: abandoned_dasharray,
-      preserved: disused_dasharray,
-      construction: construction_dasharray,
-      proposed: proposed_dasharray,
-    }).map(([state, dasharray]) => ({
-      id: `railway_grouped_stations_outline_${state}`,
-      type: 'line',
-      minzoom: 13,
-      source: 'openrailwaymap_standard',
-      'source-layer': 'standard_railway_grouped_stations',
-      filter: ['==', ['get', 'state'], state],
-      paint: {
-        'line-color': ['case',
-          // Use outline color of feature, without taking state into account
-          ['==', ['get', 'station'], 'light_rail'], colors.styles.standard.light_rail,
-          ['==', ['get', 'station'], 'subway'], colors.styles.standard.subway,
-          ['==', ['get', 'station'], 'monorail'], colors.styles.standard.monorail,
-          ['==', ['get', 'station'], 'miniature'], colors.styles.standard.miniature,
-          ['==', ['get', 'station'], 'funicular'], colors.styles.standard.funicular,
-          ['==', ['get', 'station'], 'tram'], colors.styles.standard.tram,
-          colors.styles.standard.main,
-        ],
-        'line-opacity': 0.3,
-        'line-width': 2 ,
-        'line-dasharray': dasharray,
-      },
-    })),
     ...railwayLine(
       ['step', ['zoom'],
         ['coalesce', ['get', 'ref'], ''],
@@ -4746,6 +4759,7 @@ const legendData = {
         })),
       ]),
     "openrailwaymap_standard-standard_railway_grouped_stations": [],
+    "openrailwaymap_standard-standard_railway_grouped_station_areas": [],
     "openrailwaymap_standard-standard_railway_turntables": [
       {
         legend: 'Turntable',

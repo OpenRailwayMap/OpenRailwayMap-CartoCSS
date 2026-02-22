@@ -1,5 +1,10 @@
 import fs from 'fs'
 import yaml from 'yaml'
+import { argv } from 'node:process'
+
+// Optional positional argument for symbols search path.
+// Needed to run outside a container and without creating symlinks.
+const symbols_search_path = argv.length > 2 ? (argv[2] + '/') : ''
 
 const signals_railway_signals = yaml.parse(fs.readFileSync('signals_railway_signals.yaml', 'utf8'))
 
@@ -15,7 +20,7 @@ async function promiseResultsOrErrors(promises) {
 }
 
 async function parseSvgDimensions(feature) {
-  const svg = await fs.promises.readFile(`symbols/${feature}.svg`, 'utf8')
+  const svg = await fs.promises.readFile(`${symbols_search_path}symbols/${feature}.svg`, 'utf8')
   // Crude way of parsing SVG width/height. But given that all SVG icons are compressed and similar SVG content, this works fine.
   const matches = svg.match(/<svg .*width="([^"]+)".*height="([^"]+)".*>/)
   if (!matches) {

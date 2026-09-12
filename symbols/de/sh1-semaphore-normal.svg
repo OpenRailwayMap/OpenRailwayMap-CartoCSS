@@ -1,65 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   width="98.724998"
-   height="114.71875"
-   id="svg2">
-  <defs
-     id="defs4" />
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <rect
-     width="16.041182"
-     height="30.38818"
-     x="41.341999"
-     y="84.330566"
-     id="rect2997"
-     style="fill:#444444;fill-opacity:1;stroke:none" />
-  <g
-     transform="translate(-15.730915,-861.6826)"
-     id="layer1" />
-  <g
-     transform="translate(-15.730915,-861.6826)"
-     id="layer3" />
-  <g
-     transform="matrix(0.8,0,0,0.8,0.0125,0.0125)"
-     id="g2991">
-    <path
-       d="m 0.0625,0.0625 0,114.59375 123.25,0 0,-114.59375 -123.25,0 z m 62.03125,11.21875 c 24.731091,0 44.78125,20.050159 44.78125,44.78125 0,24.731092 -20.050159,44.78125 -44.78125,44.78125 -24.731091,0 -44.78125,-20.050158 -44.78125,-44.78125 0,-24.731091 20.050159,-44.78125 44.78125,-44.78125 z"
-       id="rect3880"
-       style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dashoffset:0" />
-    <path
-       d="m 106.88692,56.06563 c 0,24.731092 -20.048507,44.7796 -44.779598,44.7796 -24.731091,0 -44.779602,-20.048508 -44.779602,-44.7796 0,-24.731091 20.048511,-44.779602 44.779602,-44.779602 24.731091,0 44.779598,20.048511 44.779598,44.779602 z"
-       id="path3904"
-       style="fill:#ffffff;fill-opacity:1;stroke:none" />
-    <path
-       d="m 93.608244,24.008069 c 17.487526,17.487523 17.487526,45.840394 10e-7,63.327916 -17.487522,17.487525 -45.840396,17.487525 -63.327919,2e-6 -17.487522,-17.487523 -17.487522,-45.840399 0,-63.327921 17.487522,-17.4875219 45.840396,-17.4875191 63.327918,3e-6 z"
-       id="path3882"
-       style="fill:#ffffff;fill-opacity:0.54516129;stroke:none" />
-    <rect
-       width="102.22063"
-       height="23.620705"
-       x="-47.231796"
-       y="71.729813"
-       transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)"
-       id="rect3908"
-       style="fill:#000000;fill-opacity:1;stroke:none" />
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10.326995" height="12" viewBox="0 0 10.326995 12">
+<path fill-rule="nonzero" fill="rgb(26.666668%, 26.666668%, 26.666668%)" fill-opacity="1" d="M 4.324219 8.820312 L 6.003906 8.820312 L 6.003906 12 L 4.324219 12 Z M 4.324219 8.820312 "/>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" stroke-width="0.1" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(100%, 100%, 100%)" stroke-opacity="1" stroke-miterlimit="4" d="M 0.0777333 0.0777333 L 0.0777333 114.675142 L 123.310792 114.675142 L 123.310792 0.0777333 Z M 62.114375 11.280739 C 86.807666 11.280739 106.879718 31.35279 106.879718 56.046081 C 106.879718 80.786051 86.807666 100.858102 62.114375 100.858102 C 37.374405 100.858102 17.302354 80.786051 17.302354 56.046081 C 17.302354 31.35279 37.374405 11.280739 62.114375 11.280739 Z M 62.114375 11.280739 " transform="matrix(0.0836829, 0, 0, 0.0836829, 0.00130755, 0.00130755)"/>
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" d="M 8.945312 4.691406 C 8.945312 6.761719 7.269531 8.441406 5.199219 8.441406 C 3.128906 8.441406 1.453125 6.761719 1.453125 4.691406 C 1.453125 2.625 3.128906 0.945312 5.199219 0.945312 C 7.269531 0.945312 8.945312 2.625 8.945312 4.691406 Z M 8.945312 4.691406 "/>
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="0.545098" d="M 7.835938 2.011719 C 9.296875 3.472656 9.296875 5.847656 7.835938 7.308594 C 6.371094 8.773438 4 8.773438 2.535156 7.308594 C 1.070312 5.847656 1.070312 3.472656 2.535156 2.011719 C 4 0.546875 6.371094 0.546875 7.835938 2.011719 Z M 7.835938 2.011719 "/>
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 1.449219 7.039062 L 7.5 0.992188 L 8.898438 2.390625 L 2.847656 8.4375 Z M 1.449219 7.039062 "/>
 </svg>

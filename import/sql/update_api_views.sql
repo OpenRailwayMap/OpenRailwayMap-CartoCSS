@@ -1,0 +1,3 @@
+-- Refresh facilities API views
+REFRESH MATERIALIZED VIEW openrailwaymap_facilities_for_name_search;
+REFRESH MATERIALIZED VIEW openrailwaymap_facilities_for_ref_search;

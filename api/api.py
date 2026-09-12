@@ -1,0 +1,153 @@
+import contextlib
+import os
+from typing import Annotated
+import sys
+
+import asyncpg
+from fastapi import FastAPI, Query, Response, HTTPException
+from fastapi.staticfiles import StaticFiles
+
+import httpx
+
+from openrailwaymap_api.facility_api import FacilityAPI
+from openrailwaymap_api.milestone_api import MilestoneAPI
+from openrailwaymap_api.status_api import StatusAPI
+from openrailwaymap_api.replication_api import ReplicationAPI
+from openrailwaymap_api.wikidata_api import WikidataAPI
+from openrailwaymap_api.route_api import RouteAPI
+from openrailwaymap_api.route_stops_api import RouteStopsAPI
+from openrailwaymap_api.feature_api import FeatureAPI
+
+DEFAULT_HTTP_HEADERS = {
+  'User-Agent': f'OpenRailwayMap API (https://openrailwaymap.app), httpx {httpx.__version__}, Python {sys.version}'
+}
+
+async def set_connection_codecs(conn):
+    await conn.set_builtin_type_codec('hstore', codec_name='pg_contrib.hstore')
+
+@contextlib.asynccontextmanager
+async def lifespan(app):
+    async with asyncpg.create_pool(
+            user=os.environ['POSTGRES_USER'],
+            host=os.environ['POSTGRES_HOST'],
+            database=os.environ['POSTGRES_DB'],
+            command_timeout=10,
+            min_size=1,
+            max_size=20,
+            init=set_connection_codecs,
+    ) as pool:
+        print('Connected to database')
+        app.state.database = pool
+
+        async with httpx.AsyncClient(timeout=3.0, headers=DEFAULT_HTTP_HEADERS) as http_client:
+            print('Created HTTP client')
+            app.state.http_client = http_client
+
+            yield
+
+            app.state.http_client = None
+
+            print('Closed HTTP client')
+
+        app.state.database = None
+
+    print('Disconnected from database')
+
+
+app = FastAPI(
+    title="OpenRailwayMap API",
+    lifespan=lifespan,
+)
+app.mount("/api/features", StaticFiles(directory="static"), name="static")
+
+DEFAULT_FACILITY_LIMIT = 20
+DEFAULT_MILESTONE_LIMIT = 2
+MIN_LIMIT = 1
+MAX_LIMIT = 200
+
+@app.get("/api/status")
+async def status():
+    api = StatusAPI()
+    return await api()
+
+
+@app.get("/api/replication_timestamp")
+async def replication_timestamp():
+    api = ReplicationAPI(app.state.database)
+    return await api()
+
+
+@app.get("/api/facility")
+async def facility(
+        q: Annotated[str | None, Query()] = None,
+        name: Annotated[str | None, Query()] = None,
+        ref: Annotated[str | None, Query()] = None,
+        lang: Annotated[str | None, Query()] = None,
+        limit: Annotated[int, Query(ge=MIN_LIMIT, le=MAX_LIMIT)] = DEFAULT_FACILITY_LIMIT,
+):
+    api = FacilityAPI(app.state.database)
+    return await api(q=q, name=name, ref=ref, limit=limit, language=lang)
+
+
+@app.get("/api/milestone")
+async def milestone(
+        ref: Annotated[str, Query()],
+        position: Annotated[float, Query()],
+        limit: Annotated[int | None, Query(ge=MIN_LIMIT, le=MAX_LIMIT)] = DEFAULT_MILESTONE_LIMIT,
+):
+    api = MilestoneAPI(app.state.database)
+    return await api(ref=ref, position=position, limit=limit)
+
+
+@app.get("/api/wikidata/{id}")
+async def wikidata(
+        id: str
+):
+    api = WikidataAPI(app.state.http_client)
+    return await api.wikidata_image(id=id)
+
+
+@app.get("/api/wikimedia/{file_name}")
+async def wikimedia(
+        file_name: str
+):
+    api = WikidataAPI(app.state.http_client)
+    return await api.wikimedia_commons_file(file_name=file_name)
+
+
+@app.get("/api/route/{osm_id}")
+async def route(
+        osm_id: int
+):
+    api = RouteAPI(app.state.database)
+    response = await api(osm_id=osm_id)
+
+    if response is None:
+        raise HTTPException(status_code=404, detail="Route not found")
+
+    return Response(content=response, media_type="application/geo+json")
+
+
+@app.get("/api/route/stops/{osm_id}")
+async def route_stops(
+        osm_id: int
+):
+    api = RouteStopsAPI(app.state.database)
+    response = await api(osm_id=osm_id)
+    return Response(content=response, media_type="application/geo+json")
+
+
+@app.get("/api/feature/{source}/{layer}/{id}")
+async def feature_source_layer(
+        source: str,
+        layer: str,
+        id: str,
+        lang: Annotated[str | None, Query()] = None,
+):
+    api = FeatureAPI(app.state.database)
+    response = await api(source=source, layer=layer, id=id, lang=lang)
+
+    if response is None:
+        raise HTTPException(status_code=404, detail="Feature not found")
+
+    return response

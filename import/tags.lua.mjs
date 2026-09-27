@@ -1,10 +1,15 @@
 import fs from 'fs'
 import yaml from 'yaml'
+import { argv } from 'node:process'
 
-const signals_railway_line = yaml.parse(fs.readFileSync('train_protection.yaml', 'utf8'))
-const signals_railway_signals = yaml.parse(fs.readFileSync('signals_railway_signals.yaml', 'utf8'))
-const pois = yaml.parse(fs.readFileSync('poi.yaml', 'utf8'))
-const station_references = yaml.parse(fs.readFileSync('stations.yaml', 'utf8')).references
+// Optional positional argument for symbols search path.
+// Needed to run outside a container and without creating symlinks.
+const search_path = argv.length > 2 ? (argv[2] + '/') : ''
+
+const signals_railway_line = yaml.parse(fs.readFileSync(`${search_path}train_protection.yaml`, 'utf8'))
+const signals_railway_signals = yaml.parse(fs.readFileSync(`${search_path}signals_railway_signals.yaml`, 'utf8'))
+const pois = yaml.parse(fs.readFileSync(`${search_path}poi.yaml`, 'utf8'))
+const station_references = yaml.parse(fs.readFileSync(`${search_path}stations.yaml`, 'utf8')).references
 
 const trainProtectionTags = [...new Set(signals_railway_line.features.flatMap(feature => feature.tags).map(tag => tag.tag))].toSorted();
 

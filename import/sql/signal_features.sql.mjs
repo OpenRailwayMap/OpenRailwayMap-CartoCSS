@@ -5,8 +5,9 @@ import { argv } from 'node:process'
 // Optional positional argument for symbols search path.
 // Needed to run outside a container and without creating symlinks.
 const symbols_search_path = argv.length > 2 ? (argv[2] + '/') : ''
+const features_dir = argv.length > 2 ? (argv[2] + '/features/') : ''
 
-const signals_railway_signals = yaml.parse(fs.readFileSync('signals_railway_signals.yaml', 'utf8'))
+const signals_railway_signals = yaml.parse(fs.readFileSync(`${features_dir}signals_railway_signals.yaml`, 'utf8'))
 
 const layers = [...new Set(signals_railway_signals.types.map(type => type.layer))]
 

@@ -1,7 +1,12 @@
 import fs from 'fs'
 import yaml from 'yaml'
+import { argv } from 'node:process'
 
-const operators = yaml.parse(fs.readFileSync('operators.yaml', 'utf8'))
+// Optional positional argument for symbols search path.
+// Needed to run outside a container and without creating symlinks.
+const operators_dir = argv.length > 2 ? (argv[2] + '/') : ''
+
+const operators = yaml.parse(fs.readFileSync(`${operators_dir}operators.yaml`, 'utf8'))
 
 const operatorsByName = operators.operators
   .flatMap(({names, color}) => names.map(name => ({name, color})));

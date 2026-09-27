@@ -79,12 +79,12 @@ function update_datafile() {
 
 function reduce_data() {
   # Remove platforms which are not near any railway line, and also not part of any railway route
-  $PSQL -c "delete from platforms p where not exists(select * from routes r where r.platform_ref_ids @> Array[p.osm_id]) and not exists(select * from railway_line l where st_dwithin(p.way, l.way, 20));"
+  $PSQL -f sql/reduce_data.sql
 }
 
 function transform_data() {
   # Yard nodes which are contained in a landuse=railway area, assume the landuse area as yard geometry.
-  $PSQL -c "update stations s set way = l.way from landuse l where ST_Within(s.way, l.way) and feature = 'yard' and GeometryType(s.way) = 'POINT' and s.osm_type = 'N';"
+  $PSQL -f sql/transform_data.sql
 }
 
 function create_update_functions_views() {

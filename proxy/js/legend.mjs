@@ -575,6 +575,25 @@ const sourceLayers = {
         },
       ],
     },
+    passenger_lines: {
+      mapState: {
+        tracks: 'passenger_lines',
+      },
+      key: [],
+      features: passengerLineLegends.map(passengerLines => ({
+        legend: `${passengerLines} line${passengerLines === 1 ? '' : 's'}`,
+        type: 'line',
+        properties: {
+          feature: 'rail',
+          state: 'present',
+          usage: 'main',
+          service: null,
+          bridge: false,
+          tunnel: false,
+          passenger_lines: passengerLines,
+        },
+      }))
+    },
   },
   'electrification_railway_line_low-electrification_railway_line_low': {
     voltage_frequency: {
@@ -1251,6 +1270,25 @@ const sourceLayers = {
         })),
       ]
     },
+    passenger_lines: {
+      mapState: {
+        tracks: 'passenger_lines',
+      },
+      key: [],
+      features: passengerLineLegends.map(passengerLines => ({
+        legend: `${passengerLines} line${passengerLines === 1 ? '' : 's'}`,
+        type: 'line',
+        properties: {
+          feature: 'rail',
+          state: 'present',
+          usage: 'main',
+          service: null,
+          bridge: false,
+          tunnel: false,
+          passenger_lines: passengerLines,
+        },
+      }))
+    },
   },
   'high-railway_line_high': {
     usage: {
@@ -1587,6 +1625,25 @@ const sourceLayers = {
             ref: 'T1',
             name: 'Name',
             track_ref: '8b',
+            way_length: 1.0,
+          },
+        },
+        {
+          legend: 'Rack',
+          type: 'line',
+          minzoom: 14,
+          properties: {
+            highspeed: false,
+            feature: 'rail',
+            state: 'present',
+            usage: null,
+            service: 'siding',
+            tunnel: false,
+            bridge: false,
+            ref: null,
+            name: null,
+            rack: 'yes',
+            track_ref: null,
             way_length: 1.0,
           },
         },

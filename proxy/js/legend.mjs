@@ -3939,33 +3939,6 @@ const sourceLayers = {
     },
   },
 
-  // Turntables
-
-  "openrailwaymap_standard-standard_railway_turntables": {
-    turntables: {
-      key: [
-        'feature',
-      ],
-      features: [
-        {
-          legend: 'Turntable',
-          type: 'polygon',
-          properties: {
-            feature: 'turntable'
-          },
-          variants: [
-            {
-              legend: 'Transfer table',
-              properties: {
-                feature: 'traverser',
-              }
-            }
-          ]
-        },
-      ],
-    },
-  },
-
   // Boxes
 
   'openrailwaymap_signals-signals_signal_boxes': {

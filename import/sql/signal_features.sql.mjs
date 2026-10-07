@@ -316,7 +316,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS signal_features AS
   FROM
     signal_features_view;
 
-CREATE INDEX IF NOT EXISTS signal_features_signal_id_index
+CREATE UNIQUE INDEX IF NOT EXISTS signal_features_signal_id_index
   ON signal_features
     USING btree(signal_id);
 

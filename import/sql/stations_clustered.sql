@@ -177,6 +177,11 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS stop_area_groups_buffered AS
   -- Only use station area groups that have more than one station area
   HAVING COUNT(distinct sa.osm_id) > 1;
 
+-- This unique index is only needed for concurrently running materialized view update.
+CREATE UNIQUE INDEX IF NOT EXISTS stop_area_groups_osm_id
+  ON stop_area_groups_buffered
+    USING BTREE(osm_id);
+
 CREATE INDEX IF NOT EXISTS stop_area_groups_buffered_index
   ON stop_area_groups_buffered
     USING GIST(way);
@@ -244,6 +249,7 @@ CREATE INDEX IF NOT EXISTS interlocking_buffered_index
   ON interlocking_buffered
     USING GIST(buffered);
 
+-- This unique index is only needed for concurrently running materialized view update.
 CREATE UNIQUE INDEX IF NOT EXISTS interlocking_id_index
   ON interlocking_buffered
     USING BTREE(id);

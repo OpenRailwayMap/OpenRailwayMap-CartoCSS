@@ -231,7 +231,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS signal_direction AS
   FROM
     signal_direction_view;
 
-CREATE INDEX IF NOT EXISTS signal_direction_signal_id_index
+CREATE UNIQUE INDEX IF NOT EXISTS signal_direction_signal_id_index
   ON signal_direction
     USING btree(signal_id);
 

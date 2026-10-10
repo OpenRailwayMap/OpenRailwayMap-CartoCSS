@@ -1,0 +1,1552 @@
+import fs from 'fs'
+import yaml from 'yaml'
+
+const signals_railway_line = yaml.parse(fs.readFileSync('features/train_protection.yaml', 'utf8'))
+const all_signals = yaml.parse(fs.readFileSync('features/signals_railway_signals.yaml', 'utf8'))
+const loading_gauges = yaml.parse(fs.readFileSync('features/loading_gauge.yaml', 'utf8'))
+const poi = yaml.parse(fs.readFileSync('features/poi.yaml', 'utf8'))
+const stations = yaml.parse(fs.readFileSync('features/stations.yaml', 'utf8'))
+const railway_lines = yaml.parse(fs.readFileSync('features/railway_line.yaml', 'utf8'))
+const workrules = yaml.parse(fs.readFileSync('features/workrules.yaml', 'utf8'))
+const radio = yaml.parse(fs.readFileSync('features/radio.yaml', 'utf8'))
+
+const signal_types = all_signals.types;
+const signal_features = all_signals.features
+
+// TODO add links to documentation
+
+const requireUniqueEntries = array => {
+  const count = Object.groupBy(array.filter(it => it[0]), it => it[0]);
+  if (Object.values(count).some(it => it.length > 1)) {
+    // Check if entries actually have different content
+    const offendingEntries = Object.entries(count)
+      .filter(it => it[1].length > 1)
+      .filter(it => new Set(it[1].map(item => JSON.stringify(item))).size > 1)
+      .map(it => ` - ${it[0]}`).join('\n');
+
+    if (offendingEntries.length > 0) {
+      throw new Error(`entries must be unique, offending entries:\n${offendingEntries}`);
+    }
+  }
+  const indexedArray = array.map(([key, value], index) => [key, {...value, index}])
+  return Object.fromEntries(indexedArray);
+}
+
+const links = {
+  wikimedia_commons: 'https://commons.wikimedia.org/wiki/%s',
+  wikipedia: 'https://wikipedia.org/wiki/%s',
+  wikidata: 'https://www.wikidata.org/wiki/%s',
+  mapillary: 'https://www.mapillary.com/app/?pKey=%s',
+  telephone: 'tel:%s',
+};
+
+const featureLinks = {
+  openstreetmap: {
+    view: 'https://www.openstreetmap.org/{osm_type}/{osm_id}',
+    edit: 'https://www.openstreetmap.org/edit?{osm_type}={osm_id}',
+  },
+  openhistoricalmap: {
+    view: 'https://www.openhistoricalmap.org/{osm_type}/{osm_id}#date={date}-01-01&layers=R',
+    edit: 'https://www.openhistoricalmap.org/edit?{osm_type}={osm_id}',
+  },
+};
+
+function allIconCombinations(feature) {
+  const allIcons = feature.icon.map(icon => [
+    {name: icon.description, icon: icon.default ? [icon.default] : []},
+    ...((icon.cases ?? []).map(iconCase => ({ name: iconCase.description ?? icon.description, icon: [iconCase.value]}))),
+  ])
+
+  let combinations = allIcons[0]
+  allIcons.slice(1).forEach(icons => {
+    const newCombinations = []
+
+    combinations.forEach(combination => {
+      icons.forEach(icon => {
+        newCombinations.push({
+          name: [combination.name, icon.name].filter(it => it).join(', '),
+          icon: icon.icon ? [...combination.icon, ...icon.icon] : combination.icon,
+        })
+      })
+    })
+
+    combinations = newCombinations
+  })
+
+  const combinationsWithoutName = combinations.filter(combination => !combination.name)
+  const combinationsWithName = combinations.filter(combination => combination.name)
+
+  return [
+    ...[...new Set(combinationsWithoutName.map(combination => combination.icon.join('|')))].map(icon => [icon, {country: feature.country, name: feature.description}]),
+    ...combinationsWithName.map(combination => [combination.icon.join('|'), {country: feature.country, name: `${feature.description} (${combination.name})`}]),
+  ]
+}
+
+const generateSignalFeatures = (features, types) =>
+  requireUniqueEntries([
+    ...features.flatMap(allIconCombinations),
+    ...types.map(type => [
+      `general/signal-unknown-${type.type}`,
+      {
+        name: `Unknown signal (${type.type})`,
+      }
+    ]),
+    [
+      'general/signal-unknown',
+      {
+        name: 'Unknown signal',
+      },
+    ],
+  ]);
+
+// TODO move icon SVGs to proxy
+const railwayLineFeatures = {
+  view: {
+    name: 'railway_line_view',
+    id_type: 'text',
+  },
+  labelProperties: ['ref', 'name'],
+  featureLinks: featureLinks.openstreetmap,
+  features: Object.fromEntries(
+    railway_lines.features.map(feature => [
+      feature.type,
+      {
+        name: feature.description,
+        type: 'line',
+      },
+    ])
+  ),
+  properties: {
+    state: {
+      name: 'State',
+    },
+    usage: {
+      name: 'Usage',
+    },
+    service: {
+      name: 'Service',
+    },
+    highspeed: {
+      name: 'High speed',
+    },
+    preserved: {
+      name: 'Preserved',
+    },
+    rubber_tires: {
+      name: 'Rubber-tyred',
+    },
+    rack: {
+      name: 'Rack',
+      format: {
+        lookup: 'rack',
+      }
+    },
+    workrules: {
+      name: 'Workrules',
+      format: {
+        lookup: 'workrules',
+      }
+    },
+    passenger_lines: {
+      name: 'Number of tracks',
+    },
+    preferred_direction: {
+      name: 'Preferred direction',
+    },
+    tunnel: {
+      name: 'Tunnel',
+    },
+    bridge: {
+      name: 'Bridge',
+    },
+    layer: {
+      name: 'Layer',
+    },
+    ref: {
+      name: 'Reference',
+    },
+    track_ref: {
+      name: 'Track',
+    },
+    speed_label: {
+      name: 'Speed',
+    },
+    train_protection: {
+      name: 'Train protection',
+      format: {
+        lookup: 'train_protection',
+      }
+    },
+    train_protection_construction: {
+      name: 'Train protection under construction',
+      format: {
+        lookup: 'train_protection',
+      }
+    },
+    electrification_state: {
+      name: 'Electrification',
+    },
+    frequency: {
+      name: 'Frequency',
+      format: {
+        template: '%.2d Hz',
+      },
+    },
+    voltage: {
+      name: 'Voltage',
+      format: {
+        template: '%d V',
+      },
+    },
+    maximum_current: {
+      name: 'Maximum current',
+      format: {
+        template: '%d A',
+      },
+    },
+    future_frequency: {
+      name: 'Future frequency',
+      format: {
+        template: '%.2d Hz',
+      },
+    },
+    future_voltage: {
+      name: 'Future voltage',
+      format: {
+        template: '%d V',
+      },
+    },
+    future_maximum_current: {
+      name: 'Future maximum current',
+      format: {
+        template: '%d A',
+      },
+    },
+    gauges: {
+      name: 'Gauge',
+    },
+    loading_gauge: {
+      name: 'Loading gauge',
+      format: {
+        lookup: 'loading_gauge',
+      },
+    },
+    track_class: {
+      name: 'Track class',
+    },
+    reporting_marks: {
+      name: 'Reporting marks',
+    },
+    operator: {
+      name: 'Operator',
+    },
+    owner: {
+      name: 'Owner',
+    },
+    traffic_mode: {
+      name: 'Traffic mode',
+    },
+    radio: {
+      name: 'Radio',
+      format: {
+        lookup: 'radio',
+      },
+    },
+    wikidata: {
+      name: 'Wikidata',
+      link: links.wikidata,
+    },
+    wikimedia_commons: {
+      name: 'Wikimedia',
+      link: links.wikimedia_commons,
+    },
+    mapillary: {
+      name: 'Mapillary',
+      link: links.mapillary,
+    },
+    wikipedia: {
+      name: 'Wikipedia',
+      link: links.wikipedia,
+      format: {
+        country_prefix: {}
+      },
+    },
+    note: {
+      name: 'Note',
+      paragraph: true,
+    },
+    description: {
+      name: 'Description',
+      paragraph: true,
+    },
+    line_routes: {
+      name: 'Routes',
+      list: {
+        routeIdProperty: 'route_id',
+        colorProperty: 'color',
+        labelProperty: 'label',
+      },
+    },
+  },
+};
+
+const poiFeatures = {
+  view: {
+    name: 'poi_view',
+    id_type: 'text',
+  },
+  labelProperties: ['name'],
+  featureLinks: featureLinks.openstreetmap,
+  features: Object.fromEntries(
+    poi.features
+      .flatMap(feature =>
+        [
+          [feature.feature, {name: feature.description}]
+        ].concat(
+          (feature.variants || []).map(variant => [variant.feature, {name: `${feature.description}${variant.description ? ` (${variant.description})` : ''}`}])
+        )
+      )
+  ),
+  properties: {
+    ref: {
+      name: 'Reference',
+    },
+    operator: {
+      name: 'Operator',
+    },
+    position: {
+      name: 'Position',
+    },
+    radio: {
+      name: 'Radio',
+      format: {
+        lookup: 'radio',
+      },
+    },
+    emergency_phone: {
+      name: 'Emergency phone',
+      link: links.telephone,
+    },
+    diameter: {
+      name: 'Diameter',
+    },
+    wikidata: {
+      name: 'Wikidata',
+      link: links.wikidata,
+    },
+    wikimedia_commons: {
+      name: 'Wikimedia',
+      link: links.wikimedia_commons,
+    },
+    mapillary: {
+      name: 'Mapillary',
+      link: links.mapillary,
+    },
+    wikipedia: {
+      name: 'Wikipedia',
+      link: links.wikipedia,
+      format: {
+        country_prefix: {}
+      },
+    },
+    note: {
+      name: 'Note',
+      paragraph: true,
+    },
+    description: {
+      name: 'Description',
+      paragraph: true,
+    },
+  },
+};
+
+// TODO move tram / metro stops to stations
+const stationFeatures = {
+  view: {
+    name: 'railway_text_stations',
+    id_type: 'text',
+    localizedFields: {
+      localized_name: {
+        field: 'name_tags',
+        key: 'name:{lang}',
+        default: 'name',
+      },
+    },
+  },
+  featureProperty: 'feature',
+  labelProperties: ['localized_name', 'name'],
+  featureLinks: featureLinks.openstreetmap,
+  features: requireUniqueEntries(
+    stations.features.map(feature => [feature.feature, {name: feature.description}])
+  ),
+  properties: {
+    station: {
+      name: 'Type',
+    },
+    state: {
+      name: 'State',
+    },
+    references: {
+      name: 'References',
+      format: {
+        map: {
+          key: {
+            format: {
+              lookup: 'station_references',
+            },
+          },
+          value: {}
+        },
+      },
+    },
+    operator: {
+      name: 'Operator',
+    },
+    owner: {
+      name: 'Owner',
+    },
+    network: {
+      name: 'Network',
+    },
+    position: {
+      name: 'Position',
+    },
+    yard_purpose: {
+      name: 'Yard purpose',
+    },
+    yard_hump: {
+      name: 'Yard hump',
+    },
+    wikidata: {
+      name: 'Wikidata',
+      link: links.wikidata,
+    },
+    wikimedia_commons: {
+      name: 'Wikimedia',
+      link: links.wikimedia_commons,
+    },
+    mapillary: {
+      name: 'Mapillary',
+      link: links.mapillary,
+    },
+    wikipedia: {
+      name: 'Wikipedia',
+      link: links.wikipedia,
+      format: {
+        country_prefix: {}
+      },
+    },
+    note: {
+      name: 'Note',
+      paragraph: true,
+    },
+    description: {
+      name: 'Description',
+      paragraph: true,
+    },
+    station_routes: {
+      name: 'Routes',
+      list: {
+        routeIdProperty: 'route_id',
+        colorProperty: 'color',
+        labelProperty: 'label',
+      },
+    },
+  },
+}
+
+const interlockingFeatures = {
+  view: {
+    name: 'standard_interlocking_view',
+    id_type: 'numeric',
+  },
+  labelProperties: ['name'],
+  featureLinks: featureLinks.openstreetmap,
+  features: {
+    interlocking: {
+      name: 'Interlocking',
+      type: 'relation',
+    },
+    junction: {
+      name: 'Junction',
+      type: 'relation',
+    },
+  },
+  properties: {
+    references: {
+      name: 'References',
+      format: {
+        map: {
+          key: {
+            format: {
+              lookup: 'station_references',
+            },
+          },
+          value: {}
+        },
+      },
+    },
+    operator: {
+      name: 'Operator',
+    },
+    owner: {
+      name: 'Owner',
+    },
+    network: {
+      name: 'Network',
+    },
+    wikidata: {
+      name: 'Wikidata',
+      link: links.wikidata,
+    },
+    wikimedia_commons: {
+      name: 'Wikimedia',
+      link: links.wikimedia_commons,
+    },
+    mapillary: {
+      name: 'Mapillary',
+      link: links.mapillary,
+    },
+    wikipedia: {
+      name: 'Wikipedia',
+      link: links.wikipedia,
+      format: {
+        country_prefix: {}
+      },
+    },
+    note: {
+      name: 'Note',
+      paragraph: true,
+    },
+    description: {
+      name: 'Description',
+      paragraph: true,
+    },
+  }
+};
+
+const openHistoricalMapRouteModalities = [
+  {
+    modality: 'subway',
+    name: 'Subway',
+  },
+  {
+    modality: 'tram',
+    name: 'Tram',
+  },
+  {
+    modality: 'light_rail',
+    name: 'Light rail',
+  },
+  {
+    modality: 'train',
+    name: 'Train',
+  },
+];
+
+// TODO move examples here
+// TODO add icon
+const features = {
+  'high-railway_line_high': railwayLineFeatures,
+  'standard_railway_line_low-standard_railway_line_low': railwayLineFeatures,
+  'speed_railway_line_low-speed_railway_line_low': railwayLineFeatures,
+  'signals_railway_line_low-signals_railway_line_low': railwayLineFeatures,
+  'electrification_railway_line_low-electrification_railway_line_low': railwayLineFeatures,
+  'track_railway_line_low-track_railway_line_low': railwayLineFeatures,
+  'operator_railway_line_low-operator_railway_line_low': railwayLineFeatures,
+  'openhistoricalmap-transport_lines': {
+    labelProperties: ['name'],
+    featureProperty: 'type',
+    featureLinks: featureLinks.openhistoricalmap,
+    features: {
+      rail: {
+        name: 'Historical railway',
+        type: 'line',
+      },
+      tram: {
+        name: 'Historical tram',
+        type: 'line',
+      },
+      light_rail: {
+        name: 'Historical light rail',
+        type: 'line',
+      },
+      subway: {
+        name: 'Historical subway',
+        type: 'line',
+      },
+      monorail: {
+        name: 'Historical monorail',
+        type: 'line',
+      },
+      narrow_gauge: {
+        name: 'Historical narrow gauge railway',
+        type: 'line',
+      },
+      miniature: {
+        name: 'Historical miniature railway',
+        type: 'line',
+      },
+      funicular: {
+        name: 'Historical funicular',
+        type: 'line',
+      },
+      construction: {
+        name: 'Historical railway under construction',
+        type: 'line',
+      },
+      proposed: {
+        name: 'Historical proposed railway',
+        type: 'line',
+      },
+      disused: {
+        name: 'Historical disused railway',
+        type: 'line',
+      },
+      abandoned: {
+        name: 'Historical abandoned railway',
+        type: 'line',
+      },
+    },
+    properties: {
+      usage: {
+        name: 'Usage',
+      },
+      service: {
+        name: 'Service',
+      },
+      highspeed: {
+        name: 'High speed',
+      },
+      preserved: {
+        name: 'Preserved',
+      },
+      rubber_tires: {
+        name: 'Rubber-tyred',
+      },
+      workrules: {
+        name: 'Workrules',
+      },
+      passenger_lines: {
+        name: 'Number of tracks',
+      },
+      preferred_direction: {
+        name: 'Preferred direction',
+      },
+      tunnel: {
+        name: 'Tunnel',
+        format: {
+          lookup: 'boolean',
+        },
+      },
+      bridge: {
+        name: 'Bridge',
+        format: {
+          lookup: 'boolean',
+        },
+      },
+      ref: {
+        name: 'Reference',
+      },
+      electrified: {
+        name: 'Electrified',
+      },
+      start_date: {
+        name: 'Since',
+      },
+      end_date: {
+        name: 'Until',
+      },
+    },
+  },
+  'openhistoricalmap-route_lines': {
+    labelProperties: [],
+    featureLinks: featureLinks.openhistoricalmap,
+    features: {},
+    properties: Object.fromEntries(
+      openHistoricalMapRouteModalities
+        .flatMap(({modality, name}) => [6, 5, 4, 3, 2, 1]
+          .map(i => [`route_${modality}_${i}_name`, {
+            name: `${name} route`,
+          }]))),
+  },
+  'openhistoricalmap-transport_points_centroids': {
+    featureProperty: 'type',
+    labelProperties: ['name'],
+    featureLinks: featureLinks.openhistoricalmap,
+    features: {
+      station: {
+        name: 'Historical station',
+      },
+      halt: {
+        name: 'Historical halt',
+      },
+    },
+    properties: {
+      start_date: {
+        name: 'Since',
+      },
+      end_date: {
+        name: 'Until',
+      },
+    },
+  },
+  'openhistoricalmap-landuse_areas': {
+    featureProperty: 'class',
+    labelProperties: ['name'],
+    featureLinks: featureLinks.openhistoricalmap,
+    features: {
+      landuse: {
+        name: 'Historical railway landuse',
+        type: 'polygon',
+      },
+    },
+    properties: {
+      start_date: {
+        name: 'Since',
+      },
+      end_date: {
+        name: 'Until',
+      },
+    },
+  },
+  'standard_railway_text_stations_low-standard_railway_text_stations_low': stationFeatures,
+  'standard_railway_text_stations_med-standard_railway_text_stations_med': stationFeatures,
+  'openrailwaymap_standard-standard_railway_text_stations': stationFeatures,
+  'openrailwaymap_standard-standard_railway_grouped_stations': stationFeatures,
+  'openrailwaymap_standard-standard_railway_grouped_station_areas': {
+    view: {
+      name: 'standard_railway_grouped_station_areas_view',
+      id_type: 'numeric',
+    },
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      station_area_group: {
+        name: 'Station area group',
+        type: 'relation',
+      },
+    },
+    properties: {}
+  },
+  'openrailwaymap_standard-standard_interlocking': interlockingFeatures,
+  'openrailwaymap_standard-standard_interlocking_text': interlockingFeatures,
+  'openrailwaymap_standard-standard_railway_platforms': {
+    view: {
+      name: 'standard_railway_platforms_view',
+      id_type: 'text',
+    },
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      platform: {
+        name: 'Platform',
+        type: 'polygon',
+      },
+    },
+    labelProperties: ['name'],
+    properties: {
+      ref: {
+        name: 'Reference',
+      },
+      height: {
+        name: 'Height',
+        format: {
+          template: '%.2d m',
+        },
+      },
+      surface: {
+        name: 'Surface',
+      },
+      elevator: {
+        name: 'Elevator',
+      },
+      shelter: {
+        name: 'Shelter',
+      },
+      lit: {
+        name: 'Lit',
+      },
+      bin: {
+        name: 'Bin',
+      },
+      bench: {
+        name: 'Bench',
+      },
+      wheelchair: {
+        name: 'Wheelchair accessible',
+      },
+      departures_board: {
+        name: 'Departures board',
+      },
+      tactile_paving: {
+        name: 'Tactile paving',
+      },
+      platform_routes: {
+        name: 'Routes',
+        list: {
+          routeIdProperty: 'route_id',
+          colorProperty: 'color',
+          labelProperty: 'label',
+        },
+      },
+    }
+  },
+  'openrailwaymap_standard-standard_railway_platform_edges': {
+    view: {
+      name: 'standard_railway_platform_edges_view',
+      id_type: 'numeric',
+    },
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      platform_edge: {
+        name: 'Platform edge',
+        type: 'line',
+      },
+    },
+    labelProperties: ['ref'],
+    properties: {
+      height: {
+        name: 'Height',
+        format: {
+          template: '%.2d m',
+        },
+      },
+      length: {
+        name: 'Length',
+        format: {
+          template: '%.0d m',
+        },
+      },
+      tactile_paving: {
+        name: 'Tactile paving',
+      },
+    }
+  },
+  'openrailwaymap_standard-standard_railway_stop_positions': {
+    view: {
+      name: 'standard_railway_stop_positions_view',
+      id_type: 'numeric',
+    },
+    featureLinks: featureLinks.openstreetmap,
+    labelProperties: ['name'],
+    featureProperty: 'type',
+    features: {
+      train: {
+        name: 'Train stop',
+      },
+      tram: {
+        name: 'Tram stop',
+      },
+      subway: {
+        name: 'Subway stop',
+      },
+      light_rail: {
+        name: 'Light rail stop',
+      },
+    },
+    properties: {
+      ref: {
+        name: 'Reference',
+      },
+      local_ref: {
+        name: 'Local reference',
+      },
+      stop_position_routes: {
+        name: 'Routes',
+        list: {
+          routeIdProperty: 'route_id',
+          colorProperty: 'color',
+          labelProperty: 'label',
+        },
+      },
+    }
+  },
+  'openrailwaymap_standard-standard_station_entrances': {
+    view: {
+      name: 'standard_station_entrances_view',
+      id_type: 'numeric',
+    },
+    featureLinks: featureLinks.openstreetmap,
+    featureProperty: 'type',
+    features: {
+      subway: {
+        name: 'Subway entrance',
+      },
+      train: {
+        name: 'Train station entrance',
+      },
+    },
+    properties: {
+      name: {
+        name: 'Name',
+      },
+      ref: {
+        name: 'Reference',
+      },
+      wikidata: {
+        name: 'Wikidata',
+        link: links.wikidata,
+      },
+      wikimedia_commons: {
+        name: 'Wikimedia',
+        link: links.wikimedia_commons,
+      },
+      mapillary: {
+        name: 'Mapillary',
+        link: links.mapillary,
+      },
+      wikipedia: {
+        name: 'Wikipedia',
+        link: links.wikipedia,
+      },
+      note: {
+        name: 'Note',
+        paragraph: true,
+      },
+      description: {
+        name: 'Description',
+        paragraph: true,
+      },
+    },
+  },
+  'openrailwaymap_points_of_interest-points_of_interest': poiFeatures,
+  'openrailwaymap_points_of_interest-points_of_interest_areas': poiFeatures,
+  "high-railway_text_km": {
+    view: {
+      name: 'railway_text_km_view',
+      id_type: 'text',
+    },
+    featureProperty: 'railway',
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      milestone: {
+        name: 'Milestone',
+      },
+      level_crossing: {
+        name: 'Level crossing',
+      },
+      crossing: {
+        name: 'Crossing',
+      },
+    },
+    properties: {
+      pos: {
+        name: 'Position',
+      },
+      pos_exact: {
+        name: 'Exact position',
+      },
+      type: {
+        name: 'Type',
+      },
+      operator: {
+        name: 'Operator',
+      },
+      wikidata: {
+        name: 'Wikidata',
+        link: links.wikidata,
+      },
+      wikimedia_commons: {
+        name: 'Wikimedia',
+        link: links.wikimedia_commons,
+      },
+      mapillary: {
+        name: 'Mapillary',
+        link: links.mapillary,
+      },
+      wikipedia: {
+        name: 'Wikipedia',
+        link: links.wikipedia,
+      },
+      note: {
+        name: 'Note',
+        paragraph: true,
+      },
+      description: {
+        name: 'Description',
+        paragraph: true,
+      },
+    },
+  },
+  'openrailwaymap_standard-standard_railway_switch_ref': {
+    view: {
+      name: 'standard_railway_switch_view',
+      id_type: 'numeric',
+    },
+    labelProperties: ['ref'],
+    featureProperty: 'railway',
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      switch: {
+        name: 'Switch',
+      },
+      railway_crossing: {
+        name: 'Railway crossing',
+      }
+    },
+    properties: {
+      type: {
+        name: 'Type',
+      },
+      turnout_side: {
+        name: 'Turnout side',
+      },
+      local_operated: {
+        name: 'Operated locally',
+      },
+      resetting: {
+        name: 'Resetting',
+      },
+      position: {
+        name: 'Position',
+      },
+      operator: {
+        name: 'Operator',
+      },
+      wikidata: {
+        name: 'Wikidata',
+        link: links.wikidata,
+      },
+      wikimedia_commons: {
+        name: 'Wikimedia',
+        link: links.wikimedia_commons,
+      },
+      mapillary: {
+        name: 'Mapillary',
+        link: links.mapillary,
+      },
+      wikipedia: {
+        name: 'Wikipedia',
+        link: links.wikipedia,
+      },
+      note: {
+        name: 'Note',
+        paragraph: true,
+      },
+      description: {
+        name: 'Description',
+        paragraph: true,
+      },
+    },
+  },
+  'openrailwaymap_signals-railway_signals': {
+    view: {
+      name: 'railway_signals_view',
+      id_type: 'numeric',
+    },
+    featureProperty: 'railway',
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      signal: {
+        name: 'Signal',
+      },
+      buffer_stop: {
+        name: 'Buffer stop',
+      },
+      derail: {
+        name: 'Derailer',
+      },
+    },
+    properties: {
+      feature0: {
+        name: 'Primary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature1: {
+        name: 'Secondary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature2: {
+        name: 'Tertiary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature3: {
+        name: 'Quaternary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature4: {
+        name: 'Quinary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature5: {
+        name: 'Senary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature6: {
+        name: 'Septenary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature7: {
+        name: 'Octonary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature8: {
+        name: 'Nonary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature9: {
+        name: 'Decenary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature10: {
+        name: 'Undenary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      feature11: {
+        name: 'Duodenary signal',
+        format: {
+          lookup: 'railway_signals',
+        },
+      },
+      ref: {
+        name: 'Reference',
+      },
+      caption: {
+        name: 'Caption',
+      },
+      type: {
+        name: 'Type',
+      },
+      deactivated0: {
+        name: 'Primary deactivated',
+      },
+      deactivated1: {
+        name: 'Secondary deactivated',
+      },
+      deactivated2: {
+        name: 'Tertiary deactivated',
+      },
+      deactivated3: {
+        name: 'Quaternary deactivated',
+      },
+      deactivated4: {
+        name: 'Quinary deactivated',
+      },
+      deactivated5: {
+        name: 'Senary deactivated',
+      },
+      deactivated6: {
+        name: 'Septenary deactivated',
+      },
+      deactivated7: {
+        name: 'Octonary deactivated',
+      },
+      deactivated8: {
+        name: 'Nonary deactivated',
+      },
+      deactivated9: {
+        name: 'Decenary deactivated',
+      },
+      deactivated10: {
+        name: 'Undenary deactivated',
+      },
+      deactivated11: {
+        name: 'Duodenary deactivated',
+      },
+      direction_both: {
+        name: 'Both directions',
+      },
+      ...Object.fromEntries(all_signals.tags.map(tag => [tag.tag, { name: tag.title, description: tag.description, format: tag.format }])),
+      position: {
+        name: 'Position',
+      },
+      wikidata: {
+        name: 'Wikidata',
+        link: links.wikidata,
+      },
+      wikimedia_commons: {
+        name: 'Wikimedia',
+        link: links.wikimedia_commons,
+      },
+      mapillary: {
+        name: 'Mapillary',
+        link: links.mapillary,
+      },
+      wikipedia: {
+        name: 'Wikipedia',
+        link: links.wikipedia,
+      },
+      note: {
+        name: 'Note',
+        paragraph: true,
+      },
+      description: {
+        name: 'Description',
+        paragraph: true,
+      },
+    },
+  },
+  'openrailwaymap_signals-signals_signal_boxes': {
+    view: {
+      name: 'signal_boxes_view',
+      id_type: 'text',
+    },
+    labelProperties: ['name'],
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      'signal_box': {
+        name: 'Signal box',
+      },
+      'crossing_box': {
+        name: 'Crossing box',
+      },
+      'blockpost': {
+        name: 'Block post',
+      }
+    },
+    properties: {
+      ref: {
+        name: 'Reference',
+      },
+      position: {
+        name: 'Position',
+      },
+      operator: {
+        name: 'Operator',
+      },
+      wikidata: {
+        name: 'Wikidata',
+        link: links.wikidata,
+      },
+      wikimedia_commons: {
+        name: 'Wikimedia',
+        link: links.wikimedia_commons,
+      },
+      mapillary: {
+        name: 'Mapillary',
+        link: links.mapillary,
+      },
+      wikipedia: {
+        name: 'Wikipedia',
+        link: links.wikipedia,
+      },
+      note: {
+        name: 'Note',
+        paragraph: true,
+      },
+      description: {
+        name: 'Description',
+        paragraph: true,
+      },
+    },
+  },
+  'openrailwaymap_electrification-electrification_catenary': {
+    view: {
+      name: 'electrification_catenary_view',
+      id_type: 'text',
+    },
+    featureProperty: 'feature',
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      mast: {
+        name: 'Catenary mast',
+      },
+      portal: {
+        name: 'Catenary portal',
+      },
+    },
+    properties: {
+      ref: {
+        name: 'Reference',
+      },
+      position: {
+        name: 'Position',
+      },
+      transition: {
+        name: 'Transition point',
+      },
+      structure: {
+        name: 'Structure',
+      },
+      supporting: {
+        name: 'Supporting',
+      },
+      attachment: {
+        name: 'Attachment',
+      },
+      tensioning: {
+        name: 'Tensioning',
+      },
+      insulator: {
+        name: 'Insulator',
+      },
+      operator: {
+        name: 'Operator',
+      },
+      note: {
+        name: 'Note',
+        paragraph: true,
+      },
+      description: {
+        name: 'Description',
+        paragraph: true,
+      },
+    },
+  },
+  'openrailwaymap_electrification-electrification_substation': {
+    view: {
+      name: 'electrification_substation_view',
+      id_type: 'numeric',
+    },
+    featureProperty: 'feature',
+    featureLinks: featureLinks.openstreetmap,
+    labelProperties: ['name'],
+    features: {
+      traction: {
+        name: 'Traction substation',
+        type: 'polygon',
+      },
+    },
+    properties: {
+      ref: {
+        name: 'Reference',
+      },
+      location: {
+        name: 'Location',
+      },
+      operator: {
+        name: 'Operator',
+      },
+      conversion: {
+        name: 'Conversion',
+      },
+      voltage: {
+        name: 'Voltage',
+        format: {
+          template: '%d V',
+        },
+      },
+      frequency: {
+        name: 'Frequency',
+        format: {
+          template: '%s Hz',
+        },
+      },
+      wikidata: {
+        name: 'Wikidata',
+        link: links.wikidata,
+      },
+      wikimedia_commons: {
+        name: 'Wikimedia',
+        link: links.wikimedia_commons,
+      },
+      mapillary: {
+        name: 'Mapillary',
+        link: links.mapillary,
+      },
+      wikipedia: {
+        name: 'Wikipedia',
+        link: links.wikipedia,
+        format: {
+          country_prefix: {}
+        },
+      },
+      note: {
+        name: 'Note',
+        paragraph: true,
+      },
+      description: {
+        name: 'Description',
+        paragraph: true,
+      },
+    },
+  },
+
+  // Search results
+
+  search: {
+    labelProperties: ['label'],
+    featureLinks: featureLinks.openstreetmap,
+    features: [],
+    properties: {
+      name: {
+        name: 'Name',
+      },
+      railway: {
+        name: 'Railway',
+      },
+    },
+  },
+
+  // Routes
+
+  route: {
+    labelProperties: ['name'],
+    featureProperty: 'type',
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      train: {
+        name: 'Train route',
+        type: 'relation',
+      },
+      tram: {
+        name: 'Tram route',
+        type: 'relation',
+      },
+      subway: {
+        name: 'Subway route',
+        type: 'relation',
+      },
+      light_rail: {
+        name: 'Light rail route',
+        type: 'relation',
+      },
+    },
+    properties: {
+      ref: {
+        name: 'Reference',
+      },
+      from: {
+        name: 'From',
+      },
+      to: {
+        name: 'To',
+      },
+      operator: {
+        name: 'Operator',
+      },
+      brand: {
+        name: 'Brand',
+      },
+    },
+  },
+
+  route_stops: {
+    labelProperties: ['name'],
+    featureProperty: 'type',
+    featureLinks: featureLinks.openstreetmap,
+    features: {
+      train: {
+        name: 'Train stop',
+      },
+      tram: {
+        name: 'Tram stop',
+      },
+      subway: {
+        name: 'Subway stop',
+      },
+      light_rail: {
+        name: 'Light rail stop',
+      },
+    },
+    properties: {
+      ref: {
+        name: 'Reference',
+      },
+      local_ref: {
+        name: 'Local reference',
+      },
+      entry_only: {
+        name: 'Entry only'
+      },
+      exit_only: {
+        name: 'Exit only'
+      },
+    },
+  },
+
+  // Features not part of a data source but for lookups
+
+  train_protection: {
+    features: Object.fromEntries(signals_railway_line.train_protections.map((feature, index) => [
+      feature.train_protection,
+      {
+        name: feature.legend,
+        index,
+      },
+    ])),
+  },
+  loading_gauge: {
+    features: Object.fromEntries(loading_gauges.loading_gauges.map((feature, index) => [
+      feature.value,
+      {
+        name: feature.legend,
+        index,
+      },
+    ])),
+  },
+  railway_signals: {
+    features: generateSignalFeatures(signal_features, signal_types),
+  },
+  station_references: {
+    features: Object.fromEntries(
+      stations.references
+        .map(({id, description}, index) =>
+          [id, {name: description, index}]
+        )
+    ),
+  },
+  radio: {
+    features: Object.fromEntries(
+      radio.radio
+        .map(({value, name}) =>
+          [value, { name }])
+    ),
+  },
+
+  boolean: {
+    features: {
+      0: {
+        name: 'no',
+        index: 0,
+      },
+      1: {
+        name: 'yes',
+        index: 1,
+      },
+    },
+  },
+
+  workrules: {
+    features: Object.fromEntries(workrules.workrules
+      .map(({name, country, value}) => [value, { name, country }])),
+  },
+
+  rack: {
+    features: {
+      yes: {
+        name: 'Present',
+      },
+      abt: {
+        name: 'Abt',
+      },
+      strub: {
+        name: 'Strub',
+      },
+      riggenbach: {
+        name: 'Riggenbach',
+      },
+      locher: {
+        name: 'Locher',
+      },
+      von_roll: {
+        name: 'Von Roll',
+      },
+    }
+  }
+};
+
+if (import.meta.url.endsWith(process.argv[1])) {
+  console.log(JSON.stringify(features))
+}

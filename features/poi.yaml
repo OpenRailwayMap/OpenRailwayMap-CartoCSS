@@ -1,0 +1,357 @@
+$schema: ./schema/poi.yaml
+
+features:
+  - description: Border crossing
+    feature: 'general/border'
+    type: operator
+    minzoom: 10
+    tags:
+      - { tag: 'railway', value: 'border' }
+
+  - description: Turntable
+    feature: 'general/turntable'
+    type: facility
+    minzoom: 14
+    tags:
+      - { tag: 'railway', value: 'turntable' }
+
+  - description: Traverser
+    feature: 'general/traverser'
+    type: facility
+    minzoom: 14
+    tags:
+      - { tag: 'railway', value: 'traverser' }
+
+  - description: Owner change
+    feature: 'general/owner-change'
+    type: operator
+    minzoom: 12
+    tags:
+      - { tag: 'railway', value: 'owner_change' }
+
+  - description: Radio mast
+    feature: 'general/radio-mast'
+    type: radio
+    minzoom: 12
+    tags:
+      - { tag: 'railway', value: 'radio' }
+      - { tag: 'man_made', values: ['mast', 'tower'] }
+    variants:
+      - description: antenna
+        feature: 'general/radio-antenna'
+        tags:
+          - { tag: 'railway', value: 'radio' }
+          - { tag: 'man_made', value: 'antenna' }
+
+  - description: Container terminal
+    feature: 'general/container-terminal'
+    type: facility
+    minzoom: 12
+    tags:
+      - { tag: 'railway', value: 'container_terminal' }
+
+  - description: Ferry terminal
+    feature: 'general/ferry-terminal'
+    type: facility
+    minzoom: 12
+    tags:
+      - { tag: 'railway', value: 'ferry_terminal' }
+
+  - description: Lubricator
+    type: equipment
+    minzoom: 13
+    feature: 'general/lubricator'
+    tags:
+      - { tag: 'railway', value: 'lubricator' }
+
+  - description: Fuel
+    type: equipment
+    minzoom: 13
+    feature: 'general/fuel'
+    tags:
+      - { tag: 'railway', value: 'fuel' }
+
+  - description: Sand store
+    type: equipment
+    minzoom: 13
+    feature: 'general/sand_store'
+    tags:
+      - { tag: 'railway', value: 'sand_store' }
+
+  - description: Defect detector
+    type: equipment
+    minzoom: 13
+    feature: 'general/defect_detector'
+    tags:
+      - { tag: 'railway', value: 'defect_detector' }
+
+  - description: Automatic equipment identification
+    type: equipment
+    minzoom: 13
+    feature: 'general/aei'
+    tags:
+      - { tag: 'railway', value: 'aei' }
+
+  - description: Hump
+    type: facility
+    minzoom: 13
+    feature: 'general/hump_yard'
+    tags:
+      - { tag: 'railway', value: 'hump_yard' }
+
+  - description: Loading gauge
+    type: equipment
+    minzoom: 13
+    feature: 'general/loading_gauge'
+    tags:
+      - { tag: 'railway', value: 'loading_gauge' }
+
+  - description: Preheating
+    type: equipment
+    minzoom: 13
+    feature: 'general/preheating'
+    tags:
+      - { tag: 'railway', value: 'preheating' }
+
+  - description: Compressed air supply
+    type: equipment
+    minzoom: 13
+    feature: 'general/compressed_air_supply'
+    tags:
+      - { tag: 'railway', value: 'compressed_air_supply' }
+
+  - description: Waste disposal
+    type: equipment
+    minzoom: 13
+    feature: 'general/waste_disposal'
+    tags:
+      - { tag: 'railway', value: 'waste_disposal' }
+
+  - description: Coaling facility
+    type: facility
+    minzoom: 13
+    feature: 'general/coaling_facility'
+    tags:
+      - { tag: 'railway', value: 'coaling_facility' }
+
+  - description: Wash
+    feature: 'general/wash'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'wash' }
+
+  - description: Water tower
+    feature: 'general/water_tower'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'water_tower' }
+    variants:
+      - description: Crane
+        feature: 'general/water_crane'
+        tags:
+          - { tag: 'railway', value: 'water_crane' }
+
+  - description: Workshop
+    feature: 'general/workshop'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'workshop' }
+
+  - description: Engine shed
+    feature: 'general/engine_shed'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'engine_shed' }
+
+  - description: Railway museum
+    type: facility
+    minzoom: 13
+    feature: 'general/museum'
+    tags:
+      - { tag: 'railway', value: 'museum' }
+    variants:
+      - description: Museum of rail transport
+        feature: 'general/museum-rail-transport'
+        tags:
+          - { tag: 'tourism', value: 'museum' }
+          - { tag: 'museum', value: 'railway' }
+
+  - description: Power supply
+    feature: 'general/power_supply'
+    type: equipment
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'power_supply' }
+
+  - description: Rolling highway
+    feature: 'general/rolling_highway'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'rolling_highway' }
+
+  - description: Pit
+    feature: 'general/pit'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'pit' }
+
+  - description: Loading rack
+    feature: 'general/loading-rack'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'loading_rack' }
+
+  - description: Loading ramp
+    feature: 'general/loading-ramp'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'loading_ramp' }
+
+  - description: Loading tower
+    feature: 'general/loading-tower'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'loading_tower' }
+
+  - description: Unloading hole
+    feature: 'general/unloading-hole'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'unloading_hole' }
+
+  - description: Weigh bridge
+    feature: 'general/track-scale'
+    type: equipment
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'track_scale' }
+
+  - description: Transporter car
+    feature: 'general/carrier-truck-pit'
+    type: equipment
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'carrier_truck_pit' }
+
+  - description: Bogie exchange
+    feature: 'general/gauge-conversion'
+    type: equipment
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'gauge_conversion' }
+
+  - description: Car shuttle
+    feature: 'general/car-shuttle'
+    type: facility
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'car_shuttle' }
+
+  - description: Rotary car dumper
+    feature: 'general/car-dumper'
+    type: equipment
+    minzoom: 13
+    tags:
+      - { tag: 'railway', value: 'car_dumper' }
+
+  - description: Vacancy detection
+    type: vacancy_detection
+    minzoom: 16
+    feature: 'general/vacancy-detection-unknown'
+    tags:
+      - { tag: 'railway', value: 'vacancy_detection' }
+    variants:
+      - description: Axle counter
+        feature: 'general/vacancy-detection-axle-counter'
+        tags:
+          - { tag: 'railway', value: 'vacancy_detection' }
+          - { tag: 'railway:vacancy_detection', value: 'axle_counter' }
+
+      - description: Insulated rail joint
+        feature: 'general/vacancy-detection-insulated-rail-joint'
+        tags:
+          - { tag: 'railway', value: 'vacancy_detection' }
+          - { tag: 'railway:vacancy_detection', value: 'insulated_rail_joint' }
+
+  - description: Isolated track section
+    feature: 'general/isolated-track-section'
+    type: electrical_equipment
+    minzoom: 14
+    tags:
+      - { tag: 'railway', value: 'isolated_track_section' }
+
+  - description: Crossing
+    feature: 'general/crossing'
+    type: level_crossing
+    minzoom: 15
+    tags:
+      - { tag: 'railway', value: 'crossing' }
+    variants:
+      - description: Level crossing with lights and barrier
+        feature: 'general/level-crossing-light-barrier'
+        tags:
+          - { tag: 'railway', value: 'level_crossing' }
+          - { tag: 'crossing:light', values: ['yes', 'traffic_signals', 'traffic_lights', 'traffic_signal'] }
+          - { tag: 'crossing:barrier', values: ['half', 'full', 'double_half', 'yes', 'gate', 'separate', 'lift_gate', 'gates', 'chain', 'closed'] }
+
+      - description: Level crossing with barrier
+        feature: 'general/level-crossing-barrier'
+        tags:
+          - { tag: 'railway', value: 'level_crossing' }
+          - { tag: 'crossing:barrier', values: ['half', 'full', 'double_half', 'yes', 'gate', 'separate', 'lift_gate', 'gates', 'chain', 'closed'] }
+
+      - description: Level crossing with lights
+        feature: 'general/level-crossing-light'
+        tags:
+          - { tag: 'railway', value: 'level_crossing' }
+          - { tag: 'crossing:light', values: ['yes', 'traffic_signals', 'traffic_lights', 'traffic_signal'] }
+
+      - description: Level crossing
+        feature: 'general/level-crossing'
+        tags:
+          - { tag: 'railway', value: 'level_crossing' }
+
+  - description: Hi-rail vehicle access point
+    type: facility
+    minzoom: 16
+    feature: 'general/hirail_access'
+    tags:
+      - { tag: 'railway', value: 'hirail_access' }
+
+  - description: Phone
+    type: equipment
+    minzoom: 16
+    feature: 'general/phone'
+    tags:
+      - { tag: 'railway', value: 'phone' }
+
+  - description: Buffer stop
+    feature: 'general/buffer_stop'
+    type: train_protection
+    minzoom: 16
+    tags:
+      - { tag: 'railway', value: 'buffer_stop' }
+
+  - description: Derailer
+    feature: 'general/derail'
+    type: train_protection
+    minzoom: 16
+    tags:
+      - { tag: 'railway', value: 'derail' }
+
+  - description: Retarder
+    feature: 'general/retarder'
+    type: equipment
+    minzoom: 16
+    tags:
+      - { tag: 'railway', value: 'rail_brake' }

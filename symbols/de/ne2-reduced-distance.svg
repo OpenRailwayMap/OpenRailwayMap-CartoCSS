@@ -1,71 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   id="svg2"
-   height="441.53333"
-   width="183.69547">
-  <defs
-     id="defs4" />
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     style="display:inline"
-     transform="translate(5.205276,-604.04922)"
-     id="layer1">
-    <g
-       transform="matrix(0.74764833,0,0,0.74764833,10.27552,190.06533)"
-       id="g4821">
-      <path
-         d="m -20.705676,553.71472 121.001656,199.46171 124.69541,-199.46171 -245.697066,0 z m 27.8940701,17.7047 188.8899559,0 -95.78238,153.3537 -93.1075759,-153.3537 z"
-         id="path3862"
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.79999995;marker:none" />
-      <path
-         d="m 100.70794,724.81662 -92.9967359,-153.3646 188.8633059,0 z"
-         id="path3866"
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.79999995;marker:none" />
-    </g>
-  </g>
-  <g
-     style="display:inline"
-     transform="translate(5.205276,273.63296)"
-     id="layer5" />
-  <g
-     style="display:inline"
-     transform="translate(5.205276,273.63296)"
-     id="layer6">
-    <g
-       transform="translate(-5.205276,0)"
-       id="g4816">
-      <rect
-         style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="rect4663"
-         width="168.69547"
-         height="272.74121"
-         x="7.5"
-         y="-113.00027" />
-      <path
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#000000;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none"
-         d="M 24.733509,-113.06119 91.102453,-4.5511866 160.09395,-112.05103"
-         id="path3837" />
-      <path
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#000000;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none"
-         d="M 162.11426,159.68 90.985158,51.113983 23.723356,157.65969"
-         id="path3839" />
-    </g>
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="7.488718" height="18" viewBox="0 0 7.488718 18">
+<path fill-rule="nonzero" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 0 0 L 3.6875 6.078125 L 7.488281 0 Z M 0.851562 0.539062 L 6.609375 0.539062 L 3.6875 5.214844 Z M 0.851562 0.539062 "/>
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" d="M 3.699219 5.214844 L 0.867188 0.539062 L 6.621094 0.539062 Z M 3.699219 5.214844 "/>
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="4" d="M 7.473871 -113.040549 L 176.210891 -113.040549 L 176.210891 159.755757 L 7.473871 159.755757 Z M 7.473871 -113.040549 " transform="matrix(0.040767, 0, 0, 0.040767, 0, 11.155202)"/>
+<path fill="none" stroke-width="30" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="4" d="M 24.721267 -113.040549 L 91.12374 -4.573595 L 160.113322 -112.08236 " transform="matrix(0.040767, 0, 0, 0.040767, 0, 11.155202)"/>
+<path fill="none" stroke-width="30" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="4" d="M 162.125518 159.659938 L 91.027921 51.097165 L 23.763078 157.647742 " transform="matrix(0.040767, 0, 0, 0.040767, 0, 11.155202)"/>
 </svg>

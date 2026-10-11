@@ -34,6 +34,20 @@ psql -d gis -f sql/functions.sql
 psql -d gis -f sql/get_station_importance.sql
 ```
 
+If you use a recent version of Osm2pgsql (>= 2.0), the calculation of station importance
+will thrown an error:
+
+```
+psql:sql/get_station_importance.sql:28: ERROR:  column "parts" does not exist
+LINE 2:   SELECT id, parts[0:way_off] AS parts FROM planet_osm_rels ...
+```
+
+Solution: Use `utils/get_station_importance_osm2pgsql2.sql` instead:
+
+```sh
+psql -d gis -f sql/get_station_importance_osm2pgsql2.sql
+```
+
 If you update your data, you have to refresh the materialized view of the train stations and their importance using `psql -d gis -f sql/update_station_importance.sql`.
 
 
@@ -128,8 +142,18 @@ The map style accesses the database through a couple of views. In addition, it r
 ```sh
 psql -d gis -f sql/osm_carto_views.sql
 psql -d gis -f sql/functions.sql
-psql -d gis -f sql/get_station_importance.sql
 ```
+
+There is a SQL script to calculate the importance of passenger stations based on route relations. It uses the
+middle tables of Osm2pgsql. The middle tables have changed their layout (from array fields to JSONB). Therefore, there
+are two version:
+
+```sh
+# Osm2pgsql < 2.0
+psql -d gis -f sql/get_station_importance.sql
+# Osm2pgsql >= 2.0
+psql -d gis -f sql/get_station_importance_osm2pgsql2.sql
+ ```
 
 If you update your database, you have to refresh the materialized view of the train stations periodically. Call `psql -d gis -f sql/update_station_importance.sql` to refresh it.
 

@@ -196,6 +196,7 @@ Use the Docker setup to get a development environment up and running quickly.
 
 This setup only requires Docker and Docker Compose to be installed, but and requires no other dependencies. This setup should also work on Windows systems (the containers will run in a virtual machine).
 
+- Run `docker compose build` to buid all images.
 - Run `docker compose up db` to start the Postgres database.
 - Download a file with the OSM data, and name it `data.osm.pbf`. Run `docker compose up import` which will import the data, run the post-import database setup. This step also creates a file `.env` with environment variables that you can use to tune the import.
 - Run `docker compose up kosmtik` to start Kosmtik and view the map style. Edit the `command` argument in `docker-compose.yml` in order to render a different style (default `standard.mml`).

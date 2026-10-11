@@ -39,8 +39,10 @@ EOF
     export OSM2PGSQL_DATAFILE=${OSM2PGSQL_DATAFILE:-data.osm.pbf}
   fi
 
+  echo "Filtering planet ..."
   osmium tags-filter \
     -o filtered.osm.pbf \
+    --overwrite \
     "$OSM2PGSQL_DATAFILE" \
     nwr/railway \
     nwr/disused:railway \
@@ -59,11 +61,12 @@ EOF
   osm2pgsql \
     --create \
     --database gis \
+    --output pgsql \
     --hstore \
     --slim \
     --merc \
     --style setup/openstreetmap-carto.style \
-    --tag-transform setup/openstreetmap-carto.lua \
+    --tag-transform-script setup/openstreetmap-carto.lua \
     --multi-geometry \
     --cache $OSM2PGSQL_CACHE \
     --number-processes $OSM2PGSQL_NUMPROC \

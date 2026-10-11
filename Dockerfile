@@ -1,49 +1,41 @@
-FROM debian:12-slim
+# Debian Trixie uses libmapnik-dev built with CMake, therefore without mapnik-config script.
+# This would make the installation of node-mapnik crash.
+FROM node:26-bookworm
 
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 ARG DEBIAN_FRONTEND=noninteractive
+ARG KOSMTIK_COMMIT=e2e4d1a626f1142f95e1adc60adc9c1e4c89ec00
 
 # Style dependencies
+# ca-certificates is needed for wget because the Node image does not contain it.
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
+        build-essential \
         ca-certificates \
-        curl \
-        gnupg \
         postgresql-client \
-        python3 \
-        python3-distutils \
         fonts-hanazono \
         fonts-noto-cjk \
         fonts-noto-hinted \
         fonts-noto-unhinted \
-        mapnik-utils \
-        nodejs \
-        npm \
+        libmapnik-dev \
+        patch \
         fonts-unifont \
-        unzip \
-        git \
+        wget \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Kosmtik with plugins, forcing prefix to /usr because Ubuntu sets
-# npm prefix to /usr/local, which breaks the install
-# We install kosmtik not from release channel, but directly from a specific commit on github.
-RUN npm set prefix /usr && npm install -g --unsafe-perm "git+https://git@github.com/kosmtik/kosmtik.git"
+# We install kosmtik not from release channel, but directly from a specific commit on Github.
+RUN wget --quiet -O kosmtik.tar.gz "https://github.com/kosmtik/kosmtik/archive/$KOSMTIK_COMMIT.tar.gz" && tar -xzf kosmtik.tar.gz && rm kosmtik.tar.gz && mv "kosmtik-$KOSMTIK_COMMIT" /kosmtik
+WORKDIR /kosmtik
+RUN npm install
 
-WORKDIR /usr/lib/node_modules/kosmtik/
-RUN kosmtik plugins --install kosmtik-overpass-layer \
-                    --install kosmtik-fetch-remote \
-                    --install kosmtik-overlay \
-                    --install kosmtik-open-in-josm \
-                    --install kosmtik-map-compare \
-                    --install kosmtik-osm-data-overlay \
-                    --install kosmtik-mapnik-reference \
-                    --install kosmtik-geojson-overlay \
+RUN node index.js plugins --install kosmtik-fetch-remote \
     && cp /root/.config/kosmtik.yml /tmp/.kosmtik-config.yml
 
 # Closing section
 RUN mkdir -p /openrailwaymap
+#RUN npm install -g semver
+#RUN npm install semver
 WORKDIR /openrailwaymap
 
-USER 1000
-ENTRYPOINT ["sh", "docker-startup.sh", "kosmtik"]
+ENTRYPOINT ["/bin/bash", "docker-startup.sh", "kosmtik"]

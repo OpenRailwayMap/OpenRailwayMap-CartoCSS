@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -euo pipefail
 
 # This script is used to start the import of kosmtik containers for the Docker development environment.
 # You can read details about that in SETUP.md
@@ -83,12 +84,13 @@ kosmtik)
   if [ ! -e ".kosmtik-config.yml" ]; then
     cp /tmp/.kosmtik-config.yml .kosmtik-config.yml
   fi
-  export KOSMTIK_CONFIGPATH=".kosmtik-config.yml"
+  export KOSMTIK_CONFIGPATH="/openrailwaymap/.kosmtik-config.yml"
 
   # Second argument is the kosmtik options
   shift
   # Starting Kosmtik
-  exec kosmtik serve --host 0.0.0.0 "$@"
+  cd /kosmtik
+  exec ./index.js serve --host 0.0.0.0 /openrailwaymap/"$@"
   # It needs Ctrl+C to be interrupted
   ;;
 

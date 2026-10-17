@@ -1,0 +1,180 @@
+resolver ${NGINX_RESOLVER} ipv6=off;
+
+proxy_cache_path /var/cache/nginx/
+                 levels=1:2
+                 max_size=10g
+                 use_temp_path=off
+                 keys_zone=cache:50m;
+
+map $http_referer $block_referrer {
+  # Block all requests without a referrer
+  "" 1;
+  default 0;
+}
+
+server {
+  listen 8000 default_server;
+  listen [::]:8000 ipv6only=on;
+  listen 443 ssl;
+  listen [::]:443 ipv6only=on ssl;
+
+  server_name localhost;
+
+  ssl_certificate /etc/nginx/ssl/certificate.pem;
+  ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+  gzip on;
+  gzip_disable "msie6";
+
+  gzip_vary on;
+  gzip_proxied any;
+  gzip_comp_level 6;
+  gzip_buffers 16 8k;
+  gzip_http_version 1.1;
+  gzip_min_length 256;
+  gzip_types application/atom+xml application/geo+json application/javascript application/x-javascript application/json application/ld+json application/manifest+json application/rdf+xml application/rss+xml application/xhtml+xml application/xml font/eot font/otf font/ttf image/svg+xml text/css text/javascript text/html text/plain text/xml;
+
+  include mime.types;
+  types {
+    text/javascript mjs;
+  }
+
+  location = / {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /index.html {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /news.html {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header X-Content-Hash ${NEWS_HASH};
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /manifest.json {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /favicon.ico {
+    root /etc/nginx/public/image;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location /js {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location /css {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location /image {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location /style {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location /font {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location /legend.json {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /preset.zip {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /taginfo.json {
+    root /etc/nginx/public;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /api.html {
+    root /etc/nginx/public/api;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location = /openapi.yaml {
+    root /etc/nginx/public/api;
+    expires ${CLIENT_CACHE_TTL_ASSETS_FRESH}s;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_ASSETS_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_ASSETS_STALE}";
+  }
+
+  location /api {
+    set $upstream http://${API_UPSTREAM};
+    proxy_pass $upstream;
+    proxy_http_version 1.1;
+    proxy_cache cache;
+    proxy_cache_lock on;
+    proxy_cache_lock_age 1m;
+    proxy_cache_revalidate on;
+    proxy_cache_valid 200 204 302 404 ${NGINX_CACHE_TTL}s;
+    proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+    proxy_set_header X-Rewrite-URL $uri;
+    proxy_set_header X-Forwarded-Host ${PUBLIC_HOST};
+    proxy_set_header X-Forwarded-Proto ${PUBLIC_PROTOCOL};
+    proxy_read_timeout 600;
+    proxy_redirect off;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_API_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_API_STALE}";
+  }
+
+  location ~ ^/((standard_railway_line_low|speed_railway_line_low|signals_railway_line_low,signals_railway_line_low_construction|electrification_railway_line_low|track_railway_line_low|operator_railway_line_low|route_railway_line_low|standard_railway_text_stations_low|standard_railway_text_stations_med|railway_line_high,railway_text_km|standard_railway_text_stations,standard_railway_grouped_stations,standard_railway_grouped_station_areas,standard_station_entrances,standard_railway_stop_positions,standard_interlocking,standard_interlocking_text|standard_railway_switch_ref|standard_railway_platforms,standard_railway_platform_edges|railway_signals|signals_signal_boxes|electrification_catenary|electrification_substation|points_of_interest,points_of_interest_areas,level_crossings_grouped,level_crossings_grouped_buffered)(/[0-9]+/[0-9]+/[0-9]+)?|(sprite|sdf_sprite)/symbols(@2x)?.(json|png))$ {
+    set $upstream http://${TILES_UPSTREAM};
+    proxy_pass $upstream;
+    proxy_http_version 1.1;
+    proxy_cache cache;
+    proxy_cache_lock on;
+    proxy_cache_lock_age 1m;
+    proxy_cache_revalidate on;
+    proxy_cache_valid 200 204 302 404 ${NGINX_CACHE_TTL}s;
+    proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+    proxy_set_header X-Rewrite-URL $uri;
+    proxy_set_header X-Forwarded-Host ${PUBLIC_HOST};
+    proxy_set_header X-Forwarded-Proto ${PUBLIC_PROTOCOL};
+    proxy_read_timeout 600;
+    proxy_redirect off;
+
+    if ($block_referrer) {
+      return 403;
+    }
+
+    add_header X-Cache-Status $upstream_cache_status;
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_TILES_FRESH}, stale-if-error=${CLIENT_CACHE_TTL_TILES_STALE}";
+  }
+
+  location / {
+    return 404;
+
+    add_header Cache-Control "public, max-age=${CLIENT_CACHE_TTL_NOT_FOUND}" always;
+  }
+}

@@ -1,0 +1,18 @@
+"$id": "https://openrailwaymap.app/schema/track_class.yaml"
+type: object
+properties:
+  track_classes:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+          description: The name of the track class
+        color:
+          type: string
+          description: The color used to show the track class on the map
+      additionalProperties: false
+  $schema:
+    type: string
+additionalProperties: false

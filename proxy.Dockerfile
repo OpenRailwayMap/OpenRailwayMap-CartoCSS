@@ -1,0 +1,78 @@
+FROM node:24-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f AS build-yaml
+
+WORKDIR /build
+
+RUN npm install yaml@2.8.1
+
+FROM build-yaml AS build-styles
+
+RUN --mount=type=bind,source=proxy/js/styles.mjs,target=styles.mjs \
+  --mount=type=bind,source=features,target=features \
+  node /build/styles.mjs \
+    > /build/style.json
+
+FROM build-yaml AS build-legend
+
+RUN --mount=type=bind,source=proxy/js/legend.mjs,target=legend.mjs \
+  --mount=type=bind,source=features,target=features \
+  node /build/legend.mjs \
+    > /build/legend.json
+
+FROM build-yaml AS build-taginfo
+
+RUN npm install chroma-js@3.1.2
+
+RUN --mount=type=bind,source=proxy,target=proxy \
+  --mount=type=bind,source=features,target=features \
+  node proxy/js/taginfo.mjs \
+    > /build/taginfo.json
+
+FROM python:3-alpine@sha256:dd4d2bd5b53d9b25a51da13addf2be586beebd5387e289e798e4083d94ca837a AS build-preset
+
+RUN apk add --no-cache zip
+
+RUN pip install --no-cache-dir \
+  pyyaml \
+  yattag
+
+WORKDIR /build
+
+ARG PRESET_VERSION
+RUN --mount=type=bind,source=proxy/preset.py,target=preset.py \
+  --mount=type=bind,source=features,target=features \
+  python preset.py \
+    > preset.xml
+
+RUN --mount=type=bind,source=symbols,target=symbols \
+  zip -o /build/preset.zip -r -q \
+    symbols \
+    preset.xml
+
+FROM nginx:1-alpine@sha256:1d13701a5f9f3fb01aaa88cef2344d65b6b5bf6b7d9fa4cf0dca557a8d7702ba
+
+COPY proxy/script/with-news-hash.sh /with-news-hash.sh
+COPY proxy/proxy.conf.template /etc/nginx/templates/proxy.conf.template
+COPY proxy/manifest.json /etc/nginx/public/manifest.json
+COPY proxy/index.html /etc/nginx/public/index.html
+COPY proxy/news.html /etc/nginx/public/news.html
+COPY proxy/api /etc/nginx/public/api
+COPY proxy/js /etc/nginx/public/js
+COPY proxy/css /etc/nginx/public/css
+COPY proxy/image /etc/nginx/public/image
+COPY proxy/font /etc/nginx/public/font
+COPY proxy/ssl /etc/nginx/ssl
+
+COPY --from=build-styles \
+  /build/style.json /etc/nginx/public/style.json
+
+COPY --from=build-legend \
+  /build/legend.json /etc/nginx/public/legend.json
+
+COPY --from=build-taginfo \
+  /build/taginfo.json /etc/nginx/public/taginfo.json
+
+COPY --from=build-preset \
+  /build/preset.zip /etc/nginx/public/preset.zip
+
+ENTRYPOINT ["/with-news-hash.sh"]
+CMD ["nginx", "-g", "daemon off;"]

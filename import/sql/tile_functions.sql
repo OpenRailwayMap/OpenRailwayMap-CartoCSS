@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION railway_to_int(value TEXT) RETURNS INTEGER AS $$
+BEGIN
+  IF value ~ '^-?[0-9]+$' THEN
+    RETURN value::INTEGER;
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql
+    IMMUTABLE
+    LEAKPROOF
+    PARALLEL SAFE;
